@@ -1,5 +1,0 @@
-/* Facts strip. Load after hero.css, which sets the type. This only adds air and keeps the lines tidy. */
-.proof{gap:48px;padding-top:96px}
-.proof-v,.proof-l{text-wrap:balance}
-@media (max-width:1100px){.proof{gap:32px}}
-@media (max-width:899px){.proof{gap:32px;padding-top:64px}}

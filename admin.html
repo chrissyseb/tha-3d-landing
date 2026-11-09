@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Thinking Hack Admin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root {
+  --paper: #f7f9fc; --sheet: #ffffff; --ink: #14213d; --ink-soft: #4a5874; --rule: #c9d4e4; --pen: #d23c3c; --pen-soft: #fbe3e1; --hi: #ffe45c;
+  --ok: #1f7a4d; --ok-soft: #dff3e8; --warn: #9a6a00; --warn-soft: #fff3cc;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #0d1526; --sheet: #142038; --ink: #e8edf7; --ink-soft: #a5b1c8; --rule: #2a3a5a; --pen: #ff6b63; --pen-soft: #3a1f28; --hi: #f5d84a; --ok: #5fd39a; --ok-soft: #133426; --warn: #f2c14e; --warn-soft: #3a3016; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--font-body); }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
+h1 { font: 800 1.8rem/1.1 var(--font-display); margin: 0; }
+h2 { font: 700 1.25rem/1.2 var(--font-display); margin: 0; overflow-wrap: anywhere; }
+h3 { font: 700 1.02rem/1.2 var(--font-display); margin: 0; }
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+.btn { font: 700 0.9rem var(--font-body); padding: 9px 14px; border-radius: 6px; border: 2px solid var(--ink); background: var(--ink); color: var(--sheet); cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.danger { background: transparent; color: var(--pen); border-color: var(--pen); }
+a.btn { display: inline-block; text-decoration: none; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+input, select, textarea { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 8px 10px; width: 100%; min-width: 0; }
+input[type="checkbox"] { width: 18px; height: 18px; flex: none; margin: 2px 0 0; accent-color: var(--ink); }
+textarea { min-height: 80px; resize: vertical; }
+label { font-weight: 700; font-size: 0.85rem; display: grid; gap: 4px; min-width: 0; }
+label.check { display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; }
+.login { max-width: 380px; margin: 12vh auto 0; background: var(--sheet); border: 2px solid var(--ink); border-radius: 6px; padding: 24px; display: grid; gap: 14px; }
+.err { color: var(--pen); font-weight: 700; }
+.sections { display: flex; gap: 0; border-bottom: 2px solid var(--ink); margin-bottom: 14px; overflow-x: auto; }
+.sections button { font: 700 1rem var(--font-display); padding: 10px 16px; border: 2px solid transparent; border-bottom: 0; border-radius: 6px 6px 0 0; background: transparent; color: var(--ink-soft); cursor: pointer; white-space: nowrap; margin-bottom: -2px; }
+.sections button[aria-selected="true"] { background: var(--sheet); color: var(--ink); border-color: var(--ink); border-bottom: 2px solid var(--sheet); }
+@media (max-width: 520px) { .sections button { padding: 8px 10px; font-size: 0.92rem; flex: 1 1 auto; } .sections .n { margin-left: 3px; } }
+.sections .n, .tabs .n { font: 500 0.78rem var(--font-mono); margin-left: 6px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.tabs button { font: 700 0.85rem var(--font-body); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.layout { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } }
+.list { display: grid; gap: 8px; min-width: 0; }
+.item { text-align: left; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; display: grid; gap: 4px; cursor: pointer; color: var(--ink); font: inherit; min-width: 0; }
+.item[aria-current="true"] { border: 2px solid var(--ink); }
+.item .row1 { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+.item b { font-family: var(--font-display); overflow-wrap: anywhere; }
+.item .badges { display: flex; flex-wrap: wrap; gap: 4px; }
+.meta { color: var(--ink-soft); font-size: 0.85rem; }
+.pill { display: inline-block; font: 500 0.7rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.t-pen { background: var(--pen-soft); color: var(--pen); }
+.t-warn { background: var(--warn-soft); color: var(--warn); }
+.t-ok { background: var(--ok-soft); color: var(--ok); }
+.t-mute { background: var(--paper); color: var(--ink-soft); border: 1px solid var(--rule); }
+.detail { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 20px; display: grid; gap: 16px; min-width: 0; }
+@media (max-width: 520px) { .detail { padding: 14px; } }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+dt { font: 500 0.72rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); padding-top: 3px; }
+dd { margin: 0; min-width: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .grid2, .grid3, dl { grid-template-columns: 1fr; } dt { padding-top: 6px; } }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.empty { color: var(--ink-soft); padding: 24px; text-align: center; border: 1px dashed var(--rule); border-radius: 6px; }
+.rec { background: var(--paper); border-left: 3px solid var(--pen); padding: 10px 12px; }
+.note { background: var(--warn-soft); color: var(--ink); border-left: 4px solid var(--warn); padding: 10px 14px; border-radius: 4px; margin: 0 0 14px; font-weight: 700; }
+pre { white-space: pre-wrap; font: 0.85rem/1.5 var(--font-mono); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 10px; margin: 0; overflow-wrap: anywhere; }
+fieldset { border: 1px solid var(--rule); border-radius: 6px; padding: 14px; margin: 0; display: grid; gap: 12px; min-width: 0; }
+legend { font: 700 1rem var(--font-display); padding: 0 6px; }
+.panel { border: 1px solid var(--rule); border-radius: 6px; padding: 14px; display: grid; gap: 12px; }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 16px; }
+.stat { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; display: grid; gap: 2px; min-width: 0; }
+.stat span { font: 500 0.68rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.stat b { font: 700 1.15rem var(--font-display); overflow-wrap: anywhere; }
+.figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.figures .stat { background: var(--paper); }
+.preview { font: 500 0.85rem var(--font-mono); background: var(--paper); border: 1px dashed var(--rule); border-radius: 4px; padding: 8px 10px; overflow-wrap: anywhere; }
+.locked { background: var(--ok-soft); color: var(--ok); border-radius: 4px; padding: 8px 10px; font-weight: 700; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ok); color: #fff; font-weight: 700; padding: 10px 18px; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 10; }
+.saving { color: var(--ink-soft); }
+.ptable { width: 100%; border-collapse: collapse; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
+.ptable th { font: 500 0.72rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--rule); }
+.ptable td { padding: 12px; border-bottom: 1px solid var(--rule); vertical-align: top; min-width: 0; overflow-wrap: break-word; }
+.ptable tr:last-child td { border-bottom: 0; }
+.ptable .pid { font: 500 0.78rem var(--font-mono); color: var(--ink-soft); }
+.ptable .files { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 0.85rem; }
+.ptable .actions .btn { padding: 7px 12px; }
+.ov { display: grid; gap: 18px; }
+.ov h3 { margin: 0 0 8px; }
+.ov .panel { align-content: start; }
+.ov .bars { display: grid; gap: 6px; }
+.ov .bar { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr) 3ch; gap: 10px; align-items: center; font-size: 0.9rem; }
+.ov .bar i { display: block; height: 10px; background: var(--ink); border-radius: 2px; min-width: 2px; }
+.ov .bar i.z { background: var(--rule); }
+.ov .bar b { font: 500 0.85rem var(--font-mono); text-align: right; }
+@media (max-width: 520px) { .ov .bar { grid-template-columns: minmax(0, 1fr) 70px 3ch; } }
+.hist { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 0.88rem; }
+.hist li { border-left: 2px solid var(--rule); padding-left: 8px; }
+.ask { background: var(--pen-soft); border-radius: 4px; padding: 8px 10px; display: grid; gap: 8px; }
+@media (max-width: 720px) {
+  .ptable, .ptable tbody, .ptable tr, .ptable td { display: block; width: 100%; }
+  .ptable thead { display: none; }
+  .ptable tr { border-bottom: 1px solid var(--rule); padding: 6px 0; }
+  .ptable tr:last-child { border-bottom: 0; }
+  .ptable td { border-bottom: 0; padding: 6px 12px; }
+  .ptable td[data-h]::before { content: attr(data-h); display: block; font: 500 0.68rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <form class="login" id="login">
+    <h1>Admin</h1>
+    <p class="meta">Enter your admin key to see enquiries, Specialist applications, placements, orders and products.</p>
+    <label for="key">Admin key<input id="key" type="password" autocomplete="current-password" required></label>
+    <p class="err" id="login-err" hidden></p>
+    <button class="btn" type="submit">Open admin</button>
+  </form>
+
+  <div id="app" hidden>
+    <div class="top">
+      <h1>Thinking Hack admin</h1>
+      <div class="actions"><span id="stripe-pill" aria-live="polite"></span><button class="btn ghost" id="refresh" type="button">Refresh</button><button class="btn ghost" id="logout" type="button">Lock</button></div>
+    </div>
+    <div class="sections" id="sections" role="tablist" aria-label="Section"></div>
+    <div id="overview" class="ov" hidden></div>
+    <div id="intro"></div>
+    <div class="tabs" id="tabs" role="group" aria-label="Filter by status"></div>
+    <div class="layout" id="layout">
+      <div class="list" id="list" aria-live="polite"></div>
+      <div class="detail" id="detail"></div>
+    </div>
+    <div id="products" hidden></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const SECTIONS = {
+    overview: { label: 'Overview', single: 'overview', none: '', pick: '', status: {}, defaultFilter: 'all' },
+    enquiries: { label: 'Enquiries', single: 'enquiry', none: 'No enquiries', pick: 'Choose an enquiry to see the details.',
+      // Must match ENQUIRY_STATUSES in api/_enquiry.js (the server rejects anything else).
+      status: { new: 'New', contacted: 'Contacted', 'matching-in-progress': 'Matching in progress', 'specialist-proposed': 'Specialist proposed', 'match-accepted': 'Match accepted', 'match-declined': 'Match declined', 'follow-up-required': 'Follow-up required', closed: 'Closed' }, defaultFilter: 'new' },
+    applications: { label: 'Specialists', single: 'application', none: 'No Specialist applications', pick: 'Choose an application to review it.',
+      status: { new: 'New', 'under-review': 'Under review', approved: 'Approved', rejected: 'Rejected', inactive: 'Inactive' }, defaultFilter: 'new' },
+    placements: { label: 'Placements', single: 'placement', none: 'No placements', pick: 'Choose a placement to edit it, or create one from an enquiry.',
+      status: { proposed: 'Proposed', agreed: 'Agreed', 'first-month-active': 'First month active', 'first-month-complete': 'First month complete', cancelled: 'Cancelled' }, defaultFilter: 'all' },
+    orders: { label: 'Orders', single: 'order', none: 'No orders', pick: 'Choose an order to see it. Orders are read only.',
+      status: { created: 'Created', pending: 'Pending', paid: 'Paid', failed: 'Failed', expired: 'Expired', refunded: 'Refunded', 'part-refunded': 'Part refunded', disputed: 'Disputed' }, defaultFilter: 'all' },
+    products: { label: 'Products', single: 'product', none: 'No products', pick: '', status: {}, defaultFilter: 'all' },
+  };
+  const TONE = {
+    new: 't-pen', contacted: 't-warn', matching: 't-warn', placed: 't-ok', closed: 't-mute',
+    'matching-in-progress': 't-warn', 'specialist-proposed': 't-warn', 'match-accepted': 't-ok', 'match-declined': 't-mute', 'follow-up-required': 't-pen',
+    'd-none': 't-mute', 'd-open': 't-pen', 'd-resolved': 't-ok', 'd-lost': 't-mute',
+    'under-review': 't-warn', approved: 't-ok', rejected: 't-mute', inactive: 't-mute',
+    proposed: 't-pen', agreed: 't-warn', 'first-month-active': 't-ok', 'first-month-complete': 't-ok', cancelled: 't-mute',
+    'awaiting payment': 't-warn', 'part paid': 't-warn', paid: 't-ok', refunded: 't-mute', 'part refunded': 't-warn', 'none due': 't-mute',
+    'not-sent': 't-pen', sent: 't-warn', void: 't-mute', 'part-paid': 't-warn', 'part-refunded': 't-warn', 'none-due': 't-mute',
+    created: 't-mute', pending: 't-warn', failed: 't-pen', expired: 't-mute', disputed: 't-pen',
+    'mode-test': 't-warn', 'mode-live': 't-ok', 'stripe-off': 't-mute',
+    'v-ok': 't-ok', 'v-part': 't-warn', 'v-none': 't-pen',
+  };
+  const TYPE = { match: 'Match request', consultation: 'Enquiry', programme: 'Programme', resource: 'Resource' };
+
+  let key = '';
+  try { key = sessionStorage.getItem('th-admin-key') || ''; } catch (e) {}
+  let section = 'overview';
+  try { const s = sessionStorage.getItem('th-admin-section'); if (SECTIONS[s]) section = s; } catch (e) {}
+  const data = { overview: null, enquiries: null, applications: null, placements: null, orders: null, products: null };
+  let overviewError = '';
+  let ordersError = '';
+  let productsError = '';
+  let stripeCfg = null; // { stripe, mode } from /api/config, or null if unknown
+  let placementSummary = null;
+  const filters = { overview: 'all', enquiries: 'new', applications: 'new', placements: 'all', orders: 'all', products: 'all' };
+  const current = { overview: null, enquiries: null, applications: null, placements: null, orders: null, products: null };
+  let draft = null; // a placement being created (not yet saved)
+  let loadError = '';
+
+  const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const list = v => (Array.isArray(v) ? v : []);
+  const when = iso => { const d = new Date(iso); return iso && !isNaN(d) ? d.toLocaleString('en-SG', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' }) : '-'; };
+  const cents = v => { const n = Number(v); return Number.isFinite(n) && n > 0 ? Math.round(n * 100) : 0; };
+  const sgd = v => 'S$' + (Math.round(Number(v || 0) * 100) / 100).toLocaleString('en-SG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const pill = (status, label) => `<span class="pill ${TONE[status] || 't-mute'}">${esc(label || status)}</span>`;
+  const statusLabel = (kind, s) => SECTIONS[kind].status[s] || s;
+
+  function toast(msg) {
+    const t = $('#toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, 2200);
+  }
+
+  async function api(method, body, query) {
+    const url = '/api/admin' + (query ? '?' + new URLSearchParams(query) : '');
+    const res = await fetch(url, { method, headers: { 'x-admin-key': key, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) { const e = new Error(out.error || ('Request failed (' + res.status + ')')); e.status = res.status; throw e; }
+    return out;
+  }
+
+  async function loadKind(kind) {
+    if (kind === 'overview') {
+      // Optional: an older server without the overview must not lock the rest of admin.
+      try { const out = await api('GET', null, { kind }); data.overview = out.overview || null; overviewError = out.ordersError ? 'Orders could not be read: ' + out.ordersError : ''; }
+      catch (e) { if (e.status === 401) throw e; data.overview = null; overviewError = e.message; }
+      return;
+    }
+    if (kind === 'orders') {
+      // Orders are optional: an older server or a store problem must not lock the rest of admin.
+      try { const out = await api('GET', null, { kind }); data.orders = list(out.orders); ordersError = ''; }
+      catch (e) { if (e.status === 401) throw e; data.orders = []; ordersError = e.message; }
+      return;
+    }
+    if (kind === 'products') {
+      // Optional like orders: a blob listing problem must not lock the rest of admin.
+      try { const out = await api('GET', null, { kind }); data.products = list(out.products); productsError = ''; }
+      catch (e) { if (e.status === 401) throw e; data.products = data.products || []; productsError = e.message; }
+      return;
+    }
+    const out = await api('GET', null, { kind });
+    data[kind] = list(out[kind]);
+    if (kind === 'placements') placementSummary = out.summary || null;
+  }
+
+  async function load() {
+    loadError = '';
+    if (!$('#app').hidden) { $('#list').innerHTML = '<div class="empty">Loading…</div>'; }
+    try {
+      await Promise.all(Object.keys(SECTIONS).map(loadKind));
+      loadConfig();
+      $('#login').hidden = true; $('#app').hidden = false;
+      try { sessionStorage.setItem('th-admin-key', key); } catch (e) {}
+      render();
+    } catch (e) {
+      if (e.status === 401 || $('#app').hidden) {
+        $('#app').hidden = true; $('#login').hidden = false;
+        const err = $('#login-err');
+        err.textContent = e.status === 401 ? 'That key is not right. Check the ADMIN_KEY setting in Vercel.' : 'Could not load: ' + e.message;
+        err.hidden = !key;
+      } else { loadError = e.message; render(); }
+    }
+  }
+
+  async function loadConfig() {
+    const el = $('#stripe-pill');
+    try {
+      const res = await fetch('/api/config', { headers: { Accept: 'application/json' } });
+      const out = res.ok ? await res.json() : null;
+      stripeCfg = out && typeof out === 'object' ? { stripe: out.stripe === true, mode: out.mode === 'live' ? 'live' : 'test' } : { stripe: false, mode: 'test' };
+    } catch (e) { stripeCfg = { stripe: false, mode: 'test' }; }
+    el.innerHTML = !stripeCfg.stripe ? pill('stripe-off', 'Stripe: not connected') : stripeCfg.mode === 'live' ? pill('mode-live', 'Stripe: live') : pill('mode-test', 'Stripe: test mode');
+    if (section === 'placements' && current.placements && !draft) renderDetail();
+  }
+
+  // ---------- shell ----------
+  function render() {
+    $('#sections').innerHTML = Object.entries(SECTIONS).map(([k, s]) =>
+      `<button type="button" role="tab" data-s="${k}" aria-selected="${section === k}">${s.label}${k === 'overview' ? '' : `<span class="n">${data[k] ? data[k].length : '…'}</span>`}</button>`).join('');
+    const isOverview = section === 'overview';
+    $('#overview').hidden = !isOverview;
+    if (isOverview) { $('#intro').innerHTML = ''; $('#tabs').innerHTML = ''; $('#layout').hidden = true; $('#products').hidden = true; renderOverview(); return; }
+    const S = SECTIONS[section], rows = data[section];
+    $('#intro').innerHTML = section === 'placements' ? placementsIntro() : section === 'orders' ? ordersIntro() : '';
+    const isProducts = section === 'products';
+    $('#layout').hidden = isProducts; $('#products').hidden = !isProducts;
+    if (isProducts) { $('#tabs').innerHTML = ''; renderProducts(); return; }
+    if (!rows) { $('#tabs').innerHTML = ''; $('#list').innerHTML = '<div class="empty">Loading…</div>'; return; }
+    const counts = { all: rows.length };
+    Object.keys(S.status).forEach(s => { counts[s] = rows.filter(x => x.status === s).length; });
+    const f = filters[section];
+    $('#tabs').innerHTML = [['all', 'All'], ...Object.entries(S.status)].map(([k, v]) =>
+      `<button type="button" data-f="${k}" aria-pressed="${f === k}">${v}<span class="n">${counts[k]}</span></button>`).join('');
+    const shown = rows.filter(x => f === 'all' || x.status === f);
+    let html = loadError ? `<div class="empty err">Could not refresh: ${esc(loadError)}</div>` : '';
+    if (section === 'placements') html += '<button class="btn ghost" type="button" id="new-placement">+ New placement</button>';
+    html += shown.length ? shown.map(itemHtml).join('')
+      : `<div class="empty">${section === 'placements' && !rows.length ? 'No placements yet' : esc(S.none) + (f === 'all' ? ' yet' : ' with this status')}.</div>`;
+    $('#list').innerHTML = html;
+    renderDetail();
+  }
+
+  function itemHtml(x) {
+    const sel = current[section] === x.id && !(section === 'placements' && draft);
+    let title = '', line = '', badges = pill(x.status, statusLabel(section, x.status));
+    if (section === 'enquiries') {
+      const s = x.student || {};
+      title = (x.contact || {}).name || '(no name)';
+      line = [TYPE[x.type] || x.type, s.level, list(s.subjects).join(', '), x.interest].filter(Boolean).join(' · ');
+    } else if (section === 'applications') {
+      title = (x.contact || {}).name || '(no name)';
+      line = [list(x.subjects).join(', '), list(x.levels).join(', ')].filter(Boolean).join(' · ');
+      badges += verifyBadge(x.verification);
+    } else if (section === 'orders') {
+      const cu = x.customer || {};
+      title = x.title || x.itemId || '(order)';
+      line = [ORDER_KIND[x.kind] || x.kind, sgd(x.amount), cu.email, cu.studentName].filter(Boolean).join(' · ');
+      badges += modePill(x.mode);
+    } else {
+      const c = x.computed || {};
+      title = x.studentLabel || '(unnamed student)';
+      line = [x.subject, x.specialistName ? 'with ' + x.specialistName : 'no Specialist yet', c.feeDue ? 'fee ' + sgd(c.feeDue) + (Number(c.feePercent) !== 50 ? ' (' + c.feePercent + '%)' : '') : ''].filter(Boolean).join(' · ');
+      badges += feePill(c.invoiceStatus);
+    }
+    return `<button class="item" type="button" data-id="${esc(x.id)}" aria-current="${sel}">
+      <span class="row1"><b>${esc(title)}</b></span>
+      <span class="badges">${badges}</span>
+      ${line ? `<span>${esc(line)}</span>` : ''}
+      <span class="meta">${esc(when(x.createdAt))}</span>
+    </button>`;
+  }
+
+  function renderDetail() {
+    const d = $('#detail');
+    if (section === 'placements' && draft) return renderPlacementForm(null);
+    const x = (data[section] || []).find(r => r.id === current[section]);
+    if (!x) { d.innerHTML = `<p class="meta">${esc(SECTIONS[section].pick)}</p>`; return; }
+    if (section === 'enquiries') return renderEnquiry(x);
+    if (section === 'applications') return renderApplication(x);
+    if (section === 'orders') return renderOrder(x);
+    return renderPlacementForm(x);
+  }
+
+  function setMsg(id, text, cls) { const m = document.getElementById(id); if (m) { m.textContent = text; m.className = cls || ''; } }
+
+  function replace(kind, doc) {
+    const i = data[kind].findIndex(y => y.id === doc.id);
+    if (i >= 0) data[kind][i] = doc; else data[kind].unshift(doc);
+  }
+
+  function deleteButton(kind, x) {
+    return `<div class="actions" style="justify-content:flex-end"><button class="btn danger" type="button" id="del">Delete this record</button></div>`;
+  }
+  function wireDelete(kind, x, label) {
+    const b = $('#del'); if (!b) return;
+    b.addEventListener('click', async () => {
+      if (!confirm('Permanently delete ' + label + '? Use this for test records or a deletion request. This cannot be undone.')) return;
+      try {
+        await api('DELETE', { kind, id: x.id, confirm: true });
+        data[kind] = data[kind].filter(y => y.id !== x.id); current[kind] = null; toast('Deleted'); render();
+      } catch (e) { alert('Not deleted: ' + e.message); }
+    });
+  }
+
+  // ---------- overview (owner dashboard) ----------
+  function bars(entries, labels, kind) {
+    const max = Math.max(1, ...entries.map(([, n]) => Number(n) || 0));
+    return `<div class="bars">${entries.map(([k, n]) => {
+      const w = Math.round((Number(n) || 0) / max * 100);
+      const name = esc(labels[k] || k);
+      const label = kind ? `<a href="#" data-ov-kind="${kind}" data-ov-f="${esc(k)}">${name}</a>` : name;
+      return `<div class="bar"><span>${label}</span><span><i class="${n ? '' : 'z'}" style="width:${n ? w : 0}%"></i></span><b>${esc(n)}</b></div>`;
+    }).join('')}</div>`;
+  }
+
+  function renderOverview() {
+    const el = $('#overview'), o = data.overview;
+    const stat = (label, v) => `<div class="stat"><span>${label}</span><b>${v}</b></div>`;
+    const err = overviewError ? `<p class="note">${esc(overviewError)}</p>` : '';
+    if (!o) { el.innerHTML = err + '<div class="empty">' + (overviewError ? 'The overview could not be loaded.' : 'Loading…') + '</div>'; return; }
+    const e = o.enquiries || {}, p = o.placements || {}, c = p.commission || {}, or = o.orders || {}, sp = o.specialists || {};
+    const ordRow = (label, x) => { x = x || {}; return `<tr><td data-h="Mode">${label}</td><td data-h="Created">${esc(x.created || 0)}</td><td data-h="Paid now">${esc(x.paid || 0)}</td><td data-h="Ever paid">${esc(x.everPaid || 0)}</td><td data-h="Paid (net)">${sgd(x.paidNet)}</td></tr>`; };
+    el.innerHTML = `${err}
+      <p class="note" style="margin:0">Counts of stored records only. Nothing on this page moves money: commission is invoiced and collected outside this system, and Specialist payouts are only ever recorded by hand.</p>
+      <div class="strip" aria-label="Headline figures" style="margin:0">
+        ${stat('Enquiries', esc(e.total || 0))}${stat('New this week', esc(e.newThisWeek || 0))}${stat('Waitlist sign-ups', esc(e.waitlist || 0))}
+        ${stat('Active placements', esc(p.active || 0))}${stat('Open disputes', esc(p.disputesOpen || 0))}${stat('Approved Specialists', esc(sp.approved || 0))}
+      </div>
+      <div class="grid2">
+        <section class="panel" aria-labelledby="ov-enq"><h3 id="ov-enq">Enquiries by status</h3>${bars(Object.entries(e.byStatus || {}), SECTIONS.enquiries.status, 'enquiries')}</section>
+        <section class="panel" aria-labelledby="ov-pl"><h3 id="ov-pl">Placements by status</h3>${bars(Object.entries(p.byStatus || {}), SECTIONS.placements.status, 'placements')}</section>
+      </div>
+      <section class="panel" aria-labelledby="ov-com"><h3 id="ov-com">Commission (placement fees)</h3>
+        <div class="figures">
+          ${stat('Due', sgd(c.due))}${stat('Invoiced', sgd(c.invoiced))}${stat('Collected', sgd(c.collected))}${stat('Refunded', sgd(c.refunded))}
+          ${stat('Net collected', sgd(c.netCollected))}${stat('Outstanding', sgd(c.outstanding))}${stat('In open disputes', sgd(c.atRisk))}${stat('Payouts recorded', sgd(p.payoutsRecorded))}
+        </div>
+        ${bars([['Invoiced', c.invoiced || 0], ['Collected', c.collected || 0], ['Outstanding', c.outstanding || 0]].map(([k, v]) => [k, Math.round(v)]), {}, '')}
+        <p class="meta" style="margin:0">Collected counts only fees confirmed by Stripe or recorded by hand with the confirmation tick. Bars are in whole S$.</p>
+      </section>
+      <section class="panel" aria-labelledby="ov-ord"><h3 id="ov-ord">Orders created vs paid</h3>
+        <table class="ptable"><thead><tr><th>Mode</th><th>Created</th><th>Paid now</th><th>Ever paid</th><th>Paid (net)</th></tr></thead>
+        <tbody>${ordRow('Live', or.live)}${ordRow('Test (not real money)', or.test)}${ordRow('All', or.all)}</tbody></table>
+      </section>
+      <p class="meta" style="margin:0">New this week = created in the last 7 days. Waitlist = enquiries whose interest mentions a waitlist. Updated ${esc(when(o.generatedAt))}.</p>`;
+  }
+
+  $('#overview').addEventListener('click', ev => {
+    const a = ev.target.closest('[data-ov-kind]'); if (!a) return;
+    ev.preventDefault(); filters[a.dataset.ovKind] = a.dataset.ovF; draft = null; switchSection(a.dataset.ovKind);
+  });
+
+  // ---------- enquiries ----------
+  function waLink(n) { const d = String(n || '').replace(/\D/g, ''); if (!d) return ''; return 'https://wa.me/' + (d.length === 8 ? '65' + d : d); }
+
+  function briefText(x, withContact) {
+    const s = x.student || {}, sc = x.schedule || {}, c = x.contact || {};
+    return [
+      `Thinking Hack referral`,
+      `Level: ${s.level || '-'}${s.examYear ? ' (exam ' + s.examYear + ')' : ''}`,
+      `Subjects: ${list(s.subjects).join(', ') || x.interest || '-'}`,
+      `Grades: ${s.currentGrade || '?'} → ${s.targetGrade || '?'}`,
+      `Focus: ${list(x.goals).join(', ') || '-'}`,
+      x.difficulties ? `Difficulties: ${x.difficulties}` : '',
+      `Format: ${[sc.format, sc.area].filter(Boolean).join(', ') || '-'}`,
+      `When: ${[list(sc.days).join(' '), list(sc.times).join(', ')].filter(Boolean).join(' · ') || 'Flexible'}; start ${sc.start || '-'}`,
+      `Budget: ${sc.budget || '-'}`,
+      x.message ? `Notes: ${x.message}` : '',
+      withContact ? `Contact: ${c.name || ''}, ${c.whatsapp || ''} ${c.email || ''}` : ''
+    ].filter(Boolean).join('\n');
+  }
+
+  function historyHtml(h, kind) {
+    const rows = list(h).slice().reverse();
+    if (!rows.length) return '<p class="meta" style="margin:0">No status changes recorded yet.</p>';
+    return `<div style="display:grid;gap:6px"><b>Status history</b><ul class="hist">${rows.map(r =>
+      `<li>${esc(when(r.at))}: ${esc(r.from ? statusLabel(kind, r.from) : '-')} → <b>${esc(statusLabel(kind, r.to))}</b>${r.by ? ' · ' + esc(r.by) : ''}${r.note ? '<br><span class="meta">' + esc(r.note) + '</span>' : ''}</li>`).join('')}</ul></div>`;
+  }
+
+  function renderEnquiry(x) {
+    const s = x.student || {}, sc = x.schedule || {}, a = x.admin || {}, c = x.contact || {};
+    const wa = waLink(c.whatsapp);
+    const linked = (data.placements || []).filter(p => p.enquiryId === x.id);
+    $('#detail').innerHTML = `
+      <div class="actions" style="justify-content:space-between"><h2>${esc(c.name || '(no name)')}</h2>${pill(x.status, statusLabel('enquiries', x.status))}</div>
+      <dl>
+        <dt>Received</dt><dd>${esc(when(x.createdAt))} · ${esc(TYPE[x.type] || x.type || '')}</dd>
+        <dt>Contact</dt><dd>${esc(c.role || '')} ${wa ? `· <a href="${esc(wa)}" target="_blank" rel="noopener">WhatsApp ${esc(c.whatsapp)}</a>` : ''} ${c.email ? `· <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ''}</dd>
+        ${x.interest ? `<dt>Interested in</dt><dd>${esc(x.interest)}</dd>` : ''}
+        ${s.level ? `<dt>Level</dt><dd>${esc(s.level)}${s.examYear ? ' · exam ' + esc(s.examYear) : ''}${s.school ? ' · ' + esc(s.school) : ''}</dd>` : ''}
+        ${list(s.subjects).length ? `<dt>Subjects</dt><dd>${esc(s.subjects.join(', '))}</dd>` : ''}
+        ${s.currentGrade || s.targetGrade ? `<dt>Grades</dt><dd>${esc(s.currentGrade || '?')} → ${esc(s.targetGrade || '?')}</dd>` : ''}
+        ${list(x.goals).length ? `<dt>Focus</dt><dd>${esc(x.goals.join(', '))}</dd>` : ''}
+        ${x.difficulties ? `<dt>Difficulties</dt><dd>${esc(x.difficulties)}</dd>` : ''}
+        ${sc.format || sc.area ? `<dt>Format</dt><dd>${esc([sc.format, sc.area].filter(Boolean).join(' · '))}</dd>` : ''}
+        ${list(sc.days).length || list(sc.times).length ? `<dt>When</dt><dd>${esc([list(sc.days).join(' '), list(sc.times).join(', ')].filter(Boolean).join(' · '))}</dd>` : ''}
+        ${sc.start ? `<dt>Start</dt><dd>${esc(sc.start)}</dd>` : ''}
+        <dt>Budget</dt><dd>${esc(sc.budget || 'Not given')}</dd>
+        ${x.message ? `<dt>Message</dt><dd>${esc(x.message)}</dd>` : ''}
+        ${linked.length ? `<dt>Placements</dt><dd>${linked.map(p => `<a href="#" data-goto-placement="${esc(p.id)}">${esc(p.studentLabel || 'Placement')} (${esc(statusLabel('placements', p.status))})</a>`).join(', ')}</dd>` : ''}
+      </dl>
+      ${x.recommendation ? `<div class="rec"><b>Shown to them as our recommendation</b><br>${esc(x.recommendation).split(' | ').join('<br>')}</div>` : ''}
+      <div class="actions"><button class="btn" type="button" id="make-placement">Create placement</button></div>
+      <form id="edit" style="display:grid;gap:12px">
+        <div class="grid2">
+          <label for="e-status">Status<select id="e-status">${Object.entries(SECTIONS.enquiries.status).map(([k, v]) => `<option value="${k}" ${x.status === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+          <label for="e-handled">Handled by<input id="e-handled" value="${esc(a.handledBy)}" placeholder="Who is looking after this"></label>
+        </div>
+        ${x.legacyStatus ? `<p class="meta" style="margin:0">Stored under an earlier status (“${esc(x.legacyStatus)}”), shown here as ${esc(statusLabel('enquiries', x.status))}.</p>` : ''}
+        <label for="e-snote">Note for a status change <span class="meta">(optional, kept in the history)</span><input id="e-snote" placeholder="e.g. Parent asked for an online Specialist"></label>
+        <label for="e-notes">Notes<textarea id="e-notes">${esc(a.notes)}</textarea></label>
+        <div class="actions"><button class="btn" type="submit">Save</button><span id="e-msg"></span></div>
+      </form>
+      ${historyHtml(x.statusHistory, 'enquiries')}
+      <div style="display:grid;gap:8px">
+        <b>Brief for the Specialist</b>
+        <pre id="brief">${esc(briefText(x, false))}</pre>
+        <div class="actions"><button class="btn ghost" type="button" id="copy-brief">Copy brief (no contact details)</button><button class="btn ghost" type="button" id="copy-full">Copy with contact details</button></div>
+      </div>
+      ${deleteButton()}`;
+    $('#edit').addEventListener('submit', async e => {
+      e.preventDefault();
+      setMsg('e-msg', 'Saving…', 'saving');
+      try {
+        const { enquiry } = await api('PATCH', { kind: 'enquiries', id: x.id, status: $('#e-status').value, statusNote: $('#e-snote').value, handledBy: $('#e-handled').value, notes: $('#e-notes').value });
+        replace('enquiries', enquiry); render(); toast('Saved');
+      } catch (err) { setMsg('e-msg', 'Not saved: ' + err.message, 'err'); }
+    });
+    $('#make-placement').addEventListener('click', () => {
+      const first = String(c.name || '').trim().split(/\s+/)[0] || 'Student';
+      draft = {
+        enquiryId: x.id, enquiryName: c.name || '',
+        studentLabel: [first, s.level].filter(Boolean).join(' · '),
+        subject: list(s.subjects).join(', ') || x.interest || '',
+        exam: [s.level, s.examYear].filter(Boolean).join(' '),
+      };
+      switchSection('placements');
+    });
+    $('#detail').querySelectorAll('[data-goto-placement]').forEach(a => a.addEventListener('click', ev => {
+      ev.preventDefault(); draft = null; current.placements = a.dataset.gotoPlacement; filters.placements = 'all'; switchSection('placements');
+    }));
+    const copy = async (text, btn) => {
+      const label = btn.textContent;
+      try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; }
+      catch (e) { const r = document.createRange(); r.selectNodeContents($('#brief')); getSelection().removeAllRanges(); getSelection().addRange(r); btn.textContent = 'Selected, press Ctrl+C'; }
+      setTimeout(() => { btn.textContent = label; }, 1800);
+    };
+    $('#copy-brief').addEventListener('click', e => copy(briefText(x, false), e.currentTarget));
+    $('#copy-full').addEventListener('click', e => copy(briefText(x, true), e.currentTarget));
+    wireDelete('enquiries', x, 'this enquiry');
+  }
+
+  // ---------- Specialists (applications) ----------
+  // Only recorded checks count. A badge never says "Verified" unless both checks are recorded with a name and a time.
+  function verifyBadge(v) {
+    v = v || {};
+    const recorded = !!(v.verifiedBy && v.verifiedAt);
+    if (recorded && v.identity && v.qualifications) return pill('v-ok', 'Verified');
+    if (recorded && v.identity) return pill('v-part', 'Not verified: ID checked only');
+    if (recorded && v.qualifications) return pill('v-part', 'Not verified: qualifications only');
+    return pill('v-none', 'Not verified');
+  }
+
+  function renderApplication(x) {
+    const c = x.contact || {}, v = x.verification || {}, a = x.admin || {};
+    const wa = waLink(c.whatsapp);
+    const field = (label, val) => val ? `<dt>${label}</dt><dd>${esc(val)}</dd>` : '';
+    $('#detail').innerHTML = `
+      <div class="actions" style="justify-content:space-between"><h2>${esc(c.name || '(no name)')}</h2><span class="actions">${pill(x.status, statusLabel('applications', x.status))}${verifyBadge(v)}</span></div>
+      <dl>
+        <dt>Applied</dt><dd>${esc(when(x.createdAt))}</dd>
+        <dt>Contact</dt><dd>${wa ? `<a href="${esc(wa)}" target="_blank" rel="noopener">WhatsApp ${esc(c.whatsapp)}</a>` : esc(c.whatsapp || '')} ${c.email ? `· <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ''}</dd>
+        ${field('Subjects', list(x.subjects).join(', '))}
+        ${field('Levels', list(x.levels).join(', '))}
+        ${field('Formats', list(x.formats).join(', '))}
+        ${field('Areas', list(x.areas).join(', '))}
+        ${field('Rates', x.rates)}
+        ${field('Qualifications', x.qualifications)}
+        ${field('Experience', x.experience)}
+        ${field('Credentials', x.credentials)}
+        ${field('Availability', x.availability)}
+        ${field('About', x.about)}
+        ${x.termsVersion ? `<dt>Terms</dt><dd>${esc(x.termsVersion)} · agreed ${esc(when(x.agreedTermsAt))}</dd>` : ''}
+      </dl>
+      <form id="a-edit" style="display:grid;gap:12px">
+        <label for="a-status">Status<select id="a-status">${Object.entries(SECTIONS.applications.status).map(([k, l]) => `<option value="${k}" ${x.status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+        <label for="a-notes">Notes<textarea id="a-notes">${esc(a.notes)}</textarea></label>
+        <div class="actions"><button class="btn" type="submit">Save</button><span id="a-msg"></span></div>
+      </form>
+      <form id="v-edit" class="panel">
+        <div class="actions" style="justify-content:space-between"><h3>Verification</h3>${verifyBadge(v)}</div>
+        <p class="meta" style="margin:0">Tick only what you have checked yourself against the original documents.${v.verifiedAt ? ' Last recorded ' + esc(when(v.verifiedAt)) + (v.verifiedBy ? ' by ' + esc(v.verifiedBy) : '') + '.' : ' Nothing recorded yet.'}</p>
+        <label class="check"><input type="checkbox" id="v-id" ${v.identity ? 'checked' : ''}> Identity checked (photo ID matches the applicant)</label>
+        <label class="check"><input type="checkbox" id="v-q" ${v.qualifications ? 'checked' : ''}> Qualifications checked (proof of qualifications or transcripts seen)</label>
+        <label for="v-by">Checked by<input id="v-by" value="${esc(v.verifiedBy)}" placeholder="Your name"></label>
+        <label for="v-notes">Verification notes<textarea id="v-notes" placeholder="What you saw, and how">${esc(v.notes)}</textarea></label>
+        <div class="actions"><button class="btn" type="submit">Save verification</button><span id="v-msg"></span></div>
+      </form>
+      ${deleteButton()}`;
+    $('#a-edit').addEventListener('submit', async e => {
+      e.preventDefault(); setMsg('a-msg', 'Saving…', 'saving');
+      try {
+        const { application } = await api('PATCH', { kind: 'applications', id: x.id, status: $('#a-status').value, notes: $('#a-notes').value });
+        replace('applications', application); render(); toast('Saved');
+      } catch (err) { setMsg('a-msg', 'Not saved: ' + err.message, 'err'); }
+    });
+    $('#v-edit').addEventListener('submit', async e => {
+      e.preventDefault();
+      const body = { identity: $('#v-id').checked, qualifications: $('#v-q').checked, verifiedBy: $('#v-by').value.trim(), notes: $('#v-notes').value };
+      if ((body.identity || body.qualifications) && !body.verifiedBy) { setMsg('v-msg', 'Enter who checked the documents.', 'err'); return; }
+      setMsg('v-msg', 'Saving…', 'saving');
+      try {
+        const { application } = await api('PATCH', { kind: 'applications', id: x.id, verification: body });
+        replace('applications', application); render(); toast('Saved');
+      } catch (err) { setMsg('v-msg', 'Not saved: ' + err.message, 'err'); }
+    });
+    wireDelete('applications', x, 'this application');
+  }
+
+  // ---------- placements ----------
+  // Families pay the Specialist directly. Thinking Hack invoices the Specialist a placement fee = fee % x first-month value.
+  const INVOICE_LABEL = { 'not-sent': 'Not sent', sent: 'Sent', paid: 'Paid', void: 'Void', 'part-paid': 'Part paid', refunded: 'Refunded', 'part-refunded': 'Part refunded', 'none-due': 'None due' };
+  const feePill = st => pill(st, 'Fee: ' + (INVOICE_LABEL[st] || st || '-'));
+
+  function placementsIntro() {
+    const s = placementSummary || {};
+    const stat = (label, v) => `<div class="stat"><span>${label}</span><b>${v}</b></div>`;
+    return `<p class="note">Families pay the Specialist directly for lessons. Thinking Hack invoices the Specialist the placement fee (default 50% of the first month). Stripe marks a fee paid only from its verified notice; record other payments only when you have seen the money arrive.</p>
+      <div class="strip" aria-label="Placement totals">
+        ${stat('Active placements', esc(s.active == null ? '-' : s.active))}
+        ${stat('First-month value', sgd(s.firstMonthValue))}
+        ${stat('Placement fees due', sgd(s.feeDue))}
+        ${stat('Invoiced', sgd(s.invoiced))}
+        ${stat('Collected', sgd(s.feePaid))}
+        ${stat('Fees outstanding', sgd(s.feeOutstanding))}
+      </div>`;
+  }
+
+  function feeCents(value, pct) {
+    const p = Number(pct);
+    return Math.round(cents(value) * (Number.isFinite(p) ? Math.min(Math.max(p, 0), 100) : 50) / 100);
+  }
+  function feePreview(value, pct) {
+    const p = pct === '' || pct == null || !Number.isFinite(Number(pct)) ? 50 : Number(pct);
+    return `First month ${sgd(cents(value) / 100)} × ${p}% = placement fee ${sgd(feeCents(value, p) / 100)}, invoiced to the Specialist`;
+  }
+
+  function specialistOptions(selectedId) {
+    const approved = (data.applications || []).filter(a => a.status === 'approved');
+    let opts = `<option value="">Not chosen yet</option>`;
+    const cur = (data.applications || []).find(a => a.id === selectedId);
+    if (selectedId && (!cur || cur.status !== 'approved')) {
+      opts += `<option value="${esc(selectedId)}" selected>${esc(cur ? (cur.contact || {}).name : 'Unknown')} (not currently approved)</option>`;
+    }
+    opts += approved.map(a => `<option value="${esc(a.id)}" ${a.id === selectedId ? 'selected' : ''}>${esc((a.contact || {}).name || a.id)}${list(a.subjects).length ? ' · ' + esc(a.subjects.slice(0, 3).join(', ')) : ''}</option>`).join('');
+    return { html: opts, none: !approved.length };
+  }
+
+  function enquiryOptions(selectedId) {
+    const rows = data.enquiries || [];
+    let opts = '<option value="">Not linked</option>';
+    if (selectedId && !rows.some(e => e.id === selectedId)) opts += `<option value="${esc(selectedId)}" selected>${esc(selectedId)} (not loaded)</option>`;
+    return opts + rows.map(e => `<option value="${esc(e.id)}" ${e.id === selectedId ? 'selected' : ''}>${esc((e.contact || {}).name || e.id)} · ${esc(statusLabel('enquiries', e.status))}</option>`).join('');
+  }
+
+  function waShareText(p, inv) {
+    return [
+      `Hi${p.specialistName ? ' ' + p.specialistName : ''}, here is the Thinking Hack™ placement fee for ${[p.studentLabel, p.subject].filter(Boolean).join(' · ') || 'your placement'}: ${sgd(inv.amount)}.`,
+      `Pay securely by card here: ${inv.link}`,
+      'Thank you!'
+    ].join('\n');
+  }
+
+  function invoiceBlock(p, c) {
+    const inv = p.feeInvoice || {}, ref = p.refund || {};
+    const paid = inv.status === 'paid';
+    const spec = (data.applications || []).find(a => a.id === p.specialistId);
+    const email = spec && spec.contact && spec.contact.email;
+    const testNote = stripeCfg && stripeCfg.stripe && stripeCfg.mode === 'test' ? '<p class="note" style="margin:0">Test mode: no real charges. Stripe links made now are for testing only.</p>' : '';
+    const linkHtml = inv.link && !paid ? `
+          <div style="display:grid;gap:8px">
+            <span class="meta">Payment link for ${sgd(inv.amount)}${inv.sentAt ? ', created ' + esc(when(inv.sentAt)) : ''}. Send it to the Specialist yourself.</span>
+            <div class="preview" id="fee-link">${esc(inv.link)}</div>
+            <div class="actions">
+              <button class="btn ghost" type="button" id="fee-copy">Copy link</button>
+              <a class="btn ghost" id="fee-wa" href="${esc('https://wa.me/?text=' + encodeURIComponent(waShareText(p, inv)))}" target="_blank" rel="noopener">Share on WhatsApp</a>
+              ${email ? `<a class="btn ghost" href="${esc('mailto:' + email + '?subject=' + encodeURIComponent('Thinking Hack™ placement fee') + '&body=' + encodeURIComponent(waShareText(p, inv)))}">Email</a>` : ''}
+            </div>
+          </div>` : '';
+    return `
+        <fieldset>
+          <legend>Placement fee invoice</legend>
+          <div class="actions">${feePill(c.invoiceStatus)}${inv.source ? pill('t-mute', inv.source === 'stripe' ? 'Paid via Stripe' : 'Recorded by hand') : ''}${inv.orderId ? `<span class="meta">Order ${esc(inv.orderId)}</span>` : ''}</div>
+          ${testNote}
+          ${paid
+            ? `<div class="locked">Paid: ${sgd(inv.paidAmount)} on ${esc(String(inv.paidAt || '').slice(0, 10))}${inv.source === 'stripe' ? ' (verified by Stripe)' : ''}</div>
+               <label for="inv-ref">Reference<input id="inv-ref" value="${esc(inv.reference)}"></label>
+               ${inv.source === 'manual' ? '<div class="actions"><button class="btn ghost" type="button" id="inv-undo">Undo payment record</button></div>' : ''}`
+            : `${linkHtml}
+               <div class="actions">
+                 <button class="btn" type="button" id="fee-link-make" ${Number(c.feeOutstanding) > 0 && p.status !== 'cancelled' ? '' : 'disabled'}>${inv.link ? 'Create a new Stripe payment link' : 'Create Stripe payment link'} (${sgd(Math.max(Number(c.feeDue || 0) - Number(c.feePaid || 0), 0))})</button>
+                 ${inv.status !== 'void' ? '<button class="btn ghost" type="button" id="inv-void">Mark invoice void</button>' : ''}
+               </div>
+               <div class="panel">
+                 <h3>Record invoice sent by hand</h3>
+                 <p class="meta" style="margin:0">${inv.status === 'sent' ? 'Invoiced so far: ' + sgd(c.invoiced) + '. ' : ''}Use this when you invoice the Specialist yourself (for PayNow or bank transfer). It does not send anything.</p>
+                 <div class="actions"><label for="inv-sent-amount" style="flex:1 1 180px">Amount invoiced (S$)<input id="inv-sent-amount" type="number" inputmode="decimal" min="0" step="0.01" value="${esc(Number(inv.amount) > 0 ? inv.amount : Math.max(Number(c.feeDue || 0) - Number(c.feePaid || 0), 0))}"></label>
+                 <button class="btn ghost" type="button" id="inv-sent" ${p.status === 'cancelled' ? 'disabled' : ''}>Record invoice sent</button><span id="inv-sent-msg" role="alert"></span></div>
+               </div>
+               <p class="meta" style="margin:0">The link uses the saved figures, so save any changes first.${stripeCfg && !stripeCfg.stripe ? ' Stripe is not connected yet; record payments by hand below.' : ''}</p>
+               <span id="fee-msg" role="alert"></span>
+               <div class="panel">
+                 <h3>Record payment received (PayNow, bank transfer)</h3>
+                 <div class="grid3">
+                   <label for="inv-amount">Amount received (S$)<input id="inv-amount" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(inv.paidAmount) > 0 ? esc(inv.paidAmount) : ''}"></label>
+                   <label for="inv-date">Date it arrived<input id="inv-date" type="date" value="${esc(String(inv.paidAt || '').slice(0, 10))}"></label>
+                   <label for="inv-ref">Reference<input id="inv-ref" value="${esc(inv.reference)}"></label>
+                 </div>
+                 <label class="check"><input type="checkbox" id="inv-confirm"> I confirm this placement fee has arrived in the account</label>
+                 <div class="actions"><button class="btn" type="button" id="inv-record">Record payment received</button><span id="inv-msg" role="alert"></span></div>
+               </div>`}
+        </fieldset>
+        <fieldset>
+          <legend>Refund or credit to the Specialist</legend>
+          <div class="grid2">
+            <label for="ref-amount">Amount (S$)<input id="ref-amount" type="number" inputmode="decimal" min="0" step="0.01" value="${Number(ref.amount) > 0 ? esc(ref.amount) : ''}" ${paid ? '' : 'disabled'}></label>
+            <label for="ref-date">Date<input id="ref-date" type="date" value="${esc(ref.date)}" ${paid ? '' : 'disabled'}></label>
+          </div>
+          <label for="ref-reason">Reason<input id="ref-reason" value="${esc(ref.reason)}" ${paid ? '' : 'disabled'}></label>
+          ${paid ? '' : '<p class="meta" style="margin:0">Only a paid fee can be refunded or credited.</p>'}
+        </fieldset>
+        ${payoutBlock(p)}
+        <fieldset>
+          <legend>Dispute</legend>
+          <div class="grid2">
+            <label for="d-status">Dispute status<select id="d-status">${Object.entries(DISPUTE_LABEL).map(([k, l]) => `<option value="${k}" ${(p.dispute || {}).status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+            <label for="d-amount">Amount disputed (S$) <span class="meta">(blank = all collected)</span><input id="d-amount" type="number" inputmode="decimal" min="0" step="0.01" value="${Number((p.dispute || {}).amount) > 0 ? esc(p.dispute.amount) : ''}"></label>
+          </div>
+          <label for="d-note">Dispute note <span class="meta">(required unless the status is No dispute)</span><textarea id="d-note">${esc((p.dispute || {}).note)}</textarea></label>
+          ${(p.dispute || {}).updatedAt ? `<p class="meta" style="margin:0">Last changed ${esc(when(p.dispute.updatedAt))}.</p>` : ''}
+        </fieldset>`;
+  }
+
+  const DISPUTE_LABEL = { none: 'No dispute', open: 'Open', resolved: 'Resolved (fee kept)', lost: 'Lost (fee taken back)' };
+
+  // Informational only: records a payout made elsewhere. Nothing is transferred from admin, ever.
+  function payoutBlock(p) {
+    const sp = p.specialistPayout || {};
+    return `
+        <fieldset>
+          <legend>Specialist payout (record only)</legend>
+          <p class="meta" style="margin:0">Families pay Specialists directly, so normally there is nothing to pay out. Record a payout here only if one was actually made outside this system. Admin never transfers money.</p>
+          ${sp.recorded
+            ? `<div class="locked">Payout recorded: ${sgd(sp.amount)} on ${esc(sp.date)}${sp.recordedAt ? ' (entered ' + esc(when(sp.recordedAt)) + ')' : ''}</div>
+               <div class="grid2"><label for="po-ref">Reference<input id="po-ref" value="${esc(sp.reference)}"></label><label for="po-note">Note<input id="po-note" value="${esc(sp.note)}"></label></div>
+               <div class="actions"><button class="btn ghost" type="button" id="po-undo">Undo payout record</button></div>`
+            : `<div class="grid2">
+                 <label for="po-amount">Amount paid out (S$)<input id="po-amount" type="number" inputmode="decimal" min="0" step="0.01"></label>
+                 <label for="po-date">Date paid<input id="po-date" type="date"></label>
+                 <label for="po-ref">Reference<input id="po-ref" value="${esc(sp.reference)}"></label>
+                 <label for="po-note">Note<input id="po-note" value="${esc(sp.note)}"></label>
+               </div>
+               <label class="check"><input type="checkbox" id="po-confirm"> I confirm this payout was made outside this system and I am only recording it</label>
+               <div class="actions"><button class="btn ghost" type="button" id="po-record">Record payout</button><span id="po-msg" role="alert"></span></div>`}
+        </fieldset>`;
+  }
+
+  function renderPlacementForm(x) {
+    const isNew = !x;
+    const p = x || { status: 'proposed', enquiryId: draft.enquiryId || '', specialistId: '', studentLabel: draft.studentLabel || '', subject: draft.subject || '', exam: draft.exam || '', matchDate: '',
+      firstMonth: { lessons: '', ratePerLesson: '', value: '' }, feePercent: 50, feeException: '', notes: '', laterMonths: '' };
+    const fm = p.firstMonth || {}, inv = p.feeInvoice || {}, c = p.computed || {};
+    const spec = specialistOptions(p.specialistId);
+    const enquiry = (data.enquiries || []).find(e => e.id === p.enquiryId);
+    const num = v => (v === '' || v == null || (Number(v) === 0 && isNew) ? '' : esc(v));
+    const fig = (label, v) => `<div class="stat"><span>${label}</span><b>${v}</b></div>`;
+    const pct = p.feePercent == null ? 50 : p.feePercent;
+
+    $('#detail').innerHTML = `
+      <div class="actions" style="justify-content:space-between">
+        <h2>${isNew ? 'New placement' : esc(p.studentLabel || 'Placement')}</h2>
+        ${isNew ? '' : `<span class="actions">${pill(p.status, statusLabel('placements', p.status))}${feePill(c.invoiceStatus)}</span>`}
+      </div>
+      ${p.enquiryId && enquiry ? `<p class="meta" style="margin:0">From enquiry: ${enquiry ? `<a href="#" id="goto-enquiry">${esc((enquiry.contact || {}).name || p.enquiryId)}</a>` : esc(p.enquiryId)}</p>` : ''}
+      <form id="p-form" style="display:grid;gap:14px" novalidate>
+        <fieldset>
+          <legend>Match</legend>
+          <div class="grid2">
+            <label for="p-student">Student<input id="p-student" value="${esc(p.studentLabel)}" placeholder="e.g. Mei · Sec 4"></label>
+            <label for="p-subject">Subject<input id="p-subject" value="${esc(p.subject)}"></label>
+            <label for="p-exam">Exam<input id="p-exam" value="${esc(p.exam)}" placeholder="e.g. O-Level 2027"></label>
+            <label for="p-date">Match date<input id="p-date" type="date" value="${esc(p.matchDate)}"></label>
+            <label for="p-spec">Specialist<select id="p-spec">${spec.html}</select></label>
+            <label for="p-enq">Enquiry<select id="p-enq">${enquiryOptions(p.enquiryId)}</select></label>
+            <label for="p-status">Match status<select id="p-status">${Object.entries(SECTIONS.placements.status).map(([k, l]) => `<option value="${k}" ${p.status === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+          </div>
+          ${spec.none ? '<p class="meta" style="margin:0">No approved Specialists yet. Approve one in the Specialists tab; you can choose them here later.</p>' : ''}
+        </fieldset>
+        <fieldset>
+          <legend>First month and placement fee</legend>
+          <div class="grid3">
+            <label for="p-lessons">Lessons<input id="p-lessons" type="number" inputmode="numeric" min="0" max="60" step="1" value="${num(fm.lessons)}"></label>
+            <label for="p-rate">Agreed fee per lesson (S$)<input id="p-rate" type="number" inputmode="decimal" min="0" step="0.01" value="${num(fm.ratePerLesson)}"></label>
+            <label for="p-value">First-month value (S$)<input id="p-value" type="number" inputmode="decimal" min="0" step="0.01" value="${num(fm.value)}"></label>
+          </div>
+          <label for="p-freq">Lesson frequency<input id="p-freq" value="${esc(p.lessonFrequency)}" placeholder="e.g. 2 lessons of 1.5h a week"></label>
+          <div class="grid2">
+            <label for="p-pct">Commission (placement fee) %<input id="p-pct" type="number" inputmode="decimal" min="0" max="100" step="0.01" value="${esc(pct)}"></label>
+            <label for="p-exc">Agreed exception <span class="meta" id="p-exc-hint">${Number(pct) !== 50 ? '(required: fee is not 50%)' : '(only if the fee is not 50%)'}</span><input id="p-exc" value="${esc(p.feeException)}" placeholder="e.g. 40% agreed for a returning Specialist"></label>
+          </div>
+          <div class="preview" id="p-preview">${esc(feePreview(fm.value, pct))}</div>
+          <p class="meta" style="margin:0">The value fills in from lessons × rate; you can change it. The family pays the Specialist for lessons; this fee is what the Specialist pays Thinking Hack.</p>
+        </fieldset>
+        ${isNew ? '' : invoiceBlock(p, c) + `
+        <div class="panel">
+          <h3>Saved figures</h3>
+          <div class="figures">
+            ${fig('First-month value', sgd(c.firstMonthValue))}${fig('Fee %', esc(c.feePercent) + '%')}${fig('Fee due', sgd(c.feeDue))}
+            ${fig('Invoiced', sgd(c.invoiced))}${fig('Collected', sgd(c.collected))}${fig('Refunded', sgd(c.feeRefunded))}
+            ${fig('Net collected', sgd(c.netCollected))}${fig('Outstanding', sgd(c.feeOutstanding))}${fig('In dispute', sgd(c.feeAtRisk))}
+            ${fig('Payout recorded', sgd(c.payoutRecorded))}
+          </div>
+          ${c.disputeStatus && c.disputeStatus !== 'none' ? `<div class="actions">${pill('d-' + c.disputeStatus, 'Dispute: ' + (DISPUTE_LABEL[c.disputeStatus] || c.disputeStatus))}</div>` : ''}
+        </div>
+        ${historyHtml(p.statusHistory, 'placements')}`}
+        ${isNew ? '' : `<fieldset>
+          <legend>Cancellation</legend>
+          <div class="grid2">
+            <label for="c-date">Cancelled on<input id="c-date" type="date" value="${esc((p.cancellation || {}).date)}"></label>
+            <label for="c-reason">Reason<input id="c-reason" value="${esc((p.cancellation || {}).reason)}"></label>
+          </div>
+          <p class="meta" style="margin:0">Set Match status to Cancelled to cancel; a cancelled placement owes no commission. The date fills in automatically if left blank.</p>
+        </fieldset>`}
+        <label for="p-later">Later months arrangement<textarea id="p-later" placeholder="How lessons after the first month are arranged (families pay the Specialist directly)">${esc(p.laterMonths)}</textarea></label>
+        <label for="p-notes">Notes<textarea id="p-notes">${esc(p.notes)}</textarea></label>
+        <div class="actions"><button class="btn" type="submit">${isNew ? 'Create placement' : 'Save'}</button>${isNew ? '<button class="btn ghost" type="button" id="p-cancel">Cancel</button>' : ''}<span id="p-msg" role="alert"></span></div>
+      </form>
+      ${isNew ? '' : deleteButton()}`;
+
+    let valueTouched = !isNew && Number(fm.value) > 0 && cents(fm.value) !== cents(Number(fm.lessons) * Number(fm.ratePerLesson));
+    const upd = () => {
+      const v = $('#p-pct').value;
+      $('#p-preview').textContent = feePreview($('#p-value').value, v);
+      $('#p-exc-hint').textContent = v !== '' && Number(v) !== 50 ? '(required: fee is not 50%)' : '(only if the fee is not 50%)';
+    };
+    const auto = () => {
+      if (!valueTouched) { const l = Number($('#p-lessons').value) || 0, r = Number($('#p-rate').value) || 0; $('#p-value').value = l && r ? (Math.round(l * r * 100) / 100).toFixed(2) : ''; }
+      upd();
+    };
+    $('#p-lessons').addEventListener('input', auto);
+    $('#p-rate').addEventListener('input', auto);
+    $('#p-value').addEventListener('input', () => { valueTouched = $('#p-value').value !== ''; upd(); });
+    $('#p-pct').addEventListener('input', upd);
+
+    const send = async (body, okText, msgId) => {
+      const mid = msgId || 'p-msg';
+      setMsg(mid, 'Saving…', 'saving');
+      try {
+        if (isNew) {
+          const res = await api('POST', body);
+          if (res.enquiry) replace('enquiries', res.enquiry);
+          draft = null; current.placements = res.placement.id;
+          await loadKind('placements').catch(() => { replace('placements', res.placement); });
+        } else {
+          const res = await api('PATCH', body);
+          replace('placements', res.placement);
+          await loadKind('placements').catch(() => {});
+        }
+        render(); toast(okText || 'Saved');
+      } catch (err) { setMsg(mid, 'Not saved: ' + err.message, 'err'); }
+    };
+
+    $('#p-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const sel = $('#p-spec'), specId = sel.value;
+      const specApp = (data.applications || []).find(a => a.id === specId);
+      const pctVal = $('#p-pct').value === '' ? 50 : Number($('#p-pct').value);
+      if (!(pctVal >= 0 && pctVal <= 100)) return setMsg('p-msg', 'The fee % must be between 0 and 100.', 'err');
+      if (pctVal !== 50 && !$('#p-exc').value.trim()) return setMsg('p-msg', 'A fee other than 50% needs the agreed exception note.', 'err');
+      const body = {
+        kind: 'placements', status: $('#p-status').value,
+        studentLabel: $('#p-student').value, subject: $('#p-subject').value, exam: $('#p-exam').value, matchDate: $('#p-date').value,
+        specialistId: specId, specialistName: specId ? ((specApp && specApp.contact && specApp.contact.name) || p.specialistName || '') : '',
+        firstMonth: { lessons: $('#p-lessons').value || 0, ratePerLesson: $('#p-rate').value || 0, value: $('#p-value').value || 0 },
+        feePercent: pctVal, feeException: $('#p-exc').value,
+        laterMonths: $('#p-later').value, notes: $('#p-notes').value,
+        lessonFrequency: $('#p-freq').value, enquiryId: $('#p-enq').value,
+      };
+      if (isNew) return send(body, 'Placement created');
+      body.id = p.id;
+      if ($('#d-status').value !== 'none' && !$('#d-note').value.trim()) return setMsg('p-msg', 'Add a note explaining the dispute.', 'err');
+      body.dispute = { status: $('#d-status').value, note: $('#d-note').value, amount: $('#d-amount').value || 0 };
+      body.cancellation = { date: $('#c-date').value, reason: $('#c-reason').value };
+      body.specialistPayout = { reference: $('#po-ref').value, note: $('#po-note').value };
+      const refEl = $('#inv-ref'); if (refEl) body.feeInvoice = { reference: refEl.value };
+      if (inv.status === 'paid') body.refund = { amount: $('#ref-amount').value || 0, date: $('#ref-date').value, reason: $('#ref-reason').value };
+      send(body);
+    });
+
+    const on = (id, fn) => { const el = document.getElementById(id); if (el) el.addEventListener('click', fn); };
+    on('inv-record', () => {
+      const amount = $('#inv-amount').value, date = $('#inv-date').value;
+      if (!$('#inv-confirm').checked) return setMsg('inv-msg', 'Tick the confirmation that the fee has arrived.', 'err');
+      if (!(cents(amount) > 0)) return setMsg('inv-msg', 'Enter the amount received.', 'err');
+      if (!date) return setMsg('inv-msg', 'Enter the date it arrived.', 'err');
+      send({ kind: 'placements', id: p.id, confirmFeeReceived: true, feeInvoice: { status: 'paid', paidAmount: amount, paidAt: date, reference: $('#inv-ref').value } }, 'Payment recorded', 'inv-msg');
+    });
+    on('inv-sent', () => {
+      const amount = $('#inv-sent-amount').value;
+      if (!(cents(amount) > 0)) return setMsg('inv-sent-msg', 'Enter the amount invoiced.', 'err');
+      send({ kind: 'placements', id: p.id, feeInvoice: { status: 'sent', amount } }, 'Invoice recorded', 'inv-sent-msg');
+    });
+    on('po-record', () => {
+      const amount = $('#po-amount').value, date = $('#po-date').value;
+      if (!$('#po-confirm').checked) return setMsg('po-msg', 'Tick the confirmation first.', 'err');
+      if (!(cents(amount) > 0)) return setMsg('po-msg', 'Enter the amount paid out.', 'err');
+      if (!date) return setMsg('po-msg', 'Enter the date it was paid.', 'err');
+      send({ kind: 'placements', id: p.id, confirmSpecialistPayout: true, specialistPayout: { record: true, amount, date, reference: $('#po-ref').value, note: $('#po-note').value } }, 'Payout recorded', 'po-msg');
+    });
+    on('po-undo', () => {
+      if (confirm('Remove this payout record? Only do this if it was recorded by mistake.')) send({ kind: 'placements', id: p.id, specialistPayout: { undo: true } }, 'Payout record removed');
+    });
+    on('inv-undo', () => {
+      if (confirm('Mark this placement fee as NOT paid? Only do this if it was recorded by mistake.')) {
+        send({ kind: 'placements', id: p.id, feeInvoice: { status: inv.link ? 'sent' : 'not-sent' } }, 'Payment record undone');
+      }
+    });
+    on('inv-void', () => {
+      if (confirm('Mark this fee invoice as void? Any payment link already sent should not be used.')) send({ kind: 'placements', id: p.id, feeInvoice: { status: 'void' } }, 'Invoice voided', 'fee-msg');
+    });
+    on('fee-link-make', async ev => {
+      const btn = ev.currentTarget; btn.disabled = true;
+      setMsg('fee-msg', 'Creating Stripe payment link…', 'saving');
+      try {
+        const res = await api('POST', { kind: 'placement-fee-link', id: p.id });
+        if (res.placement) replace('placements', res.placement);
+        await loadKind('placements').catch(() => {});
+        render(); toast('Payment link created');
+      } catch (err) { btn.disabled = false; setMsg('fee-msg', 'No link created: ' + err.message, 'err'); }
+    });
+    on('fee-copy', async ev => {
+      const btn = ev.currentTarget, label = btn.textContent;
+      try { await navigator.clipboard.writeText(inv.link); btn.textContent = 'Copied'; }
+      catch (e) { const r = document.createRange(); r.selectNodeContents($('#fee-link')); getSelection().removeAllRanges(); getSelection().addRange(r); btn.textContent = 'Selected, press Ctrl+C'; }
+      setTimeout(() => { btn.textContent = label; }, 1800);
+    });
+    const cancel = $('#p-cancel'); if (cancel) cancel.addEventListener('click', () => { draft = null; render(); });
+    const ge = $('#goto-enquiry'); if (ge) ge.addEventListener('click', ev => { ev.preventDefault(); current.enquiries = p.enquiryId; filters.enquiries = 'all'; switchSection('enquiries'); });
+    if (!isNew) wireDelete('placements', p, 'this placement');
+  }
+
+  // ---------- orders (read-only) ----------
+  const ORDER_KIND = { masterclass: 'Masterclass', resource: 'Resource', 'placement-fee': 'Placement fee' };
+  const modePill = m => (m === 'live' ? pill('mode-live', 'Live') : pill('mode-test', 'Test'));
+
+  function ordersIntro() {
+    const rows = data.orders || [];
+    const paidish = o => ['paid', 'part-refunded', 'disputed'].includes(o.status);
+    const sum = mode => rows.filter(o => paidish(o) && (o.mode === 'live') === (mode === 'live')).reduce((t, o) => t + cents(o.amount) - cents(o.refundedAmount), 0) / 100;
+    const stat = (label, v) => `<div class="stat"><span>${label}</span><b>${v}</b></div>`;
+    return `${ordersError ? `<p class="note">Orders could not be loaded: ${esc(ordersError)}</p>` : ''}
+      <p class="note">Read only. Orders are created at checkout and updated by Stripe's verified notices. Test-mode orders are not real money.</p>
+      <div class="strip" aria-label="Order totals">
+        ${stat('Orders', esc(rows.length))}
+        ${stat('Paid, live (net)', sgd(sum('live')))}
+        ${stat('Paid, test (net)', sgd(sum('test')))}
+      </div>`;
+  }
+
+  function renderOrder(o) {
+    const cu = o.customer || {}, st = o.stripe || {};
+    const field = (label, val) => (val || val === 0 ? `<dt>${label}</dt><dd>${esc(val)}</dd>` : '');
+    const placement = o.placementId && (data.placements || []).find(p => p.id === o.placementId);
+    $('#detail').innerHTML = `
+      <div class="actions" style="justify-content:space-between"><h2>${esc(o.title || o.itemId || 'Order')}</h2><span class="actions">${pill(o.status, statusLabel('orders', o.status))}${modePill(o.mode)}</span></div>
+      <dl>
+        ${field('Order', o.id)}
+        ${field('Created', when(o.createdAt))}
+        ${field('Type', ORDER_KIND[o.kind] || o.kind)}
+        ${field('Item', o.itemId)}
+        <dt>Amount</dt><dd>${sgd(o.amount)}${Number(o.refundedAmount) > 0 ? ' · refunded ' + sgd(o.refundedAmount) : ''}</dd>
+        ${field('Email', cu.email)}
+        ${field('Name', cu.name)}
+        ${field('Student', [cu.studentName, cu.studentLevel].filter(Boolean).join(' · '))}
+        ${field('Phone', cu.phone)}
+        ${o.placementId ? `<dt>Placement</dt><dd>${placement ? `<a href="#" id="goto-placement">${esc(placement.studentLabel || o.placementId)}</a>` : esc(o.placementId)}</dd>` : ''}
+        ${field('Stripe session', st.sessionId)}
+        ${field('Payment intent', st.paymentIntent)}
+        ${o.dispute ? `<dt>Dispute</dt><dd>${esc(typeof o.dispute === 'object' ? JSON.stringify(o.dispute) : o.dispute)}</dd>` : ''}
+      </dl>
+      ${list(o.events).length ? `<div style="display:grid;gap:6px"><b>History</b><pre>${esc(list(o.events).map(e => `${when(e.at)}  ${e.type}${e.note ? ' · ' + e.note : ''}`).join('\n'))}</pre></div>` : ''}`;
+    const gp = $('#goto-placement');
+    if (gp) gp.addEventListener('click', ev => { ev.preventDefault(); draft = null; current.placements = o.placementId; filters.placements = 'all'; switchSection('placements'); });
+  }
+
+  // ---------- products (PDF uploads) ----------
+  // Each pack's customer PDF lives in the private blob store at products/<id>.pdf; api/download.js serves it only after payment.
+  const MAX_UPLOAD = 4400000; // must match MAX_BYTES in api/admin-upload.js (Vercel caps bodies at about 4.5 MB)
+  const TOO_BIG = 'This PDF is over 4.4 MB, the upload limit. Compress the PDF and try again.';
+  const pstate = { busy: {}, msg: {}, ask: null };
+  const bytes = n => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' KB'; };
+  const money = v => (Number(v) > 0 ? 'S$' + Number(v).toLocaleString('en-SG') : '-');
+
+  function productStatus(x) {
+    const files = list(x.files);
+    if (x.kind === 'bundle') {
+      const have = files.filter(f => f.exists).length;
+      return x.ready ? pill('v-ok', `Ready (${have}/${files.length} PDFs)`) : pill('v-none', `Missing ${files.length - have} of ${files.length} PDFs`);
+    }
+    const f = files[0];
+    return f && f.exists ? pill('v-ok', `PDF uploaded (${bytes(f.size)})`) : pill('v-none', 'Missing PDF');
+  }
+
+  function productActions(x) {
+    if (x.kind === 'bundle') return '<span class="meta">Uses its packs’ PDFs. Upload each pack above.</span>';
+    const id = esc(x.id), f = list(x.files)[0] || {}, busy = pstate.busy[x.id], m = pstate.msg[x.id];
+    const input = `<input type="file" accept="application/pdf,.pdf" data-file="${id}" hidden>`;
+    let html;
+    if (busy) html = `<span class="saving" role="status">${esc(busy)}</span>`;
+    else if (pstate.ask === x.id) html = `<div class="ask" role="alertdialog" aria-label="Confirm removal">
+        <span>Remove the PDF for <b>${esc(x.title)}</b>? Buyers cannot download this pack until a new PDF is uploaded.</span>
+        <span class="actions"><button class="btn danger" type="button" data-remove-yes="${id}">Yes, remove</button><button class="btn ghost" type="button" data-remove-no="${id}">Cancel</button></span>
+      </div>`;
+    else if (f.exists) html = `<span class="actions"><button class="btn ghost" type="button" data-pick="${id}">Replace</button><button class="btn danger" type="button" data-remove="${id}">Remove</button></span>`;
+    else html = `<span class="actions"><button class="btn" type="button" data-pick="${id}">Upload PDF</button></span>`;
+    return input + html + (m ? `<div class="${m.cls === 'err' ? 'err' : 'meta'}" role="alert" style="margin-top:6px">${esc(m.text)}</div>` : '');
+  }
+
+  function renderProducts() {
+    const rows = data.products;
+    const head = `<p class="note">Buyers can only download a pack once its PDF is uploaded. Clear the 'Before sale' checks in notes-packages/README.md before switching to live payments.</p>
+      <p class="meta" style="margin:0 0 12px">One PDF per pack, up to 4.4 MB. Bundles deliver their packs’ PDFs, so a bundle is ready when all of its packs are.</p>
+      ${productsError ? `<p class="err">Could not load products: ${esc(productsError)}</p>` : ''}`;
+    if (!rows) { $('#products').innerHTML = head + '<div class="empty">Loading…</div>'; return; }
+    if (!rows.length) { $('#products').innerHTML = head + '<div class="empty">No products in the catalogue.</div>'; return; }
+    const body = rows.map(x => {
+      const files = list(x.files);
+      const fileList = x.kind === 'bundle' ? `<ul class="files">${files.map(f => `<li>${f.exists ? pill('v-ok', 'OK') : pill('v-none', 'Missing')} ${esc(f.title)}</li>`).join('')}</ul>` : '';
+      return `<tr>
+        <td data-h="Item"><b>${esc(x.title)}</b><div class="pid">${esc(x.id)}</div></td>
+        <td data-h="Exam">${esc(x.exam || '-')}</td>
+        <td data-h="Price">${esc(money(x.price))}${Number(x.regularPrice) > 0 ? ` <span class="meta">(regular ${esc(money(x.regularPrice))})</span>` : ''}</td>
+        <td data-h="Type">${x.kind === 'bundle' ? 'Bundle' : 'Pack'}</td>
+        <td data-h="PDF">${productStatus(x)}${fileList}</td>
+        <td data-h="Actions">${productActions(x)}</td>
+      </tr>`;
+    }).join('');
+    $('#products').innerHTML = head + `<table class="ptable"><thead><tr><th>Item</th><th>Exam</th><th>Price</th><th>Type</th><th>PDF</th><th>Actions</th></tr></thead><tbody>${body}</tbody></table>`;
+  }
+
+  async function uploadCall(method, id, file) {
+    const res = await fetch('/api/admin-upload?' + new URLSearchParams({ id }), {
+      method, headers: method === 'POST' ? { 'x-admin-key': key, 'Content-Type': 'application/pdf' } : { 'x-admin-key': key }, body: file || undefined,
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) { const e = new Error(res.status === 413 ? (out.error || TOO_BIG) : (out.error || 'Request failed (' + res.status + ')')); e.status = res.status; throw e; }
+    return out;
+  }
+
+  async function afterChange(id, text) {
+    delete pstate.busy[id];
+    await loadKind('products').catch(() => {});
+    pstate.msg[id] = { text, cls: '' };
+    render(); toast(text);
+  }
+
+  async function uploadFile(id, file) {
+    pstate.ask = null;
+    if (!file) return;
+    const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name || '');
+    if (!isPdf) { pstate.msg[id] = { text: 'Choose a PDF file.', cls: 'err' }; return render(); }
+    if (file.size > MAX_UPLOAD) { pstate.msg[id] = { text: TOO_BIG + ' (This file is ' + (file.size / 1e6).toFixed(2) + ' MB.)', cls: 'err' }; return render(); }
+    pstate.msg[id] = null; pstate.busy[id] = 'Uploading ' + (file.name || 'PDF') + ' (' + bytes(file.size) + ')…'; render();
+    try {
+      const out = await uploadCall('POST', id, file);
+      await afterChange(id, 'PDF uploaded (' + bytes(out.size) + ')');
+    } catch (e) {
+      if (e.status === 401) { delete pstate.busy[id]; return load(); }
+      delete pstate.busy[id]; pstate.msg[id] = { text: 'Not uploaded: ' + e.message, cls: 'err' }; render();
+    }
+  }
+
+  async function removeFile(id) {
+    pstate.ask = null; pstate.msg[id] = null; pstate.busy[id] = 'Removing…'; render();
+    try { await uploadCall('DELETE', id); await afterChange(id, 'PDF removed'); }
+    catch (e) { delete pstate.busy[id]; pstate.msg[id] = { text: 'Not removed: ' + e.message, cls: 'err' }; render(); }
+  }
+
+  $('#products').addEventListener('click', e => {
+    const t = e.target.closest('button'); if (!t) return;
+    const d = t.dataset;
+    if (d.pick) { const inp = $('#products').querySelector(`input[data-file="${CSS.escape(d.pick)}"]`); if (inp) { inp.value = ''; inp.click(); } return; }
+    if (d.remove) { pstate.ask = d.remove; pstate.msg[d.remove] = null; return render(); }
+    if (d.removeNo) { pstate.ask = null; return render(); }
+    if (d.removeYes) return removeFile(d.removeYes);
+  });
+  $('#products').addEventListener('change', e => {
+    const inp = e.target.closest('input[data-file]'); if (!inp) return;
+    uploadFile(inp.dataset.file, inp.files && inp.files[0]);
+  });
+
+  function switchSection(s) {
+    section = s;
+    try { sessionStorage.setItem('th-admin-section', s); } catch (e) {}
+    render();
+    if (window.innerWidth <= 860 && (current[s] || (s === 'placements' && draft))) $('#detail').scrollIntoView({ block: 'start' });
+  }
+
+  $('#sections').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (!b) return; if (b.dataset.s !== 'placements') draft = null; switchSection(b.dataset.s); });
+  $('#tabs').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; filters[section] = b.dataset.f; render(); });
+  $('#list').addEventListener('click', e => {
+    if (e.target.closest('#new-placement')) { draft = { enquiryId: '', studentLabel: '', subject: '' }; render(); if (window.innerWidth <= 860) $('#detail').scrollIntoView({ block: 'start' }); return; }
+    const b = e.target.closest('[data-id]'); if (!b) return;
+    if (section === 'placements') draft = null;
+    current[section] = b.dataset.id; render();
+    if (window.innerWidth <= 860) $('#detail').scrollIntoView({ block: 'start' });
+  });
+  $('#login').addEventListener('submit', e => { e.preventDefault(); key = $('#key').value.trim(); load(); });
+  $('#refresh').addEventListener('click', load);
+  $('#logout').addEventListener('click', () => { key = ''; try { sessionStorage.removeItem('th-admin-key'); } catch (e) {} location.reload(); });
+  if (key) load();
+})();
+</script>
+</body>
+</html>

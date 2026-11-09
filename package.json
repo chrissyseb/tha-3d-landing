@@ -1,1 +1,12 @@
-{ "name": "essaylab", "private": true, "license": "UNLICENSED", "author": "Christine Sebastian", "dependencies": { "@vercel/og": "0.6.8" } }
+{
+  "name": "thinking-hack",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vercel/blob": "2.8.2"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "check": "for f in api/*.js; do node --check \"$f\" || exit 1; done"
+  }
+}

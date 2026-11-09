@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en-SG"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Booking received | Thinking Hack Education</title>
+<meta name="description" content="Booking status for a Thinking Hack payment.">
+<link rel="canonical" href="./paid">
+<meta name="robots" content="noindex">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="./styles.css?v=10">
+<script defer="" src="./_vercel/insights/script.js"></script>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="./" aria-label="Thinking Hack home"><span class="w1">THINKING HACK</span><span class="w2">EDUCATION</span></a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="main" id="main-nav" aria-label="Main">
+      <a href="./#how">How it works</a>
+      <a href="./#results">Results</a>
+      <a href="./#programmes">Masterclasses</a>
+      <a href="./#rates">Rates</a>
+      <a href="./#free">Free resources</a><a href="./resources">Shop</a>
+      <a class="btn small" href="./#match">Get matched</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="label">Booking</p>
+      <h1>Booking received</h1>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:24px">
+    <div class="wrap">
+      <div class="order-status" id="order-status" role="status" aria-live="polite">
+        <h2 id="os-title">We couldn't check this booking just now</h2>
+        <p id="os-body">If you completed payment, there's nothing more you need to do: we'll contact you on WhatsApp or email. If you have any questions, message us and quote your reference.</p>
+        <p class="ref" id="os-ref" hidden=""></p>
+        <p id="os-extra" hidden=""></p>
+        <div id="os-actions" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn ghost" href="https://wa.me/6590030002?text=Hi%20Thinking%20Hack%2C%20I%E2%80%99d%20like%20to%20be%20matched%20with%20an%20Exam%20Preparation%20Specialist%E2%84%A2.%20Exam%20and%20level%3A%20" target="_blank" rel="noopener">WhatsApp us</a><a class="btn ghost" href="./">Back to the home page</a></div>
+      </div>
+      <noscript><p class="notice">Your browser has JavaScript turned off, so we can't show your payment status here. We'll contact you on WhatsApp or email once your payment is confirmed, or message us on WhatsApp.</p></noscript>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Thinking Hack Education™. Thinking Hack™, Exam Preparation Specialists™, Thinking Hack Masterclasses™, Thinking Hack Exam Notes™, EssayLab™, Essay Clinic™, the BUG Method™ and the masterclass names marked ™ are trademarks of Thinking Hack Education.</span>
+    <nav aria-label="Footer"><a href="./#match">Get matched</a><a href="./join">Join as a Specialist</a><a href="./specialist-terms">Specialist terms</a><a href="./privacy">Privacy</a><a href="./terms">Terms</a><a href="./terms">Booking &amp; refunds</a><a href="https://wa.me/6590030002?text=Hi%20Thinking%20Hack%2C%20I%E2%80%99d%20like%20to%20be%20matched%20with%20an%20Exam%20Preparation%20Specialist%E2%84%A2.%20Exam%20and%20level%3A%20" target="_blank" rel="noopener">WhatsApp us</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button">Switch theme</button>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  // Mobile menu
+  const menuBtn = $('#menu-btn'), nav = $('#main-nav');
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  $$('#main-nav a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }));
+
+  $('#theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    root.dataset.theme = current === 'dark' ? 'light' : 'dark';
+  });
+})();
+</script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const WA = 'https://wa.me/ WhatsApp';
+  const params = new URLSearchParams(location.search);
+  const id = (params.get('order') || '').replace(/[^\w-]/g, '').slice(0, 80);
+  const session = (params.get('session') || '').slice(0, 200);
+  const el = (tag, attrs, text) => { const e = document.createElement(tag); Object.assign(e, attrs || {}); if (text) e.textContent = text; return e; };
+  function show(title, body, opts = {}) {
+    $('#os-title').textContent = title;
+    $('#os-body').textContent = body;
+    const ref = $('#os-ref');
+    ref.hidden = !opts.ref; ref.textContent = opts.ref ? 'Reference: ' + opts.ref : '';
+    const extra = $('#os-extra');
+    extra.hidden = !opts.extra; extra.textContent = opts.extra || '';
+    const actions = $('#os-actions'); actions.replaceChildren();
+    (opts.actions || []).forEach(a => {
+      const link = el('a', { className: 'btn' + (a.ghost ? ' ghost' : ''), href: a.href }, a.label);
+      if (/^https:/.test(a.href)) { link.target = '_blank'; link.rel = 'noopener'; }
+      actions.append(link);
+    });
+  }
+  const waAction = { label: 'WhatsApp us', href: WA, ghost: true };
+  const home = { label: 'Back to the home page', href: '/', ghost: true };
+  const money = o => (typeof o.amount === 'number' && isFinite(o.amount)) ? ' (S$' + (Number.isInteger(o.amount) ? o.amount : o.amount.toFixed(2)) + ')' : '';
+
+  function neutral() {
+    show("We couldn't check this booking just now",
+      "If you completed payment, there's nothing more you need to do: we'll contact you on WhatsApp or email. If you have any questions, message us and quote your reference.",
+      { ref: id, actions: [waAction, home] });
+  }
+
+  function render(o) {
+    const what = o.title ? o.title + money(o) : '';
+    const test = o.mode === 'test' ? 'Test mode: no real charge was made.' : '';
+    if (o.status === 'paid') {
+      let body = "Payment received. We'll contact you on WhatsApp or email to confirm dates and venue.";
+      const actions = [];
+      if (o.kind === 'resource') {
+        body = 'Payment received. Your download is ready on this page. Keep this page\'s link (your order link) so you can download the PDF again later.' + (o.download ? '' : " If the download button doesn't appear, message us on WhatsApp and quote your reference.");
+        if (o.download && /^\/api\/download\?/.test(o.download)) actions.push({ label: 'Download PDF', href: o.download });
+      } else if (o.kind === 'placement-fee') {
+        body = 'Payment received. Thank you, your placement fee is paid.';
+      }
+      document.title = 'Payment received | Thinking Hack Education';
+      show('Payment received', body, { ref: o.id || id, extra: [what, test].filter(Boolean).join(' · '), actions: actions.concat([waAction, home]) });
+      return true;
+    }
+    if (o.status === 'failed' || o.status === 'expired') {
+      show("Payment didn't go through", 'No payment was taken for this booking. You can try again, or message us on WhatsApp and we will help.',
+        { ref: o.id || id, extra: what, actions: [{ label: 'Try again', href: '/#programmes' }, waAction] });
+      return true;
+    }
+    if (o.status === 'created' || o.status === 'pending') {
+      show('Payment processing', "We're waiting for confirmation of your payment. This page will update by itself, or you can come back later. We'll contact you on WhatsApp or email once it's confirmed.",
+        { ref: o.id || id, extra: [what, test].filter(Boolean).join(' · '), actions: [waAction] });
+      return false;
+    }
+    show('Booking update', 'This booking has been updated since payment. Message us on WhatsApp and quote your reference, and we will explain.', { ref: o.id || id, actions: [waAction, home] });
+    return true;
+  }
+
+  if (!id) { neutral(); return; }
+  let tries = 0, last = null;
+  const MAX = 10, GAP = 2000;
+  async function poll() {
+    tries++;
+    try {
+      const r = await fetch('/api/order?id=' + encodeURIComponent(id) + (session ? '&session=' + encodeURIComponent(session) : ''), { headers: { Accept: 'application/json' }, cache: 'no-store' });
+      if (r.status === 404 || r.status === 400) { neutral(); return; }
+      if (r.ok) {
+        const o = await r.json();
+        if (o && typeof o.status === 'string') { last = o; if (render(o)) return; }
+      }
+    } catch (e) {}
+    if (tries < MAX) { setTimeout(poll, GAP); return; }
+    if (last) show('Payment processing', "We haven't had confirmation of your payment yet. Card payments are usually confirmed within minutes. We'll contact you on WhatsApp or email once it's confirmed; you don't need to pay again.",
+      { ref: id, actions: [waAction, home] });
+    else neutral();
+  }
+  poll();
+})();
+</script>
+
+
+
+<script defer src="./site.js"></script>
+</body></html>
