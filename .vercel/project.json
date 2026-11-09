@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_og2q7zj7GogIXJZJewQeoBwFfhqs",
+  "orgId": "team_mkZxxZmKKTL0rvSlUunvGusp",
+  "projectName": "thinking-hack",
+  "settings": {
+    "createdAt": 1792192099953,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
