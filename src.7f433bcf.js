@@ -8830,6 +8830,22 @@ require("./styles.css");
 var gsap_1 = __importDefault(require("gsap"));
 var ScrollTrigger_1 = require("gsap/ScrollTrigger");
 var lenis_1 = __importDefault(require("@studio-freight/lenis"));
+// Hide the loader once DOM content is fully loaded
+window.addEventListener('load', function () {
+  var loader = document.querySelector('.loader');
+  if (loader) {
+    gsap_1.default.to(loader, {
+      opacity: 0,
+      duration: 0.5,
+      onComplete: function () {
+        loader.style.display = 'none';
+        document.body.style.overflowY = 'auto'; // Re-enable vertical scrolling
+      }
+    });
+  } else {
+    document.body.style.overflowY = 'auto';
+  }
+});
 var lenis = new lenis_1.default({
   duration: 1.2,
   easing: function (t) {
@@ -8888,4 +8904,4 @@ document.querySelectorAll('.result').forEach(function (el, i) {
   window.open('https://wa.me/6590030002', '_blank');
 });
 },{"./styles.css":"D9Nj","gsap":"f8Z0","gsap/ScrollTrigger":"rpvU","@studio-freight/lenis":"gbeq"}]},{},["B6dB"], null)
-//# sourceMappingURL=src.2e7282e8.js.map
+//# sourceMappingURL=src.7f433bcf.js.map
