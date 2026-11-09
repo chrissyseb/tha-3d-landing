@@ -337,6 +337,12 @@ footer p{
 /* MOBILE ADJUSTMENTS */
 
 @media (max-width: 768px) {
+  .section {
+    height: auto;
+    min-height: 100vh;
+    padding: 80px 0;
+  }
+
   .section--one--container,
   .section--two--container,
   .section--third--container,

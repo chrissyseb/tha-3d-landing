@@ -8,6 +8,23 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Lenis from '@studio-freight/lenis'
 
+// Hide the loader once DOM content is fully loaded
+window.addEventListener('load', () => {
+  const loader = document.querySelector('.loader')
+  if (loader) {
+    gsap.to(loader, {
+      opacity: 0,
+      duration: 0.5,
+      onComplete: () => {
+        (loader as HTMLElement).style.display = 'none';
+        document.body.style.overflowY = 'auto'; // Re-enable vertical scrolling
+      }
+    })
+  } else {
+    document.body.style.overflowY = 'auto';
+  }
+})
+
 const lenis = new Lenis({
   duration: 1.2,
   easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
