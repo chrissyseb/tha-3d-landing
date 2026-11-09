@@ -1,1 +1,57 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+/* Thinking Hack Education: EssayLab skin (5 Nov 2026). Original styles live in base.css. Light only. */
+@import url("/base.css?v=4");
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+  --paper: #FDFCFC; --sheet: #FFFFFF; --tint: #F5F3F1; --grid: #ECEAE7;
+  --ink: #000000; --ink-soft: #6B655E; --rule: #ECEAE7; --rule-strong: #D6D2CD;
+  --pen: #C4122F; --pen-ink: #FFFFFF; --pen-soft: #FBE7EA; --hi: #FFE680;
+  --navy: #000000; --on-navy: #FFFFFF; --on-navy-soft: #B9B3AC; --on-navy-accent: #FFE680;
+  --font-display: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --radius: 16px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #FDFCFC; --sheet: #FFFFFF; --tint: #F5F3F1; --grid: #ECEAE7; --ink: #000000; --ink-soft: #6B655E;
+    --rule: #ECEAE7; --rule-strong: #D6D2CD; --pen: #C4122F; --pen-ink: #FFFFFF; --pen-soft: #FBE7EA; --hi: #FFE680;
+    --navy: #000000; --on-navy: #FFFFFF; --on-navy-soft: #B9B3AC; --on-navy-accent: #FFE680; color-scheme: light;
+  }
+}
+body { font-size: 16px; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-weight: 300; letter-spacing: -0.03em; }
+h3, h4 { font-weight: 400; letter-spacing: -0.02em; }
+.hero h1, .page-hero h1 { font-weight: 300; letter-spacing: -0.035em; }
+.hero h1 em, .hl { font-style: normal; color: var(--ink); background: var(--hi); padding: 0 .12em; }
+.label, .eyebrow, .res h3, .cls .when, .note-card .paper-tag, .step-name, table.exam thead th, .facts-list dt, .brief dt, .foot-grid h2, .notes-group > h3 span, .browse span, .hero-note .note-head, .quotes cite {
+  font-family: var(--font-mono); font-weight: 400; letter-spacing: .08em; color: var(--ink-soft);
+}
+.kicker .no, .numbered .no, .steps li::before, .hero-note li::before { font-family: var(--font-display); font-weight: 300; color: var(--pen); }
+.hero-note li span, .quotes p, .facts-list dd, .notes-points li, details summary { font-style: normal; font-family: var(--font-display); font-weight: 300; }
+.btn { border-radius: 999px; background: var(--ink); border-color: var(--ink); color: #fff; font: 500 15px/1.2 var(--font-body); min-height: 44px; padding: 12px 22px; }
+.btn:hover { background: #222; border-color: #222; color: #fff; }
+.btn.ghost { background: var(--sheet); color: var(--ink); border-color: var(--rule-strong); }
+.btn.ghost:hover { background: var(--tint); color: var(--ink); border-color: var(--rule-strong); }
+nav.main .btn, nav.main .btn:hover { color: #fff; }
+.text-link { color: var(--ink); }
+.menu-btn, .browse a, .theme-toggle, .chip, .pills span { border-radius: 999px; }
+.browse a, .menu-btn { border-color: var(--rule-strong); }
+.theme-toggle { display: none; }
+header.site { background: rgba(253,252,252,.92); backdrop-filter: saturate(1.4) blur(8px); border-bottom-color: var(--rule); }
+.logo { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.03em; display: inline-flex; align-items: center; gap: 10px; }
+.facts li::before { border-radius: 50%; background: var(--pen); }
+.form-card, .fee-box, .success, .book-dialog { border-radius: 20px; border: 1px solid var(--rule); border-top: 1px solid var(--rule); box-shadow: 0 24px 48px -32px rgba(0,0,0,.25); }
+.result { border-radius: 16px; }
+input, select, textarea { border-radius: 12px; border-color: var(--rule-strong); background: var(--sheet); }
+.cls, .note-card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 16px; padding: 22px; margin-bottom: 16px; }
+.programmes, .notes-grid { gap: 16px; }
+.numbered, .points, .steps, .results-grid, .exam-table-wrap, .facts-list, .notes-points, .kicker, .hero-note { border-top-color: var(--rule-strong); }
+.hero-note { border-top-width: 1px; }
+.res b { font-weight: 300; letter-spacing: -0.03em; }
+.progress i { border-radius: 999px; }
+.closing .btn { background: #fff; color: #000; border-color: #fff; }
+.closing .btn:hover { background: #E8E6E3; color: #000; }
+.closing .btn.ghost { background: transparent; color: #fff; border-color: #fff; }
+footer.site { border-top-color: var(--rule); }
+:focus-visible { outline-color: var(--ink); }

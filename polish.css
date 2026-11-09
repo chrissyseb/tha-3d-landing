@@ -1,1 +1,90 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+/* ===== STYLE POLISH (6 Nov 2026, Chrissy's design-system brief, "keep my colours" reading)
+   One font (Plus Jakarta Sans), fixed type scale, more spacing, 12px corners, soft borders/shadows, hover motion.
+   Palette unchanged: highlighter colours, highlights, dots and colour bands stay. Logo artwork untouched. */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+:root { --font-display:"Plus Jakarta Sans", system-ui, sans-serif !important; --font-body:"Plus Jakarta Sans", system-ui, sans-serif !important; --brand-font:"Plus Jakarta Sans", system-ui, sans-serif; --r:12px; --sp:clamp(72px,7vw,112px); --line:rgba(22,24,29,.10); --lift:0 4px 24px rgba(22,24,29,.06); }
+/* 1. one font everywhere, explicit weights and colour */
+html body, body *:not(svg):not(svg *):not(.logo):not(.logo *) { font-family:"Plus Jakarta Sans", system-ui, sans-serif; }
+body { font-size:16px; line-height:1.6; color:#16181D; }
+p, li, dd, td { line-height:1.6; }
+.hero h1, .page-hero h1, .page-top h1, main h1 { font-size:clamp(2.25rem,4.2vw,3rem) !important; font-weight:700 !important; line-height:1.1 !important; letter-spacing:-.025em !important; color:#16181D; }
+main h2, .section-head h2 { font-size:clamp(1.75rem,2.6vw,2.2rem) !important; font-weight:600 !important; line-height:1.18 !important; letter-spacing:-.02em !important; color:#16181D; }
+main h3 { font-size:clamp(1.15rem,1.4vw,1.35rem) !important; font-weight:500 !important; line-height:1.3 !important; letter-spacing:-.01em !important; }
+main h4 { font-size:1.05rem !important; font-weight:600 !important; line-height:1.35 !important; }
+footer.site h2, footer.site h3, footer.site h4 { color:inherit; }
+.section-head p, .lede { color:#2B2E35; }
+input, select, textarea, button { font:inherit; }
+/* 2. surfaces: soft border + soft shadow on cards and tables */
+.note-card, .bundle, .form-card, .spec-card, .promise-grid li, .paper-grid li, .free-grid li, .calc, .shop-pick, .programmes > article, .programmes > li, .mc-times .mc-scroll, .vs-table, table.exam, .results-table {
+  border-radius:var(--r) !important; border:1px solid var(--line) !important; box-shadow:var(--lift); overflow:hidden; }
+.note-card, .bundle, .form-card, .spec-card, .promise-grid li, .paper-grid li, .free-grid li, .calc, .shop-pick, .programmes > article, .programmes > li { background:#FFFFFF; }
+.vs-table, table.exam, .results-table { border-collapse:separate !important; border-spacing:0; }
+/* 3. spacing, radius, motion */
+.sec, .band { padding-block:var(--sp) !important; }
+.section-head { margin-bottom:clamp(28px,3vw,44px); }
+.btn, .chip, .paper-tag, .sample-tag, .pills > *, input, select, textarea, .field input, .field select, .field textarea { border-radius:var(--r) !important; }
+.btn, a, .note-card, .bundle, .spec-card, .paper-grid li, .free-grid li, .shop-pick, .programmes > article, .chip { transition:all .2s ease-in-out; }
+.btn:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(22,24,29,.14); }
+.btn:active { transform:translateY(0); box-shadow:none; }
+.note-card:hover, .bundle:hover, .spec-card:hover, .paper-grid li:hover, .free-grid li:hover, .shop-pick:hover, .programmes > article:hover { transform:translateY(-3px); box-shadow:0 10px 32px rgba(22,24,29,.10); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition:none !important; } .btn:hover, .note-card:hover, .bundle:hover, .spec-card:hover, .paper-grid li:hover, .free-grid li:hover, .shop-pick:hover, .programmes > article:hover { transform:none; } }
+
+/* ===== CHAPTERS (6 Nov 13:45, Chrissy's wireframe; her palette only: ink #16181D, paper #FFFDF6, highlighter accents) ===== */
+/* Chapter 1: ink-black agency hero, results as badges, visual as a paper card */
+main > .hero { background:#16181D !important; color:#FFFDF6; }
+main > .hero h1, main > .hero .lede, main > .hero .lede b, main > .hero .facts li, main > .hero .not-tutors, main > .hero .match-promise, main > .hero .reply-time, main > .hero .proof { color:#FFFDF6 !important; }
+main > .hero h1 em { color:#16181D !important; }
+main > .hero .season { background:#EEF03A; color:#16181D; display:inline-block; padding:4px 10px; border-radius:var(--r); }
+main > .hero .season a { color:#16181D; }
+main > .hero .proof { display:flex; flex-wrap:wrap; align-items:center; gap:8px; font-size:14px; }
+main > .hero .proof b { display:inline-block; background:#EEF03A; color:#16181D; padding:4px 10px; border-radius:var(--r); font-weight:700; }
+main > .hero .proof a, main > .hero a:not(.btn) { color:#FFFDF6; }
+main > .hero .btn:not(.ghost) { background:#EEF03A !important; border-color:#EEF03A !important; color:#16181D !important; }
+main > .hero .btn.ghost { background:transparent !important; border-color:#FFFDF6 !important; color:#FFFDF6 !important; }
+main > .hero .facts li { opacity:.85; }
+main > .hero .season a { color:#16181D !important; }
+main > .hero .mosaic, main > .hero .mosaic.has-match-visual { background:#FFFDF6 !important; color:#16181D; border-radius:var(--r); padding:clamp(16px,2vw,28px); box-shadow:0 18px 50px rgba(0,0,0,.35); }
+/* Chapter 2: what every Specialist does, as 4 cards with a coloured top line */
+#how .numbered { display:grid !important; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; counter-reset:none; }
+#how .numbered > li { background:#FFFFFF; border:1px solid var(--line) !important; border-top:4px solid var(--a,#EEF03A) !important; border-radius:var(--r); box-shadow:var(--lift); padding:22px !important; margin:0 !important; }
+#how .numbered > li:nth-child(1){--a:#F0487A} #how .numbered > li:nth-child(2){--a:#F7661C} #how .numbered > li:nth-child(3){--a:#3FA7E1} #how .numbered > li:nth-child(4){--a:#3FBF4F}
+@media (max-width:900px){ #how .numbered { grid-template-columns:1fr 1fr; } }
+@media (max-width:560px){ #how .numbered { grid-template-columns:1fr; } }
+/* Chapter 5: rates as cards */
+#rates ul.rates { display:grid !important; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; border:0 !important; }
+#rates ul.rates > li { display:flex !important; flex-direction:column; gap:4px; background:#FFFFFF; border:1px solid var(--line) !important; border-radius:var(--r); box-shadow:var(--lift); padding:16px 18px !important; transition:all .2s ease-in-out; }
+#rates ul.rates > li:hover { transform:translateY(-3px); box-shadow:0 10px 32px rgba(22,24,29,.12); }
+#rates ul.rates > li span { font-size:14px; color:#2B2E35; } #rates ul.rates > li b { font-size:1.5rem; font-weight:700; }
+/* Chapter 4: ink-black EssayLab with an example window */
+#resources:has(#essaylab) { background:#16181D !important; color:#FFFDF6; }
+#essaylab, #essaylab h2, #essaylab p, #essaylab .fine, #essaylab .xsell, #essaylab .xsell a, #essaylab .sub { color:#FFFDF6 !important; }
+#essaylab h2 .sw { color:#16181D !important; background:#EEF03A !important; }
+#essaylab .chip { background:transparent !important; color:#FFFDF6 !important; border:0 !important; padding:0 !important; }
+#essaylab .btn:not(.ghost) { background:#EEF03A !important; border-color:#EEF03A !important; color:#16181D !important; }
+#essaylab .btn.ghost { border-color:#FFFDF6 !important; color:#FFFDF6 !important; }
+.el-demo { background:#FFFDF6; color:#16181D; border-radius:var(--r); box-shadow:0 18px 50px rgba(0,0,0,.35); overflow:hidden; font-size:15px; }
+.el-demo .bar { display:flex; gap:6px; align-items:center; padding:10px 14px; background:#E9E5D6; font-size:12px; font-weight:600; }
+.el-demo .bar i { width:10px; height:10px; border-radius:50%; background:#F0487A; } .el-demo .bar i:nth-child(2){background:#EEF03A} .el-demo .bar i:nth-child(3){background:#3FBF4F}
+.el-demo .bar span { margin-left:8px; }
+.el-demo .body { padding:18px 20px; display:grid; gap:12px; }
+#essaylab .el-demo .para { line-height:1.7; margin:0; color:#16181D !important; }
+.el-demo mark { background:#EEF03A; color:#16181D; padding:0 2px; border-radius:4px; }
+.el-demo mark.p { background:#F0487A; color:#16181D; }
+#essaylab .el-demo .note { margin:0; font-size:13px; padding:8px 10px; border-left:4px solid #F0487A; background:#FFF; border-radius:6px; color:#16181D !important; }
+#essaylab .el-demo .note.y { border-color:#EEF03A; }
+.el-demo .score { display:flex; justify-content:space-between; font-weight:700; border-top:1px solid #E9E5D6; padding-top:10px; color:#16181D; }
+.el-demo .tag { font-size:11px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#16181D; }
+@media (min-width:900px){ #essaylab { display:grid !important; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(32px,4vw,64px); align-items:start; } #essaylab > .section-head { grid-column:1; grid-row:1; } #essaylab > .fine { grid-column:1; grid-row:2; } #essaylab > .xsell { grid-column:1; grid-row:3; } #essaylab .el-demo { grid-column:2; grid-row:1 / span 3; margin:0; } }
+@media (max-width:899px){ .el-demo { margin-top:28px; } }
+/* Chapter 3 (Shop /resources): store cards with a cover strip, badge, bold price and what's inside */
+.notes-group { --cv:#EEF03A; } #notes-olevel { --cv:#3FA7E1; } #notes-alevel { --cv:#F0487A; } #notes-secondary { --cv:#A04BD8; } #notes-bundles { --cv:#3FBF4F; }
+.notes-grid .note-card { display:flex !important; flex-direction:column; gap:10px; padding:0 0 18px !important; background:#FFFFFF !important; position:relative; }
+.notes-grid .note-card > * { padding-inline:20px; margin:0; }
+.notes-grid .note-card .paper-tag { display:block; align-self:stretch; margin:0 !important; width:auto !important; box-sizing:border-box; background:var(--cv); padding:16px 20px 12px !important; font-size:13px !important; font-weight:600 !important; color:#16181D !important; }
+.notes-grid .note-card::after { content:"Waitlist open"; position:absolute; top:14px; right:14px; background:#16181D; color:#FFFDF6; font-size:11px; font-weight:700; letter-spacing:.04em; padding:4px 9px; border-radius:var(--r); }
+.notes-grid .note-card h4 { font-size:1.2rem !important; font-weight:600 !important; padding-right:20px; }
+.notes-grid .note-card > p { display:block !important; font-size:15px; color:#2B2E35; }
+.notes-grid .note-card > ul { display:grid !important; list-style:none; gap:6px; font-size:14px; padding-left:20px; }
+.notes-grid .note-card > ul li::before { content:"\2713"; font-weight:700; margin-right:8px; color:#3FBF4F; }
+.notes-grid .note-card .foot { margin-top:auto; border-top:1px solid var(--line); padding-top:14px; }
+.notes-grid .note-card .foot .soon { font-size:1.35rem; font-weight:700; color:#16181D; }

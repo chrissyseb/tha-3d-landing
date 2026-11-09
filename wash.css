@@ -1,1 +1,71 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap");
+/* ===== BRAND PALETTE re-declarations (logo colours, highlighter versions). Same selectors as the original rules, loaded last so they win. */
+/* from highlighter.css */
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"]{--hi:#FFD23F;--on-navy-accent:#FFD23F;--c:#FFD23F}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hi:#FFD23F;--on-navy-accent:#FFD23F}}#how{--c:#3AAEE8}#time{--c:#FFD23F}#results{--c:#A6D93A}#different{--c:#E8489C}#exams{--c:#FFD23F}#rates{--c:#E8489C}#match{--c:#FFD23F}#programmes{--c:#FF9A4D}#notes{--c:#3FD9C5}#faq{--c:#3AAEE8}.closing{--c:#FFD23F}.hero h1 em{--c:#FFD23F}.time input[type=range]{accent-color:#FFD23F}.time output b{background:#FFD23F}.quotes{background:#E8489C}#rates{background:#FFD23F}#match{background:#3AAEE8}.prog-lead{background:#FF9A4D}#resources{background:#3FD9C5}.join-band{background:#FF9A4D !important}.foot-big:hover{text-decoration-color:#FFD23F}
+/* from calm.css */
+#how{--c:#3AAEE8}#results{--c:#A6D93A}#specialists{--c:#E8489C}#exams{--c:#FF9A4D}#rates{--c:#FFD23F}#match{--c:#FFD23F}#faq{--c:#E8489C}#match .sw{--c:#FFD23F}#programmes{--c:#FF9A4D}#notes{--c:#3FD9C5}#promise{--c:#E8489C}.promise-grid li:nth-child(6n+1) h3{text-decoration-color:#E8489C}.promise-grid li:nth-child(6n+2) h3{text-decoration-color:#3AAEE8}.promise-grid li:nth-child(6n+3) h3{text-decoration-color:#FFD23F}.promise-grid li:nth-child(6n+4) h3{text-decoration-color:#A6D93A}.promise-grid li:nth-child(6n+5) h3{text-decoration-color:#FF9A4D}.promise-grid li:nth-child(6n) h3{text-decoration-color:#3FD9C5}.try-free{background:#FFD23F}#free{--c:#A6D93A}.paper-grid > li:nth-child(6n+1){box-shadow:6px 6px 0 #FFD23F}.paper-grid > li:nth-child(6n+2){box-shadow:6px 6px 0 #3AAEE8}.paper-grid > li:nth-child(6n+3){box-shadow:6px 6px 0 #A6D93A}.paper-grid > li:nth-child(6n+4){box-shadow:6px 6px 0 #E8489C}.paper-grid > li:nth-child(6n+5){box-shadow:6px 6px 0 #FF9A4D}.paper-grid > li:nth-child(6n){box-shadow:6px 6px 0 #3FD9C5}nav.main a.on{background:#FFD23F}.season{background:#FFD23F}.calc-out b{background:#FFD23F}#vs{--c:#FF9A4D}.vs-table td:last-child{background:rgba(255,154,77,.08)}
+/* from calm2.css */
+.join-gets li::before{background:#FF9A4D}#cta-end .wrap::before{background:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cdefs%3E%3ClinearGradient id="g0" gradientUnits="userSpaceOnUse" x1="50" y1="10" x2="84.6" y2="30"%3E%3Cstop offset="0.00" stop-color="%23B3CE3F"/%3E%3Cstop offset="1.00" stop-color="%23F1B55D"/%3E%3C/linearGradient%3E%3ClinearGradient id="g1" gradientUnits="userSpaceOnUse" x1="84.6" y1="30" x2="84.6" y2="70"%3E%3Cstop offset="0.00" stop-color="%23F1B55D"/%3E%3Cstop offset="1.00" stop-color="%23E58346"/%3E%3C/linearGradient%3E%3ClinearGradient id="g2" gradientUnits="userSpaceOnUse" x1="84.6" y1="70" x2="50" y2="90"%3E%3Cstop offset="0.00" stop-color="%23E58346"/%3E%3Cstop offset="1.00" stop-color="%23A93A86"/%3E%3C/linearGradient%3E%3ClinearGradient id="g3" gradientUnits="userSpaceOnUse" x1="50" y1="90" x2="15.4" y2="70"%3E%3Cstop offset="0.00" stop-color="%23A93A86"/%3E%3Cstop offset="1.00" stop-color="%239A3794"/%3E%3C/linearGradient%3E%3ClinearGradient id="g4" gradientUnits="userSpaceOnUse" x1="15.4" y1="70" x2="15.4" y2="30"%3E%3Cstop offset="0.00" stop-color="%239A3794"/%3E%3Cstop offset="1.00" stop-color="%232B92CC"/%3E%3C/linearGradient%3E%3ClinearGradient id="g5" gradientUnits="userSpaceOnUse" x1="15.4" y1="30" x2="50" y2="10"%3E%3Cstop offset="0.00" stop-color="%232B92CC"/%3E%3Cstop offset="0.50" stop-color="%2341C4B6"/%3E%3Cstop offset="1.00" stop-color="%23B3CE3F"/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill="none" stroke-width="10" stroke-linecap="round"%3E%3Cpath d="M50 10L84.6 30" stroke="url(%23g0)"/%3E%3Cpath d="M84.6 30L84.6 70" stroke="url(%23g1)"/%3E%3Cpath d="M84.6 70L50 90" stroke="url(%23g2)"/%3E%3Cpath d="M50 90L15.4 70" stroke="url(%23g3)"/%3E%3Cpath d="M15.4 70L15.4 30" stroke="url(%23g4)"/%3E%3Cpath d="M15.4 30L50 10" stroke="url(%23g5)"/%3E%3C/g%3E%3C/svg%3E') center/contain no-repeat}
+/* from polish.css */
+main > .hero .season{background:#FFD23F}main > .hero .proof b{background:#FFD23F}main > .hero .btn:not(.ghost){background:#FFD23F !important;border-color:#FFD23F !important}#how .numbered > li{border-top:4px solid var(--a,#FFD23F) !important}#how .numbered > li:nth-child(1){--a:#E8489C}#how .numbered > li:nth-child(2){--a:#FF9A4D}#how .numbered > li:nth-child(3){--a:#3AAEE8}#how .numbered > li:nth-child(4){--a:#A6D93A}#essaylab h2 .sw{background:#FFD23F !important}#essaylab .btn:not(.ghost){background:#FFD23F !important;border-color:#FFD23F !important}.el-demo .bar i{background:#E8489C}.el-demo .bar i:nth-child(2){background:#FFD23F}.el-demo .bar i:nth-child(3){background:#A6D93A}.el-demo mark{background:#FFD23F}.el-demo mark.p{background:#E8489C}#essaylab .el-demo .note{border-left:4px solid #E8489C}#essaylab .el-demo .note.y{border-color:#FFD23F}.notes-group{--cv:#FFD23F}#notes-olevel{--cv:#3AAEE8}#notes-alevel{--cv:#E8489C}#notes-secondary{--cv:#B65CD6}#notes-bundles{--cv:#A6D93A}.notes-grid .note-card > ul li::before{color:#A6D93A}
+
+/* ===== MIX (6 Nov 2026, team vote: Gemini x2 + ChatGPT all said MIX; Chrissy "do what else they agree on")
+   Paper backgrounds for trust; full-strength colour only on swipes, buttons, badges and card tops;
+   Bold's ink outlines + offset shadows on key cards; Fade's dark glow for EssayLab only; plain rate cards;
+   results moved up under the hero; free resources, masterclasses and shop moved lower. */
+/* 1. Homepage order (CSS only, no layout flash) */
+body > main:has(> .hero) { display:flex; flex-direction:column; }
+main > .hero{order:1} main > .crests{order:2} main > #results{order:3} main > #how{order:4} main > #specialists{order:5}
+main > #vs{order:6} main > #promise{order:7} main > #exams{order:8} main > #rates{order:9} main > #match{order:10}
+main > #free{order:11} main > #time{order:12} main > #programmes{order:13} main > #notes{order:14} main > #resources{order:15}
+main > #faq{order:16} main > #cta-end{order:17}
+/* 2. Hero: paper background, colour in the badges, button and an outlined visual with a blue offset block */
+main > .hero { background:#FFFDF6 !important; color:#16181D; }
+main > .hero h1, main > .hero .lede, main > .hero .lede b, main > .hero .facts li, main > .hero .not-tutors, main > .hero .match-promise, main > .hero .reply-time, main > .hero .proof, main > .hero .proof a, main > .hero a:not(.btn) { color:#16181D !important; }
+main > .hero .season { background:#FFD23F !important; color:#16181D !important; }
+main > .hero .proof b { background:#A6D93A !important; color:#16181D !important; border:2px solid #16181D; }
+main > .hero .btn:not(.ghost) { background:#FF9A4D !important; border:2px solid #16181D !important; color:#16181D !important; box-shadow:4px 4px 0 #16181D; }
+main > .hero .btn.ghost { background:#FFFDF6 !important; border:2px solid #16181D !important; color:#16181D !important; }
+main > .hero .mosaic, main > .hero .mosaic.has-match-visual { border:2px solid #16181D; box-shadow:10px 10px 0 #3AAEE8 !important; }
+/* 3. Outlined cards with offset shadows and a solid colour top (Specialist steps, shop) */
+#how .numbered > li, .notes-grid .note-card { border:2px solid #16181D !important; box-shadow:6px 6px 0 #16181D !important; }
+#how .numbered > li:nth-child(1){border-top:10px solid #E8489C !important} #how .numbered > li:nth-child(2){border-top:10px solid #FF9A4D !important}
+#how .numbered > li:nth-child(3){border-top:10px solid #3AAEE8 !important} #how .numbered > li:nth-child(4){border-top:10px solid #A6D93A !important}
+.notes-group { --cv:#FF9A4D; } #notes-olevel { --cv:#3AAEE8; } #notes-alevel { --cv:#E8489C; } #notes-secondary { --cv:#B65CD6; } #notes-bundles { --cv:#A6D93A; }
+.notes-grid .note-card .paper-tag { background:var(--cv) !important; padding:22px 20px 16px !important; border-bottom:2px solid #16181D; }
+/* hover pop */
+#how .numbered > li, .notes-grid .note-card, main .btn { transition:transform .15s ease, box-shadow .15s ease; }
+#how .numbered > li:hover, .notes-grid .note-card:hover { transform:translate(-3px,-3px) !important; box-shadow:9px 9px 0 #16181D !important; }
+main .btn:not(.ghost):hover { transform:translate(-2px,-2px) !important; box-shadow:6px 6px 0 #16181D !important; }
+/* 4. Rates: plain paper cards, one thin colour line, clear prices */
+#rates ul.rates > li { background:#FFFFFF !important; border:1px solid rgba(22,24,29,.14) !important; border-top:4px solid #3AAEE8 !important; box-shadow:0 4px 18px rgba(22,24,29,.06) !important; }
+/* 5. EssayLab: dark with Fade's coloured glow */
+#resources:has(#essaylab), #essaylab-band { color:#FFFDF6; background: radial-gradient(120% 80% at 100% 0%, rgba(58,174,232,.45), rgba(58,174,232,0) 60%), radial-gradient(90% 70% at 0% 100%, rgba(166,217,58,.38), rgba(166,217,58,0) 60%), #16181D !important; }
+#essaylab h2 .sw { background:#3FD9C5 !important; color:#16181D !important; }
+#essaylab .btn:not(.ghost) { background:#3FD9C5 !important; border:2px solid #FFFDF6 !important; color:#16181D !important; }
+@media (prefers-reduced-motion: reduce) { #how .numbered > li:hover, .notes-grid .note-card:hover, main .btn:hover { transform:none !important; } }
+
+/* ===== BRAND PALETTE (6 Nov 2026, Chrissy: 'use the same colours [as the TH logo] but highlighter. Make this the brand colours')
+   Highlighter versions of the logo colours. Overrides colours set in HTML/SVG attributes and the dots script. */
+[fill="#F0487A" i]{fill:#E8489C} [stroke="#F0487A" i]{stroke:#E8489C} [style*="background:#F0487A" i]{background:#E8489C !important}
+[fill="#F7661C" i]{fill:#FF9A4D} [stroke="#F7661C" i]{stroke:#FF9A4D} [style*="background:#F7661C" i]{background:#FF9A4D !important}
+[fill="#3FA7E1" i]{fill:#3AAEE8} [stroke="#3FA7E1" i]{stroke:#3AAEE8} [style*="background:#3FA7E1" i]{background:#3AAEE8 !important}
+[fill="#A04BD8" i]{fill:#B65CD6} [stroke="#A04BD8" i]{stroke:#B65CD6} [style*="background:#A04BD8" i]{background:#B65CD6 !important}
+[fill="#EEF03A" i]{fill:#FFD23F} [stroke="#EEF03A" i]{stroke:#FFD23F} [style*="background:#EEF03A" i]{background:#FFD23F !important}
+[fill="#2BD4E8" i]{fill:#3FD9C5} [stroke="#2BD4E8" i]{stroke:#3FD9C5} [style*="background:#2BD4E8" i]{background:#3FD9C5 !important}
+[fill="#3FBF4F" i]{fill:#A6D93A} [stroke="#3FBF4F" i]{stroke:#A6D93A} [style*="background:#3FBF4F" i]{background:#A6D93A !important}
+
+/* ===== TYPE (6 Nov 2026, Chrissy liked her dark logo mockup: serif wordmark + wide sans EDUCATION; "These fonts for the page")
+   Serif (Cormorant Garamond) for the wordmark and headings; Plus Jakarta Sans stays for body text and EDUCATION. */
+:root { --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif; }
+.logo .w1 { font-family:var(--serif) !important; font-weight:600 !important; letter-spacing:.03em !important; font-size:1.6rem !important; line-height:1 !important; }
+.logo .w2 { font-family:"Plus Jakarta Sans", system-ui, sans-serif !important; font-weight:500 !important; font-size:.72rem !important; letter-spacing:.42em !important; margin-top:4px; }
+header.site .logo .w1 { font-size:1.75rem !important; }
+@media (max-width:700px){ header.site .logo .w1 { font-size:1.3rem !important; } header.site .logo .w2 { font-size:.6rem !important; letter-spacing:.36em !important; } }
+main h1, main h2, main h3, .section-head h2, .page-hero h1, .page-top h1, .foot-sign, .cta-end h2, .shop-pick h2, .notes-group > h3, details summary, .quotes blockquote:first-child p {
+  font-family:var(--serif) !important; font-weight:600 !important; letter-spacing:-.005em !important; }
+.hero h1, main h1 { font-size:clamp(2.6rem,4.8vw,3.6rem) !important; line-height:1.04 !important; }
+main h2, .section-head h2 { font-size:clamp(2rem,3vw,2.6rem) !important; line-height:1.1 !important; }
+main h3 { font-size:clamp(1.3rem,1.6vw,1.55rem) !important; }
+details summary { font-size:1.3rem !important; }
+main h1 *, main h2 *, main h3 *, .section-head h2 * { font-family:inherit !important; font-weight:inherit !important; }
