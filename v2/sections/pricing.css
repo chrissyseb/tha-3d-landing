@@ -1,0 +1,65 @@
+/* pricing: two plans, one surface step. Tokens and .btn come from hero.css */
+#pricing{padding-top:128px}
+#pricing h2{margin:0;font:400 var(--type-fs-h2)/var(--type-lh-h2) var(--serif);text-wrap:balance}
+#pricing .pr-fact{margin:8px 0 0;font:400 var(--type-fs-h3)/var(--type-lh-h3) var(--serif);color:var(--ink);text-wrap:balance}
+
+#pricing .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:8px;margin-top:48px}
+#pricing .plan{display:grid;grid-row:span 9;grid-template-rows:subgrid;grid-template-columns:minmax(0,1fr);padding:48px;border-radius:24px}
+#pricing .plan-free{background:none}
+#pricing .plan-paid{background:var(--well)}
+#pricing .plan h3{margin:0;font:400 var(--type-fs-h3)/var(--type-lh-h3) var(--serif)}
+#pricing .price{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 24px;margin:16px 0 0;font:400 var(--type-fs-h1)/var(--type-lh-h1) var(--serif);letter-spacing:-.02em}
+#pricing .pen{font:400 24px/40px var(--hand);letter-spacing:0;color:var(--pen);display:inline-block;transform:rotate(-2deg);transform-origin:left center;white-space:nowrap}
+#pricing .plan-sum{margin:16px 0 0;color:var(--soft);text-wrap:pretty}
+#pricing .plan-sum span{display:block;color:var(--ink)}
+#pricing .plan-cta{display:flex;gap:8px;margin-top:32px}
+#pricing .plan-cta .btn{flex:1 1 0;min-width:0;padding:0 16px;white-space:nowrap}
+#pricing .btn-quiet{background:var(--well);color:var(--ink)}
+#pricing .plan-paid .btn-quiet{background:var(--surface)}
+@media (hover:hover) and (pointer:fine){#pricing .btn-quiet:hover{background:#E9E7E3}}
+#pricing .plan ul{display:grid;grid-row:span 5;grid-template-rows:subgrid;margin:32px 0 0;padding:0;list-style:none}
+#pricing .plan li{position:relative;padding:0 0 16px 32px}
+#pricing .plan li:last-child{padding-bottom:0}
+#pricing .ck{position:absolute;left:0;top:2px;width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+#pricing .pr-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:8px;margin-top:32px;font-size:var(--type-fs-small);line-height:20px;color:var(--soft)}
+#pricing .pr-notes p{margin:0}
+#pricing .pr-notes b{display:block;font-weight:500;color:var(--ink);margin-bottom:8px}
+#pricing .pr-notes a{color:var(--ink);text-underline-offset:3px}
+@media (hover:hover) and (pointer:fine){#pricing .pr-notes a:hover{color:var(--soft)}}
+#pricing .note-free{padding:0 48px}
+#pricing .note-free p + p{margin-top:8px}
+#pricing .note-free a{font-weight:500}
+#pricing .note-paid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 32px;padding:0 48px}
+#pricing .note-all{grid-column:1/-1;text-wrap:balance}
+
+@media (max-width:1100px){
+ #pricing .plan{padding:32px}
+ #pricing .price{font-size:52px;line-height:58px;gap:0 16px}
+ #pricing .note-free,#pricing .note-paid{padding:0 32px}
+}
+@media (max-width:899px){
+ #pricing{padding-top:96px}
+ #pricing h2{font-size:var(--type-fs-h2);line-height:40px}
+ #pricing .plans{grid-template-columns:minmax(0,1fr);row-gap:8px;margin-top:32px}
+ #pricing .plan{display:block;padding:32px 24px}
+ #pricing .price{font-size:var(--type-fs-h1);line-height:44px;gap:0 16px}
+ #pricing .pen{font-size:var(--type-fs-lead);line-height:32px}
+ #pricing .plan-cta{flex-direction:column}
+ #pricing .plan-cta .btn{flex:0 0 48px}
+ #pricing .plan ul{display:block}
+ #pricing .pr-notes{grid-template-columns:minmax(0,1fr);row-gap:24px}
+ #pricing .note-free,#pricing .note-paid{padding:0}
+ #pricing .note-paid{grid-template-columns:minmax(0,1fr)}
+ #pricing .note-free a{display:inline-block;padding:12px 0}
+ #pricing .note-free p + p{margin-top:0}
+ #pricing .note-all a{display:inline-block;padding:12px 0;margin:-12px 0}
+}
+@media (min-width:360px){
+ #pricing .keep{white-space:nowrap}
+}
+@media (prefers-reduced-motion:reduce){
+ }
+
+#pricing .price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 24px;margin:16px 0 0}
+#pricing .price-row .price{margin:0}

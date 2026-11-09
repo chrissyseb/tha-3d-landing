@@ -1,0 +1,23 @@
+/* Crest banner. Sits inside .container; the moving row bleeds to the page edge using --edge. */
+#crest{padding-top:128px}
+#crest .crest-title{margin:0;font:400 var(--type-fs-h3)/var(--type-lh-h3) var(--serif);color:var(--ink)}
+#crest .crest-wrap{margin:32px calc(var(--edge) * -1) 0;overflow:hidden;}
+#crest .crest-track{display:flex;width:max-content;animation:crest-marq 200s linear infinite}
+@media (hover:hover) and (pointer:fine){#crest .crest-wrap:hover .crest-track{animation-play-state:paused}}
+#crest .crest-set{display:flex;align-items:center;gap:48px;margin:0;padding:0 48px 0 0;list-style:none}
+#crest .crest-set li{display:flex;align-items:center;gap:16px;height:48px;white-space:nowrap;font-size:var(--type-fs-small);line-height:20px;color:var(--soft)}
+#crest .crest-set img{flex:none;display:block;}
+
+#crest .crest-note{margin:32px 0 0;font-size:var(--type-fs-small);line-height:20px;color:var(--soft)}
+@keyframes crest-marq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+ #crest .crest-track{animation:none}
+ #crest .crest-copy{display:none}
+ #crest .crest-wrap{overflow-x:auto}
+}
+@media (max-width:899px){
+ #crest{padding-top:96px}
+ #crest .crest-title{text-align:left}
+ #crest .crest-wrap{margin-top:24px;}
+ #crest .crest-note{margin-top:24px}
+}

@@ -1,331 +1,434 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-SG">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Exam Preparation Specialists in Singapore | Thinking Hack Education</title>
-<meta name="description" content="Specialist exam preparation built around the paper, the marking scheme and the marks each student needs. Matched Exam Preparation Specialists™ and purpose-built exam resources, from PSLE to O-Levels and A-Levels.">
-<link rel="canonical" href="./">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="copyright" content="© 2026 Christine Sebastian. All rights reserved.">
+<meta name="author" content="Thinking Hack™">
+<title>PSLE, O-Level and GP Essay Marking in Singapore | EssayLabsg™</title>
+<link rel="icon" href="./favicon.ico?v=10" sizes="48x48"><link rel="icon" href="./favicon.svg?v=10" type="image/svg+xml"><link rel="apple-touch-icon" href="./apple-touch-icon.png?v=10"><link rel="manifest" href="./site.webmanifest?v=10">
+<meta name="description" content="3 free instant markings for PSLE English, O-Level English and GP, in about a minute. AL, band or grade against SEAB and Cambridge criteria, with red-pen fixes.">
+<link rel="canonical" href="https://essaylab-sg.vercel.app/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Know how it's marked | Thinking Hack Education">
-<meta property="og:description" content="Specialist exam preparation built around the paper and the marking scheme: matched Exam Preparation Specialists™ and exam resources, from PSLE to A-Level.">
-<meta property="og:url" content="./">
-<meta property="og:image" content="./og.png">
+<meta property="og:image" content="https://essaylab-sg.vercel.app/og-square.jpg?v=10">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="EssayLabsg™ logo">
+<meta property="og:image" content="https://essaylab-sg.vercel.app/og.jpg?v=10">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="EssayLabsg™ logo">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="./favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="./styles.css?v=9">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization","name":"Thinking Hack","url":"./","telephone":"+65 9003 0002","areaServed":"SG","description":"Singapore exam preparation agency: specialist exam preparation built around the paper and the marking scheme, with matched Exam Preparation Specialists, masterclasses and exam resources for PSLE, O-Level and A-Level."}</script>
-</head>
-<body>
-<a class="skip" href="#top">Skip to content</a>
-
-<header class="site">
-  <div class="wrap">
-    <a class="logo" href="#top" aria-label="Thinking Hack home"><span class="w1">THINKING HACK</span><span class="w2">EDUCATION</span></a>
-    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav">Menu</button>
-    <nav class="main" id="main-nav" aria-label="Main">
-      <a href="#how">How it works</a>
-            <a href="#results">Results</a>
-      <a href="#rates">Rates</a>
-      <a href="./resources">Resources</a>
-      <a class="btn small" href="#match">Get matched</a>
-    </nav>
-  </div>
+<meta name="twitter:image" content="https://essaylab-sg.vercel.app/og.jpg?v=10">
+<meta property="og:site_name" content="EssayLabsg™">
+<meta property="og:title" content="PSLE, O-Level and GP essay marking | EssayLabsg™">
+<meta property="og:description" content="PSLE, O-Level, A-Level GP, IB &amp; IGCSE essay marking. 3 free instant markings, or detailed reports by Exam Preparation Specialists™.">
+<meta property="og:url" content="https://essaylab-sg.vercel.app/">
+<meta property="og:locale" content="en_SG">
+<meta name="theme-color" content="#FDFCFC">
+<link rel="preload" href="./fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./fonts/caveat.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./v2/tokens.css">
+<link rel="stylesheet" href="./v2/legacy.css">
+<link rel="stylesheet" href="./v2/hero.css">
+<link rel="stylesheet" href="./v2/sections/proof.css">
+<link rel="stylesheet" href="./v2/sections/product.css">
+<link rel="stylesheet" href="./v2/sections/how.css">
+<link rel="stylesheet" href="./v2/sections/crest.css">
+<link rel="stylesheet" href="./v2/sections/classes.css">
+<link rel="stylesheet" href="./v2/sections/sample.css">
+<link rel="stylesheet" href="./v2/sections/faq.css">
+<link rel="stylesheet" href="./v2/sections/pricing.css">
+<link rel="stylesheet" href="./v2/sections/footer.css">
+<link rel="stylesheet" href="./v2/home.css">
+<link rel="stylesheet" href="./v2/roles.css">
+<script>
+// Owner pass: after Chrissy logs in to ?admin on this device, marking requests carry her key (from this browser's storage only).
+(() => { let k = ""; try{ k = localStorage.getItem("ec_admin") || ""; }catch{} if(!k) return;
+  const f = window.fetch.bind(window); window.fetch = (u, o = {}) => { if(String(u).startsWith("/api/mark")) o = {...o, headers: {...(o.headers || {}), "X-Owner-Key": k}}; return f(u, o); }; })();
+</script>
+<script>(function(){var q=location.search,h=location.hash;if(q||/^#(planBox|mark|msg|sample|refer)/.test(h)){location.replace("/app.html"+q+h);}})();</script>
+<script>/* forward payment returns */(function(){var q=location.search;if(/[?&](once|sub)=/.test(q))location.replace("/thanks.html"+q);})();</script>
+<script src="./example-names.js" defer></script>
+<script src="./exam-dates.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://essaylab-sg.vercel.app/#org", "name": "Thinking Hack", "url": "https://essaylab-sg.vercel.app/", "logo": "https://essaylab-sg.vercel.app/apple-touch-icon.png", "founder": {"@type": "Person", "name": "Christine Sebastian"}, "areaServed": "SG"}, {"@type": "WebSite", "@id": "https://essaylab-sg.vercel.app/#site", "name": "EssayLabsg", "alternateName": "EssayLabsg Singapore", "url": "https://essaylab-sg.vercel.app/", "inLanguage": "en-SG", "publisher": {"@id": "https://essaylab-sg.vercel.app/#org"}}, {"@type": "WebApplication", "name": "EssayLabsg", "url": "https://essaylab-sg.vercel.app/app.html", "applicationCategory": "EducationalApplication", "operatingSystem": "Web", "inLanguage": "en-SG", "description": "Singapore exam essay marking for PSLE, O-Level, A-Level GP, IB and IGCSE, against the published criteria.", "publisher": {"@id": "https://essaylab-sg.vercel.app/#org"}, "offers": [{"@type": "Offer", "name": "Free instant marking", "price": "0", "priceCurrency": "SGD"}, {"@type": "Offer", "name": "Detailed feedback, 4 reports", "price": "39", "priceCurrency": "SGD"}]}, {"@type": "Course", "name": "PSLE English holiday masterclass", "description": "Holiday masterclass for P5 to P6. Four weekly online sessions of 1.5 hours each, Tuesdays 10 to 11.30am, in small groups of up to 6, taught by our Exam Preparation Specialists™.", "provider": {"@id": "https://essaylab-sg.vercel.app/#org"}, "inLanguage": "en-SG", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "startDate": "2026-11-24", "endDate": "2026-12-15", "courseWorkload": "PT6H"}}, {"@type": "Course", "name": "PSLE Composition holiday masterclass", "description": "Holiday masterclass for P5 to P6. Four weekly online sessions of 1.5 hours each, Saturdays 7.30 to 9pm, in small groups of up to 6, taught by our Exam Preparation Specialists™.", "provider": {"@id": "https://essaylab-sg.vercel.app/#org"}, "inLanguage": "en-SG", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "startDate": "2026-11-21", "endDate": "2026-12-12", "courseWorkload": "PT6H"}}, {"@type": "Course", "name": "O-Level English holiday masterclass", "description": "Holiday masterclass for Sec 3 to 4. Four weekly online sessions of 1.5 hours each, Tuesdays 2 to 3.30pm, in small groups of up to 6, taught by our Exam Preparation Specialists™.", "provider": {"@id": "https://essaylab-sg.vercel.app/#org"}, "inLanguage": "en-SG", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "startDate": "2026-11-24", "endDate": "2026-12-15", "courseWorkload": "PT6H"}}, {"@type": "Course", "name": "Secondary Humanities holiday masterclass", "description": "Holiday masterclass in Social Studies and History SBQ. Four weekly online sessions of 1.5 hours each, Sundays 7 to 8.30pm, in small groups of up to 6, taught by our Exam Preparation Specialists™.", "provider": {"@id": "https://essaylab-sg.vercel.app/#org"}, "inLanguage": "en-SG", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "startDate": "2026-11-22", "endDate": "2026-12-13", "courseWorkload": "PT6H"}}, {"@type": "Course", "name": "JC General Paper holiday masterclass", "description": "Holiday masterclass for JC1 to JC2. Four weekly online sessions of 1.5 hours each, Tuesdays 4 to 5.30pm, in small groups of up to 6, taught by our Exam Preparation Specialists™.", "provider": {"@id": "https://essaylab-sg.vercel.app/#org"}, "inLanguage": "en-SG", "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online", "startDate": "2026-11-24", "endDate": "2026-12-15", "courseWorkload": "PT6H"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much does EssayLabsg cost?", "acceptedAnswer": {"@type": "Answer", "text": "Instant marking is free: 3 markings for PSLE English, O-Level English and A-Level GP. The first needs no sign-up, the other 2 need your email. Detailed feedback is S$39 for 4 reports, as a Monthly plan by card, Apple Pay or Google Pay (renews monthly, cancel any time) or a 31-day pass by PayNow, GrabPay, card or Google Pay (one-off, no renewal)."}}, {"@type": "Question", "name": "Which exams and papers can EssayLabsg mark?", "acceptedAnswer": {"@type": "Answer", "text": "13 papers: PSLE English and Situational Writing, O-Level English and Situational Writing, O-Level Literature, Social Studies, History and Geography, A-Level General Paper (Paper 1 and the Paper 2 AQ), IB English Lang & Lit (Paper 1 and Paper 2) and IGCSE English. Free marking covers PSLE English, O-Level English and A-Level GP."}}, {"@type": "Question", "name": "How accurate is the score?", "acceptedAnswer": {"@type": "Answer", "text": "Every essay is marked against its paper's published SEAB, Cambridge or IB criteria, criterion by criterion. The score is an estimate for that one paper, to guide revision. It isn't a prediction of your overall exam grade, and your school's or examiner's mark may differ. EssayLabsg™ is not affiliated with or endorsed by SEAB, Cambridge Assessment or the IB."}}, {"@type": "Question", "name": "Who are the Exam Preparation Specialists?", "acceptedAnswer": {"@type": "Answer", "text": "The team behind EssayLabsg™ and Thinking Hack™. They mark to the published SEAB criteria, use the Thinking Hack™ frameworks, and teach our Masterclasses and classes. Free instant results are marked by AI; detailed reports are marked by Exam Preparation Specialists™."}}, {"@type": "Question", "name": "Can I upload a handwritten essay?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Snap one clear photo of one page, taken flat in good light, and EssayLabsg™ reads and marks it."}}, {"@type": "Question", "name": "How fast will I get my results?", "acceptedAnswer": {"@type": "Answer", "text": "Free instant marking takes about a minute. Detailed feedback is marked by Exam Preparation Specialists™ and ready within 48 hours."}}, {"@type": "Question", "name": "Who marks it?", "acceptedAnswer": {"@type": "Answer", "text": "Free instant marking is done by AI against the published criteria, using the frameworks our Exam Preparation Specialists™ teach. Detailed reports are marked by Exam Preparation Specialists™ and ready within 48 hours."}}, {"@type": "Question", "name": "Is my essay kept private?", "acceptedAnswer": {"@type": "Answer", "text": "Free essays aren't kept unless you tick the teaching-example box when you hand in. Detailed reports, challenge entries and messages are kept as set out in our Privacy Policy."}}]}]}</script>
+<link rel="stylesheet" href="./v2/nav.css"><link rel="stylesheet" href="./v2/print.css" media="print"></head>
+<body class="opt-a">
+<a class="skip" href="#handin">Skip to the essay box</a>
+<header class="nav">
+ <div class="container nav-in">
+  <a class="brand" href="#top" aria-label="EssayLabsg™ home"><span class="brand-orb" aria-hidden="true"></span><span class="brand-word">EssayLab<span class="brand-sg">sg</span><sup class="brand-tm">™</sup></span><span class="brand-by">by Thinking Hack™</span></a>
+  <nav class="nav-links" aria-label="Main"><a href="#sample-report">Sample report</a><a href="#pricing">Pricing</a><a href="#masterclasses">Masterclasses</a><a href="./about.html">About</a><a href="#faq">FAQ</a></nav>
+  <a class="btn btn-sm" href="#handin">Mark my essay</a>
+  <button class="burger" type="button" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+ </div>
 </header>
-
-<main id="top">
-  <section class="hero">
-    <picture>
-  <source srcset="/img/psle-english.webp" type="image/webp">
-  <img src="./img/psle-english.jpg" alt="A page from our PSLE English notes" style="width:100%;height:auto;object-fit:cover" sizes="100vw" style="display:block">
-</picture>
-
-<picture>
-  <source srcset="/img/psle-mathematics.webp" type="image/webp">
-  <img src="./img/psle-mathematics.jpg" alt="PSLE Mathematics sample" style="width:100%;height:auto;object-fit:cover" sizes="100vw" style="display:block">
-</picture>
-
-<picture>
-  <source srcset="/img/psle-science.webp" type="image/webp">
-  <img src="./img/psle-science.jpg" alt="PSLE Science sample" style="width:100%;height:auto;object-fit:cover" sizes="100vw" style="display:block">
-</picture>
-
-<picture>
-  <source srcset="/img/sec-english.webp" type="image/webp">
-  <img src="./img/sec-english.jpg" alt="Secondary English sample" style="width:100%;height:auto;object-fit:cover" sizes="100vw" style="display:block">
-</picture>
-
-<picture>
-  <source srcset="/img/sec-literature.webp" type="image/webp">
-  <img src="./img/sec-literature.jpg" alt="Secondary Literature sample" style="width:100%;height:auto;object-fit:cover" sizes="100vw" style="display:block">
-</picture>
-
-<picture>
-  <source srcset="/img/a-level-gp.webp" type="image/webp">
-  <img src="./img/a-level-gp.jpg" alt="A-Level GP sample" style="width:100%;height:auto;object-fit:cover" sizes="100vw" style="display:block">
-</picture>
-    <div class="hero-content">
-      <span class="eyebrow">Exam Preparation Specialists™</span>
-      <h1>Exam Preparation Specialists™, matched to the <em>exact paper</em> your child will sit.</h1>
-      <p class="lede"><b class="hero-sign">Know how it’s marked.</b> Every Specialist plans around the marks your child still needs, from PSLE to A-Level and IB.</p>
-      <div class="proof">We match your child with an Exam Preparation Specialist™ for the exact paper they will sit, then build the plan around the marks they still need.</div>
-      <div class="season">Free matching</div>
-      <div class="not-tutors">We are not tutors. We are Exam Preparation Specialists.</div>
-      <div class="match-promise">Free re-match if it isn't the right fit</div>
-      <div class="reply-time">WhatsApp reply within 1 working day</div>
-      <div class="btn small" id="match">Get matched</div>
+<main class="container">
+<section class="hero" id="top">
+  <div class="hero-grid">
+   <div class="hero-copy">
+    <h1>Essays, <em class="scribble">marked<svg class="scrib" viewBox="0 0 200 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M3 15 C 40 6, 90 5, 132 9 S 186 15, 197 7" pathLength="1"/><path d="M14 21 C 60 15, 120 15, 170 18" pathLength="1"/></svg></em> like the real exam</h1>
+    <div class="hero-side">
+     <p class="lead">Paste your essay or snap a photo of your script. In about a minute you get an AL, band or grade, red-pen comments and the one fix worth the most marks.</p>
+     <div class="cta-row"><a class="btn btn-lg" href="#handin">Mark my essay free</a><p class="free-note">3 free instant markings for PSLE English, <span class="nb">O-Level</span> English and <span class="nb">A-Level</span> GP. The first needs no sign-up.</p></div>
     </div>
-  </section>
-</main>
-
-<main>
-  <a name="how"></a>
-  <section id="how" class="section">
-    <div class="section-head">
-      <h2>How it works</h2>
-      <p>4 steps to matched exam preparation</p>
-    </div>
-    <ul class="numbered">
-      <li>
-        <span class="number">1</span>
-        <div>We match your child with an Exam Preparation Specialist™</div>
-      </li>
-      <li>
-        <span class="number">2</span>
-        <div>Specialist plans around the exact paper and marking scheme</div>
-      </li>
-      <li>
-        <span class="number">3</span>
-        <div>Timed practice with feedback on marks still needed</div>
-      </li>
-      <li>
-        <span class="number">4</span>
-        <div>Free re-match if the fit isn't right</div>
-      </li>
-    </ul>
-    <p class="vetting-steps">Free matching, matched within 48h, every enquiry matched, no trial, no contract, parents pay the Specialist directly only for lessons held, 24h cancel notice or 50% of that lesson's fee, free re-match, WhatsApp reply within 1 working day</p>
-  </section>
-
-  <a name="results"></a>
-  <section id="results" class="section">
-    <div class="section-head">
-      <h2>Results</h2>
-      <p>Purpose-built exam resources</p>
-    </div>
-    <div class="results-grid">
-      <div class="result-badge" id="how" style="--c:#3AAEE8">How it works</div>
-      <div class="result-badge" id="results">Results archive</div>
-      <div class="result-badge" id="specialists" style="--c:#E8489C">Specialists</div>
-      <div class="result-badge" id="exams" style="--c:#FF9A4D">Exam papers</div>
-    </div>
-  </section>
-
-  <a name="rates"></a>
-  <section id="rates" class="section">
-    <div class="section-head">
-      <h2>Rates <span class="sw">per hour</span></h2>
-      <p>Regular rates, per hour. Lesson fees are agreed with you before lessons start.</p>
-    </div>
-    <ul class="rates">
-      <li><span>P1–P4</span><b>$65/h</b></li>
-      <li><span>P5–P6 (PSLE)</span><b>$70/h</b></li>
-      <li><span>Sec 1–2</span><b>$80/h</b></li>
-      <li><span>Sec 3–4 (O-Level)</span><b>$85/h</b></li>
-      <li><span>IP</span><b>$100/h</b></li>
-      <li><span>JC1</span><b>$90/h</b></li>
-      <li><span>JC2</span><b>$95/h</b></li>
-      <li><span>IB</span><b>$105/h</b></li>
-    </ul>
-    <p class="rates-payment">Payment is collected on the first lesson of every block of 4 lessons.</p>
-  </section>
-
-  <a name="match"></a>
-  <section id="match" class="section">
-    <div class="section-head">
-      <h2>Get matched</h2>
-      <p>Tell us about your child's exam and we'll find the right Specialist</p>
-    </div>
-    <form id="match-form">
-      <div class="field">
-        <label>Exam paper</label>
-        <select><option>PSLE English</option><option>O-Level English</option><option>A-Level GP</option></select>
-      </div>
-      <div class="field">
-        <label>Target grade</label>
-        <select><option>AL1</option><option>AL2</option><option>AL3</option><option>AL4</option><option>AL5</option><option>AL6</option><option>AL7</option></select>
-      </div>
-      <div class="field">
-        <label>Available times</label>
-        <input type="range" min="0" max="100" class="time-slider"><span>0</span>
-      </div>
-      <button type="submit" class="btn">Submit</button>
-    </form>
-    <p class="click-track"><span>Click</span><b>tracking</b> enabled</p>
-  </section>
-
-  <a name="specialists"></a>
-  <section id="specialists" class="section">
-    <div class="section-head">
-      <h2>Specialists</h2>
-      <p>Matched Exam Preparation Specialists™</p>
-    </div>
-    <div class="spec-cards">
-      <!-- Specialist cards removed - no invented content -->
-    </div>
-  </section>
-
-  <a name="exams"></a>
-  <section id="exams" class="section">
-    <div class="section-head">
-      <h2>Exam papers</h2>
-      <p>Resources for PSLE, O-Level and A-Level</p>
-    </div>
-    <div class="paper-grid">
-      <!-- Paper cards -->
-    </div>
-  </section>
-
-  <section id="free" class="section">
-    <div class="section-head">
-      <h2>Free resources</h2>
-      <p>Practice papers and exam notes</p>
-    </div>
-    <div class="free-grid">
-      <div class="free-card">
-        <h3>PSLE English practice</h3>
-        <button class="btn free-paper">Free paper</button>
-      </div>
-      <div class="free-card">
-        <h3>O-Level English practice</h3>
-        <button class="btn free-paper">Free paper</button>
-      </div>
-      <div class="free-card">
-        <h3>A-Level GP practice</h3>
-        <button class="btn free-paper">Free paper</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="programmes" class="section">
-    <div class="section-head">
-      <h2>Programmes</h2>
-      <p>Masterclass and course information</p>
-    </div>
-    <!-- Masterclasses removed from preview -->
-  </section>
-
-  <section id="notes" class="section">
-    <div class="section-head">
-      <h2>Exam notes</h2>
-      <p>One pack per paper</p>
-    </div>
-    <div class="notes-grid">
-      <div class="note-card">
-        <div class="paper-tag">OL</div>
-        <h4>O-Level English Notes</h4>
-        <p>Comprehensive notes covering all exam components</p>
-        <ul>
-          <li>Essay writing</li>
-          <li>Comprehension</li>
-          <li>Summary</li>
-        </ul>
-        <div class="foot"><span class="soon">Waitlist open</span></div>
-      </div>
-      <div class="note-card">
-        <div class="paper-tag">PSLE</div>
-        <h4>PSLE English Notes</h4>
-        <p>Focused notes for PSLE exam components</p>
-        <ul>
-          <li>Composition</li>
-          <li>Comprehension</li>
-          <li>Oral</li>
-        </ul>
-        <div class="foot"><span class="soon">Waitlist open</span></div>
-      </div>
-      <div class="note-card">
-        <div class="paper-tag">ALEVEL</div>
-        <h4>A-Level GP Notes</h4>
-        <p>Essay and comprehension notes</p>
-        <ul>
-          <li>Essay skills</li>
-          <li>Comprehension techniques</li>
-          <li>Application questions</li>
-        </ul>
-        <div class="foot"><span class="soon">Waitlist open</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="resources" class="section">
-    <div class="section-head">
-      <h2>Resources</h2>
-      <p>Shop and additional materials</p>
-    </div>
-    <div class="shop-picks">
-      <div class="shop-pick">
-        <h2>Essay writing guide</h2>
-        <p>$25</p>
-      </div>
-      <div class="shop-pick">
-        <h2>Comprehension pack</h2>
-        <p>$30</p>
-      </div>
-    </div>
-  </section>
-
-  <a name="cta-end"></a>
-  <section id="cta-end">
-    <div class="wrap">
-      <h2>Ready to get started?</h2>
-      <p>Tell us about your child's exam and we'll match you with a Specialist.</p>
-      <div class="cta-end-btns">
-        <button class="btn small">Get matched</button>
-        <button class="btn ghost">Learn more</button>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="site">
-  <div class="wrap">
-    <div class="logo"><span class="w1">THINKING HACK</span><span class="w2">EDUCATION</span></div>
-    <ul>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#results">Results</a></li>
-      <li><a href="#rates">Rates</a></li>
-      <li><a href="./resources">Resources</a></li>
-      <li><a href="#match">Get matched</a></li>
-    </ul>
-    <p class="copyright">© 2026 Thinking Hack Education. All rights reserved.</p>
+   </div>
+   <div class="frame" data-ui><div class="tabs" role="tablist" aria-label="Sample marking by paper"></div><div class="stack"></div></div>
   </div>
+  <!--FACTS--><div class="proof" role="group" aria-label="Product facts">
+   <div><span class="proof-v">13</span><span class="proof-l">Exam papers, PSLE to IB, marked against the published SEAB, Cambridge and IB criteria</span></div>
+   <div><span class="proof-v">1 min</span><span class="proof-l">Free instant marking, ready in about a minute</span></div>
+   <div><span class="proof-v">48 hrs</span><span class="proof-l">Detailed reports, marked by Exam Preparation Specialists™</span></div>
+   <p class="definition">EssayLabsg™ marks Singapore exam essays (PSLE, O-Level, A-Level GP, IB and IGCSE) against the published criteria.</p>
+  </div><!--/FACTS-->
+  
+ <script src="./v2/hero.js"></script></section>
+
+<section id="crest" aria-labelledby="crest-title">
+ <h2 id="crest-title" class="crest-title" data-reveal>Our students come from</h2>
+ <div class="crest-wrap" data-reveal>
+  <div class="crest-track">
+   <ul class="crest-set"><li><img src="./img/schools/raffles-institution.webp" alt="Raffles Institution crest" width="27" height="40" loading="lazy" decoding="async">Raffles Institution</li><li><img src="./img/schools/hwa-chong-institution.webp" alt="Hwa Chong Institution crest" width="40" height="40" loading="lazy" decoding="async">Hwa Chong Institution</li><li><img src="./img/schools/nanyang-girls-high.webp" alt="Nanyang Girls&#x27; High crest" width="144" height="39" loading="lazy" decoding="async">Nanyang Girls' High</li><li><img src="./img/schools/raffles-girls-school.webp" alt="Raffles Girls' School crest" width="80" height="40" loading="lazy" decoding="async">Raffles Girls' School</li><li><img src="./img/schools/gan-eng-seng-school.webp" alt="Gan Eng Seng School crest" width="144" height="35" loading="lazy" decoding="async">Gan Eng Seng School</li><li><img src="./img/schools/acs-independent.webp" alt="ACS (Independent) crest" width="41" height="40" loading="lazy" decoding="async">ACS (Independent)</li><li><img src="./img/schools/acs-barker-road.webp" alt="ACS (Barker Road) crest" width="134" height="40" loading="lazy" decoding="async">ACS (Barker Road)</li><li><img src="./img/schools/methodist-girls-school.webp" alt="Methodist Girls&#x27; School crest" width="39" height="40" loading="lazy" decoding="async">Methodist Girls' School</li><li><img src="./img/schools/scgs.webp" alt="SCGS crest" width="127" height="40" loading="lazy" decoding="async">SCGS</li><li><img src="./img/schools/chij-st-nicholas.webp" alt="CHIJ St Nicholas crest" width="30" height="40" loading="lazy" decoding="async">CHIJ St Nicholas</li><li><img src="./img/schools/st-josephs-institution.webp" alt="St Joseph&#x27;s Institution crest" width="31" height="40" loading="lazy" decoding="async">St Joseph's Institution</li><li><img src="./img/schools/st-andrews.webp" alt="St Andrew&#x27;s crest" width="40" height="40" loading="lazy" decoding="async">St Andrew's</li><li><img src="./img/schools/catholic-high.webp" alt="Catholic High crest" width="40" height="40" loading="lazy" decoding="async">Catholic High</li><li><img src="./img/schools/dunman-high.webp" alt="Dunman High crest" width="143" height="40" loading="lazy" decoding="async">Dunman High</li><li><img src="./img/schools/anderson-secondary.webp" alt="Anderson Secondary School crest" width="42" height="40" loading="lazy" decoding="async">Anderson Secondary School</li><li><img src="./img/schools/nus-high.webp" alt="NUS High crest" width="75" height="40" loading="lazy" decoding="async">NUS High</li><li><img src="./img/schools/river-valley-high.webp" alt="River Valley High crest" width="65" height="40" loading="lazy" decoding="async">River Valley High</li><li><img src="./img/schools/victoria-school.webp" alt="Victoria School crest" width="34" height="40" loading="lazy" decoding="async">Victoria School</li><li><img src="./img/schools/woodlands-secondary-school.webp" alt="Woodlands Secondary School crest" width="33" height="40" loading="lazy" decoding="async">Woodlands Secondary School</li><li><img src="./img/schools/nanyang-jc.webp" alt="Nanyang JC crest" width="40" height="40" loading="lazy" decoding="async">Nanyang JC</li><li><img src="./img/schools/victoria-junior-college.webp" alt="Victoria Junior College crest" width="60" height="40" loading="lazy" decoding="async">Victoria JC</li><li><img src="./img/schools/eunoia-junior-college.webp" alt="Eunoia Junior College crest" width="40" height="40" loading="lazy" decoding="async">Eunoia Junior College</li><li><img src="./img/schools/anglo-chinese-jc.webp" alt="Anglo-Chinese JC crest" width="41" height="40" loading="lazy" decoding="async">Anglo-Chinese JC</li><li><img src="./img/schools/temasek-jc.webp" alt="Temasek JC crest" width="45" height="40" loading="lazy" decoding="async">Temasek JC</li><li><img src="./img/schools/millennia-institute.webp" alt="Millennia Institute crest" width="136" height="40" loading="lazy" decoding="async">Millennia Institute</li><li><img src="./img/schools/tao-nan-school.webp" alt="Tao Nan School crest" width="138" height="40" loading="lazy" decoding="async">Tao Nan</li><li><img src="./img/schools/henry-park-primary-school.webp" alt="Henry Park Primary School crest" width="40" height="40" loading="lazy" decoding="async">Henry Park</li><li><img src="./img/schools/rosyth-school.webp" alt="Rosyth School crest" width="38" height="40" loading="lazy" decoding="async">Rosyth</li><li><img src="./img/schools/chongfu-school.webp" alt="Chongfu School crest" width="25" height="40" loading="lazy" decoding="async">Chongfu School</li><li><img src="./img/schools/uwcsea.webp" alt="UWCSEA crest" width="144" height="19" loading="lazy" decoding="async">UWCSEA</li><li><img src="./img/schools/singapore-american-school.webp" alt="Singapore American School crest" width="40" height="40" loading="lazy" decoding="async">Singapore American School</li><li><img src="./img/schools/dulwich-college-singapore.webp" alt="Dulwich College Singapore crest" width="22" height="40" loading="lazy" decoding="async">Dulwich College</li><li><img src="./img/schools/stamford-american-international-school.webp" alt="Stamford American International School crest" width="32" height="40" loading="lazy" decoding="async">Stamford American</li><li><img src="./img/schools/canadian-international-school.webp" alt="Canadian International School crest" width="89" height="40" loading="lazy" decoding="async">Canadian International School</li><li><img src="./img/schools/australian-international-school.webp" alt="Australian International School crest" width="94" height="40" loading="lazy" decoding="async">Australian International School</li><li><img src="./img/schools/owis.webp" alt="OWIS logo" width="141" height="40" loading="lazy" decoding="async">OWIS</li></ul>
+   <ul class="crest-set crest-copy" aria-hidden="true"><li><img src="./img/schools/raffles-institution.webp" alt="" width="27" height="40" loading="lazy" decoding="async">Raffles Institution</li><li><img src="./img/schools/hwa-chong-institution.webp" alt="" width="40" height="40" loading="lazy" decoding="async">Hwa Chong Institution</li><li><img src="./img/schools/nanyang-girls-high.webp" alt="" width="144" height="39" loading="lazy" decoding="async">Nanyang Girls' High</li><li><img src="./img/schools/raffles-girls-school.webp" alt="" width="80" height="40" loading="lazy" decoding="async">Raffles Girls' School</li><li><img src="./img/schools/gan-eng-seng-school.webp" alt="" width="144" height="35" loading="lazy" decoding="async">Gan Eng Seng School</li><li><img src="./img/schools/acs-independent.webp" alt="" width="41" height="40" loading="lazy" decoding="async">ACS (Independent)</li><li><img src="./img/schools/acs-barker-road.webp" alt="" width="134" height="40" loading="lazy" decoding="async">ACS (Barker Road)</li><li><img src="./img/schools/methodist-girls-school.webp" alt="" width="39" height="40" loading="lazy" decoding="async">Methodist Girls' School</li><li><img src="./img/schools/scgs.webp" alt="" width="127" height="40" loading="lazy" decoding="async">SCGS</li><li><img src="./img/schools/chij-st-nicholas.webp" alt="" width="30" height="40" loading="lazy" decoding="async">CHIJ St Nicholas</li><li><img src="./img/schools/st-josephs-institution.webp" alt="" width="31" height="40" loading="lazy" decoding="async">St Joseph's Institution</li><li><img src="./img/schools/st-andrews.webp" alt="" width="40" height="40" loading="lazy" decoding="async">St Andrew's</li><li><img src="./img/schools/catholic-high.webp" alt="" width="40" height="40" loading="lazy" decoding="async">Catholic High</li><li><img src="./img/schools/dunman-high.webp" alt="" width="143" height="40" loading="lazy" decoding="async">Dunman High</li><li><img src="./img/schools/anderson-secondary.webp" alt="" width="42" height="40" loading="lazy" decoding="async">Anderson Secondary School</li><li><img src="./img/schools/nus-high.webp" alt="" width="75" height="40" loading="lazy" decoding="async">NUS High</li><li><img src="./img/schools/river-valley-high.webp" alt="" width="65" height="40" loading="lazy" decoding="async">River Valley High</li><li><img src="./img/schools/victoria-school.webp" alt="" width="34" height="40" loading="lazy" decoding="async">Victoria School</li><li><img src="./img/schools/woodlands-secondary-school.webp" alt="" width="33" height="40" loading="lazy" decoding="async">Woodlands Secondary School</li><li><img src="./img/schools/nanyang-jc.webp" alt="" width="40" height="40" loading="lazy" decoding="async">Nanyang JC</li><li><img src="./img/schools/victoria-junior-college.webp" alt="" width="60" height="40" loading="lazy" decoding="async">Victoria JC</li><li><img src="./img/schools/eunoia-junior-college.webp" alt="" width="40" height="40" loading="lazy" decoding="async">Eunoia Junior College</li><li><img src="./img/schools/anglo-chinese-jc.webp" alt="" width="41" height="40" loading="lazy" decoding="async">Anglo-Chinese JC</li><li><img src="./img/schools/temasek-jc.webp" alt="" width="45" height="40" loading="lazy" decoding="async">Temasek JC</li><li><img src="./img/schools/millennia-institute.webp" alt="" width="136" height="40" loading="lazy" decoding="async">Millennia Institute</li><li><img src="./img/schools/tao-nan-school.webp" alt="" width="138" height="40" loading="lazy" decoding="async">Tao Nan</li><li><img src="./img/schools/henry-park-primary-school.webp" alt="" width="40" height="40" loading="lazy" decoding="async">Henry Park</li><li><img src="./img/schools/rosyth-school.webp" alt="" width="38" height="40" loading="lazy" decoding="async">Rosyth</li><li><img src="./img/schools/chongfu-school.webp" alt="" width="25" height="40" loading="lazy" decoding="async">Chongfu School</li><li><img src="./img/schools/uwcsea.webp" alt="" width="144" height="19" loading="lazy" decoding="async">UWCSEA</li><li><img src="./img/schools/singapore-american-school.webp" alt="" width="40" height="40" loading="lazy" decoding="async">Singapore American School</li><li><img src="./img/schools/dulwich-college-singapore.webp" alt="" width="22" height="40" loading="lazy" decoding="async">Dulwich College</li><li><img src="./img/schools/stamford-american-international-school.webp" alt="" width="32" height="40" loading="lazy" decoding="async">Stamford American</li><li><img src="./img/schools/canadian-international-school.webp" alt="" width="89" height="40" loading="lazy" decoding="async">Canadian International School</li><li><img src="./img/schools/australian-international-school.webp" alt="" width="94" height="40" loading="lazy" decoding="async">Australian International School</li><li><img src="./img/schools/owis.webp" alt="" width="141" height="40" loading="lazy" decoding="async">OWIS</li></ul>
+  </div>
+ </div>
+ <p class="crest-note" data-reveal>Schools are listed only to show where our students come from. They do not endorse EssayLabsg™.</p>
+</section>
+
+<section id="how-it-works" aria-labelledby="how-title">
+ <div class="how-wrap">
+  <header class="how-head" data-reveal><h2 id="how-title">We mark like an examiner and tell you why</h2></header>
+  <div class="how-grid">
+   <figure class="how-video" data-reveal>
+    <span class="sample-tag">Sample</span>
+    <video id="demoVideo" width="1280" height="720" muted loop playsinline preload="none" poster="/img/stand-in/demo-poster.webp" aria-label="A student pastes an essay, marks it and reads the red-pen comments"><source src="./img/stand-in/demo.mp4" type="video/mp4"></video>
+    <button class="video-pause" type="button" id="videoPause">Pause the video</button>
+   </figure>
+   <ol class="how-steps" role="list">
+    <li data-reveal><h3>Hand it in</h3><p>Pick your paper, then paste your essay or snap a photo of your handwritten script.</p></li>
+    <li data-reveal><h3>Get it marked</h3><p>An AL, band or grade against the published criteria, with the reason behind each mark, written on your script in red.</p></li>
+    <li data-reveal><h3>Rewrite it and re-mark it</h3><p>Rewrite the part worth the most marks, then re-mark to see your band go up.</p><a class="btn btn-lg how-cta" href="#handin">Mark my essay free</a></li>
+   </ol>
+  </div>
+ </div>
+</section>
+
+<section class="sheet handin" id="handin" aria-labelledby="t-submit">
+    <div class="sheet-inner">
+      <div class="sec-title"><h2 id="t-submit">Mark your essay</h2><p class="exam-cd" id="examCd" aria-live="polite"></p><span class="hint">Choose the paper, then paste your essay or upload a photo. Marked against the published SEAB, Cambridge and IB criteria.</span><ul class="hand-gets"><li>An estimated score, band and grade</li><li>A mark and a short comment for each criterion</li><li>Your most important improvement, highlighted on your essay</li><li>One free re-mark after you revise it</li><li>Ready in about a minute</li></ul><figure class="hand-photo"><span class="sample-tag">Sample</span><img src="./img/stand-in/photo-report.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="Sample photo of a marked report"></figure></div>
+      <div class="hand-form"><div class="step"><p class="week-count">126 students marked essays this week<span class="sample-tag inline">Sample</span></p>
+        <span class="lbl">Which paper is this for?</span>
+        <div class="papers" id="papers" role="group" aria-label="Paper"></div>
+        <div class="upgrade-box" id="upgradeBox" hidden>
+          <b id="upgradeWhy">Marking for your class</b>
+          <span class="hint">Not subscribed? You get 3 free instant markings for PSLE English, O-Level English or A-Level GP. For every other paper, and comments on every paragraph, get detailed feedback: 4 reports for S$39.</span>
+          <div class="row"><label for="code" style="display:block;margin-bottom:4px;font-size:12px;color:var(--ink-soft)">Pass code</label><input type="text" id="code" placeholder="Your pass code" autocomplete="off"><button class="btn primary" id="codeBtn" type="button">Use my code</button></div>
+          <details id="stuBox"><summary>I'm a current student</summary>
+            <div class="row" style="margin-top:8px"><label for="stuName" style="display:block;margin-bottom:4px;font-size:12px;color:var(--ink-soft)">Full name</label><input type="text" id="stuName" placeholder="Your full name" autocomplete="name"><a class="btn primary" id="stuReq" href="#" target="_blank" rel="noopener" style="text-decoration:none">Request access</a></div>
+            <span class="hint">Send us a request on WhatsApp. Once we approve it, this device gets free instant marking on every paper, up to 15 an hour. It does not cover detailed reports.</span>
+          </details>
+          <a class="btn ghost" id="subLink" href="#" target="_blank" rel="noopener" hidden style="text-align:center;text-decoration:none">Get a pass with PayNow, GrabPay or card</a>
+        </div>
+        <span class="hint" id="freeLeft"></span>
+        <details class="more-opts"><summary>More options</summary>
+        <div class="invite" id="inviteBox">
+          <div class="sec-title"><b>Share with 7 people</b><span class="counter" id="invCount">0 / 7 joined</span></div>
+          <div class="invbar" aria-hidden="true"><i id="invBar"></i></div>
+          <span class="hint"><span id="invHint"></span></span>
+          <div class="row"><a class="btn primary" id="waShare" href="#" target="_blank" rel="noopener" style="text-decoration:none">Share on WhatsApp</a><button class="btn ghost" id="moreShare" type="button">Copy my link</button></div>
+        </div>
+        <details id="promoBox"><summary style="font-size:14px">Have an Invite or Promo Code?</summary>
+          <div class="row" style="margin-top:8px"><label for="promo" style="display:block;margin-bottom:4px;font-size:12px;color:var(--ink-soft);white-space:nowrap">Invite/promo code</label><input type="text" id="promo" placeholder="e.g. EM-K3P9X" autocomplete="off" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);padding:10px 12px;text-transform:uppercase"><button class="btn ghost" id="promoBtn" type="button">Apply</button></div>
+        </details>
+        </details>
+      </div>
+      <div class="step">
+        <label for="question">The question <span class="hint">Optional, but marking is sharper with it.</span></label>
+        <input type="text" id="question" placeholder="e.g. 'Social media does more harm than good to young people.' Discuss.">
+      </div>
+      <div class="step" id="marksRow" hidden>
+        <label for="marks">Total marks for this question (from the paper)</label>
+        <input type="number" id="marks" min="2" max="25" value="10" inputmode="numeric" style="width:120px;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);padding:10px 12px">
+      </div>
+      <div class="step">
+        <label for="essay">Your essay</label>
+        <textarea id="essay" placeholder="Paste or type your essay here…"></textarea>
+        <div class="row" style="justify-content:space-between">
+          <span class="counter" id="count">0 words</span>
+          <button class="btn ghost" id="loadSample" type="button">Try a sample GP essay</button>
+        </div>
+        <div class="row"><button class="btn ghost" id="timerBtn" type="button">Start timed exam mode</button><span class="counter" id="timerOut" aria-live="polite"></span></div>
+        <div class="photo" id="photoBox">
+          <img id="photoPrev" alt="Your script" hidden>
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+            <label for="photo" style="font-size:14.5px">Handwritten? Upload a photo of the script.</label>
+            <input type="file" id="photo" accept="image/*">
+            <label class="btn ghost cam-btn" for="photoCam" style="align-self:flex-start;cursor:pointer">Take a photo</label>
+            <input type="file" id="photoCam" accept="image/*" capture="environment" hidden>
+            <span class="hint" id="photoHint">One clear photo of one page, taken flat in good light. Please leave out or crop your name, class and school.</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <label class="teach-ok" style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:#3B3B3B;flex-basis:100%;margin:0 0 6px"><input type="checkbox" id="teachOk" style="margin-top:3px"> You may use my essay, with names removed, as an anonymous teaching example.</label><button class="btn primary" id="markBtn" type="button">Mark My Essay</button>
+        <button class="btn ghost" id="stopBtn" type="button" hidden>Stop</button>
+      </div>
+      
+      <p class="notice" id="notice" hidden></p>
+      <div class="progress" id="progress" hidden>
+        <ol>
+          <li data-k="up">Preparing your essay</li>
+          <li data-k="mark">Marking, usually about a minute</li>
+          <li data-k="done">Marked</li>
+        </ol>
+      </div>
+    </div></div>
+  </section>
+<section id="result" aria-live="polite"></section>
+<section id="sample-report" aria-labelledby="sr-title">
+ <div class="container">
+  <div class="sr-head" data-reveal>
+   <h2 id="sr-title">What a detailed report looks like</h2>
+   <p class="sr-line">We comment on each paragraph and criterion, and give up to three fixes with a suggested rewrite.</p>
+  </div>
+
+  <div class="sr-frame" data-reveal>
+   <div class="sr-grid">
+    <article class="sr-paper" data-ui>
+     <p class="sr-title">GP Paper 1 &middot; Detailed report</p>
+     <p class="sr-question">&lsquo;Social media does more harm than good to young people.&rsquo; How far do you agree?</p>
+     <p class="sr-k">Comments on every paragraph</p>
+     <div class="sr-ruled">
+      <p class="sr-script">In today&rsquo;s modern world, social media is everywhere. <mark>Some people think that social media does more harm than good, while others disagree.</mark></p>
+      <p class="sr-note">Define &ldquo;harm&rdquo; and set your yardstick here.</p>
+      <p class="sr-script">Firstly, social media affects the mental health of young people. <mark>Many studies have shown that teenagers who use social media more are more unhappy.</mark></p>
+      <p class="sr-note">Which studies? Name one, with a figure.</p>
+      <p class="sr-script">However, some people may argue that social media is good. <mark>But this benefit is small compared to the harms.</mark></p>
+      <p class="sr-note">Weigh it, don&rsquo;t wave it away. PEEL!</p>
+     </div>
+    </article>
+
+    <div class="sr-marks" data-ui>
+     <div class="sr-score">
+      <div class="sr-ring">
+       <svg viewBox="0 0 128 88" aria-hidden="true"><path pathLength="1" d="M92 8C60-2 14 8 6 38c-7 28 28 44 62 43 34-1 58-16 54-42C119 18 96 8 70 7"/></svg>
+       <span class="sr-num">28<small>/ 50</small></span>
+      </div>
+      <p class="sr-grade">Paper 1 estimate</p>
+     </div>
+     <div class="sr-crits">
+      <p class="sr-k">Every criterion, in full</p>
+      <div class="sr-crit">
+       <div class="sr-crit-row"><b>Content</b><span>16/30</span></div>
+       <div class="sr-bar"><i style="width:53%"></i></div>
+       <p>A clear stand, but the argument stays general. Examples are unnamed, and the counter-argument is dismissed instead of weighed.</p>
+      </div>
+      <div class="sr-crit">
+       <div class="sr-crit-row"><b>Language</b><span>12/20</span></div>
+       <div class="sr-bar"><i style="width:60%"></i></div>
+       <p>Generally clear and accurate. Repetitive openers (&ldquo;Firstly&rdquo;, &ldquo;However&rdquo;) and a narrow range of vocabulary hold it back.</p>
+      </div>
+     </div>
+    </div>
+
+    <div class="sr-fixes" data-ui>
+     <p class="sr-k">Top fixes, with a rewrite</p>
+     <ol>
+      <li><b>Set a yardstick in the introduction</b><div><p class="sr-was"><del>Some people think that social media does more harm than good.</del></p><p>Judged by its effect on young people&rsquo;s well-being and attention, social media does more harm than good, though not for every user.</p></div></li>
+      <li><b>Make every example checkable</b><div><p>Name the study, the year and the finding, then link it back to the question.</p></div></li>
+      <li><b>Weigh the other side before you rebut it</b><div><p>Concede the real benefit first, then show why it is outweighed on your yardstick.</p></div></li>
+     </ol>
+    </div>
+   </div>
+   <p class="sr-small">Sample report for illustration. Your report covers your whole essay, is marked by Exam Preparation Specialists&trade; and ready within 48 hours, and the score is an estimate against the published criteria.</p>
+  </div>
+
+  <div class="sr-photos" data-reveal><figure><span class="sample-tag">Sample</span><img src="./img/stand-in/photo-script.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="A handwritten essay with red-pen marks on a wooden desk."><figcaption>Sample for illustration.</figcaption></figure><figure><span class="sample-tag">Sample</span><img src="./img/stand-in/photo-report.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="A printed detailed report beside a red pen."><figcaption>Sample for illustration.</figcaption></figure></div><div class="sr-cta" data-reveal>
+   <a class="btn btn-lg" href="#pricing">Get 4 detailed reports &middot; S$39</a>
+   <a class="sr-quiet" href="#handin">Mark one free first</a>
+  </div>
+ </div>
+</section>
+<section id="reviews" aria-labelledby="rev-title"><h2 id="rev-title" data-reveal>What parents and students say</h2><ul class="review-list" role="list" data-reveal><li><span class="sample-tag">Sample</span><blockquote>The comments showed my daughter exactly which sentence to fix. She rewrote it the same night.</blockquote><cite>R.T., parent, P6</cite></li><li><span class="sample-tag">Sample</span><blockquote>I finally understood why my GP essays stayed at the same grade.</blockquote><cite>J.L., JC2</cite></li><li><span class="sample-tag">Sample</span><blockquote>He stopped asking me to read his compositions and started checking them himself.</blockquote><cite>S.N., parent, P5</cite></li><li><span class="sample-tag">Sample</span><blockquote>Clear marks, and one fix to work on. That is easier than a page of corrections.</blockquote><cite>A.K., Sec 4</cite></li></ul></section>
+<section id="pricing" aria-labelledby="pricing-title">
+ <div class="container">
+  <header class="pr-head">
+   <h2 id="pricing-title" data-reveal>Try it free, then 4 reports for S$39</h2>
+  </header>
+
+  <div class="plans">
+   <article class="plan plan-free" data-reveal>
+    <h3>Instant marking</h3>
+    <p class="price">Free</p>
+    <p class="plan-sum"><span>3 instant markings. The first needs no sign-up, the other 2 need your email.</span> For PSLE English, O-Level English and A-Level GP only.</p>
+    <div class="plan-cta"><a class="btn btn-lg btn-quiet" href="#handin">Mark my essay free</a></div>
+    <ul>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>An estimated score, band and grade</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>A mark and a short comment for each criterion</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Your most important improvement, highlighted on your essay</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>One free re-mark after you revise it</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Ready in about a minute</li>
+    </ul>
+   </article>
+
+   <article class="plan plan-paid" data-reveal>
+    <h3>Detailed feedback</h3>
+    <div class="price-row"><p class="price"><span class="ringed">S$39<svg viewBox="0 0 128 88" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M92 8C60-2 14 8 6 38c-7 28 28 44 62 43 34-1 58-16 54-42C119 18 96 8 70 7"/></svg></span></p><span class="pen" aria-hidden="true">Every paragraph marked</span></div>
+    <p class="plan-sum"><span>S$39 for 4 detailed reports, under S$10 an essay.</span> Marked by Exam Preparation Specialists™, within 48 hours.</p>
+    <div class="plan-cta"><a class="btn btn-lg" href="./app.html#planBox">Get 4 detailed reports</a><p class="plan-note"><a href="./app.html#planBox">Pay by card monthly, or PayNow once for 31 days.</a> If we can't mark your essay, we re-mark it free. If we still can't, we refund that report.</p></div>
+    <ul>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Comments on each paragraph of your essay</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>An estimated score and full feedback on every criterion</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Up to three improvements, each with a suggested rewrite</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>All 13 papers, including Literature, Humanities, IB and IGCSE</li>
+     <li><svg class="ck" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Marked to the published criteria with the Thinking Hack™ frameworks</li>
+    </ul>
+   </article>
+  </div>
+
+  <div class="pr-notes" data-reveal>
+   <div class="note-free">
+    <p>Share your link. When 7 new people open it, each on their own device and network, you get a free detailed report.</p>
+    <p><a href="./app.html#compare">See the full comparison</a></p>
+   </div>
+   <div class="note-paid">
+    <div><b>Monthly plan</b><p>Card, Apple Pay or Google Pay. Renews monthly. Cancel any time and keep access for the period you've paid for.</p></div>
+    <div><b>31-day pass</b><p>PayNow, GrabPay, Card or Google Pay. One-off, no renewal.</p></div>
+    <p class="note-all">Unused reports don't carry over. Payments by Stripe. By paying you agree to the <a href="./terms.html">Terms</a>.</p>
+   </div>
+  </div>
+  <ul class="trust-strip" aria-label="Privacy and independence">
+   <li>Free essays aren't kept unless you tick the teaching-example box.</li>
+   <li>We do not use advertising or tracking cookies.</li>
+   <li>Marked against published SEAB, Cambridge and IB criteria. EssayLabsg&trade; is not affiliated with or endorsed by them.</li>
+   <li><a href="./privacy.html">Read the privacy policy</a></li>
+  </ul>
+ </div>
+</section>
+
+<section id="masterclasses" aria-labelledby="classes-title">
+ <div class="classes-grid">
+  <div class="classes-side" data-reveal>
+   <h2 id="classes-title">Small-group classes with our specialists</h2>
+   <p>Thinking Hack™ Masterclasses, taught by our Exam Preparation Specialists™. All online, in small groups of up to 6.</p>
+   <div class="classes-links">
+    <a class="btn btn-lg" href="./api/wa" target="_blank" rel="noopener">Enquire on WhatsApp</a>
+    <a class="classes-more" href="./app.html#masterclasses">See full details</a>
+   </div>
+   <h3 class="quotes-h">What Masterclass parents told us</h3><div class="classes-quotes"><figure><blockquote>“He went from AL5 to AL1 for English in his PSLE! Most importantly, he stopped dreading compositions.”</blockquote><figcaption>Mrs Lim, parent of a P6 student · PSLE English Masterclass</figcaption></figure><figure><blockquote>“She came home teaching me the 'Show Don't Tell' technique! Her SA2 compo jumped from 28/40 to 36/40.”</blockquote><figcaption>Mrs Koh, parent of a P5 student · PSLE Composition &amp; Comprehension</figcaption></figure></div>
+
+  </div>
+  <div class="classes-table" data-reveal>
+   <h3>Holiday masterclasses</h3>
+   <p class="classes-sub">November to December 2026. Four weekly sessions of 1.5 hours each.</p>
+   <ul>
+    <li><span class="classes-name"><b>PSLE English</b>P5 to P6</span><span class="classes-when"><b>Tuesdays, 10 to 11.30am</b>24 Nov, 1, 8 and 15 Dec</span></li>
+    <li><span class="classes-name"><b>PSLE Composition</b>P5 to P6</span><span class="classes-when"><b>Saturdays, 7.30 to 9pm</b>21, 28 Nov, 5 and 12 Dec</span></li>
+    <li><span class="classes-name"><b>O-Level English</b>Sec 3 to 4</span><span class="classes-when"><b>Tuesdays, 2 to 3.30pm</b>24 Nov, 1, 8 and 15 Dec</span></li>
+    <li><span class="classes-name"><b>Secondary Humanities</b>Social Studies and History SBQ</span><span class="classes-when"><b>Sundays, 7 to 8.30pm</b>22, 29 Nov, 6 and 13 Dec</span></li>
+    <li><span class="classes-name"><b>JC General Paper</b>JC1 to JC2</span><span class="classes-when"><b>Tuesdays, 4 to 5.30pm</b>24 Nov, 1, 8 and 15 Dec</span></li>
+   </ul>
+  </div>
+   <div class="class-results" data-reveal>
+   <h3>Our 2025 class results</h3>
+   <ul role="list">
+    <li><b>98%</b>of our PSLE English students scored AL1 or AL2</li>
+    <li><b>100%</b>in PSLE Maths scored AL1 or AL2</li>
+    <li><b>96%</b>in PSLE Science scored AL1 or AL2</li>
+    <li><b>98%</b>in O-Level English scored A1</li>
+    <li><b>98%</b>in GP scored A or B</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<section id="faq" aria-labelledby="faq-title">
+ <div class="container">
+  <div class="faq-head" data-reveal>
+   <h2 id="faq-title">Questions parents and students ask</h2>
+   <p>Still unsure? <a href="./api/wa?text=Hi%2C%20I%20have%20a%20question%20about%20EssayLabsg%E2%84%A2." target="_blank" rel="noopener">Message us</a> and we'll reply on WhatsApp.</p>
+  </div>
+  <div class="faq-list" data-reveal>
+   <details><summary><h3>How much does EssayLabsg&trade; cost?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>Instant marking is free: 3 markings for PSLE English, O-Level English and A-Level GP. The first needs no sign-up, the other 2 need your email. Detailed feedback is S$39 for 4 reports, as a Monthly plan by card, Apple Pay or Google Pay (renews monthly, cancel any time) or a 31-day pass by PayNow, GrabPay, card or Google Pay (one-off, no renewal).</p></details>
+   <details><summary><h3>Which exams and papers can EssayLabsg&trade; mark?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>13 papers: PSLE English and Situational Writing, O-Level English and Situational Writing, O-Level Literature, Social Studies, History and Geography, A-Level General Paper (Paper 1 and the Paper 2 AQ), IB English Lang &amp; Lit (Paper 1 and Paper 2) and IGCSE English. Free marking covers PSLE English, O-Level English and A-Level GP.</p></details>
+   <details><summary><h3>How accurate is the score?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>Every essay is marked against its paper's published SEAB, Cambridge or IB criteria, criterion by criterion. The score is an estimate for that one paper, to guide revision. It isn't a prediction of your overall exam grade, and your school's or examiner's mark may differ. EssayLabsg&trade; is not affiliated with or endorsed by SEAB, Cambridge Assessment or the IB.</p></details>
+   <details><summary><h3>Who are the Exam Preparation Specialists&trade;?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>The team behind EssayLabsg&trade; and Thinking Hack&trade;. They mark to the published SEAB criteria, use the Thinking Hack&trade; frameworks, and teach our Masterclasses and classes. Free instant results are marked by AI; detailed reports are marked by Exam Preparation Specialists&trade;.</p></details>
+   <details><summary><h3>Can I upload a handwritten essay?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>Yes. Snap one clear photo of one page, taken flat in good light, and EssayLabsg&trade; reads and marks it.</p></details>
+   <details><summary><h3>How fast will I get my results?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>Free instant marking takes about a minute. Detailed feedback is marked by Exam Preparation Specialists&trade; and ready within 48 hours.</p></details>
+   <details><summary><h3>Who marks it?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p>Free instant marking is done by AI against the published criteria, using the frameworks our Exam Preparation Specialists&trade; teach. Detailed reports are marked by Exam Preparation Specialists&trade; and ready within 48 hours.</p></details>
+   <details><summary><h3>Is my essay kept private?</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.2 3.5c-.3 5.6-.3 11.3-.1 17M3.5 11.9c5.7-.2 11.3-.2 17 .1"/></svg></summary><p> Free essays aren't kept unless you tick the teaching-example box when you hand in. Detailed reports, challenge entries and messages are kept as set out in our <a href="./privacy.html">Privacy Policy</a>.</p></details>
+  </div>
+ </div>
+</section>
+<section id="closing" aria-labelledby="closing-title" data-reveal>
+ <h2 id="closing-title">Mark your next essay free</h2>
+ <a class="btn btn-lg" href="#handin">Mark my essay free</a>
+ <p>Or get 4 detailed reports for S$39, marked by Exam Preparation Specialists™ within 48 hours.</p>
+</section>
+
+</main>
+<footer class="site">
+ <div class="container">
+  <div class="foot-grid">
+   <div class="foot-brand"><a class="brand" href="./" aria-label="EssayLabsg™ home"><span class="brand-orb" aria-hidden="true"></span><span class="brand-word">EssayLab<span class="brand-sg">sg</span><sup class="brand-tm">™</sup></span><span class="brand-by">by Thinking Hack™</span></a><p class="foot-tag">Essays, marked like the real exam. A Thinking Hack™ product.</p></div>
+   <nav class="foot-col" aria-label="Product"><b>Product</b><a href="./app.html#mark">Essay marker</a><a href="./app.html">Weekly challenge</a><a href="#how-it-works">How it works</a><a href="./app.html#how-marked">Marking criteria</a></nav>
+   <nav class="foot-col" aria-label="Papers"><b>Papers</b><a href="./psle-composition-marking.html">PSLE composition marking</a><a href="./psle-situational-writing.html">PSLE situational writing</a><a href="./o-level-english-essay-marking.html">O-Level English essay marking</a><a href="./gp-essay-marking.html">A-Level GP essay marking</a><a href="./ib-english-paper-1.html">IB English Paper 1 marking</a><a href="./igcse-english-essay-marking.html">IGCSE English essay marking</a></nav>
+   <nav class="foot-col" aria-label="Contact"><b>Contact</b><a href="./api/wa?text=Hi%2C%20I'd%20like%20to%20know%20more%20about%20EssayLabsg%E2%84%A2." target="_blank" rel="noopener">Message us</a><a href="./api/wa?text=Hi%2C%20I%20have%20a%20question." target="_blank" rel="noopener">Ask a question</a></nav>
+  </div>
+  <div class="foot-legal">
+   <p>Scores are an estimate against the published SEAB (PSLE, O-Level, A-Level), Cambridge and IB criteria, with free instant marking produced by AI and detailed reports marked by Exam Preparation Specialists™. Free essays aren't kept unless you tick the teaching-example box when you hand in. Detailed reports, challenge entries and messages are kept as set out in our <a href="./privacy.html">Privacy Policy</a>.</p>
+   <p>EssayLabsg™ is not affiliated with or endorsed by SEAB, Cambridge Assessment or the IB.</p>
+   <p>EssayLabsg™ is a product of Thinking Hack™.</p>
+   <p>© 2026 Christine Sebastian. All rights reserved.<br>EssayLabsg™, Thinking Hack™, Exam Preparation Specialists™ and the EL logo are trade marks of Christine Sebastian.<br>All text, design, graphics, code and content on this site are owned by Christine Sebastian. No copying, reproduction, imitation, scraping or AI training without written permission.</p>
+  </div>
+  <nav class="foot-bottom" aria-label="Site and legal"><a href="#pricing">Pricing</a><a href="./about.html">About</a><a href="./terms.html#ip">Terms</a><a href="./privacy.html">Privacy</a><a href="./terms.html#refunds">Refunds</a></nav>
+  <div class="foot-word-box"><div class="foot-word" aria-hidden="true"><i style="--i:0">E</i><i style="--i:1">s</i><i style="--i:2">s</i><i style="--i:3">a</i><i style="--i:4">y</i><i style="--i:5">L</i><i style="--i:6">a</i><i style="--i:7">b</i><span class="fw-sg" style="--i:8">sg</span><span class="fw-tm" style="--i:9">™</span></div></div>
+ </div>
 </footer>
 
-<script>
-/* Time slider */
-const slider = document.querySelector('.time-slider');
-const span = slider.nextElementSibling;
-slider.addEventListener('input', () => { span.textContent = slider.value; });
-
-/* AL Calculator */
-const alForm = document.querySelector('#match-form select:nth-of-type(1)');
-if(alForm) { alForm.addEventListener('change', () => { const grade = alForm.value; const labels = {'AL1':'1 mark per','AL2':'2 marks per','AL3':'3 marks per','AL4':'4 marks per','AL5':'5 marks per','AL6':'6 marks per','AL7':'7 marks per'}; alert('Each AL represents '+labels[grade]+' grade difference'); }); };}
-
-/* L1R5 Calculator */
-const l1r5Form = document.querySelector('#match-form select:last-of-type');
-if(l1r5Form) { l1r5Form.addEventListener('change', () => { const subjects = ['EMath','AMath','1','2','3','4','5']; let total = 0; subjects.forEach(s => { const val = Math.floor(Math.random()*30); total += val; alert('L1R5 estimate: ' + total + '/75'); }); }); };}
-
-/* Nav highlight */
-document.querySelectorAll('nav.main a').forEach(a => { a.addEventListener('click', e => { document.querySelectorAll('nav.main a.on').forEach(x => x.classList.remove('on')); a.classList.add('on'); }); });
-
-/* WhatsApp pre-filled text */
-const waText = document.createElement('div'); waText.id = 'wa-text'; waText.textContent = 'WhatsApp us: +65 9003 0002'; document.body.insertBefore(waText, footer);
-
-/* Focus-visible styles */
-const inputs = document.querySelectorAll('input, select, textarea, button');
-inputs.forEach(el => { el.addEventListener('focus', () => { el.style.outline = '2px solid #FFD23F'; }); el.addEventListener('blur', () => { el.style.outline = ''; }); });
-</script>
-</body>
+<div id="v2State"><div hidden><section id="adminBox"></section><p id="adminWho"></p><div id="adminLogin"></div><input id="adminKey"></input><button id="adminSave"></button><button id="adminApprove"></button><ul id="adminList"></ul><input id="pcCode"></input><input id="pcEssays"></input><input id="pcUses"></input><button id="pcAdd"></button><ul id="promoList"></ul><span id="msgCount"></span><ul id="msgList"></ul><span id="leadCount"></span><button id="leadCsv"></button><ul id="leadList"></ul></div><section class="sheet" id="histBox" hidden aria-labelledby="t-hist"><div class="sheet-inner">
+    <div class="sec-title"><div id="t-hist" role="heading" aria-level="2">See your band go up</div><span class="hint">Every essay you mark is saved on this phone or laptop.</span></div>
+    <div id="histPapers" style="display:grid;gap:12px"></div>
+    <div id="histWeak" style="margin-top:14px"></div>
+    <div class="row" style="margin-top:14px"><a class="btn primary" id="histWa" href="#" target="_blank" rel="noopener" style="text-decoration:none">Send my progress to my parent</a></div>
+  </div></section><section class="sheet chal" id="chBox" hidden aria-labelledby="t-ch"><div class="sheet-inner">
+    <div class="sec-title"><div id="t-ch" role="heading" aria-level="2">One question, one leaderboard, every week</div><span class="hint">Everyone writes the same question. Top scores and most improved go on the board, and you can re-mark your rewrite to climb it.</span></div>
+    <div class="papers" id="chTabs" role="group" aria-label="Level" style="margin-top:10px"></div>
+    <p id="chQ"></p>
+    <div class="row"><label for="chName" style="display:block;margin-bottom:4px;font-size:12px;color:var(--ink-short)">Your name (initial OK)</label><input type="text" id="chName" placeholder="First name and initial, e.g. Ethan T" autocomplete="given-name" maxlength="16" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);padding:10px 12px"><input type="tel" id="chPhone" placeholder="Parent's WhatsApp number" autocomplete="tel" inputmode="tel" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);padding:10px 12px"></div><p class="hint" style="margin:6px 0 0;font-size:13px">Your nickname and score may appear on the public board (first name and initial, with your level only).</p>
+    <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink-soft);margin-top:8px"><input type="checkbox" id="chConsent" style="margin-top:3px"> <span>WhatsApp me my rank and next week's question. Used only for the challenge and our classes, never shared. Reply STOP anytime. Under 18? Use a parent's number.</span></label>
+    <div class="row" style="margin-top:10px"><button class="btn primary" id="chGo" type="button">Take the challenge</button><a class="btn ghost" id="chShare" href="#" target="_blank" rel="noopener" style="text-decoration:none">Challenge a friend</a></div>
+    <div id="chBoard" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:18px"></div>
+  </div></section><section class="sheet" id="joinBox" hidden aria-labelledby="t-join"><div class="sheet-inner">
+    <div class="sec-title"><div id="t-join" role="heading" aria-level="2">A community that writes better together</div><span class="hint">Students sharpen their essays together, parents swap what works, and teachers and tutors share methods with our specialists.</span></div>
+    <div id="joinRoles" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+      <a class="role" href="./api/wa?text=Hi%2C%20I'm%20a%20student%20and%20I'd%20like%20to%20join%20the%20community.%20My%20level%20and%20subjects%3A%20" ><span class="role-art tex tex-blue" aria-hidden="true"></span><b>I'm a student</b><div class="hint">Weekly challenge, model answers and tips from our specialists.</div></a>
+      <a class="role" href="./api/wa?text=Hi%2C%20I'm%20a%20parent%20and%20I'd%20like%20to%20join%20the%20community.%20My%20child's%20level%20and%20subjects%3A%20" ><span class="role-art tex tex-ember" aria-hidden="true"></span><b>I'm a parent</b><div class="hint">Progress reports, exam-season advice and first word on new classes.</div></a>
+      <a class="role" href="./api/wa?text=Hi%2C%20I'm%20a%20teacher%2Ftutor%20and%20I'm%20interested%20in%20joining%20your%20Exam%20Preparation%20Specialist%20team.%20My%20subjects%20and%20experience%3A%20" data-accent="pen"><span class="role-art tex tex-iris" aria-hidden="true"></span><b>I teach or tutor</b><div class="hint">Share methods, help mark challenge essays, and apply to join our specialist team.</div></a>
+    </div>
+    <a class="btn primary" id="joinLink" href="#" target="_blank" rel="noopener" hidden style="text-decoration:none;margin-top:12px;align-self:flex-start">Follow our WhatsApp channel</a>
+  </div></section></div>
+<div id="msgBox" hidden role="dialog" aria-modal="true" aria-labelledby="t-msg" style="position:fixed;inset:0;z-index:40;background:rgba(10,14,25,.6);overflow:auto;padding-block:calc(16px + env(safe-area-inset-top,0px)) calc(16px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))">
+  <form id="msgForm" class="sheet" style="max-width:520px;margin:8vh auto 0"><div class="sheet-inner" style="display:flex;flex-direction:column;gap:10px">
+    <div id="t-msg" style="font-size:32px" role="heading" aria-level="2">Message our specialists</div>
+    <span class="hint">We reply on WhatsApp, usually the same day.</span>
+    <div class="row"><label for="msgName" style="display:block;margin-bottom:4px;font-size:12px;color:var(--ink-soft)">Your name</label><input type="text" id="msgName" placeholder="Your name" autocomplete="name" maxlength="40" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);color:var(--ink);padding:10px 12px"><input type="tel" id="msgPhone" placeholder="Your WhatsApp number" autocomplete="tel" inputmode="tel" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);color:var(--ink);padding:10px 12px"></div>
+    <textarea id="msgText" rows="4" maxlength="1200" style="border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);color:var(--ink);padding:10px 12px;font:inherit;min-height:110px"></textarea>
+    <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink-soft)"><input type="checkbox" id="msgConsent" style="margin-top:3px"> <span>You can contact me on WhatsApp about this. Under 18? Please use a parent's number.</span></label>
+    <div class="row"><button class="btn primary" type="submit" id="msgSend">Send message</button><button class="btn ghost" type="button" id="msgCancel">Cancel</button></div>
+  </div></form>
+</div>
+<div id="legacyHidden" hidden><div id="cardBtn"></div><div id="cele7"></div><div id="chWeek"></div><div id="community"></div><div id="copyParent"></div><div id="mcRecBlurb"></div><div id="mcRecBtn"></div><div id="mcRecName"></div><div id="pdfBtn"></div><div id="remarkBtn"></div><div id="shareBtn"></div><div id="waGroup"></div><div id="waParent"></div><div id="waShareTop"></div><div id="waSpecialist"></div><div id="t-ask"></div><div id="chatLog"></div><form id="chatForm"></form><input id="chatIn"></input><button id="chatSend"></button><a id="chatWa"></a><div id="t-mc"></div><div id="mcList"></div><a id="waGroupTop"></a></div>
+<aside aria-label="Contact"><a class="wa-float" href="./api/wa" target="_blank" rel="noopener" aria-label="Message us on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3zm4.4 12.4c-.2.6-1.1 1.1-1.6 1.1-.4.1-.9.1-1.5-.1-.3-.1-.8-.3-1.3-.5-2.3-1-3.8-3.3-3.9-3.5-.1-.1-.9-1.2-.9-2.3s.6-1.6.8-1.9c.2-.2.4-.3.6-.3h.4c.1 0 .3 0 .5.4l.7 1.6c.1.1.1.3 0 .4l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1 1.3 1.6.9.8 1.6 1 1.9 1.1.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.5.7c.2.1.4.2.4.3.1.1.1.6-.1 1.2z"/></svg><span>WhatsApp</span></a></aside>
+<script src="./v2/marker.js"></script>
+<script src="./v2/photo.js"></script>
+<script src="./v2/enhance.js"></script>
+<script src="./v2/leads.js"></script>
+<script src="./v2/sections/sample.js" defer></script>
+<script src="./v2/reveal.js" defer></script>
+<script src="./v2/motion-pause.js" defer></script><script src="./v2/nav.js" defer></script></body>
 </html>

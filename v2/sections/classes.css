@@ -1,0 +1,26 @@
+/* Masterclasses: a short block with the real holiday timetable. */
+#masterclasses{padding-top:128px}
+#masterclasses .classes-grid{display:grid;grid-template-columns:5fr 7fr;column-gap:96px;align-items:start}
+#masterclasses .classes-side h2{margin:0;font:400 var(--type-fs-h2)/var(--type-lh-h2) var(--serif);letter-spacing:-.01em;text-wrap:balance}
+#masterclasses .classes-side p{margin:24px 0 0;font-size:var(--type-fs-lead);line-height:32px;color:var(--soft);text-wrap:pretty}
+#masterclasses .classes-links{display:flex;flex-wrap:wrap;align-items:center;gap:16px 24px;margin-top:32px}
+#masterclasses .classes-more{font-size:var(--type-fs-body);line-height:24px;font-weight:500;text-underline-offset:4px;text-decoration-thickness:1px}
+@media (hover:hover) and (pointer:fine){#masterclasses .classes-more:hover{color:var(--soft)}}
+#masterclasses .classes-table h3{margin:0;font:400 var(--type-fs-h3)/var(--type-lh-h3) var(--serif)}
+#masterclasses .classes-sub{margin:8px 0 0;font-size:var(--type-fs-body);line-height:24px;color:var(--soft)}
+#masterclasses .classes-table ul{margin:32px 0 0;padding:0;list-style:none;display:grid;row-gap:24px}
+#masterclasses .classes-table li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:32px}
+#masterclasses .classes-name,#masterclasses .classes-when{font-size:var(--type-fs-small);line-height:20px;color:var(--soft)}
+#masterclasses .classes-table b{display:block;font-size:var(--type-fs-body);line-height:24px;font-weight:400;color:var(--ink)}
+@media (max-width:1100px){#masterclasses .classes-grid{column-gap:48px}}
+@media (max-width:899px){
+ #masterclasses{padding-top:96px}
+ #masterclasses .classes-grid{display:block}
+ #masterclasses .classes-side h2{font-size:var(--type-fs-h2);line-height:40px}
+ #masterclasses .classes-side p{margin-top:16px;font-size:var(--type-fs-lead);line-height:28px}
+ #masterclasses .classes-links .btn{width:100%}
+ #masterclasses .classes-links{justify-content:center}
+ #masterclasses .classes-table{margin-top:64px}
+ #masterclasses .classes-table ul{row-gap:32px}
+ #masterclasses .classes-table li{grid-template-columns:minmax(0,1fr);row-gap:8px}
+}

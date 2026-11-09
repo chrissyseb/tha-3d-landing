@@ -1,0 +1,9 @@
+<section class="sheet chal" id="chBox" hidden aria-labelledby="t-ch"><div class="sheet-inner">
+    <div class="sec-title"><span class="kicker">Weekly challenge · <span id="chWeek">Free</span></span><h2 id="t-ch">One Question, One Leaderboard, Every Week</h2><span class="hint">Everyone writes the same question. Top scores and most improved go on the board, and you can re-mark your rewrite to climb it.</span></div>
+    <div class="papers" id="chTabs" role="group" aria-label="Level" style="margin-top:10px"></div>
+    <p id="chQ"></p>
+    <div class="row"><input type="text" id="chName" placeholder="First name and initial, e.g. Ethan T" autocomplete="given-name" maxlength="16" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);padding:10px 12px"><input type="tel" id="chPhone" placeholder="Parent's WhatsApp number" autocomplete="tel" inputmode="tel" style="flex:1 1 160px;min-width:0;border:1.5px solid var(--rule);border-radius:10px;background:var(--sheet);padding:10px 12px"></div><p class="hint" style="margin:6px 0 0;font-size:13px">Your nickname and score may appear on the public board (first name and initial, with your level only).</p>
+    <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink-soft);margin-top:8px"><input type="checkbox" id="chConsent" style="margin-top:3px"> <span>WhatsApp me my rank and next week's question. Used only for the challenge and our classes, never shared. Reply STOP anytime. Under 18? Use a parent's number.</span></label>
+    <div class="row" style="margin-top:10px"><button class="btn primary" id="chGo" type="button">Take the challenge</button><a class="btn ghost" id="chShare" href="#" target="_blank" rel="noopener" style="text-decoration:none">Challenge a Friend</a></div>
+    <div id="chBoard" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-top:18px"></div>
+  </div></section>

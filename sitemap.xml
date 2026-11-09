@@ -1,1 +1,13 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://essaylab-sg.vercel.app/</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/terms.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/about.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/privacy.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/psle-composition-marking.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/psle-situational-writing.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/o-level-english-essay-marking.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/gp-essay-marking.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/ib-english-paper-1.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://essaylab-sg.vercel.app/igcse-english-essay-marking.html</loc><lastmod>2026-10-31</lastmod></url>
+</urlset>

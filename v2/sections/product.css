@@ -1,0 +1,16 @@
+#product{padding-top:128px}
+#product .pd-head{margin:0 0 48px}
+#product .pd-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+#product .pd-card{margin:0}
+#product figcaption{font-size:var(--type-fs-small);line-height:var(--type-lh-small);font-weight:500;margin:0 0 16px}
+#product img{display:block;width:100%;height:auto;border-radius:16px}
+#product .pd-stage{position:relative}
+#product svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#product .pd-u{fill:none;stroke:var(--pen);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:var(--d,0)}
+#product .pd-c{fill:none;stroke:var(--pen);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:var(--d,0)}
+#product text{font-family:var(--hand);fill:var(--pen)}
+#product .pd-n{font-size:37px}
+#product .pd-s{font-size:64px}
+#product .pd-g{font-size:48px}
+#product .pd-cap{margin:16px 0 0;font-size:var(--type-fs-small);line-height:var(--type-lh-small);color:var(--soft)}
+@media (max-width:899px){#product{padding-top:96px}#product .pd-head{margin:0 0 32px}#product .pd-pair{grid-template-columns:minmax(0,1fr);gap:24px}#product .pd-n{font-size:41px}}

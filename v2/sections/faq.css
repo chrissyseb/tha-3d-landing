@@ -1,0 +1,35 @@
+/* EssayLab v2: FAQ. Native details and summary, no script. */
+#faq{padding-top:128px}
+#faq h2{margin:0;font:400 var(--type-fs-h2)/var(--type-lh-h2) var(--serif);text-wrap:balance}
+#faq .faq-head p{margin:16px 0 0;font-size:var(--type-fs-lead);line-height:32px;color:var(--soft)}
+#faq a{text-underline-offset:4px;text-decoration-thickness:1px}
+@media (hover:hover) and (pointer:fine){#faq a:hover{color:var(--soft)}}
+#faq .faq-list{margin-top:48px}
+#faq details{margin:0 0 8px}
+#faq summary{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:32px 0;cursor:pointer;list-style:none;border-radius:8px;transition:color .2s}
+#faq summary::-webkit-details-marker{display:none}
+@media (hover:hover) and (pointer:fine){#faq summary:hover{color:var(--soft)}}
+#faq h3{margin:0;font:400 var(--type-fs-h3)/var(--type-lh-h3) var(--serif);text-wrap:pretty}
+#faq svg{flex:none;width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;transition:transform .25s cubic-bezier(.23,1,.32,1)}
+#faq details[open] svg{transform:rotate(135deg)}
+#faq details > p{margin:0;padding:0 56px 32px 0;max-width:800px;font-size:var(--type-fs-body);line-height:24px;color:var(--soft)}
+#faq details > p a{color:var(--ink)}
+
+/* Browsers that can animate to auto height open the answer smoothly; the rest simply open it. */
+@supports (interpolate-size:allow-keywords) and selector(::details-content){
+ #faq details{interpolate-size:allow-keywords}
+ #faq details::details-content{height:0;overflow:hidden;transition:height .25s cubic-bezier(.23,1,.32,1),content-visibility .25s allow-discrete}
+ #faq details[open]::details-content{height:auto}
+}
+@media (prefers-reduced-motion:reduce){
+ #faq svg{transition:none}
+ #faq details::details-content{transition:none}
+}
+@media (max-width:899px){
+ #faq{padding-top:96px}
+ #faq h2{font-size:var(--type-fs-h2);line-height:40px}
+ #faq .faq-head p{font-size:var(--type-fs-lead);line-height:28px}
+ #faq .faq-list{margin-top:32px}
+ #faq summary{padding:24px 0;gap:24px}
+ #faq details > p{padding:0 0 32px}
+}

@@ -1,0 +1,12 @@
+rd = lambda p: open(p, encoding='utf-8', newline='').read()
+def wr(p, s): open(p, 'w', encoding='utf-8', newline='').write(s)
+c = rd('sections/pricing.css')
+c = c.replace('#pricing .plan-paid{background:var(--surface);box-shadow:0 1px 3px rgba(17,17,17,.08)}', '#pricing .plan-paid{background:var(--surface);border:1px solid var(--line)}')
+c = c.replace('#pricing .btn-quiet{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}', '#pricing .btn-quiet{background:var(--surface);color:var(--ink);border:1px solid var(--line)}')
+wr('sections/pricing.css', c)
+h = rd('sections/sample.html')
+h = h.replace('class="sr-frame" data-ui', 'class="sr-frame"')
+for k in ('sr-paper', 'sr-marks', 'sr-fixes'):
+    h = h.replace('class="%s"' % k, 'class="%s" data-ui' % k)
+wr('sections/sample.html', h)
+print('box-shadow left in pricing:', 'box-shadow' in rd('sections/pricing.css'))

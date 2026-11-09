@@ -1,1 +1,54 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /thanks.html
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /thanks.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /thanks.html
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /api/
+Disallow: /thanks.html
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /thanks.html
+
+User-agent: Claude-User
+Allow: /
+Disallow: /api/
+Disallow: /thanks.html
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: *
+Allow: /
+Allow: /api/og
+Disallow: /api/
+Disallow: /thanks.html
+Sitemap: https://essaylab-sg.vercel.app/sitemap.xml
