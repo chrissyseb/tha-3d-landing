@@ -8904,4 +8904,4 @@ document.querySelectorAll('.result').forEach(function (el, i) {
   window.open('https://wa.me/6590030002', '_blank');
 });
 },{"./styles.css":"D9Nj","gsap":"f8Z0","gsap/ScrollTrigger":"rpvU","@studio-freight/lenis":"gbeq"}]},{},["B6dB"], null)
-//# sourceMappingURL=src.7f433bcf.js.map
+//# sourceMappingURL=src.59fbbfbf.js.map
