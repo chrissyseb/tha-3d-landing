@@ -1,1 +1,114 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Booking and purchase terms | Thinking Hack Education</title>
+<meta name="description" content="Draft booking and purchase terms for Thinking Hack Masterclasses™ and digital resources: pay to reserve, dates confirmed after booking, refunds and cancellations.">
+<link rel="canonical" href="https://thinking-hack.vercel.app/terms">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/styles.css?v=9">
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Thinking Hack home"><span class="w1">THINKING HACK</span><span class="w2">EDUCATION</span></a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="main" id="main-nav" aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#results">Results</a>
+      <a href="/#rates">Rates</a>
+      <a href="/resources">Resources</a>
+      <a class="btn small" href="/#match">Get matched</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="label">For families</p>
+      <h1>Booking and purchase terms</h1>
+      <p class="lede">What happens when you book a Thinking Hack Masterclass™ or buy a digital resource from this website: paying, dates, refunds and cancellations.</p>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:32px">
+    <div class="wrap">
+      <article class="prose">
+        <p class="draft-note"><strong>Draft, version 2026-10-17.</strong> These terms are being reviewed and may change. Anything marked "proposed default" is our intended rule and may be adjusted before it is final. If we agree something different with you in writing for a booking, that agreement applies to your booking.</p>
+
+        <h2 id="masterclasses">1. Masterclass bookings</h2>
+        <ul>
+          <li><strong>Pay to reserve.</strong> Paying online reserves a place for the student on the masterclass you choose.</li>
+          <li><strong>Dates and venue are confirmed after booking.</strong> We contact you on WhatsApp or email after you pay to confirm the dates and venue.</li>
+          <li><strong>Small classes.</strong> Each class has a maximum of 6 students.</li>
+          <li><strong>Full refund</strong> if the dates we offer don't suit you, if the class is full, or if we cancel the class.</li>
+        </ul>
+        <h3>If you cancel</h3>
+        <p><em>Proposed default:</em> if you cancel up to 7 days before the first session, you get a full refund. If you cancel later than that, we give you a credit for the same amount towards another masterclass instead of a refund.</p>
+        <p>Refunds go back to the card or payment method you used, through Stripe. Your bank may take a few days to show it.</p>
+
+        <h2 id="resources">2. Digital resources</h2>
+        <ul>
+          <li>Digital resources, such as Thinking Hack Exam Notes™ packs and bundles, are PDF downloads. The download is available on the confirmation page once your payment is confirmed. Keep that page’s order link to download again later.</li>
+          <li>If a file is faulty or not as described, tell us within 7 days of purchase and we will refund you (or, if you prefer, send a working copy).</li>
+          <li>The resources are for the buyer's own family's use. Please don't share or resell them.</li>
+        </ul>
+
+        <h2 id="essaylab">3. EssayLab™</h2>
+        <p>EssayLab™ passes are sold and managed on <a href="https://essay-marker-umber.vercel.app/" target="_blank" rel="noopener">EssayLab</a>, under EssayLab's own terms. These terms do not cover EssayLab purchases.</p>
+
+        <h2 id="prices">4. Prices and payment</h2>
+        <ul>
+          <li>Prices are in Singapore dollars (S$).</li>
+          <li>Payments are processed by Stripe on its secure checkout page. We do not see or store your card number.</li>
+          <li>We only treat a booking or purchase as paid once Stripe confirms the payment to us.</li>
+          <li>How we handle your details is set out in our <a href="/privacy">privacy notice</a>.</li>
+        </ul>
+
+        <h2 id="contact">5. Questions and contact</h2>
+        <p>Questions about a booking, a refund or these terms? Message us on <a href="https://wa.me/6590030002" target="_blank" rel="noopener">WhatsApp +65 9003 0002</a>.</p>
+        <p><a class="btn" href="/#match" style="color:var(--sheet)">Get matched</a></p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Thinking Hack Education™. Thinking Hack™, Exam Preparation Specialists™, Thinking Hack Masterclasses™, Thinking Hack Exam Notes™, EssayLab™, Essay Clinic™, the BUG Method™ and the masterclass names marked ™ are trademarks of Thinking Hack Education.</span>
+    <nav aria-label="Footer"><a href="/#match">Get matched</a><a href="/join">Join as a Specialist</a><a href="/specialist-terms">Specialist terms</a><a href="/privacy">Privacy</a><a href="/terms" aria-current="page">Terms</a><a href="/terms">Booking &amp; refunds</a><a href="https://wa.me/6590030002" target="_blank" rel="noopener">WhatsApp +65 9003 0002</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button">Switch theme</button>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  // Mobile menu
+  const menuBtn = $('#menu-btn'), nav = $('#main-nav');
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  $$('#main-nav a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }));
+
+  $('#theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    root.dataset.theme = current === 'dark' ? 'light' : 'dark';
+  });
+})();
+</script>
+<script src="/premium.js?v=1" defer></script>
+</body>
+</html>

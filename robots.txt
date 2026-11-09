@@ -1,1 +1,6 @@
-{"error":{"code":"not_found","message":"Not Found"}}
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://thinking-hack.vercel.app/sitemap.xml
