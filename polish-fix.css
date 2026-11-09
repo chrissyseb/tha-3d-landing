@@ -1,0 +1,10 @@
+/* Professional typography and high-end editorial polish */
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111;
+  background-color: #FAFAF7;
+  letter-spacing: -0.01em;
+}
+h1, h2, h3, .hero-sign {
+  font-family: 'Cormorant Garamond', serif;
+}
