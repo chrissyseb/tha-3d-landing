@@ -291,7 +291,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   top: 4%; 
   width: 27.34%; 
   height: 92%; 
-  background: url("/logo.svg") center/contain no-repeat !important; 
+  background: url("./logo.svg") center/contain no-repeat !important; 
   border-radius: 0 !important; 
   margin: 0 !important; 
 }
@@ -301,8 +301,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   position: absolute; 
   inset: 0; 
   background: var(--ink) !important; 
-  -webkit-mask: url("/wordmark.svg") center/100% 100% no-repeat; 
-  mask: url("/wordmark.svg") center/100% 100% no-repeat; 
+  -webkit-mask: url("./wordmark.svg") center/100% 100% no-repeat; 
+  mask: url("./wordmark.svg") center/100% 100% no-repeat; 
 }
 header.site .logo { width: 300px; }
 footer.site .logo { width: 330px; color: #F3ECDD; }

@@ -1,5 +1,5 @@
 /* Thinking Hack Education: EssayLab skin (5 Nov 2026). Original styles live in base.css. Light only. */
-@import url("/base.css?v=4");
+@import url("./base.css?v=4");
 @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
 :root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
   --paper: #FDFCFC; --sheet: #FFFFFF; --tint: #F5F3F1; --grid: #ECEAE7;
