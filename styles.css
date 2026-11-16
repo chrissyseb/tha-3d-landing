@@ -1219,8 +1219,7 @@ nav.main a[href="/#programmes"] { display: none; }
 
 /* One type system. Sizes, weights and spacing come from the variables at the top of this file. */
 body{font-family:var(--font-body);font-size:var(--fs-body);line-height:var(--lh-body);font-weight:var(--w-regular)}
-h1,h2,h3,h4{font-family:var(--font-display);font-weight:var(--w-bold);text-transform:uppercase;letter-spacing:0.05em}
-summary,blockquote p,.quotes p{font-family:var(--font-display);font-weight:var(--w-bold);letter-spacing:var(--ls-none)}
+h1,h2,h3,h4,summary,blockquote p,.quotes p{font-family:var(--font-display);font-weight:var(--w-bold);letter-spacing:var(--ls-none)}
 h1{font-size:var(--fs-h1);line-height:var(--lh-h1)}
 h2{font-size:var(--fs-h2);line-height:var(--lh-h2)}
 h3{font-size:var(--fs-h3);line-height:var(--lh-h3)}
