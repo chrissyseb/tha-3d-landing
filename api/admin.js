@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { timingSafeEqual, createHash } from 'node:crypto';
 import { listDocs, readDoc, saveDoc, deleteDoc } from './_store.js';
 import { newId } from './_validate.js';
 import { RESOURCES, resourceFiles } from './_catalogue.js';
@@ -16,8 +16,8 @@ const text = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : undef
 function authorised(req) {
   const key = process.env.ADMIN_KEY || '';
   const given = String(req.headers['x-admin-key'] || '');
-  if (!key || given.length !== key.length) return false;
-  return timingSafeEqual(Buffer.from(given), Buffer.from(key));
+  const digest = s => createHash('sha256').update(s).digest();
+  return !!key && timingSafeEqual(digest(given), digest(key));
 }
 
 function bodyOf(req) {

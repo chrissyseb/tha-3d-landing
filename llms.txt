@@ -1,0 +1,17 @@
+# Thinking Hack Education
+
+> Thinking Hack Education matches students in Singapore with Exam Preparation Specialists for the exact exam paper they will sit: PSLE, O-Level, A-Level General Paper, IB, IGCSE, IELTS and SAT. Lessons are one-to-one at home or online. Matching is free for parents and there is no contract.
+
+## Pages
+
+- [Home](https://thinking-hack.vercel.app/): how matching works, results, rates, masterclasses and the enquiry form
+- [Shop](https://thinking-hack.vercel.app/resources): Thinking Hack Exam Notes, one pack per exam paper, and EssayLab
+- [About](https://thinking-hack.vercel.app/about): what Thinking Hack Education does, how matching works, who the Specialists are and what a parent pays
+- [Join as a Specialist](https://thinking-hack.vercel.app/join): application for Exam Preparation Specialists
+- [Booking and purchase terms](https://thinking-hack.vercel.app/terms)
+- [Specialist terms](https://thinking-hack.vercel.app/specialist-terms)
+- [Privacy notice](https://thinking-hack.vercel.app/privacy)
+
+## Related
+
+- [EssayLab](https://essaylab-sg.vercel.app/): essay marking for Singapore exam papers, one essay marked free each week

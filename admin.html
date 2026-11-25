@@ -978,7 +978,8 @@ legend { font: 700 1rem var(--font-display); padding: 0 6px; }
   function renderProducts() {
     const rows = data.products;
     const head = `<p class="note">Buyers can only download a pack once its PDF is uploaded. Clear the 'Before sale' checks in notes-packages/README.md before switching to live payments.</p>
-      <p class="meta" style="margin:0 0 12px">One PDF per pack, up to 4.4 MB. Bundles deliver their packs’ PDFs, so a bundle is ready when all of its packs are.</p>
+      <p class="meta" style="margin:0 0 12px">One PDF per pack, up to 4.4 MB. Bundles and Full Sets deliver their packs’ PDFs, so each is ready when all of its files are.</p>
+      <p style="margin:0 0 14px"><input type="file" id="bulk-files" accept="application/pdf,.pdf" multiple hidden><button class="btn" type="button" id="bulk-pick">Upload several PDFs</button> <span class="meta" id="bulk-status" role="status">Choose every file in the upload folder at once. Each file goes to its place by its file name, such as res-psle-maths.pdf.</span></p>
       ${productsError ? `<p class="err">Could not load products: ${esc(productsError)}</p>` : ''}`;
     if (!rows) { $('#products').innerHTML = head + '<div class="empty">Loading…</div>'; return; }
     if (!rows.length) { $('#products').innerHTML = head + '<div class="empty">No products in the catalogue.</div>'; return; }
@@ -1012,6 +1013,28 @@ legend { font: 700 1rem var(--font-display); padding: 0 6px; }
     pstate.msg[id] = { text, cls: '' };
     render(); toast(text);
   }
+
+  // Several files at once: the file name without .pdf is the id the server expects.
+  async function uploadMany(files) {
+    const st = $('#bulk-status');
+    const all = [...files].filter(f => /\.pdf$/i.test(f.name || ''));
+    const skipped = files.length - all.length;
+    let ok = 0; const bad = [];
+    for (const [i, f] of all.entries()) {
+      const id = f.name.replace(/\.pdf$/i, '');
+      if (st) st.textContent = `Uploading ${i + 1} of ${all.length}: ${f.name}`;
+      if (f.size > MAX_UPLOAD) { bad.push(f.name + ' (over 4.4 MB)'); continue; }
+      try { await uploadCall('POST', id, f); ok++; }
+      catch (e) { if (e.status === 401) return load(); bad.push(f.name + ' (' + e.message + ')'); }
+    }
+    await loadKind('products').catch(() => {});
+    render();
+    const msg = `${ok} of ${all.length} uploaded` + (bad.length ? `. Not uploaded: ${bad.join('; ')}` : '.') + (skipped ? ` ${skipped} skipped (not a PDF).` : '');
+    const st2 = $('#bulk-status'); if (st2) st2.textContent = msg;
+    toast(msg);
+  }
+  document.addEventListener('click', ev => { if (ev.target && ev.target.id === 'bulk-pick') { const i = $('#bulk-files'); if (i) i.click(); } });
+  document.addEventListener('change', ev => { if (ev.target && ev.target.id === 'bulk-files' && ev.target.files.length) { uploadMany(ev.target.files); ev.target.value = ''; } });
 
   async function uploadFile(id, file) {
     pstate.ask = null;

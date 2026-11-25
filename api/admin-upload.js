@@ -1,10 +1,11 @@
-import { timingSafeEqual } from 'node:crypto';
+import { timingSafeEqual, createHash } from 'node:crypto';
 import { defaultCatalogue } from './_catalogue.js';
 
 // POST   /api/admin-upload?id=<pack id>  body: the raw PDF (Content-Type: application/pdf)
 // DELETE /api/admin-upload?id=<pack id>
-// Stores the customer PDF for a single pack in the PRIVATE blob store at products/<id>.pdf, which is what
-// api/download.js streams after a verified payment. Bundles reuse their packs' files, so only packs are accepted.
+// Stores one customer PDF in the PRIVATE blob store at products/<id>.pdf, which is what api/download.js streams
+// after a verified payment. <id> is a pack id, or the file name (without .pdf) of one part of a Full Set.
+// Only paths the catalogue lists are accepted; bundles made of packs reuse the packs' files.
 // Vercel caps a function request body at about 4.5 MB, so anything over MAX_BYTES is refused with 413.
 
 export const MAX_BYTES = 4_400_000; // 4.4 MB (decimal), safely under Vercel's 4.5 MB body limit
@@ -14,8 +15,8 @@ const PDF_MAGIC = Buffer.from('%PDF-');
 function authorised(req, env) {
   const key = env.ADMIN_KEY || '';
   const given = String((req.headers && req.headers['x-admin-key']) || '');
-  if (!key || given.length !== key.length) return false;
-  return timingSafeEqual(Buffer.from(given), Buffer.from(key));
+  const digest = s => createHash('sha256').update(s).digest();
+  return !!key && timingSafeEqual(digest(given), digest(key));
 }
 
 // A single pack (not a bundle) whose file is exactly products/<id>.pdf.
@@ -25,6 +26,17 @@ export function findPack(id, catalogue = defaultCatalogue) {
   const r = (catalogue.resources || []).find(x => x && x.id === key);
   if (!r || r.bundle || Array.isArray(r.files)) return null;
   return r.file === `products/${key}.pdf` ? r : null;
+}
+
+// A pack, or one part of a Full Set: any products/<id>.pdf path that some catalogue resource delivers.
+export function findUpload(id, catalogue = defaultCatalogue) {
+  const key = String(id || '');
+  const pack = findPack(key, catalogue);
+  if (pack) return pack;
+  if (!/^bundle-set-[\w-]+-\d\d$/.test(key)) return null;
+  const path = `products/${key}.pdf`;
+  const owner = (catalogue.resources || []).find(r => r && Array.isArray(r.files) && r.files.includes(path));
+  return owner ? { id: key, title: (owner.fileTitles || [])[owner.files.indexOf(path)] || key } : null;
 }
 
 // Reads the raw request stream (never req.body). Over the limit, it keeps draining but stops storing.
@@ -62,8 +74,8 @@ export function createUploadHandler({ getDeps = realDeps, catalogue = defaultCat
       return res.status(405).json({ error: 'Use POST or DELETE.' });
     }
     const q = req.query || {};
-    const pack = findPack(q.id, catalogue);
-    if (!pack) return res.status(404).json({ error: 'Unknown pack id. Upload a PDF against a single pack, not a bundle.' });
+    const pack = findUpload(q.id, catalogue);
+    if (!pack) return res.status(404).json({ error: 'Unknown file. The name must be a pack id, or a Full Set part such as bundle-set-psle-maths-02.' });
     const path = `products/${pack.id}.pdf`;
     try {
       if (req.method === 'DELETE') {

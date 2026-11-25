@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { put, list, get, del } from '@vercel/blob';
 
 // Collections live as one JSON blob per record under <collection>/<id>.json in the private store.
@@ -55,6 +56,26 @@ export async function listDocs(collection, limit = 300) {
   const ids = paths.slice(0, limit).map(p => p.slice(prefix.length, -5));
   const docs = await Promise.all(ids.map(id => readDoc(collection, id).catch(() => null)));
   return docs.filter(Boolean);
+}
+
+// Per-IP hourly limit for public POST endpoints. Fails open, so a storage error never blocks a real parent.
+// shortcut: read-then-write is not atomic, so requests sent at the same instant count as one; and ratelimit/ blobs are never deleted.
+// Upgrade to a Vercel Firewall rate-limit rule or an atomic counter (Redis INCR) if spam bursts are seen.
+export async function allow(req, bucket, max = 5) {
+  try {
+    const h = (req && req.headers) || {};
+    const ip = String(h['x-real-ip'] || h['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+    const hour = new Date().toISOString().slice(0, 13);
+    const path = 'ratelimit/' + createHash('sha256').update(bucket + '|' + ip + '|' + hour).digest('hex') + '.json';
+    const seen = await getJson(path);
+    const n = ((seen && seen.n) || 0) + 1;
+    if (n > max) return false;
+    await putJson(path, { n });
+    return true;
+  } catch (e) {
+    console.error('rate limit check failed', e);
+    return true;
+  }
 }
 
 // Duplicate-submission markers: dedupe/<hash>.json holds the id of the record first saved.

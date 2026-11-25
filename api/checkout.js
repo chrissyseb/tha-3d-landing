@@ -123,6 +123,8 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Use POST.' });
   if (!stripeConfigured()) return res.status(503).json({ error: 'Online payment is not available yet. Please use the reservation form instead.' });
   const b = bodyOf(req);
+  const { allow } = await import('./_store.js');
+  if (!(await allow(req, 'checkout', 10))) return res.status(429).json({ error: 'Too many attempts. Please try again later.' });
   try {
     const out = await createItemCheckout(String(b.item || ''), { origin: siteOrigin(req), email: b.email });
     if (out.error) return res.status(out.status || 400).json({ error: out.error });

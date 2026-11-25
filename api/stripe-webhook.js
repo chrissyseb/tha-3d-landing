@@ -30,6 +30,8 @@ async function markPaid(order, session, eventType, now, deps) {
   const paid = Number(session.amount_total) / 100;
   if ((session.currency && session.currency !== 'sgd') || (Number.isFinite(paid) && Math.abs(paid - order.amount) > 0.001)) {
     addEvent(order, 'amount-mismatch', now, `${session.amount_total} ${session.currency}`);
+    // The buyer may have paid; the order stays unpaid, so the owner must look at it in Stripe.
+    await deps.notify({ type: 'payment-check', id: order.id, detail: `${order.title}: Stripe reports ${session.amount_total} ${session.currency}, the order is S$${order.amount}. Not marked paid.` });
     return 'amount-mismatch';
   }
   if (!transition(order, 'paid', eventType, now)) return 'unchanged';

@@ -38,8 +38,10 @@ const PACKS = [
   pack('res-gp-essay', 'GP Essay', 'A-Level', 45, 55, 'GP 8881 Paper 1: 57 questions and 61 verified 2023–26 examples, with annotated model essays, an error checklist and a timed mock.'),
 ];
 const byId = id => PACKS.find(p => p.id === id);
+// Pack-only bundles are off the shop page and cost more than their packs bought one by one at launch prices,
+// so they are kept for the record but not sold (notForSale). Remove the flag to sell one again.
 const bundle = (id, title, exam, price, regularPrice, members, tagline) => ({
-  id, title, exam, price, regularPrice, tagline, bundle: true,
+  id, title, exam, price, regularPrice, tagline, bundle: true, notForSale: true,
   items: members, files: members.map(pdf), fileTitles: members.map(m => byId(m).title),
 });
 
@@ -54,7 +56,40 @@ const BUNDLES = [
     'GP 8881 Papers 1 and 2: Comprehension and Essay, with model answers, mark rationale and timed practice.'),
 ];
 
-export const RESOURCES = [...PACKS, ...BUNDLES];
+// Full Sets (18 Nov 2026): a whole subject in one purchase. Files are the numbered PDFs of the set, uploaded to the
+// private store as products/<set id>-00.pdf (Start Here) and products/<set id>-NN.pdf for each part that is not a pack.
+// Each launch price is above the launch prices of the packs inside it added together (a test checks this).
+const fullSet = (id, title, exam, price, regularPrice, members, fileTitles, tagline) => ({
+  id, title, exam, price, regularPrice, tagline, bundle: true, fullSet: true, items: members, fileTitles,
+  // Part 00 is Start Here; parts 1..members.length are the packs themselves, delivered from the packs' own files.
+  files: fileTitles.map((_, i) => (i >= 1 && i <= members.length ? pdf(members[i - 1]) : `products/${id}-${String(i).padStart(2, '0')}.pdf`)),
+});
+
+const FULL_SETS = [
+  fullSet('bundle-set-psle-english', 'PSLE English Full Set', 'PSLE', 69, 89, ['res-psle-comprehension'],
+    ['Start Here','PSLE Comprehension Pack','PSLE Composition: The Writing Method','PSLE Comprehension Mastery Workbook','PSLE English Summary Notes'],
+    'PSLE English in one set: the Comprehension pack, the composition guide, a comprehension workbook with answer key, summary notes and a week-by-week Start Here plan. 133 pages.'),
+  fullSet('bundle-set-psle-maths', 'PSLE Maths Full Set', 'PSLE', 69, 89, ['res-psle-maths'],
+    ['Start Here','PSLE Maths Pack','PSLE Maths Heuristics Workbook','PSLE Maths Summary Notes'],
+    'PSLE Maths in one set: the Maths pack, a heuristics workbook with answer key, summary notes and a week-by-week Start Here plan. 102 pages.'),
+  fullSet('bundle-set-psle-science', 'PSLE Science Full Set', 'PSLE', 89, 109, ['res-psle-science'],
+    ['Start Here','PSLE Science Pack','PSLE Science Complete Notes','PSLE Science Open-Ended Answers Workbook'],
+    'PSLE Science in one set: the Science pack, complete notes for all five themes, an open-ended answers workbook with answer key and a week-by-week Start Here plan. 270 pages.'),
+  fullSet('bundle-set-o-english', 'O-Level English Full Set', 'O-Level', 129, 159, ['res-o-comprehension','res-o-writing','res-o-oral'],
+    ['Start Here','O-Level Comprehension Pack','O-Level Writing Pack','O-Level Oral Pack','O-Level Argumentative Essays: The Writing Method','Argumentative Essay Workbook','Comprehension Mastery Workbook','O-Level English Summary Notes'],
+    'O-Level English in one set: the Comprehension, Writing and Oral packs, the argumentative essay guide, two workbooks with answer keys, summary notes and a week-by-week Start Here plan. 294 pages.'),
+  fullSet('bundle-set-o-humanities', 'O-Level Humanities Full Set', 'O-Level', 79, 99, ['res-o-ss'],
+    ['Start Here','O-Level Social Studies Pack','Source-Based Questions Workbook','Humanities Essay and Case Study Workbook','Social Studies Summary Notes','History Summary Notes','Geography Summary Notes'],
+    'O-Level Humanities in one set: the Social Studies pack, source-skills and essay workbooks with answer keys, summary notes for Social Studies, History and Geography, and a week-by-week Start Here plan. 149 pages.'),
+  fullSet('bundle-set-sec-literature', 'Secondary Literature Full Set', 'Secondary', 79, 99, ['res-sec-literature'],
+    ['Start Here','Secondary Literature Pack','Unseen Poetry and Prose Workbook','Macbeth Study Guide','The Merchant of Venice Study Guide','Literature Summary Notes'],
+    'For school Literature exams on Macbeth or The Merchant of Venice, and for unseen poetry and prose: the Literature pack, an unseen workbook with answer key, two play guides, summary notes and a Start Here plan. 165 pages.'),
+  fullSet('bundle-set-gp', 'A-Level GP Full Set', 'A-Level', 119, 149, ['res-gp-comprehension','res-gp-essay'],
+    ['Start Here','GP Comprehension Pack','GP Essay Pack','GP Essays: The Writing Method','GP Reading','Application Question Workbook','Macro-Argumentation Workbook','GP Summary Notes'],
+    'GP 8881 in one set: the Comprehension and Essay packs, the essay and reading guides, two workbooks with answer keys, summary notes and a week-by-week Start Here plan. 221 pages.'),
+];
+
+export const RESOURCES = [...PACKS, ...BUNDLES, ...FULL_SETS];
 
 // Student levels for the Checkout dropdown. Stripe dropdown values must be alphanumeric.
 export const STUDENT_LEVELS = [
@@ -83,7 +118,7 @@ export function resourceFiles(r) {
     : r.file ? [{ path: r.file, title: r.title }] : [];
   return list.every(f => typeof f.path === 'string' && PDF_PATH.test(f.path)) ? list : [];
 }
-const sellableResource = r => r && /^(res|bundle)-[\w-]+$/.test(r.id) && Number(r.price) > 0 && resourceFiles(r).length > 0;
+const sellableResource = r => r && !r.notForSale && /^(res|bundle)-[\w-]+$/.test(r.id) && Number(r.price) > 0 && resourceFiles(r).length > 0;
 
 // Returns { kind, ...item } for a sellable item id, or null.
 export function findItem(id, cat = defaultCatalogue) {

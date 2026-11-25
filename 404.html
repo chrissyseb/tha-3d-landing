@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-SG"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Page not found | Thinking Hack Education</title>
+<meta name="description" content="That page is not here. Find an Exam Preparation Specialist, browse the exam notes or go back to the home page.">
+<meta name="robots" content="noindex">
+<meta property="og:image" content="https://thinking-hack.vercel.app/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/styles.css?v=22">
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="Thinking Hack home"><span class="w1">THINKING HACK</span><span class="w2">EDUCATION</span></a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="main-nav">Menu</button>
+    <nav class="main" id="main-nav" aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#results">Results</a>
+      <a href="/#programmes">Masterclasses</a>
+      <a href="/#rates">Rates</a>
+      <a href="/#free">Free resources</a><a href="/resources">Shop</a>
+      <a class="btn small" href="/#match">Get matched</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="band sec page-top">
+    <div class="wrap">
+      <div class="section-head">
+        <h1>That page is <span class="sw">not here</span></h1>
+        <p>The link may be old, or the address may have a typing slip. These will get you where you were going.</p>
+        <p class="ctas" style="display:flex;flex-wrap:wrap;gap:12px 16px;margin-top:28px"><a class="btn" href="/#match">Find my Specialist</a><a class="btn ghost" href="/resources">Browse the exam notes</a><a class="btn ghost" href="/">Home page</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Thinking Hack Education™. Thinking Hack™, Exam Preparation Specialists™, Thinking Hack Masterclasses™, Thinking Hack Exam Notes™, EssayLab™, Essay Clinic™, the BUG Method™ and the masterclass names marked ™ are trademarks of Thinking Hack Education.</span>
+    <nav aria-label="Footer"><a href="/#match">Get matched</a><a href="/join">Join as a Specialist</a><a href="/specialist-terms">Specialist terms</a><a href="/about">About</a><a href="/privacy" aria-current="page">Privacy</a><a href="/terms">Terms</a><a href="/terms">Booking &amp; refunds</a><a href="https://wa.me/6590030002?text=Hi%20Thinking%20Hack%2C%20I%E2%80%99d%20like%20to%20be%20matched%20with%20an%20Exam%20Preparation%20Specialist%E2%84%A2.%20Exam%20and%20level%3A%20" target="_blank" rel="noopener">WhatsApp us</a></nav>
+    <button class="theme-toggle" id="theme-toggle" type="button">Switch theme</button>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  // Mobile menu
+  const menuBtn = $('#menu-btn'), nav = $('#main-nav');
+  menuBtn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  $$('#main-nav a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }));
+
+  $('#theme-toggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    root.dataset.theme = current === 'dark' ? 'light' : 'dark';
+  });
+})();
+</script>
+
+
+
+<script defer src="/site.js"></script>
+</body></html>

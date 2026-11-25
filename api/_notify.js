@@ -7,6 +7,7 @@ const LABELS = {
   application: 'New Specialist application',
   'order-paid': 'Order paid',
   'placement-fee-paid': 'Placement fee paid',
+  'payment-check': 'Payment needs checking',
 };
 
 export async function notify({ type, id, detail } = {}, { env = process.env, fetchImpl = fetch } = {}) {

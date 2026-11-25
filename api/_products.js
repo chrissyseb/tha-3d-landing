@@ -1,4 +1,4 @@
-import { RESOURCES, resourceFiles } from './_catalogue.js';
+import { RESOURCES, resourceFiles, findItem } from './_catalogue.js';
 
 // Which catalogue resources can actually be delivered: every PDF they list must exist in the private store.
 // Cached briefly per function instance so the homepage config call stays cheap.
@@ -25,5 +25,5 @@ export function deliverable(resource, paths) {
 
 export async function availableResourceIds(opts) {
   const paths = await uploadedPaths(opts);
-  return RESOURCES.filter(r => deliverable(r, paths)).map(r => r.id);
+  return RESOURCES.filter(r => findItem(r.id) && deliverable(r, paths)).map(r => r.id);
 }

@@ -4,7 +4,8 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 const API = 'https://api.stripe.com/v1';
 
 export const stripeKey = (env = process.env) => String(env.STRIPE_SECRET_KEY || '').trim();
-export const stripeConfigured = (env = process.env) => /^(sk|rk)_(test|live)_/.test(stripeKey(env));
+// Selling needs the webhook secret too: without it a buyer could pay and the order would never be marked paid.
+export const stripeConfigured = (env = process.env) => /^(sk|rk)_(test|live)_/.test(stripeKey(env)) && !!env.STRIPE_WEBHOOK_SECRET;
 // 'live' only for a live key; anything else (including no key) reports 'test'.
 export const stripeMode = (env = process.env) => (/^(sk|rk)_live_/.test(stripeKey(env)) ? 'live' : 'test');
 
