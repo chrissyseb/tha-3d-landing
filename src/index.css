@@ -1,0 +1,16 @@
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/cormorant-garamond/600.css';
+:root { color-scheme: light; --ox: #762D3B; --ivory: #F5F0E8; --ink: #191A18; --gold: #C9A227; }
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; min-height: 100%; background: var(--ivory); color: var(--ink); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 32px 20px 48px; }
+.kicker { margin: 0 0 6px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ox); }
+h1 { margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: clamp(34px, 6vw, 56px); line-height: 1.05; text-wrap: balance; }
+.step { min-height: 3em; margin: 12px 0 18px; font-size: 18px; max-width: 46ch; }
+.stage { height: min(62vh, 560px); border-radius: 18px; overflow: hidden; background: linear-gradient(#efe6d6, #e4d7bf); box-shadow: 0 20px 50px -28px rgba(25,26,24,.45); touch-action: none; }
+.btn { margin-top: 18px; border: 0; border-radius: 999px; padding: 14px 22px; font: 600 16px 'Plus Jakarta Sans', sans-serif; background: var(--ox); color: var(--ivory); cursor: pointer; transition: background-color .2s ease, transform .2s ease; touch-action: manipulation; }
+.btn:hover { background: #5e2330; }
+.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.hint { margin: 10px 0 0; font-size: 14px; color: #4E4B45; }
+.label { white-space: nowrap; font: 600 14px 'Plus Jakarta Sans', sans-serif; color: var(--ink); background: rgba(245,240,232,.9); padding: 4px 10px; border-radius: 999px; pointer-events: none; }
