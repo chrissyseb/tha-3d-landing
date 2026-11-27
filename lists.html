@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-SG"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/icon-192.png"><link rel="manifest" href="/manifest.webmanifest"><title>My Lists | Vocab Obby</title>
+<!DOCTYPE html><html lang="en-SG"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png"><link rel="manifest" href="/manifest.webmanifest"><title>My Lists | Vocab Obby</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet"><style>
 :root{--ink:#1b2140;--mut:#5a6480;--sky:#4cb8ff;--sun:#ffd23f;--ok:#3fbf6b;--bad:#d43b3b;--soft:#eef3fb}
 *{box-sizing:border-box;min-width:0}body{margin:0;min-height:100vh;background:linear-gradient(#4cb8ff,#a8e1ff) fixed;color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif}
@@ -31,7 +31,7 @@ textarea{width:100%;font:16px Nunito,sans-serif;padding:10px 12px;border:3px sol
 .code{font:800 30px Outfit,sans-serif;letter-spacing:.18em;background:var(--soft);border:3px dashed var(--ink);border-radius:14px;padding:8px 14px;display:inline-block}
 .row{display:flex;gap:10px;align-items:center}.row label{margin:0;font-weight:700}.row input[type=checkbox]{width:22px;height:22px}
 .err{color:var(--bad);font-weight:800}.note{color:var(--mut);font-size:14px}.mine li{display:flex;justify-content:space-between;gap:10px;align-items:center}
-</style></head><body><div class="wrap"><a class="brand" href="/"><b>Vocab Obby</b></a><div id="app"></div></div>
+</style></head><body><div class="wrap"><a class="brand" href="/" style="background:none;border:0;box-shadow:none;padding:0" aria-label="Vocab Obby home"><img src="/icons/vo-icon.svg" alt="" width="44" height="44"><b style="font:800 28px/1 Outfit,sans-serif;color:#fff;-webkit-text-stroke:6px #1b2140;paint-order:stroke fill;text-shadow:0 3px 0 #1b2140">Vocab <span style="color:#ffd23f">Obby</span></b></a><div id="app"></div></div>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=(p,o={})=>fetch(p,{...o,credentials:'same-origin',headers:{'x-vo':'1','Content-Type':'application/json'}}).then(async r=>({ok:r.ok,status:r.status,j:await r.json().catch(()=>({}))})).catch(()=>({ok:false,j:{error:'Network problem. Try again.'}}));

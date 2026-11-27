@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Team Up | Vocab Obby</title>
 <meta name="description" content="Team Up in Vocab Obby: fight word bosses together with friends.">
-<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/logo.svg"><link rel="apple-touch-icon" href="/icons/apple-180.png">
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png"><link rel="apple-touch-icon" href="/icons/apple-180.png">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/vo.css">
 <style>
@@ -60,7 +60,20 @@ label{font:800 14px var(--fd);display:block;margin:10px 0 6px}
 .shake{animation:sh .4s}@keyframes sh{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 @media(prefers-reduced-motion:reduce){.pop{animation:none;opacity:1}.shake{animation:none}}
 .foot{color:#fff;text-align:center;font-size:13px;font-weight:700;text-shadow:0 1px 0 rgba(0,0,0,.3)}
-.spk{min-width:48px;min-height:44px;font-size:20px;padding:4px 10px;border-radius:12px}</style></head><body>
+.spk{min-width:48px;min-height:44px;font-size:20px;padding:4px 10px;border-radius:12px}
+body.playing{height:100vh;height:100dvh;overflow:hidden;min-height:0}
+body.playing .vo-bar,body.playing footer,body.playing .foot{display:none!important}
+body.playing .wrap{height:100vh;height:100dvh;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 6px) max(10px,env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 8px) max(10px,env(safe-area-inset-left));gap:4px;max-width:720px;margin:0 auto}
+body.playing .wrap>*:first-child{flex:none;margin:0}
+body.playing #main{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+body.playing .bar{margin-bottom:4px;font-size:14px}
+body.playing #arena{flex:0 1 auto;height:24dvh;min-height:100px;margin-bottom:6px}
+body.playing #pn{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:auto;padding:12px 14px;margin:0}
+body.playing #pn .opts{margin-top:auto;gap:8px}body.playing #pn .opts button{min-height:48px;padding:10px 12px;font-size:16px}
+body.playing #pn .q{margin:4px 0 8px;font-size:17px}body.playing #pn .q b{font-size:24px}body.playing .turnline{font-size:19px;margin:0 0 6px}
+body.playing #pn~.card{display:none}
+@media(max-height:760px){body.playing #arena{height:20dvh}body.playing #pn .opts button{min-height:44px;font-size:15px;padding:8px 12px}}
+</style></head><body>
 <div class="wrap">
 <div class="top"><a href="/">← Back to Vocab Obby</a><span class="tag">Team Up</span></div>
 <div id="main"><div class="card"><p>Loading Team Up…</p></div></div>
@@ -163,6 +176,7 @@ function render(){
   }
   const L=R.last;let teach='';
   if(L&&!L.ok&&answered[L.qid]!=='shown'){teach=`<div class="teach"><b>${esc(L.word)}</b> means ${esc(L.meaning)}.</div>`;}
+  document.body.classList.add('playing');
   main.innerHTML=`<div class="bar"><span>${esc(b.name)}</span><div class="hp"><i style="width:${b.hp/b.max*100}%"></i></div><span>${b.hp}/${b.max}</span></div>
   <div class="bar"><span class="hearts" aria-label="${R.hearts} hearts">${'❤️'.repeat(R.hearts)}${'🖤'.repeat(Math.max(0,R.maxHearts-R.hearts))}</span><span style="margin-left:auto">Weak to ${b.weak==='zap'?'Electric':b.weak[0].toUpperCase()+b.weak.slice(1)}</span></div>
   <div id="arena"><canvas id="cv"></canvas></div>
@@ -255,4 +269,6 @@ VO_READY.then(async()=>{
   if(saved){const r=await api(`/api/room?code=${saved.code}&t=${encodeURIComponent(saved.tokn)}`);if(r.ok&&r.j.players.some(p=>p.pid===saved.pid&&!p.left)){tokn=saved.tokn;pid=saved.pid;setState(r.j);start();return}}
   lobbyPick();
 });
-}</script></body></html>
+}
+new MutationObserver(()=>document.body.classList.toggle('playing',!!document.getElementById('arena'))).observe(document.getElementById('main'),{childList:true});
+</script></body></html>
