@@ -1,4 +1,4 @@
-# Vocab Obby word levels
+# VocaBobby word levels
 Levels in words.json were re-checked against open CEFR references (lemma match via lemminflect):
 - CEFR-J Vocabulary Profile 1.5 (Tono Laboratory, Tokyo University of Foreign Studies), used with citation. https://github.com/openlanguageprofiles/olp-en-cefrj
 - Octanove Vocabulary Profile C1/C2 1.0, CC BY-SA 4.0.

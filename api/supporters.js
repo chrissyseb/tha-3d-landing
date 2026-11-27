@@ -1,6 +1,6 @@
 import { send, listJson, supTier } from './_lib.js';
 // Public, read-only Supporters Wall: only families who opted in; nicknames + tier only.
-const ALLOW = new Set(['https://miss-christine.vercel.app', 'https://vocab-obby.vercel.app']);
+const ALLOW = new Set(['https://miss-christine.vercel.app', 'https://vocabobby.vercel.app']);
 export default async function handler(req, res) {
   const o = req.headers.origin; if (o && ALLOW.has(o)) { res.setHeader('Access-Control-Allow-Origin', o); res.setHeader('Vary', 'Origin'); }
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }

@@ -1,0 +1,811 @@
+{
+ "date": "2026-11-28",
+ "judged_by": "hand, everyday school sense",
+ "seed": 20261128,
+ "before_correct": 68,
+ "after_correct": 70,
+ "after_wrong_unflagged": 1,
+ "n": 80,
+ "rows": [
+  {
+   "set": "random",
+   "word": "valentine",
+   "override": false,
+   "before": "a card sent or given on Saint Valentine's Day",
+   "before_ok": true,
+   "after": "a sweetheart chosen to receive a greeting on Saint Valentine's Day",
+   "after_ok": false,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "chevy",
+   "override": false,
+   "before": "annoy continually or chronically",
+   "before_ok": true,
+   "after": "annoy continually or chronically",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "timeline",
+   "override": false,
+   "before": "a sequence of related events arranged in chronological order and displayed along a line",
+   "before_ok": true,
+   "after": "a sequence of related events arranged in chronological order and displayed along a line",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "peculiar",
+   "override": false,
+   "before": "beyond or deviating from the usual or expected",
+   "before_ok": true,
+   "after": "strange or unusual",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "chips",
+   "override": false,
+   "before": "strips of potato fried in deep fat",
+   "before_ok": true,
+   "after": "strips of potato fried in deep fat",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "brilliant",
+   "override": false,
+   "before": "of surpassing excellence",
+   "before_ok": true,
+   "after": "very clever; very good",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "possessed",
+   "override": false,
+   "before": "of, pertaining to, or like a demon or possession by a demon",
+   "before_ok": false,
+   "after": "influenced or controlled by a powerful force such as a strong emotion",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "professional",
+   "override": false,
+   "before": "engaged in a profession or engaging in as a profession or means of livelihood",
+   "before_ok": true,
+   "after": "engaged in a profession or engaging in as a profession or means of livelihood",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "radial",
+   "override": false,
+   "before": "relating to or near the radius",
+   "before_ok": true,
+   "after": "relating to or near the radius",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "motorist",
+   "override": false,
+   "before": "someone who drives an automobile",
+   "before_ok": true,
+   "after": "someone who drives an automobile",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "runoff",
+   "override": false,
+   "before": "the occurrence of surplus liquid exceeding the limit or capacity",
+   "before_ok": true,
+   "after": "the occurrence of surplus liquid exceeding the limit or capacity",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "partially",
+   "override": false,
+   "before": "to some extent; in some degree; not wholly",
+   "before_ok": true,
+   "after": "to some extent; in some degree; not wholly",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "coupled",
+   "override": false,
+   "before": "joined together especially in a pair or pairs",
+   "before_ok": true,
+   "after": "joined together especially in a pair or pairs",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "dismally",
+   "override": false,
+   "before": "in a cheerless manner",
+   "before_ok": true,
+   "after": "in a cheerless manner",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "unusualness",
+   "override": false,
+   "before": "uncommonness by virtue of being unusual",
+   "before_ok": true,
+   "after": "uncommonness by virtue of being unusual",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "fabulous",
+   "override": false,
+   "before": "extremely pleasing",
+   "before_ok": true,
+   "after": "extremely pleasing",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "mimic",
+   "override": false,
+   "before": "someone who mimics",
+   "before_ok": true,
+   "after": "someone who mimics",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "stranger",
+   "override": false,
+   "before": "anyone who does not belong in the environment in which they are found",
+   "before_ok": true,
+   "after": "anyone who does not belong in the environment in which they are found",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "beat",
+   "override": false,
+   "before": "come out better in a competition, race, or conflict",
+   "before_ok": true,
+   "after": "come out better in a competition, race, or conflict",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "checklist",
+   "override": false,
+   "before": "a list of items to be checked or consulted",
+   "before_ok": true,
+   "after": "a list of items to be checked or consulted",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "enthuse",
+   "override": false,
+   "before": "cause to feel enthusiasm",
+   "before_ok": true,
+   "after": "cause to feel enthusiasm",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "consolidated",
+   "override": false,
+   "before": "joined together into a whole",
+   "before_ok": true,
+   "after": "joined together into a whole",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "number",
+   "override": false,
+   "before": "the property possessed by a sum or total or indefinite quantity of units or individuals",
+   "before_ok": true,
+   "after": "the property possessed by a sum or total or indefinite quantity of units or individuals",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "terrify",
+   "override": false,
+   "before": "fill with terror; frighten greatly",
+   "before_ok": true,
+   "after": "fill with terror; frighten greatly",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "facility",
+   "override": false,
+   "before": "a building or place that provides a particular service or is used for a particular\u2026",
+   "before_ok": true,
+   "after": "a building or place that provides a particular service or is used for a particular\u2026",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "completion",
+   "override": false,
+   "before": "a concluding action",
+   "before_ok": true,
+   "after": "a concluding action",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "diaspora",
+   "override": false,
+   "before": "the dispersion or spreading of something that was originally localized",
+   "before_ok": false,
+   "after": "the dispersion or spreading of something that was originally localized",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "crowd",
+   "override": false,
+   "before": "a large number of things or people considered together",
+   "before_ok": true,
+   "after": "a large group of people",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "army",
+   "override": false,
+   "before": "a permanent organization of the military land forces of a nation or state",
+   "before_ok": true,
+   "after": "a large number of people united for some specific purpose",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "harbour",
+   "override": false,
+   "before": "a sheltered port where ships can take on or discharge cargo",
+   "before_ok": true,
+   "after": "a sheltered port where ships can take on or discharge cargo",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "endure",
+   "override": false,
+   "before": "put up with something or somebody unpleasant",
+   "before_ok": true,
+   "after": "suffer something painful patiently",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "limited",
+   "override": false,
+   "before": "small in range or scope",
+   "before_ok": true,
+   "after": "small in range or scope",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "overweight",
+   "override": false,
+   "before": "usually describes a large person who is fat but has a large frame to carry it",
+   "before_ok": true,
+   "after": "usually describes a large person who is fat but has a large frame to carry it",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "catch",
+   "override": false,
+   "before": "discover or come upon accidentally, suddenly, or unexpectedly; catch somebody doing\u2026",
+   "before_ok": false,
+   "after": "take hold of something moving",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "acutely",
+   "override": false,
+   "before": "in a keen or penetrating way",
+   "before_ok": true,
+   "after": "in a keen or penetrating way",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "cocoa",
+   "override": false,
+   "before": "a beverage made from cocoa powder and milk and sugar; usually drunk hot",
+   "before_ok": true,
+   "after": "a beverage made from cocoa powder and milk and sugar; usually drunk hot",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "random",
+   "word": "reproduce",
+   "override": false,
+   "before": "make a copy or equivalent of",
+   "before_ok": true,
+   "after": "make a copy or equivalent of",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "speeding",
+   "override": false,
+   "before": "changing location rapidly",
+   "before_ok": true,
+   "after": "changing location rapidly",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "covert",
+   "override": false,
+   "before": "a flock of coots",
+   "before_ok": false,
+   "after": "a covering that serves to conceal or shelter something",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "random",
+   "word": "soundtrack",
+   "override": false,
+   "before": "sound recording on a narrow strip of a motion picture film",
+   "before_ok": true,
+   "after": "sound recording on a narrow strip of a motion picture film",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "lonely",
+   "override": false,
+   "before": "lacking companions or companionship",
+   "before_ok": true,
+   "after": "sad because you are alone",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "dropout",
+   "override": false,
+   "before": "someone who quits school before graduation",
+   "before_ok": true,
+   "after": "someone who quits school before graduation",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "hatching",
+   "override": false,
+   "before": "the production of young from an egg",
+   "before_ok": true,
+   "after": "the production of young from an egg",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "planning",
+   "override": false,
+   "before": "an act of formulating a program for a definite course of action",
+   "before_ok": true,
+   "after": "an act of formulating a program for a definite course of action",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "wedding",
+   "override": false,
+   "before": "the social event at which the ceremony of marriage is performed",
+   "before_ok": true,
+   "after": "the social event at which the ceremony of marriage is performed",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "intermission",
+   "override": false,
+   "before": "the act of suspending activity temporarily",
+   "before_ok": true,
+   "after": "a time interval during which there is a temporary cessation of something",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "elemental",
+   "override": false,
+   "before": "relating to or being an element",
+   "before_ok": true,
+   "after": "relating to or being an element",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "discipline",
+   "override": false,
+   "before": "a branch of knowledge",
+   "before_ok": false,
+   "after": "a branch of knowledge",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "molecule",
+   "override": false,
+   "before": "the simplest structural unit of an element or compound",
+   "before_ok": true,
+   "after": "a tiny piece of anything",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "chemist",
+   "override": false,
+   "before": "a scientist who specializes in chemistry",
+   "before_ok": true,
+   "after": "a health professional trained in the art of preparing and dispensing drugs",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "calculation",
+   "override": false,
+   "before": "the procedure of calculating; determining something by mathematical or logical methods",
+   "before_ok": true,
+   "after": "the procedure of calculating; determining something by mathematical or logical methods",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "separated",
+   "override": false,
+   "before": "being or feeling set or kept apart from others",
+   "before_ok": true,
+   "after": "being or feeling set or kept apart from others",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "outlet",
+   "override": false,
+   "before": "a place of business for retailing goods",
+   "before_ok": true,
+   "after": "a place of business for retailing goods",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "direct",
+   "override": false,
+   "before": "direct in spatial dimensions; proceeding without deviation or interruption; straight\u2026",
+   "before_ok": true,
+   "after": "direct in spatial dimensions; proceeding without deviation or interruption; straight\u2026",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "tighten",
+   "override": false,
+   "before": "make tight or tighter",
+   "before_ok": true,
+   "after": "make tight or tighter",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "loser",
+   "override": false,
+   "before": "a contestant who loses the contest",
+   "before_ok": true,
+   "after": "a contestant who loses the contest",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "guy",
+   "override": true,
+   "before": "an informal term for a youth or man",
+   "before_ok": true,
+   "after": "a man",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "nature",
+   "override": false,
+   "before": "the essential qualities or characteristics by which something is recognized",
+   "before_ok": false,
+   "after": "the natural physical world including plants and animals and landscapes etc.",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "law",
+   "override": false,
+   "before": "the collection of rules imposed by authority",
+   "before_ok": true,
+   "after": "the collection of rules imposed by authority",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "twilight",
+   "override": false,
+   "before": "the time of day immediately following sunset",
+   "before_ok": true,
+   "after": "the time of day immediately following sunset",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "season",
+   "override": true,
+   "before": "a period of the year marked by special events or activities in some field",
+   "before_ok": false,
+   "after": "one of the four parts of the year, such as summer",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "custody",
+   "override": false,
+   "before": "a state of being confined",
+   "before_ok": true,
+   "after": "a state of being confined",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "choose",
+   "override": false,
+   "before": "pick out, select, or choose from a number of alternatives",
+   "before_ok": true,
+   "after": "pick from a group",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "specialty",
+   "override": false,
+   "before": "an asset of special worth or utility",
+   "before_ok": false,
+   "after": "an asset of special worth or utility",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "extension",
+   "override": false,
+   "before": "a mutually agreed delay in the date set for the completion of a job or payment of a debt",
+   "before_ok": false,
+   "after": "a mutually agreed delay in the date set for the completion of a job or payment of a debt",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "attentive",
+   "override": false,
+   "before": "giving care or attention",
+   "before_ok": true,
+   "after": "giving care or attention",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "repertoire",
+   "override": false,
+   "before": "the entire range of skills or aptitudes or devices used in a particular field or\u2026",
+   "before_ok": true,
+   "after": "the entire range of skills or aptitudes or devices used in a particular field or\u2026",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "noisy",
+   "override": false,
+   "before": "full of or characterized by loud and nonmusical sounds",
+   "before_ok": true,
+   "after": "making a lot of noise",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "illustration",
+   "override": false,
+   "before": "artwork that helps make something clear or attractive",
+   "before_ok": true,
+   "after": "artwork that helps make something clear or attractive",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "quarter",
+   "override": false,
+   "before": "one of four equal parts",
+   "before_ok": true,
+   "after": "one of four equal parts",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "avoid",
+   "override": false,
+   "before": "stay clear from; keep away from; keep out of the way of someone or something",
+   "before_ok": true,
+   "after": "keep away from",
+   "after_ok": true,
+   "flagged_check": false
+  },
+  {
+   "set": "multi-sense",
+   "word": "fleet",
+   "override": false,
+   "before": "group of aircraft operating together under the same ownership",
+   "before_ok": false,
+   "after": "group of aircraft operating together under the same ownership",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "loose",
+   "override": false,
+   "before": "not compact or dense in structure or arrangement",
+   "before_ok": false,
+   "after": "not compact or dense in structure or arrangement",
+   "after_ok": false,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "crossed",
+   "override": false,
+   "before": "placed crosswise",
+   "before_ok": true,
+   "after": "placed crosswise",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "manipulate",
+   "override": false,
+   "before": "influence or control shrewdly or deviously",
+   "before_ok": true,
+   "after": "influence or control shrewdly or deviously",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "public",
+   "override": false,
+   "before": "people in general considered as a whole",
+   "before_ok": true,
+   "after": "people in general considered as a whole",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "solidity",
+   "override": false,
+   "before": "the consistency of a solid",
+   "before_ok": true,
+   "after": "the consistency of a solid",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "personification",
+   "override": false,
+   "before": "a person who represents an abstract quality",
+   "before_ok": false,
+   "after": "representing an abstract quality or idea as a person or creature",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "species",
+   "override": false,
+   "before": "taxonomic group whose members can interbreed",
+   "before_ok": true,
+   "after": "a specific kind of something",
+   "after_ok": true,
+   "flagged_check": true
+  },
+  {
+   "set": "multi-sense",
+   "word": "available",
+   "override": false,
+   "before": "obtainable or accessible and ready for use or service",
+   "before_ok": true,
+   "after": "able to be used or bought",
+   "after_ok": true,
+   "flagged_check": false
+  }
+ ]
+}

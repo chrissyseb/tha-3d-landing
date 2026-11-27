@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png"><meta name="description" content="Vocab Obby by Thinking Hack Education. 500 Primary 6 vocabulary words, learnt through a blocky obby game with pets, a Word Boss and Speed Runs. Created by Miss Christine."><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#1b2140"><link rel="apple-touch-icon" href="/icons/apple-180.png"><link rel="stylesheet" href="/vo.css"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vocab Obby | Thinking Hack Education</title><meta property="og:title" content="Vocab Obby by Thinking Hack Education"><meta property="og:description" content="500 PSLE vocabulary words, learnt through a blocky obby game. Created by Miss Christine, Exam Preparation Specialist.">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VocaBobby: a vocabulary game for ages 9 to 15 | Thinking Hack Education</title>
+<meta name="description" content="VocaBobby is an educational English vocabulary game for Primary and Secondary students in Singapore (ages 9 to 15). Children learn word meanings, spelling and pronunciation with spaced review, while smashing word gates and beating word bosses. No ads, no chat, minimal data.">
+<link rel="canonical" href="https://vocabobby.vercel.app/">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png">
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#160C30">
+<meta property="og:type" content="website"><meta property="og:site_name" content="VocaBobby"><meta property="og:url" content="https://vocabobby.vercel.app/">
+<meta property="og:title" content="VocaBobby: an educational vocabulary game for ages 9 to 15">
+<meta property="og:description" content="Learn English words by playing. Meanings, spelling and pronunciation with spaced review, made in Singapore by Thinking Hack Education.">
+<meta property="og:image" content="https://vocabobby.vercel.app/icons/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Bobby the fox and the VocaBobby wordmark">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="VocaBobby: an educational vocabulary game for ages 9 to 15"><meta name="twitter:description" content="Learn English words by playing. Meanings, spelling and pronunciation with spaced review."><meta name="twitter:image" content="https://vocabobby.vercel.app/icons/og-image.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["EducationalApplication","SoftwareApplication"],"name":"VocaBobby","url":"https://vocabobby.vercel.app/","applicationCategory":"EducationalApplication","applicationSubCategory":"English vocabulary","operatingSystem":"Web browser","inLanguage":"en-GB","description":"An educational English vocabulary game for Primary and Secondary students aged 9 to 15. Word meanings, spelling and pronunciation with spaced review.","educationalLevel":["Primary school","Secondary school"],"educationalUse":["Vocabulary practice","Spelling practice","Revision"],"learningResourceType":"Educational game","teaches":"English vocabulary, word meanings, spelling and pronunciation","typicalAgeRange":"9-15","audience":[{"@type":"EducationalAudience","educationalRole":"student"},{"@type":"EducationalAudience","educationalRole":"teacher"},{"@type":"EducationalAudience","educationalRole":"parent"}],"isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"SGD"},"publisher":{"@type":"EducationalOrganization","name":"Thinking Hack Education","address":{"@type":"PostalAddress","addressCountry":"SG"}},"image":"https://vocabobby.vercel.app/icons/og-image.png"}</script>
+<link rel="stylesheet" href="/vo.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lilita+One&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* VOICE: a polished kids' game with real PSLE teaching inside; confident, bright, never babyish
    IDEA: an obby in the sky; every right answer is a jump to the next floating block
    PICTURE: a layered voxel sky world behind everything, the player's blocky avatar standing on a platform
-   COLOUR/TYPE: Thinking Hack hexagon colours as flat fields on a deep ink frame; Outfit for display, Nunito for text
+   COLOUR/TYPE: Thinking Hack hexagon colours as flat fields on a deep ink frame; Fredoka for display, Nunito for text
    LAYOUT: brand bar, stat strip, one main card per screen, chunky 3D buttons */
 :root{color-scheme:light;
 --ink:#1b2140;--ink2:#2b3463;--mut:#5d6585;--paper:#ffffff;--soft:#f2f5fb;--line:#dfe5f1;
 --sky:#3fb4e8;--sky2:#8fd6f5;--lime:#9dd946;--sun:#ffc642;--orng:#fa895d;--pink:#ed598c;--plum:#b15fd7;--blue:#4aa4e6;--ok:#2fbf71;--bad:#ef4f5f;
 --r:18px;--sh:0 6px 0 var(--ink);--s1:8px;--s2:12px;--s3:16px;--s4:24px;--s5:32px;
---fd:'Outfit','Avenir Next','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+--fd:'Fredoka','Avenir Next','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
 :root[data-theme=dark]{color-scheme:light}
 *{box-sizing:border-box;min-width:0}
 html{-webkit-text-size-adjust:100%}
@@ -298,38 +311,132 @@ body.playing .chase canvas{height:100%;width:auto;max-width:100%;aspect-ratio:36
 body.playing .chase-top{margin:4px 0}body.playing .chase-word{font-size:18px;margin:2px 0 6px}
 body.playing .ctl2{flex:none;margin-top:8px}body.playing .ctl2 .go{min-height:56px}
 @media(max-height:760px){body.playing #main>.card .q{font-size:16px}body.playing #main>.card .opt{min-height:44px;padding:8px 12px;font-size:15px}body.playing .obwrap,body.playing .obwrap canvas{max-height:26dvh}}
+
+/* ===== Brand v2: Bobby the fox, navy/indigo, gold actions, Fredoka + Nunito ===== */
+:root{--ink:#0F1230;--ink2:#1E1B4B;--sky:#1E1B4B;--sky2:#2E2A7A;--sun:#FFC857;--gold:#FFC857;--goldd:#C9922B;--ok:#10B981;--emer:#10B981;--navy:#171D35;
+--fire:#FF6B4A;--water:#38BDF8;--zap:#FACC15;--leaf:#34D399;--fd:'Fredoka','Avenir Next','Segoe UI',system-ui,sans-serif;--fw:'Lilita One','Fredoka',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+body{background:#171D35}
+.scene{background:#171D35}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 12% 18%,#fff9,transparent),radial-gradient(1.5px 1.5px at 32% 8%,#fff8,transparent),radial-gradient(2px 2px at 58% 22%,#ffc85799,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff8,transparent),radial-gradient(1.5px 1.5px at 90% 30%,#38bdf888,transparent),radial-gradient(1.5px 1.5px at 6% 40%,#fff6,transparent)}
+.wm2{display:flex;flex-direction:column;line-height:.86;font:400 22px/0.9 var(--fw);letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+.wm2 b{font-weight:400;color:#E0A126}
+.brand .lg{width:44px;height:44px}
+#splash{background:radial-gradient(circle at 50% 35%,#2E2A7A,#1E1B4B 60%,#171D35)}
+#splash .vi{width:148px;height:148px;border-radius:32px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.45))}
+#splash .pipline{color:#E8ECFF;font:700 16px var(--fb);margin:0}
+h1,h2,h3,.word,.tag,.big,.go,.sec .lbl b,.stat b,.pill{font-family:var(--fd)}
+/* 3D pill buttons: primary gold and dominant, secondary quiet */
+.big,.go{border-radius:999px;background:var(--gold);color:var(--ink);border:3px solid var(--ink);box-shadow:inset 0 -6px 0 rgba(160,100,10,.35),0 6px 0 var(--ink);font-weight:700;letter-spacing:.01em;transition:transform .08s,box-shadow .08s}
+.big:active,.go:active{transform:translateY(4px);box-shadow:inset 0 -3px 0 rgba(160,100,10,.35),0 2px 0 var(--ink)!important}
+.big{min-height:74px;font-size:26px}
+.big.alt{background:var(--emer);color:#fff}
+.go[style*="var(--paper)"],.go[style*="var(--soft)"]{box-shadow:inset 0 -4px 0 rgba(15,18,48,.08),0 4px 0 var(--ink);font-size:17px}
+.sec{background:#ffffffee;box-shadow:0 4px 0 var(--ink);border-width:2px;min-height:68px}
+.sec:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)!important}
+.sec .lbl b{font-weight:600}
+.hero{background:linear-gradient(160deg,#2E2A7A,#1E1B4B);color:#E8ECFF}
+.hero .lead,.hero .hi{color:#E8ECFF}
+.lead{color:#E8ECFF}
+.card .lead{color:var(--ink)}
+.foot{background:#ffffff14;color:#C9CCF0}
+.foot a{color:#FFC857!important}
+.tierbar,.rankline{color:#E8ECFF}
+.opt.right{background:var(--emer)!important;color:#fff}
+/* static intro (also what crawlers see) */
+.seo{text-align:left}
+.seo .seofox{display:block;width:110px;height:auto;margin:0 auto 6px}
+.seoh{color:var(--ink);text-shadow:none;text-align:center;font:700 clamp(38px,10vw,56px)/1 var(--fw);letter-spacing:.02em;text-transform:uppercase}
+.seoh span{color:#7C3AED;letter-spacing:0;text-transform:none;font:700 17px/1.3 var(--fb)}
+.seo .lead{text-align:center;margin-inline:auto}
+.seo .big{margin:18px 0 8px;text-decoration:none}
+.seo h2{font:600 21px/1.2 var(--fd);margin:22px 0 6px}
+.seo p,.seo li{font-size:16px;line-height:1.55}
+.seo ul{padding-left:20px;margin:0}
+
+/* ===== Brand v3: Thinking Hack colours + highlighter accents, chunky blocks ===== */
+:root{--ink:#160C30;--ink2:#22134A;--navy:#160C30;--sky:#22134A;--sky2:#3A1F6E;
+--th-lime:#AAD93A;--th-sun:#FFD040;--th-orng:#FE9750;--th-pink:#EF6085;--th-mag:#D550B2;--th-plum:#B15FD7;--th-blue:#5E96E3;--th-teal:#3ECECE;
+--hl-y:#FFF200;--hl-p:#FF5EBC;--hl-g:#6BFF5E;--hl-b:#4DE3FF;
+--gold:#FFD040;--sun:#FFD040;--goldd:#D99A1E;--ok:#3FBF4A;--emer:#3FBF4A;
+--thg:linear-gradient(100deg,#AAD93A,#FFD040 20%,#FE9750 38%,#EF6085 55%,#B15FD7 70%,#5E96E3 85%,#3ECECE)}
+body,.scene{background:#160C30}
+#splash{background:radial-gradient(circle at 50% 32%,#3A1F6E,#22134A 60%,#160C30)}
+.hero{background:linear-gradient(160deg,#3A1F6E,#22134A);border:3px solid #160C30;box-shadow:0 6px 0 #0B061A}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--thg)}
+.hero{position:relative;overflow:hidden}
+.wm2{color:#fff;-webkit-text-stroke:5px #160C30;paint-order:stroke fill;text-shadow:0 3px 0 #160C30}
+.wm2 b{color:var(--hl-y);position:relative;z-index:0}
+.wm2 b::before{content:"";position:absolute;z-index:-1;left:-4px;right:-6px;top:28%;bottom:-2px;background:var(--hl-p);transform:skewX(-8deg) rotate(-2deg);border-radius:3px 8px 4px 9px}
+.hl,.seo h2,.hl-y{background:linear-gradient(100deg,transparent 2%,var(--hl,var(--hl-y)) 4%,var(--hl,var(--hl-y)) 96%,transparent 98%) 0 72%/100% 46% no-repeat;padding:0 .15em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-p{--hl:var(--hl-p)}.hl-g{--hl:var(--hl-g)}.hl-b{--hl:var(--hl-b)}
+.seo h2:nth-of-type(4n+2){--hl:var(--hl-g)}.seo h2:nth-of-type(4n+3){--hl:var(--hl-b)}.seo h2:nth-of-type(4n){--hl:#FFB3E0}
+.seoh{color:#fff;-webkit-text-stroke:8px #160C30;paint-order:stroke fill;text-shadow:0 6px 0 #160C30,0 7px 0 #160C30}
+.seoh span{-webkit-text-stroke:0;text-shadow:none;color:var(--ink);display:block;margin-top:10px}
+.seoh span::first-line{}
+.big,.go{background:var(--th-sun);border:3px solid var(--ink);border-radius:16px;box-shadow:inset 0 -6px 0 rgba(180,90,0,.3),0 6px 0 var(--ink)}
+.big{font-family:var(--fw);text-transform:uppercase;letter-spacing:.04em}
+.big.alt{background:var(--th-lime);color:var(--ink)}
+.sec{border-radius:14px;border:3px solid var(--ink)}
+.foot a{color:var(--hl-y)!important}
+.opt.right{background:var(--th-lime)!important;color:var(--ink)}
+.card{border:3px solid var(--ink);border-radius:16px}
+.foot .by{color:#E8DDFF}
+/* ---- v2 polish: Bobby, region, game feel ---- */
+.hv2 .world{color:var(--ink)}
+.hl{position:relative;z-index:0;white-space:nowrap}.hl::before{content:"";position:absolute;z-index:-1;left:-.18em;right:-.18em;top:.38em;bottom:.02em;border-radius:.3em .5em .35em .6em;transform:rotate(-1.5deg) skewX(-8deg);opacity:.9}
+.hl-y::before{background:var(--hl-y,#FFF200)}.hl-p::before{background:var(--hl-p,#FF5EBC)}.hl-g::before{background:var(--hl-g,#6BFF5E)}.hl-b::before{background:var(--hl-b,#4DE3FF)}
+.rgb{display:inline-flex;align-items:center;gap:5px;margin:var(--s2) 0 0 6px;padding:3px 10px 3px 6px;border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);font:700 13px var(--fd);box-shadow:0 2px 0 var(--ink);min-height:30px;vertical-align:middle}
+.rgb .flag{border-radius:2px;display:block}.wmk .rgb{margin:0 0 0 6px}
+.kingdoms .wn .flag{border-radius:2px}
+.sheet{position:fixed;inset:0;z-index:80;background:rgba(14,8,30,.6);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.sheetc{width:100%;max-width:440px;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:22px;padding:18px;box-shadow:0 6px 0 var(--ink);margin-bottom:max(12px,env(safe-area-inset-bottom))}
+.sht{font:800 22px var(--fd);display:block;margin-bottom:8px}.rgl{list-style:none;margin:0;padding:0}.rgl button{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:8px 12px;border:3px solid var(--ink);border-radius:14px;background:#f2f5fb;font:700 17px var(--fd);color:var(--ink)}
+.rgl button.on{background:#eaffe0}.rgl i{margin-left:auto;font-style:normal;font-weight:800;color:#1c8a3c;font-size:20px}.rgm{margin:8px 0 0;font-size:14px;color:var(--mut)}
+.bobcard{display:flex;gap:14px;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);padding:10px 14px;margin:0 0 var(--s3)}
+.bobstage{flex:none;background:radial-gradient(circle at 50% 60%,#FFF6B0,#FFE0F2 70%);border:3px solid var(--ink);border-radius:18px;padding:4px;box-shadow:0 4px 0 var(--ink)}
+.bobn{margin:0;font:800 22px var(--fd)}.bobn small{font:700 14px var(--fb);color:var(--mut);margin-left:4px}
+.bobstages{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}.bobstages span{font:700 12px var(--fd);padding:2px 8px;border-radius:999px;border:2px solid #c9cfe0;color:#8a91ab}.bobstages span.on{border-color:var(--ink);background:#6BFF5E;color:var(--ink)}
+.bobnx{margin:0;font:700 14px var(--fb)}.bobtip{margin:2px 0 0;font-size:12px;color:var(--mut)}
+.bobfree{display:flex;justify-content:center;margin:8px 0}
+.bobby{overflow:visible;display:block}
+@keyframes bidle{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@keyframes bwag{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+@keyframes bhop{0%,100%{transform:translateY(0) scale(1)}20%{transform:translateY(4px) scale(1.06,.92)}50%{transform:translateY(-26px) scale(.96,1.05)}}
+@keyframes bspin{to{transform:rotateY(360deg)}}@keyframes bflip{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-30px) rotate(-180deg)}100%{transform:translateY(0) rotate(-360deg)}}
+.bobby.idle{animation:bidle 2.4s ease-in-out infinite}.bobby.t-wag{animation:bwag .45s 2}.bobby.t-hop{animation:bhop .7s}.bobby.t-spin{animation:bspin .8s}.bobby.t-flip{animation:bflip .85s}
+.bobby .beyes{animation:blink 4s infinite;transform-origin:256px 206px}@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.cpop{position:fixed;z-index:6;transform:translate(-50%,-50%);font:800 24px var(--fd);color:#FFF200;text-shadow:0 3px 0 #160C30,0 0 2px #160C30;pointer-events:none;animation:up .9s forwards;white-space:nowrap}
+@keyframes squish{0%{transform:none}20%{transform:scale(1.03,.95) translateX(-6px)}45%{transform:scale(.98,1.03) translateX(5px)}70%{transform:translateX(-3px)}100%{transform:none}}.squish{animation:squish .45s ease-out}
+body.arena .scene{filter:brightness(.45) saturate(.8)}body.arena .runcard{background:#1f1640;color:#fff;border-color:#000}body.arena .runcard .q{color:#fff}
+.arena-b{display:flex;justify-content:center;gap:14px;margin:10px 0}.arena-b .glowb{width:56px!important;height:56px!important;padding:0!important;flex:none;min-height:0!important}.glowb{display:inline-flex;width:54px;height:54px;border-radius:50%;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 0 18px 4px rgba(255,242,0,.7);animation:glowp 1.6s ease-in-out infinite}.glowb svg{width:32px;height:32px}
+.glowb.b-fire{background:#ff7a1f}.glowb.b-zap{background:#ffd23f;animation-delay:.3s}.glowb.b-water{background:#3fb2f5;animation-delay:.6s}
+@keyframes glowp{50%{box-shadow:0 0 30px 10px rgba(255,94,188,.75);transform:translateY(-4px)}}
+.hold2{position:relative;overflow:hidden;width:100%;min-height:78px;font-size:20px;border-radius:999px;touch-action:none;user-select:none;-webkit-user-select:none}
+.hold2 .hfill{position:absolute;inset:0;background:linear-gradient(90deg,#6BFF5E,#4DE3FF,#FF5EBC);transform:scaleX(0);transform-origin:left;z-index:0}.hold2 .hlab{position:relative;z-index:1}.hold2.full{animation:wobble .25s infinite}@keyframes wobble{50%{transform:translateX(2px)}}
+.chest{background:none;border:0;box-shadow:none!important;padding:0;cursor:pointer}.chest .lid{transform-origin:14px 46px;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}.chestsheet:not(.open) .chest svg{animation:wobble .3s infinite}
+.chestsheet.open .lid{transform:rotate(-38deg) translateY(-8px)}.chest .shine{opacity:0;transition:opacity .3s .2s}.chestsheet.open .shine{opacity:1}.chamt{font:800 30px var(--fd);margin:4px 0}
+@media (prefers-reduced-motion:reduce){.bobby,.bobby .beyes,.glowb,.hold2.full,.chestsheet .chest svg,.squish{animation:none!important}.chest .lid{transition:none}}
 </style></head><body>
-<div id="splash" role="status" aria-label="Loading Vocab Obby"><svg class="vi" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cc8ff"/><stop offset="1" stop-color="#2f7cf6"/></linearGradient><clipPath id="spc"><rect x="22" y="18" width="468" height="460" rx="96"/></clipPath></defs>
-<rect width="512" height="512" rx="112" fill="#1b2140"/>
-<rect x="22" y="18" width="468" height="460" rx="96" fill="url(#spg)"/>
-<g clip-path="url(#spc)"><rect x="0" y="380" width="512" height="120" fill="#7bd23a"/><rect x="0" y="380" width="512" height="26" fill="#a6ea52"/><rect x="0" y="374" width="512" height="10" fill="#1b2140"/></g>
-<g stroke="#1b2140" stroke-width="16" stroke-linejoin="round">
-<path d="M96 108h88l72 190 72-190h88L300 352h-88z" fill="#fff"/>
-</g>
-<circle cx="398" cy="86" r="40" fill="#ffd23f" stroke="#1b2140" stroke-width="14"/><rect x="390" y="66" width="16" height="40" rx="6" fill="#fff6c2"/>
-<g stroke="#1b2140" stroke-width="10" stroke-linejoin="round"><rect x="74" y="288" width="58" height="52" rx="8" fill="#ffd23f"/><rect x="70" y="336" width="66" height="38" rx="6" fill="#ff5a5f"/></g>
-<rect x="88" y="304" width="9" height="12" fill="#1b2140"/><rect x="110" y="304" width="9" height="12" fill="#1b2140"/>
-</svg>
-<div class="wm">Vocab <b>Obby</b></div><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxs" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask></defs><g mask="url(#thxs)"><path d="M50 50L49.4 -1.0L54.9 -0.7Z" fill="#AAD93A"/><path d="M50 50L53.9 -0.8L59.3 -0.1Z" fill="#B1D83B"/><path d="M50 50L58.3 -0.3L63.7 0.8Z" fill="#B9D83B"/><path d="M50 50L62.6 0.6L67.9 2.2Z" fill="#C0D73B"/><path d="M50 50L66.9 1.9L72.0 4.0Z" fill="#C7D63C"/><path d="M50 50L71.0 3.5L75.9 6.1Z" fill="#CFD63C"/><path d="M50 50L75.0 5.5L79.6 8.5Z" fill="#D6D53D"/><path d="M50 50L78.8 7.9L83.1 11.2Z" fill="#DED53D"/><path d="M50 50L82.3 10.5L86.4 14.3Z" fill="#E5D43E"/><path d="M50 50L85.6 13.5L89.4 17.6Z" fill="#ECD33E"/><path d="M50 50L88.7 16.8L92.0 21.1Z" fill="#F4D33E"/><path d="M50 50L91.4 20.3L94.4 24.9Z" fill="#FBD23F"/><path d="M50 50L93.9 24.0L96.4 28.9Z" fill="#FFD040"/><path d="M50 50L95.9 27.9L98.1 33.0Z" fill="#FFCB41"/><path d="M50 50L97.7 32.0L99.4 37.3Z" fill="#FFC642"/><path d="M50 50L99.1 36.2L100.3 41.6Z" fill="#FFC243"/><path d="M50 50L100.1 40.6L100.8 46.0Z" fill="#FFBD44"/><path d="M50 50L100.7 45.0L101.0 50.5Z" fill="#FFB845"/><path d="M50 50L101.0 49.4L100.7 54.9Z" fill="#FFB447"/><path d="M50 50L100.8 53.9L100.1 59.3Z" fill="#FFAF48"/><path d="M50 50L100.3 58.3L99.1 63.7Z" fill="#FFAA49"/><path d="M50 50L99.4 62.6L97.7 67.9Z" fill="#FFA64A"/><path d="M50 50L98.1 66.9L95.9 72.0Z" fill="#FFA14B"/><path d="M50 50L96.4 71.0L93.9 75.9Z" fill="#FF9C4C"/><path d="M50 50L94.4 75.0L91.4 79.6Z" fill="#FE9750"/><path d="M50 50L92.0 78.8L88.7 83.1Z" fill="#FC9057"/><path d="M50 50L89.4 82.3L85.6 86.4Z" fill="#FA895D"/><path d="M50 50L86.4 85.6L82.3 89.4Z" fill="#F88264"/><path d="M50 50L83.1 88.7L78.8 92.0Z" fill="#F67B6B"/><path d="M50 50L79.6 91.4L75.0 94.4Z" fill="#F47471"/><path d="M50 50L75.9 93.9L71.0 96.4Z" fill="#F36E78"/><path d="M50 50L72.0 95.9L66.9 98.1Z" fill="#F1677E"/><path d="M50 50L67.9 97.7L62.6 99.4Z" fill="#EF6085"/><path d="M50 50L63.7 99.1L58.3 100.3Z" fill="#ED598C"/><path d="M50 50L59.3 100.1L53.9 100.8Z" fill="#EB5292"/><path d="M50 50L54.9 100.7L49.4 101.0Z" fill="#E94B99"/><path d="M50 50L50.5 101.0L45.0 100.7Z" fill="#E6499E"/><path d="M50 50L46.0 100.8L40.6 100.1Z" fill="#E24AA3"/><path d="M50 50L41.6 100.3L36.2 99.1Z" fill="#DE4CA8"/><path d="M50 50L37.3 99.4L32.0 97.7Z" fill="#D94EAD"/><path d="M50 50L33.0 98.1L27.9 95.9Z" fill="#D550B2"/><path d="M50 50L28.9 96.4L24.0 93.9Z" fill="#D151B7"/><path d="M50 50L24.9 94.4L20.3 91.4Z" fill="#CD53BB"/><path d="M50 50L21.1 92.0L16.8 88.7Z" fill="#C954C0"/><path d="M50 50L17.6 89.4L13.5 85.6Z" fill="#C556C5"/><path d="M50 50L14.3 86.4L10.5 82.3Z" fill="#C058CA"/><path d="M50 50L11.2 83.1L7.9 78.8Z" fill="#BC5ACF"/><path d="M50 50L8.5 79.6L5.5 75.0Z" fill="#B85BD4"/><path d="M50 50L6.1 75.9L3.5 71.0Z" fill="#B15FD7"/><path d="M50 50L4.0 72.0L1.9 66.9Z" fill="#A666D8"/><path d="M50 50L2.2 67.9L0.6 62.6Z" fill="#9C6DDA"/><path d="M50 50L0.8 63.7L-0.3 58.3Z" fill="#9274DB"/><path d="M50 50L-0.1 59.3L-0.8 53.9Z" fill="#887BDD"/><path d="M50 50L-0.7 54.9L-1.0 49.4Z" fill="#7D82DE"/><path d="M50 50L-1.0 50.5L-0.7 45.0Z" fill="#7388E0"/><path d="M50 50L-0.8 46.0L-0.1 40.6Z" fill="#688FE1"/><path d="M50 50L-0.3 41.6L0.8 36.2Z" fill="#5E96E3"/><path d="M50 50L0.6 37.3L2.2 32.0Z" fill="#549DE4"/><path d="M50 50L1.9 33.0L4.0 27.9Z" fill="#4AA4E6"/><path d="M50 50L3.5 28.9L6.1 24.0Z" fill="#3FABE7"/><path d="M50 50L5.5 24.9L8.5 20.3Z" fill="#3AB2E5"/><path d="M50 50L7.9 21.1L11.2 16.8Z" fill="#3BB9DF"/><path d="M50 50L10.5 17.6L14.3 13.5Z" fill="#3CC0D9"/><path d="M50 50L13.5 14.3L17.6 10.5Z" fill="#3DC7D4"/><path d="M50 50L16.8 11.2L21.1 7.9Z" fill="#3ECECE"/><path d="M50 50L20.3 8.5L24.9 5.5Z" fill="#3FD5C8"/><path d="M50 50L24.0 6.1L28.9 3.5Z" fill="#48D9B9"/><path d="M50 50L27.9 4.0L33.0 1.9Z" fill="#59D9A2"/><path d="M50 50L32.0 2.2L37.3 0.6Z" fill="#6AD98B"/><path d="M50 50L36.2 0.8L41.6 -0.3Z" fill="#7BD974"/><path d="M50 50L40.6 -0.1L46.0 -0.8Z" fill="#8CD95D"/><path d="M50 50L45.0 -0.7L50.5 -1.0Z" fill="#9DD946"/></g></svg><span>by Thinking Hack Education</span></span></div>
+<div id="splash" role="status" aria-label="Loading VocaBobby"><img class="vi" src="/icons/vo-icon.svg" alt="" width="132" height="132">
+<p class="pipline">Bobby is warming up…</p><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxs" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask></defs><g mask="url(#thxs)"><path d="M50 50L49.4 -1.0L54.9 -0.7Z" fill="#AAD93A"/><path d="M50 50L53.9 -0.8L59.3 -0.1Z" fill="#B1D83B"/><path d="M50 50L58.3 -0.3L63.7 0.8Z" fill="#B9D83B"/><path d="M50 50L62.6 0.6L67.9 2.2Z" fill="#C0D73B"/><path d="M50 50L66.9 1.9L72.0 4.0Z" fill="#C7D63C"/><path d="M50 50L71.0 3.5L75.9 6.1Z" fill="#CFD63C"/><path d="M50 50L75.0 5.5L79.6 8.5Z" fill="#D6D53D"/><path d="M50 50L78.8 7.9L83.1 11.2Z" fill="#DED53D"/><path d="M50 50L82.3 10.5L86.4 14.3Z" fill="#E5D43E"/><path d="M50 50L85.6 13.5L89.4 17.6Z" fill="#ECD33E"/><path d="M50 50L88.7 16.8L92.0 21.1Z" fill="#F4D33E"/><path d="M50 50L91.4 20.3L94.4 24.9Z" fill="#FBD23F"/><path d="M50 50L93.9 24.0L96.4 28.9Z" fill="#FFD040"/><path d="M50 50L95.9 27.9L98.1 33.0Z" fill="#FFCB41"/><path d="M50 50L97.7 32.0L99.4 37.3Z" fill="#FFC642"/><path d="M50 50L99.1 36.2L100.3 41.6Z" fill="#FFC243"/><path d="M50 50L100.1 40.6L100.8 46.0Z" fill="#FFBD44"/><path d="M50 50L100.7 45.0L101.0 50.5Z" fill="#FFB845"/><path d="M50 50L101.0 49.4L100.7 54.9Z" fill="#FFB447"/><path d="M50 50L100.8 53.9L100.1 59.3Z" fill="#FFAF48"/><path d="M50 50L100.3 58.3L99.1 63.7Z" fill="#FFAA49"/><path d="M50 50L99.4 62.6L97.7 67.9Z" fill="#FFA64A"/><path d="M50 50L98.1 66.9L95.9 72.0Z" fill="#FFA14B"/><path d="M50 50L96.4 71.0L93.9 75.9Z" fill="#FF9C4C"/><path d="M50 50L94.4 75.0L91.4 79.6Z" fill="#FE9750"/><path d="M50 50L92.0 78.8L88.7 83.1Z" fill="#FC9057"/><path d="M50 50L89.4 82.3L85.6 86.4Z" fill="#FA895D"/><path d="M50 50L86.4 85.6L82.3 89.4Z" fill="#F88264"/><path d="M50 50L83.1 88.7L78.8 92.0Z" fill="#F67B6B"/><path d="M50 50L79.6 91.4L75.0 94.4Z" fill="#F47471"/><path d="M50 50L75.9 93.9L71.0 96.4Z" fill="#F36E78"/><path d="M50 50L72.0 95.9L66.9 98.1Z" fill="#F1677E"/><path d="M50 50L67.9 97.7L62.6 99.4Z" fill="#EF6085"/><path d="M50 50L63.7 99.1L58.3 100.3Z" fill="#ED598C"/><path d="M50 50L59.3 100.1L53.9 100.8Z" fill="#EB5292"/><path d="M50 50L54.9 100.7L49.4 101.0Z" fill="#E94B99"/><path d="M50 50L50.5 101.0L45.0 100.7Z" fill="#E6499E"/><path d="M50 50L46.0 100.8L40.6 100.1Z" fill="#E24AA3"/><path d="M50 50L41.6 100.3L36.2 99.1Z" fill="#DE4CA8"/><path d="M50 50L37.3 99.4L32.0 97.7Z" fill="#D94EAD"/><path d="M50 50L33.0 98.1L27.9 95.9Z" fill="#D550B2"/><path d="M50 50L28.9 96.4L24.0 93.9Z" fill="#D151B7"/><path d="M50 50L24.9 94.4L20.3 91.4Z" fill="#CD53BB"/><path d="M50 50L21.1 92.0L16.8 88.7Z" fill="#C954C0"/><path d="M50 50L17.6 89.4L13.5 85.6Z" fill="#C556C5"/><path d="M50 50L14.3 86.4L10.5 82.3Z" fill="#C058CA"/><path d="M50 50L11.2 83.1L7.9 78.8Z" fill="#BC5ACF"/><path d="M50 50L8.5 79.6L5.5 75.0Z" fill="#B85BD4"/><path d="M50 50L6.1 75.9L3.5 71.0Z" fill="#B15FD7"/><path d="M50 50L4.0 72.0L1.9 66.9Z" fill="#A666D8"/><path d="M50 50L2.2 67.9L0.6 62.6Z" fill="#9C6DDA"/><path d="M50 50L0.8 63.7L-0.3 58.3Z" fill="#9274DB"/><path d="M50 50L-0.1 59.3L-0.8 53.9Z" fill="#887BDD"/><path d="M50 50L-0.7 54.9L-1.0 49.4Z" fill="#7D82DE"/><path d="M50 50L-1.0 50.5L-0.7 45.0Z" fill="#7388E0"/><path d="M50 50L-0.8 46.0L-0.1 40.6Z" fill="#688FE1"/><path d="M50 50L-0.3 41.6L0.8 36.2Z" fill="#5E96E3"/><path d="M50 50L0.6 37.3L2.2 32.0Z" fill="#549DE4"/><path d="M50 50L1.9 33.0L4.0 27.9Z" fill="#4AA4E6"/><path d="M50 50L3.5 28.9L6.1 24.0Z" fill="#3FABE7"/><path d="M50 50L5.5 24.9L8.5 20.3Z" fill="#3AB2E5"/><path d="M50 50L7.9 21.1L11.2 16.8Z" fill="#3BB9DF"/><path d="M50 50L10.5 17.6L14.3 13.5Z" fill="#3CC0D9"/><path d="M50 50L13.5 14.3L17.6 10.5Z" fill="#3DC7D4"/><path d="M50 50L16.8 11.2L21.1 7.9Z" fill="#3ECECE"/><path d="M50 50L20.3 8.5L24.9 5.5Z" fill="#3FD5C8"/><path d="M50 50L24.0 6.1L28.9 3.5Z" fill="#48D9B9"/><path d="M50 50L27.9 4.0L33.0 1.9Z" fill="#59D9A2"/><path d="M50 50L32.0 2.2L37.3 0.6Z" fill="#6AD98B"/><path d="M50 50L36.2 0.8L41.6 -0.3Z" fill="#7BD974"/><path d="M50 50L40.6 -0.1L46.0 -0.8Z" fill="#8CD95D"/><path d="M50 50L45.0 -0.7L50.5 -1.0Z" fill="#9DD946"/></g></svg><span>by Thinking Hack Education</span></span></div>
 <canvas id="fx"></canvas>
-<div class="scene" aria-hidden="true"><svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMax slice"><rect width="1400" height="900" fill="#3fb4e8"/><rect y="520" width="1400" height="380" fill="#6cc6ee"/><rect y="700" width="1400" height="200" fill="#8fd6f5"/><g transform="translate(60 30) scale(1.1)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(980 20) scale(1.4)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(560 60) scale(0.8)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(1180 100) scale(0.9)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(250 120) scale(0.7)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(40 786)"><rect width="150" height="22" fill="#9dd946"/><rect y="22" width="150" height="30" fill="#7fb336"/><rect y="22" width="150" height="6" fill="#0000001f"/><rect width="150" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(260 760)"><rect width="110" height="22" fill="#ffc642"/><rect y="22" width="110" height="30" fill="#e0a72c"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(430 803)"><rect width="170" height="22" fill="#fa895d"/><rect y="22" width="170" height="30" fill="#d8704a"/><rect y="22" width="170" height="6" fill="#0000001f"/><rect width="170" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(690 773)"><rect width="120" height="22" fill="#ed598c"/><rect y="22" width="120" height="30" fill="#c9467a"/><rect y="22" width="120" height="6" fill="#0000001f"/><rect width="120" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(880 806)"><rect width="160" height="22" fill="#b15fd7"/><rect y="22" width="160" height="30" fill="#8f48b3"/><rect y="22" width="160" height="6" fill="#0000001f"/><rect width="160" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1100 766)"><rect width="130" height="22" fill="#4aa4e6"/><rect y="22" width="130" height="30" fill="#3a86c4"/><rect y="22" width="130" height="6" fill="#0000001f"/><rect width="130" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1270 800)"><rect width="110" height="22" fill="#9dd946"/><rect y="22" width="110" height="30" fill="#7fb336"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1290 746)"><rect x="8" y="0" width="6" height="64" fill="#1b2140"/><rect x="14" y="2" width="46" height="30" fill="#fff" stroke="#1b2140" stroke-width="4"/><rect x="14" y="2" width="15" height="15" fill="#1b2140"/><rect x="44" y="2" width="16" height="15" fill="#1b2140"/><rect x="29" y="17" width="15" height="15" fill="#1b2140"/></g><rect y="860" width="1400" height="40" fill="#9dd946"/><rect y="856" width="1400" height="6" fill="#1b2140"/></svg></div>
+<div class="scene" aria-hidden="true"><svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMax slice"><rect width="1400" height="900" fill="#22134A"/><rect y="520" width="1400" height="380" fill="#28164F"/><rect y="700" width="1400" height="200" fill="#311A5E"/><g transform="translate(60 30) scale(1.1)" fill="#C9A8FF" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(980 20) scale(1.4)" fill="#C9A8FF" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(560 60) scale(0.8)" fill="#C9A8FF" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(1180 100) scale(0.9)" fill="#C9A8FF" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(250 120) scale(0.7)" fill="#C9A8FF" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(40 786)"><rect width="150" height="22" fill="#9dd946"/><rect y="22" width="150" height="30" fill="#7fb336"/><rect y="22" width="150" height="6" fill="#0000001f"/><rect width="150" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(260 760)"><rect width="110" height="22" fill="#ffc642"/><rect y="22" width="110" height="30" fill="#e0a72c"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(430 803)"><rect width="170" height="22" fill="#fa895d"/><rect y="22" width="170" height="30" fill="#d8704a"/><rect y="22" width="170" height="6" fill="#0000001f"/><rect width="170" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(690 773)"><rect width="120" height="22" fill="#ed598c"/><rect y="22" width="120" height="30" fill="#c9467a"/><rect y="22" width="120" height="6" fill="#0000001f"/><rect width="120" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(880 806)"><rect width="160" height="22" fill="#b15fd7"/><rect y="22" width="160" height="30" fill="#8f48b3"/><rect y="22" width="160" height="6" fill="#0000001f"/><rect width="160" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1100 766)"><rect width="130" height="22" fill="#4aa4e6"/><rect y="22" width="130" height="30" fill="#3a86c4"/><rect y="22" width="130" height="6" fill="#0000001f"/><rect width="130" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1270 800)"><rect width="110" height="22" fill="#9dd946"/><rect y="22" width="110" height="30" fill="#7fb336"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1290 746)"><rect x="8" y="0" width="6" height="64" fill="#1b2140"/><rect x="14" y="2" width="46" height="30" fill="#fff" stroke="#1b2140" stroke-width="4"/><rect x="14" y="2" width="15" height="15" fill="#1b2140"/><rect x="44" y="2" width="16" height="15" fill="#1b2140"/><rect x="29" y="17" width="15" height="15" fill="#1b2140"/></g><rect y="860" width="1400" height="40" fill="#9dd946"/><rect y="856" width="1400" height="6" fill="#1b2140"/></svg></div>
 <div class="wrap">
-<a class="brand vob" href="/" aria-label="Vocab Obby home"><svg class="vi" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="vig" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cc8ff"/><stop offset="1" stop-color="#2f7cf6"/></linearGradient><clipPath id="vic"><rect x="22" y="18" width="468" height="460" rx="96"/></clipPath></defs>
-<rect width="512" height="512" rx="112" fill="#1b2140"/>
-<rect x="22" y="18" width="468" height="460" rx="96" fill="url(#vig)"/>
-<g clip-path="url(#vic)"><rect x="0" y="380" width="512" height="120" fill="#7bd23a"/><rect x="0" y="380" width="512" height="26" fill="#a6ea52"/><rect x="0" y="374" width="512" height="10" fill="#1b2140"/></g>
-<g stroke="#1b2140" stroke-width="16" stroke-linejoin="round">
-<path d="M96 108h88l72 190 72-190h88L300 352h-88z" fill="#fff"/>
-</g>
-<circle cx="398" cy="86" r="40" fill="#ffd23f" stroke="#1b2140" stroke-width="14"/><rect x="390" y="66" width="16" height="40" rx="6" fill="#fff6c2"/>
-<g stroke="#1b2140" stroke-width="10" stroke-linejoin="round"><rect x="74" y="288" width="58" height="52" rx="8" fill="#ffd23f"/><rect x="70" y="336" width="66" height="38" rx="6" fill="#ff5a5f"/></g>
-<rect x="88" y="304" width="9" height="12" fill="#1b2140"/><rect x="110" y="304" width="9" height="12" fill="#1b2140"/>
-</svg>
-<span class="wm">Vocab <b>Obby</b></span></a>
+<a class="brand vob" href="/" aria-label="VocaBobby home"><img class="lg" src="/icons/fox.svg" alt="" width="44" height="44"><span class="wm wm2"><span>Voca</span><b>Bobby</b></span></a>
 <div class="hud" id="hud"></div>
-<div id="main"><div class="card"><p class="q">Loading words…</p></div></div>
+<div id="main"><section class="card seo" aria-labelledby="seo-h">
+<img class="seofox" src="/icons/fox.svg" alt="Bobby the fox, the VocaBobby mascot" width="120" height="112">
+<h1 id="seo-h" class="seoh">VocaBobby<span>An English vocabulary game for ages 9 to 15</span></h1>
+<p class="lead">Learn English words by playing. Smash word gates, beat word bosses and grow <b>Bobby the fox</b>, a curious fox who collects words the way other foxes collect shiny things.</p>
+<a class="big" id="seoplay" href="/?play=1">Play</a>
+<h2>What is VocaBobby?</h2>
+<p>VocaBobby is an educational vocabulary game for Primary and Secondary school students in Singapore. Every jump in the game is a vocabulary question: word meanings, words in context, spelling and pronunciation. Words a child finds tricky come back on a spaced-review schedule until they stick.</p>
+<h2>How it helps children learn</h2>
+<ul><li>Meanings taught in a short example sentence, in British English</li><li>Spaced review: each word returns after hours, then days, then weeks</li><li>Spelling practice with hints for tricky letter patterns</li><li>Listen and say-it practice for pronunciation</li><li>Look-alike words (affect and effect, stationary and stationery) practised side by side</li></ul>
+<h2>For parents</h2>
+<p>A free parent dashboard shows a weekly summary for each child: words met, words learnt, tricky words and what to practise next, plus dinner-table questions using the week's words. Children play with a nickname and a 4-digit PIN only. There are no ads and no chat.</p>
+<h2>For teachers and schools</h2>
+<p>VocaBobby can be used in class or for homework revision, and teachers can turn any word list into a playable world. <a href="/teachers">Information for teachers and school IT teams</a>, including how to allowlist the site.</p>
+</section></div>
 <p class="foot"><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxm" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask></defs><g mask="url(#thxm)"><path d="M50 50L49.4 -1.0L54.9 -0.7Z" fill="#AAD93A"/><path d="M50 50L53.9 -0.8L59.3 -0.1Z" fill="#B1D83B"/><path d="M50 50L58.3 -0.3L63.7 0.8Z" fill="#B9D83B"/><path d="M50 50L62.6 0.6L67.9 2.2Z" fill="#C0D73B"/><path d="M50 50L66.9 1.9L72.0 4.0Z" fill="#C7D63C"/><path d="M50 50L71.0 3.5L75.9 6.1Z" fill="#CFD63C"/><path d="M50 50L75.0 5.5L79.6 8.5Z" fill="#D6D53D"/><path d="M50 50L78.8 7.9L83.1 11.2Z" fill="#DED53D"/><path d="M50 50L82.3 10.5L86.4 14.3Z" fill="#E5D43E"/><path d="M50 50L85.6 13.5L89.4 17.6Z" fill="#ECD33E"/><path d="M50 50L88.7 16.8L92.0 21.1Z" fill="#F4D33E"/><path d="M50 50L91.4 20.3L94.4 24.9Z" fill="#FBD23F"/><path d="M50 50L93.9 24.0L96.4 28.9Z" fill="#FFD040"/><path d="M50 50L95.9 27.9L98.1 33.0Z" fill="#FFCB41"/><path d="M50 50L97.7 32.0L99.4 37.3Z" fill="#FFC642"/><path d="M50 50L99.1 36.2L100.3 41.6Z" fill="#FFC243"/><path d="M50 50L100.1 40.6L100.8 46.0Z" fill="#FFBD44"/><path d="M50 50L100.7 45.0L101.0 50.5Z" fill="#FFB845"/><path d="M50 50L101.0 49.4L100.7 54.9Z" fill="#FFB447"/><path d="M50 50L100.8 53.9L100.1 59.3Z" fill="#FFAF48"/><path d="M50 50L100.3 58.3L99.1 63.7Z" fill="#FFAA49"/><path d="M50 50L99.4 62.6L97.7 67.9Z" fill="#FFA64A"/><path d="M50 50L98.1 66.9L95.9 72.0Z" fill="#FFA14B"/><path d="M50 50L96.4 71.0L93.9 75.9Z" fill="#FF9C4C"/><path d="M50 50L94.4 75.0L91.4 79.6Z" fill="#FE9750"/><path d="M50 50L92.0 78.8L88.7 83.1Z" fill="#FC9057"/><path d="M50 50L89.4 82.3L85.6 86.4Z" fill="#FA895D"/><path d="M50 50L86.4 85.6L82.3 89.4Z" fill="#F88264"/><path d="M50 50L83.1 88.7L78.8 92.0Z" fill="#F67B6B"/><path d="M50 50L79.6 91.4L75.0 94.4Z" fill="#F47471"/><path d="M50 50L75.9 93.9L71.0 96.4Z" fill="#F36E78"/><path d="M50 50L72.0 95.9L66.9 98.1Z" fill="#F1677E"/><path d="M50 50L67.9 97.7L62.6 99.4Z" fill="#EF6085"/><path d="M50 50L63.7 99.1L58.3 100.3Z" fill="#ED598C"/><path d="M50 50L59.3 100.1L53.9 100.8Z" fill="#EB5292"/><path d="M50 50L54.9 100.7L49.4 101.0Z" fill="#E94B99"/><path d="M50 50L50.5 101.0L45.0 100.7Z" fill="#E6499E"/><path d="M50 50L46.0 100.8L40.6 100.1Z" fill="#E24AA3"/><path d="M50 50L41.6 100.3L36.2 99.1Z" fill="#DE4CA8"/><path d="M50 50L37.3 99.4L32.0 97.7Z" fill="#D94EAD"/><path d="M50 50L33.0 98.1L27.9 95.9Z" fill="#D550B2"/><path d="M50 50L28.9 96.4L24.0 93.9Z" fill="#D151B7"/><path d="M50 50L24.9 94.4L20.3 91.4Z" fill="#CD53BB"/><path d="M50 50L21.1 92.0L16.8 88.7Z" fill="#C954C0"/><path d="M50 50L17.6 89.4L13.5 85.6Z" fill="#C556C5"/><path d="M50 50L14.3 86.4L10.5 82.3Z" fill="#C058CA"/><path d="M50 50L11.2 83.1L7.9 78.8Z" fill="#BC5ACF"/><path d="M50 50L8.5 79.6L5.5 75.0Z" fill="#B85BD4"/><path d="M50 50L6.1 75.9L3.5 71.0Z" fill="#B15FD7"/><path d="M50 50L4.0 72.0L1.9 66.9Z" fill="#A666D8"/><path d="M50 50L2.2 67.9L0.6 62.6Z" fill="#9C6DDA"/><path d="M50 50L0.8 63.7L-0.3 58.3Z" fill="#9274DB"/><path d="M50 50L-0.1 59.3L-0.8 53.9Z" fill="#887BDD"/><path d="M50 50L-0.7 54.9L-1.0 49.4Z" fill="#7D82DE"/><path d="M50 50L-1.0 50.5L-0.7 45.0Z" fill="#7388E0"/><path d="M50 50L-0.8 46.0L-0.1 40.6Z" fill="#688FE1"/><path d="M50 50L-0.3 41.6L0.8 36.2Z" fill="#5E96E3"/><path d="M50 50L0.6 37.3L2.2 32.0Z" fill="#549DE4"/><path d="M50 50L1.9 33.0L4.0 27.9Z" fill="#4AA4E6"/><path d="M50 50L3.5 28.9L6.1 24.0Z" fill="#3FABE7"/><path d="M50 50L5.5 24.9L8.5 20.3Z" fill="#3AB2E5"/><path d="M50 50L7.9 21.1L11.2 16.8Z" fill="#3BB9DF"/><path d="M50 50L10.5 17.6L14.3 13.5Z" fill="#3CC0D9"/><path d="M50 50L13.5 14.3L17.6 10.5Z" fill="#3DC7D4"/><path d="M50 50L16.8 11.2L21.1 7.9Z" fill="#3ECECE"/><path d="M50 50L20.3 8.5L24.9 5.5Z" fill="#3FD5C8"/><path d="M50 50L24.0 6.1L28.9 3.5Z" fill="#48D9B9"/><path d="M50 50L27.9 4.0L33.0 1.9Z" fill="#59D9A2"/><path d="M50 50L32.0 2.2L37.3 0.6Z" fill="#6AD98B"/><path d="M50 50L36.2 0.8L41.6 -0.3Z" fill="#7BD974"/><path d="M50 50L40.6 -0.1L46.0 -0.8Z" fill="#8CD95D"/><path d="M50 50L45.0 -0.7L50.5 -1.0Z" fill="#9DD946"/></g></svg><span>by Thinking Hack Education</span></span>© 2026 Thinking Hack Education. Created by Miss Christine, Exam Preparation Specialist. All rights reserved. No copying or redistribution. · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/account.html" style="color:inherit">Account</a> · WhatsApp +65 9003 0002</p>
 </div>
 <script src="/vo.js"></script>
@@ -367,11 +474,11 @@ function myAvatar(){
 async function shareCard(){
   const fit=(m,x,y,w,h)=>m.replace(/<svg([^>]*)>/,(t,at)=>'<svg'+at.replace(/\s(width|height|x|y|class|style)="[^"]*"/g,'')+` x="${x}" y="${y}" width="${w}" height="${h}">`),av=fit(avatar(200),110,250,200,310),pt=S.pet>=0?fit(petSVG(S.pet,170),320,390,170,170):'';
   const nk=String(S.nick||'Hero').replace(/[&<>"']/g,'');
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cc8ff"/><stop offset="1" stop-color="#2f7cf6"/></linearGradient></defs><rect width="600" height="800" fill="url(#b)"/><rect x="40" y="40" width="520" height="720" rx="40" fill="#fff" stroke="#1b2140" stroke-width="8"/><rect x="40" y="560" width="520" height="40" fill="#9dd946" stroke="#1b2140" stroke-width="6"/><rect x="40" y="600" width="520" height="160" rx="0" fill="#7fb336"/><rect x="40" y="40" width="520" height="720" rx="40" fill="none" stroke="#1b2140" stroke-width="8"/>${av}${pt}<text x="300" y="150" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="58" fill="#1b2140">${nk}</text><text x="300" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="26" fill="#5a6480">My Vocab Obby avatar</text><text x="300" y="700" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="44" fill="#fff" stroke="#1b2140" stroke-width="6" paint-order="stroke">Vocab Obby</text></svg>`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cc8ff"/><stop offset="1" stop-color="#2f7cf6"/></linearGradient></defs><rect width="600" height="800" fill="url(#b)"/><rect x="40" y="40" width="520" height="720" rx="40" fill="#fff" stroke="#1b2140" stroke-width="8"/><rect x="40" y="560" width="520" height="40" fill="#9dd946" stroke="#1b2140" stroke-width="6"/><rect x="40" y="600" width="520" height="160" rx="0" fill="#7fb336"/><rect x="40" y="40" width="520" height="720" rx="40" fill="none" stroke="#1b2140" stroke-width="8"/>${av}${pt}<text x="300" y="150" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="58" fill="#1b2140">${nk}</text><text x="300" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="26" fill="#5a6480">My VocaBobby avatar</text><text x="300" y="700" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="44" fill="#fff" stroke="#1b2140" stroke-width="6" paint-order="stroke">VocaBobby</text></svg>`;
   const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);await img.decode().catch(()=>{});
   const c=document.createElement('canvas');c.width=600;c.height=800;c.getContext('2d').drawImage(img,0,0);
   c.toBlob(async b=>{if(!b)return;const f=new File([b],'my-vocab-obby-avatar.png',{type:'image/png'});
-    try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'My Vocab Obby avatar'});return}}catch(e){if(e&&e.name==='AbortError')return}
+    try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'My VocaBobby avatar'});return}}catch(e){if(e&&e.name==='AbortError')return}
     const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();a.remove();toastQ('Saved your avatar card!')},'image/png');
 }
 
@@ -476,7 +583,7 @@ function sfx(k){if(mute)return;try{ac=ac||new AudioContext();const t=ac.currentT
 function beep(ok){if(mute)return;try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.type='triangle';const t=ac.currentTime;(ok?[660,880]:[220,170]).forEach((f,i)=>o.frequency.setValueAtTime(f,t+i*.09));g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.start();o.stop(t+.3)}catch(e){}}
 const cv=$('fx'),cx=cv.getContext('2d');let parts=[];
 function confetti(n){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;cv.width=innerWidth;cv.height=innerHeight;for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight*.4,vx:(Math.random()-.5)*14,vy:-Math.random()*13-3,c:['#ffd23f','#ff5d5d','#2bb673','#fff','#5ec8ff'][i%5],l:70});if(parts.length===n)tick()}
-function tick(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.45;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,7,11)});if(parts.length)requestAnimationFrame(tick);else cx.clearRect(0,0,cv.width,cv.height)}
+function tick(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.45;cx.fillStyle=p.c;if(p.blk){cx.fillRect(p.x,p.y,11,11);cx.strokeStyle='#160C30';cx.lineWidth=2;cx.strokeRect(p.x,p.y,11,11)}else cx.fillRect(p.x,p.y,7,11)});if(parts.length)requestAnimationFrame(tick);else cx.clearRect(0,0,cv.width,cv.height)}
 function pop(t){const d=document.createElement('div');d.className='pop';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),900)}
 // ---------- helpers ----------
 const byName=n=>W.find(y=>A(y)===n||y[0]===n);
@@ -501,18 +608,85 @@ function teachHTML(x){
   const c=x[5].map(byName).filter(Boolean);
   return `<div class="teach"><div class="sayrow"><b style="font-size:20px" class="saytap" data-say="${esc(x[0])}">${esc(x[0])}</b>${spk(x[0])}${sylHTML(x)}</div><p>means <b>${esc(x[2])}</b></p>${x[9]?`<p class="tip"><b>Spelling tip:</b> ${esc(x[9])}</p>`:''}<p>${sent(x,1)}</p><p><i>Goes with: ${esc(x[3])}</i></p>${c.length?`<div class="conf">Don't mix it up:<br>${c.map(y=>`<b>${esc(y[0])}</b> = ${esc(y[2])}`).join('<br>')}</div>`:''}</div>`;
 }
+// ---------- central UI strings (new text only; for future translation) ----------
+const STR={
+  play:'Play',ready:'Ready, hero?',firstGo:'Smash the word gates. A boss is waiting at the end!',gate:'Gate',
+  bossIntro:'A word boss blocks the path!',hold:'Hold to charge',holdSub:'Keep holding, then let go to blast!',charging:'Charging…',release:'Let go!',
+  comboName:'Word Blast combo!',weak:'Bonk! Hold longer for a combo.',
+  bobbyFree:'You freed Bobby!',bobbyJoin:'Bobby the fox joins your adventure. Master words and play on different days to help him grow.',
+  savePrompt:'Keep Bobby and your coins safe',saveSub:'Ask a grown-up to make a free account. You only need a nickname and a PIN.',saveBtn:'Save my progress',later:'Maybe later',onward:'Onward to Grass Plains!',
+  bobby:'Bobby',stages:['Kit','Scout','Hero','Legend'],tricks:['Tail wag','Happy hop','Spin','Backflip'],
+  stageNext:(n,s)=>`${n} more to grow into ${s}`,stageTop:'Bobby is a Legend! Keep playing to show off his tricks.',tapTrick:'Tap Bobby for a trick',
+  grew:s=>`Bobby grew into ${s}!`,newTrick:t=>`New trick: ${t}`,
+  chestTitle:d=>`Day ${d} chest`,chestTap:'Tap to open',chestCoins:n=>`+${n} coins`,chestOk:'Awesome!',
+  region:'Region',regionTick:'Your word lists, spelling and exam kingdoms follow this region.',regionMore:'More countries coming soon',regionSG:'Singapore edition',close:'Close',
+  shatter:'Smash!'
+};
+// ---------- regions (content setting only, never a child's nationality) ----------
+const FLAG_SG=sz=>`<svg class="flag" width="${sz*1.5}" height="${sz}" viewBox="0 0 36 24" role="img" aria-label="Singapore flag"><rect width="36" height="24" fill="#fff"/><rect width="36" height="12" fill="#EF3340"/><circle cx="8.6" cy="6" r="4.2" fill="#fff"/><circle cx="10.2" cy="6" r="4.2" fill="#EF3340"/>${[[13.2,3.4],[15.5,5.1],[14.6,7.8],[11.8,7.8],[10.9,5.1]].map(([x,y])=>`<path transform="translate(${x} ${y}) scale(.75)" d="M0-1 .225-.309.951-.309.363.118.588.809 0 .382-.588.809-.363.118-.951-.309-.225-.309Z" fill="#fff"/>`).join('')}<rect width="36" height="24" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1"/></svg>`;
+const REGIONS={
+  sg:{on:1,code:'SG',name:'Singapore',flag:FLAG_SG,spell:'en-GB',kingdoms:[
+    {id:'psle',n:'PSLE Kingdom',sub:'PSLE Edition · real exam words · Exam King boss',live:1},
+    {id:'o',n:'O-Level Kingdom',sub:'O-Level English · Coming soon'},
+    {id:'a',n:'A-Level (GP) Kingdom',sub:'A-Level General Paper · Coming soon'}]},
+  // Hidden for later: kept as config only, never shown or promised in copy.
+  intl:{on:0,code:'INTL',name:'International',spell:'en-GB',kingdoms:[{id:'ielts',n:'IELTS Kingdom'},{id:'cam',n:'Cambridge Kingdom'},{id:'ib',n:'IB Kingdom'}]},
+  uk:{on:0,code:'UK',name:'United Kingdom',spell:'en-GB',kingdoms:[{id:'11p',n:'11+ Kingdom'},{id:'gcse',n:'GCSE Kingdom'}]},
+  us:{on:0,code:'US',name:'United States',spell:'en-US',kingdoms:[{id:'sat',n:'SAT Kingdom'}]}
+};
+const regionId=()=>{let r=null;try{r=localStorage.getItem('vo_region')}catch(e){}return REGIONS[r]&&REGIONS[r].on?r:'sg'};
+const REG=()=>REGIONS[regionId()];
+const regionBadge=()=>`<button class="rgb" id="rgb" aria-label="${STR.region}: ${REG().name}. ${STR.regionSG}">${REG().flag(14)}<b>${REG().code}</b></button>`;
+function regionSheet(){if($('rgs'))return;const d=document.createElement('div');d.id='rgs';d.className='sheet';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',STR.region);
+  d.innerHTML=`<div class="sheetc"><b class="sht">${STR.region}</b><ul class="rgl">${Object.entries(REGIONS).filter(([,r])=>r.on).map(([k,r])=>`<li><button data-r="${k}" class="${k===regionId()?'on':''}">${r.flag(18)}<span>${esc(r.name)}</span>${k===regionId()?'<i aria-hidden="true">✓</i>':''}</button></li>`).join('')}</ul><p class="rgm">${STR.regionTick}</p><p class="rgm"><b>${STR.regionMore}</b></p><button class="go" id="rgx">${STR.close}</button></div>`;
+  document.body.appendChild(d);const x=()=>d.remove();$('rgx').onclick=x;d.onclick=e=>{if(e.target===d)x()};
+  d.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{try{localStorage.setItem('vo_region',b.dataset.r)}catch(e){}x()});$('rgx').focus()}
+document.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('#rgb'))regionSheet()});
+// ---------- Bobby the fox: cosmetic growth ----------
+function bobbySVG(stage=0,sz=96,cls=''){const k='#160C30';
+  const scarf=stage>=1?`<path d="M150 300 Q256 360 362 300 L350 336 Q256 384 162 336Z" fill="#4DE3FF" stroke="${k}" stroke-width="12" stroke-linejoin="round"/>`:'';
+  const cape=stage>=2?`<path d="M130 290 Q60 380 96 470 Q256 430 416 470 Q452 380 382 290Z" fill="#FF5EBC" stroke="${k}" stroke-width="12" stroke-linejoin="round"/>`:'';
+  const crown=stage>=3?`<path d="M196 88 L210 40 L236 72 L256 30 L276 72 L302 40 L316 88Z" fill="#FFF200" stroke="${k}" stroke-width="10" stroke-linejoin="round"/>`:'';
+  const glow=stage>=3?`<circle cx="256" cy="240" r="230" fill="url(#bglw)"/>`:'';
+  return `<svg class="bobby ${cls}" width="${sz}" height="${sz}" viewBox="40 0 432 480" aria-hidden="true"><defs><radialGradient id="bglw"><stop offset=".4" stop-color="#FFF200" stop-opacity=".55"/><stop offset="1" stop-color="#FFF200" stop-opacity="0"/></radialGradient></defs>${glow}${cape}<g class="bhead" stroke="${k}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+<path d="M128 178 L150 52 L238 128Z" fill="#FF8A3D"/><path d="M384 178 L362 52 L274 128Z" fill="#FF8A3D"/><path d="M150 150 L160 88 L208 128Z" fill="#3B1C4A" stroke-width="0"/><path d="M362 150 L352 88 L304 128Z" fill="#3B1C4A" stroke-width="0"/>
+<path d="M112 168 Q256 96 400 168 Q412 236 256 330 Q100 236 112 168Z" fill="#FF8A3D"/><path d="M118 200 Q184 214 256 326 Q132 262 118 200Z" fill="#FFF4E6" stroke-width="0"/><path d="M394 200 Q328 214 256 326 Q380 262 394 200Z" fill="#FFF4E6" stroke-width="0"/><path d="M112 168 Q256 96 400 168 Q412 236 256 330 Q100 236 112 168Z" fill="none"/>
+<path d="M226 128 Q256 112 286 128 L256 176Z" fill="#FFD040" stroke-width="0"/><g class="beyes"><ellipse cx="200" cy="206" rx="24" ry="30" fill="${k}" stroke-width="0"/><ellipse cx="312" cy="206" rx="24" ry="30" fill="${k}" stroke-width="0"/><circle cx="208" cy="194" r="9" fill="#fff" stroke-width="0"/><circle cx="320" cy="194" r="9" fill="#fff" stroke-width="0"/></g>
+<path d="M168 160 Q192 146 222 160" fill="none" stroke-width="10"/><path d="M290 160 Q320 146 344 160" fill="none" stroke-width="10"/><path d="M238 262 Q256 252 274 262 Q270 280 256 284 Q242 280 238 262Z" fill="${k}"/><path d="M228 290 Q256 318 284 290" fill="none" stroke-width="9"/>
+<ellipse cx="160" cy="250" rx="16" ry="10" fill="#FF7AA8" stroke-width="0" opacity=".8"/><ellipse cx="352" cy="250" rx="16" ry="10" fill="#FF7AA8" stroke-width="0" opacity=".8"/></g>${scarf}${crown}</svg>`}
+const BOBBY_AT=[0,20,70,160];
+const isMastered=v=>!!v&&(v.m||0)>=2&&!!v.sp;
+function bobbyGrowth(){let m=0;for(const k in S.w)if(isMastered(S.w[k]))m++;const d=(S.days||[]).length;return{m,d,pts:m+d*3}}
+function bobbyStage(){const p=bobbyGrowth().pts;let s=0;for(let i=0;i<BOBBY_AT.length;i++)if(p>=BOBBY_AT[i])s=i;return s}
+function bobbyCheck(){if(!S.bobby)return;const s=bobbyStage();if(s>(S.bobbyS||0)){S.bobbyS=s;save();setTimeout(()=>{pop(STR.grew(STR.stages[s]));confetti(120);setTimeout(()=>pop(STR.newTrick(STR.tricks[s])),1000)},400)}}
+function bobbyCard(){if(!S.bobby)return'';const s=bobbyStage(),p=bobbyGrowth().pts,nx=BOBBY_AT[s+1];
+  return `<div class="bobcard"><button class="bobstage" id="bob" aria-label="${STR.bobby}, ${STR.stages[s]}. ${STR.tapTrick}">${bobbySVG(s,110,'idle')}</button><div class="bobtxt"><p class="bobn"><span class="hl hl-y">${STR.bobby}</span> <small>${STR.stages[s]}</small></p><div class="bobstages">${STR.stages.map((n,i)=>`<span class="${i<=s?'on':''}">${n}</span>`).join('')}</div><p class="bobnx">${nx!=null?STR.stageNext(nx-p,STR.stages[s+1]):STR.stageTop}</p><p class="bobtip">${STR.tapTrick} · ${STR.tricks.slice(0,s+1).join(', ')}</p></div></div>`}
+function wireBobby(){const b=$('bob');if(!b)return;b.onclick=()=>{const s=bobbyStage(),t=['wag','hop','spin','flip'][Math.floor(Math.random()*(s+1))],svg=b.querySelector('svg');svg.classList.remove('idle','t-wag','t-hop','t-spin','t-flip');void svg.offsetWidth;svg.classList.add('t-'+t);sfx('star');setTimeout(()=>{svg.classList.remove('t-'+t);svg.classList.add('idle')},900)}}
+// ---------- game feel ----------
+const RMq=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+function chime(){if(mute)return;try{ac=ac||new AudioContext();const t=ac.currentTime;[523,659,784,1046].forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.0001,t+i*.06);g.gain.exponentialRampToValueAtTime(.13,t+i*.06+.01);g.gain.exponentialRampToValueAtTime(.001,t+i*.06+.22);o.start(t+i*.06);o.stop(t+i*.06+.24)})}catch(e){}}
+function shatter(x,y,cols){if(RMq())return;cv.width=innerWidth;cv.height=innerHeight;const n=innerWidth<420?18:28;const c=cols||['#FFF200','#FF5EBC','#6BFF5E','#4DE3FF','#FFC642'];
+  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=4+Math.random()*8;parts.push({x:x+(Math.random()-.5)*60,y:y+(Math.random()-.5)*40,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,c:c[i%c.length],l:45,blk:1})}if(parts.length===n)tick()}
+function gateHit(coins){if(typeof OB!=='undefined')OB.hs=performance.now()+(RMq()?0:90);const el=OB&&OB.el&&!OB.el.hidden?OB.el.getBoundingClientRect():null;const x=el?el.left+el.width*.62:innerWidth/2,y=el?el.top+el.height*.45:innerHeight*.35;
+  setTimeout(()=>{shatter(x,y);chime();if(coins){const d=document.createElement('div');d.className='cpop';d.textContent='+'+coins+' coins';d.style.left=x+'px';d.style.top=y+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),900)}},RMq()?0:90)}
+function wrongFx(){const c=document.querySelector('.runcard,.card');if(!c||RMq())return;c.classList.remove('squish');void c.offsetWidth;c.classList.add('squish');setTimeout(()=>c.classList.remove('squish'),500)}
+function chestReveal(day,amt){const d=document.createElement('div');d.className='sheet chestsheet';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',STR.chestTitle(day));
+  d.innerHTML=`<div class="sheetc" style="text-align:center"><b class="sht">${STR.chestTitle(day)}</b><button class="chest" id="chb" aria-label="${STR.chestTap}"><svg viewBox="0 0 120 100" width="150" height="125" aria-hidden="true"><g stroke="#160C30" stroke-width="5" stroke-linejoin="round"><rect x="14" y="44" width="92" height="48" rx="6" fill="#FF8A3D"/><rect x="54" y="44" width="12" height="48" fill="#FFF200"/><g class="lid"><path d="M10 46 Q60 6 110 46Z" fill="#FF5EBC"/><rect x="52" y="26" width="16" height="20" rx="3" fill="#FFF200"/></g></g><g class="shine" fill="#FFF200"><circle cx="60" cy="40" r="5"/><circle cx="40" cy="30" r="3"/><circle cx="82" cy="28" r="3"/></g></svg></button><p class="chtap">${STR.chestTap}</p><p class="chamt" hidden>${STR.chestCoins(amt)}</p><button class="go" id="chok" hidden>${STR.chestOk}</button></div>`;
+  document.body.appendChild(d);const b=$('chb');b.focus();
+  b.onclick=()=>{if(d.classList.contains('open'))return;d.classList.add('open');sfx('star');setTimeout(()=>{chime();const r=b.getBoundingClientRect();shatter(r.left+r.width/2,r.top+r.height/3,['#FFF200','#FFC642','#fff']);d.querySelector('.chtap').hidden=true;d.querySelector('.chamt').hidden=false;$('chok').hidden=false;$('chok').focus();hud()},RMq()?0:420)};
+  $('chok').onclick=()=>d.remove()}
 // ---------- home ----------
 function due(){const n=Date.now();return W.filter(x=>{const s=st(x[0]);return s.seen&&s.m<5&&s.due<=n})}
 function home(){
   sess=null;hud();
   const nNew=W.filter(x=>!st(x[0]).seen).length,nDue=due().length,nMiss=W.filter(x=>st(x[0]).miss>0).length;
   let saved=null;try{saved=JSON.parse(localStorage.getItem(SK()))}catch(e){}
-  if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();main.innerHTML=`<div class="hero hv2"><button class="stage" id="mya" aria-label="Open My Avatar"><span class="glow"></span><svg class="plat" viewBox="0 0 150 46" preserveAspectRatio="none"><rect x="2" y="2" width="146" height="16" fill="#9dd946" stroke="#1b2140" stroke-width="4"/><rect x="2" y="18" width="146" height="26" fill="#7fb336" stroke="#1b2140" stroke-width="4"/></svg><span class="avb">${avatar(92)}</span><span class="pt">${petSVG(S.pet,58)}</span><span class="mychip">My Avatar ›</span></button><div class="txt"><p class="hi">${S.nick?'Hi, '+esc(S.nick)+'!':'Hi, hero!'}</p><p class="lead"><b>Run, jump and battle your way through six worlds.</b> Smash word gates, beat bosses, earn coins and collect gear and pets.</p><span class="world">${ic('gem',16)}World: ${esc(wn)}</span>${tierBar()}<div id="rankslot">${rankLine()}</div></div></div>
+  if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();main.innerHTML=`<div class="hero hv2"><button class="stage" id="mya" aria-label="Open My Avatar"><span class="glow"></span><svg class="plat" viewBox="0 0 150 46" preserveAspectRatio="none"><rect x="2" y="2" width="146" height="16" fill="#9dd946" stroke="#1b2140" stroke-width="4"/><rect x="2" y="18" width="146" height="26" fill="#7fb336" stroke="#1b2140" stroke-width="4"/></svg><span class="avb">${avatar(92)}</span><span class="pt">${petSVG(S.pet,58)}</span><span class="mychip">My Avatar ›</span></button><div class="txt"><p class="hi">${S.nick?'Hi, '+esc(S.nick)+'!':'Hi, hero!'}</p><p class="lead"><b>Run, jump and battle your way through six worlds.</b> Smash word gates, beat bosses, earn coins and collect gear and pets.</p><span class="world">${ic('gem',16)}World: ${esc(wn)}</span>${regionBadge()}${tierBar()}<div id="rankslot">${rankLine()}</div></div></div>${bobbyCard()}
   <div class="menu">${saved&&saved.i<saved.steps.length?`<button class="big alt" id="res">${ic('play',30)}Continue run · ${saved.i}/${saved.steps.length}</button>`:''}
   <button class="big" id="go">${ic('play',30)}Start a 50-word run</button>
   <button class="sec" id="chal"><span class="ico c6">${ic('trophy')}</span><span class="lbl"><b>PSLE Kingdom</b><small>PSLE Edition world · real exam words · double coins</small></span></button>
   <button class="sec" id="wmap"><span class="ico c1">${ic('gem')}</span><span class="lbl"><b>World map</b><small>Replay any world you've reached</small></span></button>
-  <button class="sec" id="lbtile" ${LB.db?'':'hidden'}><span class="ico c2">${ic('trophy')}</span><span class="lbl"><b>Leaderboard</b><small>Compete with your class</small></span></button>
+  <button class="sec" id="lbtile" ${LB.db?'':'hidden'}><span class="ico c2">${ic('trophy')}</span><span class="lbl"><b>Leaderboard</b><small>This week's effort board</small></span></button>
   <button class="sec" id="myq"><span class="ico c1">${ic('gem')}</span><span class="lbl"><b>My Quests</b><small>Make a world from your own words</small></span></button>
   <button class="sec" id="team"><span class="ico c3">${ic('bolt')}</span><span class="lbl"><b>Team Up</b><small>Fight bosses with friends</small></span></button>
   <button class="sec" id="bon"><span class="ico c4">${ic('bolt')}</span><span class="lbl"><b>Bonus games</b><small>${S.bonus?S.bonus+' Shadow Chase ready':'Get 10 right in a row'}</small></span></button>
@@ -525,9 +699,9 @@ function home(){
   <button class="sec" id="bdg"><span class="ico c2">${ic('medal')}</span><span class="lbl"><b>Badges</b><small>${S.badges.length} of ${BADGES.length}</small></span></button>
   <button class="sec" id="lst"><span class="ico c1">${ic('book')}</span><span class="lbl"><b>Word book</b><small>${W.length-nNew} of ${W.length} met</small></span></button>
   <button class="sec" id="how"><span class="ico c7">${ic('help')}</span><span class="lbl"><b>How to play</b><small>Rules and tips</small></span></button>
-  <button class="sec" id="edsw"><span class="ico c5">${ic('review')}</span><span class="lbl"><b>Editions</b><small>Now: ${ED==='psle'?'Vocab Obby':EDN[ED]}</small></span></button>
+  <button class="sec" id="edsw"><span class="ico c5">${ic('review')}</span><span class="lbl"><b>Editions</b><small>Now: ${ED==='psle'?'VocaBobby':EDN[ED]}</small></span></button>
   <button class="sec" id="skin"><span class="ico c1">${ic('star')}</span><span class="lbl"><b>${document.body.classList.contains('night')?'Day skin':'Night skin'}</b><small>Change the look</small></span></button></div>`;
-  $('go').onclick=()=>start('learn');$('mya').onclick=myAvatar;$('chal').onclick=challenge;$('wmap').onclick=worldmap;$('myq').onclick=()=>{worldmap();setTimeout(()=>{const e=document.querySelector('.quests')||document.querySelector('.qjoin');if(e)e.scrollIntoView({block:'center'})},60)};$('edsw').onclick=picker;$('skin').onclick=()=>{S.skin=document.body.classList.contains('night')?'day':'night';save();applySkin();home()};$('rev').onclick=()=>start('rev');$('fix').onclick=()=>start('fix');$('lst').onclick=book;$('how').onclick=howto;$('shp').onclick=shop;$('spd').onclick=speed;$('sprint').onclick=sprint;$('bon').onclick=()=>{if(!S.bonus){pop('Get 10 right in a row in a run to unlock');return}chase(home)};$('egg').onclick=eggs;$('bdg').onclick=badges;$('team').onclick=teamUp;$('lbtile').onclick=leaderboard;daily();checkBadges();
+  wireBobby();bobbyCheck();$('go').onclick=()=>start('learn');$('mya').onclick=myAvatar;$('chal').onclick=challenge;$('wmap').onclick=worldmap;$('myq').onclick=()=>{worldmap();setTimeout(()=>{const e=document.querySelector('.quests')||document.querySelector('.qjoin');if(e)e.scrollIntoView({block:'center'})},60)};$('edsw').onclick=picker;$('skin').onclick=()=>{S.skin=document.body.classList.contains('night')?'day':'night';save();applySkin();home()};$('rev').onclick=()=>start('rev');$('fix').onclick=()=>start('fix');$('lst').onclick=book;$('how').onclick=howto;$('shp').onclick=shop;$('spd').onclick=speed;$('sprint').onclick=sprint;$('bon').onclick=()=>{if(!S.bonus){pop('Get 10 right in a row in a run to unlock');return}chase(home)};$('egg').onclick=eggs;$('bdg').onclick=badges;$('team').onclick=teamUp;$('lbtile').onclick=leaderboard;daily();checkBadges();
   if($('res'))$('res').onclick=()=>{sess=saved;sess.words=sess.words.map(n=>WF(n));sess.steps.forEach(s=>s.x=WF(s.n));run()};
 }
 // ---------- build a session ----------
@@ -618,7 +792,7 @@ function spellGate(s,x,top,head){
   main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${head('Spell it!'+(s.boss?' · Boss round':''),x[1])}<div class="sayrow" style="justify-content:center">${spk(word)}</div><p class="q" style="text-align:center">Listen, then spell the word that means<br><b>“${esc(x[2])}”</b></p>
   ${tiles?`<div class="slots" id="slots"></div><div class="tiles" id="tiles"></div><div class="row" style="display:flex;gap:8px"><button class="go" id="undo" style="background:var(--soft);margin:0">⌫ Undo</button><button class="go" id="chk" style="margin:0">Check</button></div>`:`<form id="f"><input class="inp" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="go">Check</button></form>`}<div id="fb"></div></div>`;
   setTimeout(()=>speak(word),200);
-  const finish=v=>{const r=checkSpell(x,v);if(r.ok)st(word).sp=1;S.spT=(S.spT||0)+1;if(r.ok)S.spOK=(S.spOK||0)+1;else{S.spMiss=S.spMiss||{};S.spMiss[word]=(S.spMiss[word]||0)+1}save();
+  const finish=v=>{const r=checkSpell(x,v);if(r.ok){const q=st(word);q.sp=1;if(isMastered(q)&&!q.ms)q.ms=Date.now()}S.spT=(S.spT||0)+1;if(r.ok)S.spOK=(S.spOK||0)+1;else{S.spMiss=S.spMiss||{};S.spMiss[word]=(S.spMiss[word]||0)+1}save();
     result(r.ok,x,r.ok?(r.note?`<p style="margin:10px 0 0">${r.note}</p>`:''):`<p style="margin:10px 0 0">You wrote: <span class="diff">${diffHTML(v||'?',v)}</span></p><p style="margin:4px 0 0">Correct: <span class="diff">${diffHTML(word,v)}</span> ${spk(word)}</p><p style="color:var(--mut);font-size:14px;margin:2px 0 0">Red = wrong letters. Yellow underline = the tricky part.</p>${x[9]?`<p class="tip">${esc(x[9])}</p>`:''}`)};
   if(tiles){const letters=shuf([...word.toLowerCase(),...shuf('abcdefghijklmnoprstuwy'.split('')).filter(c=>!word.toLowerCase().includes(c)).slice(0,2)]);let got=[];
     const draw=()=>{$('slots').innerHTML=[...word].map((_,i)=>`<span class="slot">${esc(got[i]?got[i].c:'')}</span>`).join('');$('tiles').innerHTML=letters.map((c,i)=>`<button class="tile" data-i="${i}" ${got.some(g=>g.i===i)?'disabled':''}>${esc(c)}</button>`).join('');
@@ -645,15 +819,15 @@ function sprint(){setTimeout(()=>document.body.classList.add('playing'),0);
     main.innerHTML=`<div class="card"><span class="tag">Spelling Sprint over</span><div class="word">${score} spelt</div><p>${nb?'New personal best!':'Best: '+(S.spBest||0)+'.'} Words you spell right count towards their 5th gem.</p><button class="go" id="ag">Again!</button><button class="go" id="h" style="background:var(--opt)">Home</button></div>`;$('ag').onclick=sprint;$('h').onclick=home;hud()};
   tm=setInterval(()=>{const e=$('tm');if(!e)return clearInterval(tm);const l=Math.max(0,Math.ceil((end-Date.now())/1000));e.textContent=l+'s';if(!l)done()},250);ask();}
 function result(ok,x,extra=''){
-  const w=st(x[0]);setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
+  const w=st(x[0]);if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
   if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=g;S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
-    if(w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;
-    beep(1);pop('+'+g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
-  else{sess.bad++;sess.combo=0;w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);
+    if(w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;if(isMastered(w)&&!w.ms)w.ms=Date.now();
+    if(!cur_boss)gateHit(g);else{beep(1);pop('+'+g)}if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
+  else{sess.bad++;sess.combo=0;w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);wrongFx();
     // it comes back 3 questions later in a different form
     sess.steps.splice(Math.min(sess.i+4,sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x})}
   if(cur_boss&&sess.bonusNow){sess.bonusNow=0;setTimeout(()=>pop('Streak bonus saved for later!'),900)}
-  if(!S.days.includes(today()))S.days.push(today());save();
+  if(!S.days.includes(today()))S.days.push(today());save();bobbyCheck();
   $('fb').innerHTML=`<p style="font:800 24px var(--fd);margin:16px 0 0;color:${ok?'var(--ok)':'var(--coral)'}">${ok?shuf(['Brilliant!','Spot on!','Nailed it!','Yes!','Sharp!'])[0]:'Not quite. Learn it:'}</p>${extra}${ok?`<p style="margin:6px 0 0"><b>${esc(x[0])}</b> = ${esc(x[2])} ${gems(w.m)}</p>`:teachHTML(x)}${sess.bonusNow?`<div class="bonuscard"><b>Streak bonus unlocked!</b><br>${sess.combo} right in a row. You earned a round of Shadow Chase.<div class="row"><button class="go" id="bplay" style="margin:0">Play now</button><button class="go" id="bsave" style="margin:0;background:var(--paper)">Save for later</button></div></div>`:''}<button class="go" id="nx">Next</button>`;
   $('nx').focus();$('nx').onclick=()=>{sess.i++;run()};
   if(sess.bonusNow){sess.bonusNow=0;$('bsave').onclick=()=>{pop('Saved to Bonus games');$('bsave').closest('.bonuscard').remove()};$('bplay').onclick=()=>{sess.i++;persist();const keep=sess;chase(()=>{sess=keep;run()})}}
@@ -746,7 +920,7 @@ function recap(){
 
 
 function daily(){const t=today();if(S.daily.d===t)return;const y=new Date(Date.now()-DAY).toDateString();S.daily.n=S.daily.d===y?Math.min(S.daily.n+1,7):1;S.daily.d=t;const amt=[0,50,75,100,150,200,250,500][S.daily.n];S.coins+=amt;save();
-  setTimeout(()=>{pop('Day '+S.daily.n+' chest: +'+amt+' coins');confetti(90);hud()},300)}
+  setTimeout(()=>chestReveal(S.daily.n,amt),300)}
 function speed(){
   const pool=W.filter(x=>st(x[0]).seen);const src=pool.length>=10?pool:W;let score=0,end=Date.now()+60000,tm;
   const ask=()=>{const left=Math.max(0,Math.ceil((end-Date.now())/1000));if(!left)return done();
@@ -775,10 +949,10 @@ function eggs(){
   $('h').onclick=home;
 }
 function teamUp(){if(/vocab-obby\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)){location.href='/team.html';return}
-  hud();main.innerHTML=`<div class="card"><span class="tag">Team Up</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Fight bosses with friends</div><p>Team Up lets 2 to 4 friends take turns answering and fire powers at the same boss. Each player gets questions from their own world.</p><p>Play Team Up at <a href="https://vocab-obby.vercel.app/team.html" target="_blank" rel="noopener"><b>vocab-obby.vercel.app</b></a>.</p><button class="go" id="h">Back</button></div>`;$('h').onclick=home}
+  hud();main.innerHTML=`<div class="card"><span class="tag">Team Up</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Fight bosses with friends</div><p>Team Up lets 2 to 4 friends take turns answering and fire powers at the same boss. Each player gets questions from their own world.</p><p>Play Team Up at <a href="https://vocabobby.vercel.app/team.html" target="_blank" rel="noopener"><b>vocabobby.vercel.app</b></a>.</p><button class="go" id="h">Back</button></div>`;$('h').onclick=home}
 function badges(){hud();main.innerHTML=`<div class="card"><span class="tag">Badges</span><div class="shop" style="margin-top:12px">${BADGES.map(b=>{const g=S.badges.includes(b[0]);return `<div class="item ${g?'on':''}" style="${g?'':'opacity:.55'}"><div>${ic(g?'trophy':'lock',36)}</div><b>${esc(b[0])}</b><br><small>${esc(b[1])}</small></div>`}).join('')}</div><button class="go" id="h">Back</button></div>`;$('h').onclick=home}
 
-function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How to play</span><div class="word" style="font-size:clamp(30px,6vw,42px)">Welcome to Vocab Obby!</div><ol class="how">
+function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How to play</span><div class="word" style="font-size:clamp(30px,6vw,42px)">Welcome to VocaBobby!</div><ol class="how">
 <li><b>One obby, six worlds.</b> Everyone climbs the same worlds: Grass Plains, Desert Dunes, Jungle Ruins, Lava Land, Ice Peaks and Outer Space. Your first placement run finds your starting world.</li>
 <li><b>Run and jump.</b> Your avatar runs the course. Tap <b>Jump</b> or press Space to grab coins and hop over crates.</li>
 <li><b>Answer at every word gate.</b> A right answer builds a bridge and you leap across. A wrong answer drops you back to the last checkpoint, you learn the word, and it comes back at a later gate.</li>
@@ -869,7 +1043,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  revive(hp){const s=this.st;if(!s)return;s.koT=0;s.cheer=0;if(s.boss){s.boss.hp=hp;s.boss.max=hp;s.boss.dead=false;s.boss.deadT=0}else{s.boss={x:s.ax+160,hp,max:hp,shake:0,hurt:0,dead:false,deadT:0,lean:0}}this.say('Rematch!')},
  knock(hp){const s=this.st;if(!s)return;if(s.boss){s.boss.hp=hp}s.mode='knock';s.anim=0;s.leapFrom=s.ax;this.say('The boss pushed you back!')},
  frame(now){
-  this.raf=requestAnimationFrame(t=>this.frame(t));
+  this.raf=requestAnimationFrame(t=>this.frame(t));if(this.hs&&now<this.hs){this.last=now;return}
   const s=this.st;if(!s||!this.c.isConnected)return;
   let dt=Math.min(.05,(now-this.last)/1000);this.last=now;if(s.paused)dt=0;
   const RM=this.RM();s.t+=dt;if(s.msgT>0)s.msgT-=dt;
@@ -1001,7 +1175,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(gp){if(gp.b){this.blk(sx,GY,40,14,P[4]);g.fillStyle='#1b2140';g.fillRect(sx+8,GY+3,3,8);g.fillRect(sx+28,GY+3,3,8)}continue}
    this.blk(sx,GY,40,16,P[2]);this.blk(sx,GY+14,40,H-GY-14,P[3])}
   // gates: posts + sign
-  for(const q of s.gaps){if(q.b)continue;const sx=q.x0-cam;this.blk(sx-14,GY-62,12,62,'#ffffff');this.blk(q.x1-cam+2,GY-62,12,62,'#ffffff');this.blk(sx-6,GY-92,q.x1-q.x0+12,26,P[4]);g.fillStyle='#1b2140';g.font='800 15px Outfit,Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(s.gearRun?'GEAR CHEST':'WORD GATE',sx+(q.x1-q.x0)/2,GY-74)}
+  for(const q of s.gaps){if(q.b)continue;const sx=q.x0-cam;this.blk(sx-14,GY-62,12,62,'#ffffff');this.blk(q.x1-cam+2,GY-62,12,62,'#ffffff');this.blk(sx-6,GY-92,q.x1-q.x0+12,26,P[4]);g.fillStyle='#1b2140';g.font='800 15px Fredoka,Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(s.gearRun?'GEAR CHEST':'WORD GATE',sx+(q.x1-q.x0)/2,GY-74)}
   // checkpoint flags
   for(const f of s.flags){const sx=f-cam-30;if(sx<-20||sx>W2)continue;g.fillStyle='#1b2140';g.fillRect(sx,GY-70,4,70);this.blk(sx+4,GY-70,30,20,'#ffffff');g.fillStyle='#1b2140';for(let i=0;i<3;i++)for(let j=0;j<2;j++)if((i+j)%2===0)g.fillRect(sx+6+i*9,GY-68+j*9,9,9)}
   // coins
@@ -1030,15 +1204,15 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   this.drawFX(s,GY,cam,RM,ax,ay);
   // fx
   for(const p of s.fx){if(p.ring){const r=(1-p.l/.5)*60;g.strokeStyle=p.c;g.lineWidth=4;g.globalAlpha=Math.max(0,p.l*2);g.beginPath();g.ellipse(p.x-cam,GY+p.y,r,r*.5,0,0,7);g.stroke();g.globalAlpha=1;continue}
-   if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Outfit,Nunito,sans-serif':'800 14px Outfit,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}}
+   if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Fredoka,Nunito,sans-serif':'800 14px Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}}
   // HUD on canvas
-  g.textAlign='left';g.font='800 14px Outfit,Nunito,system-ui,sans-serif';g.fillStyle='rgba(27,33,64,.75)';g.fillRect(10,10,190,26);g.fillStyle='#fff';g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
-  if(s.msgT>0){g.textAlign='center';g.font='800 20px Outfit,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,64);g.fillStyle='#fff';g.fillText(s.msg,W2/2,62)}
+  g.textAlign='left';g.font='800 14px Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(27,33,64,.75)';g.fillRect(10,10,190,26);g.fillStyle='#fff';g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
+  if(s.msgT>0){g.textAlign='center';g.font='800 20px Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,64);g.fillStyle='#fff';g.fillText(s.msg,W2/2,62)}
   if(s.boss&&sess&&sess.bossOn!=null&&sess.hearts!=null){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
   if(s.flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.85,s.flash*4)+')';g.fillRect(-20,-20,W2+40,H+40)}
   g.restore();
-  if(s.paused){g.fillStyle='rgba(27,33,64,.6)';g.fillRect(0,0,W2,H);g.fillStyle='#fff';g.textAlign='center';g.font='800 28px Outfit,Nunito,sans-serif';g.fillText('Paused',W2/2,H/2)}
-  else if(s.mode==='run'&&s.t<4&&s.gates===0){g.textAlign='center';g.font='800 16px Outfit,Nunito,sans-serif';g.fillStyle='rgba(255,255,255,.92)';g.fillRect(W2/2-150,96,300,30);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(W2/2-150,96,300,30);g.fillStyle='#1b2140';g.fillText('Tap or press Space to jump!',W2/2,117)}
+  if(s.paused){g.fillStyle='rgba(27,33,64,.6)';g.fillRect(0,0,W2,H);g.fillStyle='#fff';g.textAlign='center';g.font='800 28px Fredoka,Nunito,sans-serif';g.fillText('Paused',W2/2,H/2)}
+  else if(s.mode==='run'&&s.t<4&&s.gates===0){g.textAlign='center';g.font='800 16px Fredoka,Nunito,sans-serif';g.fillStyle='rgba(255,255,255,.92)';g.fillRect(W2/2-150,96,300,30);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(W2/2-150,96,300,30);g.fillStyle='#1b2140';g.fillText('Tap or press Space to jump!',W2/2,117)}
  }
 };
 
@@ -1067,7 +1241,7 @@ function chase(done){
   function wrap(s,maxW){g.font='700 12px Nunito,system-ui,sans-serif';const w=s.split(' '),L=[];let cur='';for(const p of w){const t=cur?cur+' '+p:p;if(g.measureText(t).width>maxW&&cur){L.push(cur);cur=p}else cur=t}if(cur)L.push(cur);return L.slice(0,4)}
   function blk(x,y,w,h,f){g.fillStyle=f;g.fillRect(x,y,w,h);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(x+1.5,y+1.5,w-3,h-3)}
   function drawAv(x,y){const a=S.av;blk(x-13,y-38,26,22,'#ffcf5a');g.fillStyle='#1b2140';g.fillRect(x-8,y-31,4,5);g.fillRect(x+4,y-31,4,5);blk(x-15,y-17,30,20,flat(a.shirt));blk(x-14,y+2,13,14,flat(a.pants));blk(x+1,y+2,13,14,flat(a.pants))}
-  function drawThief(x,y){blk(x-15,y-38,30,24,'#3a2a6b');g.fillStyle='#1b2140';g.fillRect(x-15,y-30,30,8);g.fillStyle='#ffc642';g.fillRect(x-9,y-28,5,4);g.fillRect(x+4,y-28,5,4);blk(x-17,y-15,34,22,'#24194a');g.fillStyle='#ffc642';g.font='800 12px Outfit,system-ui,sans-serif';g.textAlign='center';g.fillText('?',x,y+1);blk(x-14,y+6,12,12,'#1b2140');blk(x+2,y+6,12,12,'#1b2140')}
+  function drawThief(x,y){blk(x-15,y-38,30,24,'#3a2a6b');g.fillStyle='#1b2140';g.fillRect(x-15,y-30,30,8);g.fillStyle='#ffc642';g.fillRect(x-9,y-28,5,4);g.fillRect(x+4,y-28,5,4);blk(x-17,y-15,34,22,'#24194a');g.fillStyle='#ffc642';g.font='800 12px Fredoka,system-ui,sans-serif';g.textAlign='center';g.fillText('?',x,y+1);blk(x-14,y+6,12,12,'#1b2140');blk(x+2,y+6,12,12,'#1b2140')}
   function end(caught){if(over)return;over=true;cancelAnimationFrame(raf);removeEventListener('keydown',key);document.removeEventListener('visibilitychange',vis);
     S.coins+=coins;const nb=coins>S.chaseBest;if(nb)S.chaseBest=coins;save();if(typeof syncScore==='function')syncScore();if(nb&&coins>0)confetti(150);beep(!caught);
     main.innerHTML=`<div class="card"><span class="tag">Shadow Chase</span><div class="word" style="font-size:clamp(28px,6vw,40px)">${caught?'The Word Thief caught you!':'You escaped!'}</div>
@@ -1101,7 +1275,7 @@ function chase(done){
     drawAv(px,PY);
     const ty=PY+30+thief*0.0+Math.max(0,(170-thief))*0;const tY=Math.min(Hd-10,PY+40+thief*0.55);drawThief(LX[lane]+(px-LX[lane]),tY);
     g.restore();
-    g.fillStyle='rgba(27,33,64,.85)';g.fillRect(0,0,Wd,26);g.fillStyle='#fff';g.font='800 13px Outfit,system-ui,sans-serif';g.textAlign='left';g.fillText('Word Thief',8,18);
+    g.fillStyle='rgba(27,33,64,.85)';g.fillRect(0,0,Wd,26);g.fillStyle='#fff';g.font='800 13px Fredoka,system-ui,sans-serif';g.textAlign='left';g.fillText('Word Thief',8,18);
     g.fillStyle='#3a2a6b';g.fillRect(96,8,250,11);g.fillStyle=thief<60?'#ef4f5f':'#2fbf71';g.fillRect(96,8,250*Math.max(0,thief)/170,11);
     if(msgT>0){msgT-=dt;g.fillStyle='rgba(27,33,64,.88)';g.fillRect(10,Hd-44,Wd-20,32);g.fillStyle='#fff';g.font='700 13px Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(msg.length>52?msg.slice(0,50)+'…':msg,Wd/2,Hd-23)}
   }
@@ -1111,18 +1285,18 @@ function chase(done){
 if(/[?&]test/.test(location.search))window.__vq={myAvatar,shareCard,get sess(){return sess},S,chase,home,OB,start,sprint,spellGate,speak,placement,worldmap,challenge,leaderboard,run,result,recap,get W(){return W}};
 
 function applySkin(){const night=S.skin==='night';document.body.classList.toggle('night',night)}
-function setTitle(){document.title='Vocab Obby | Thinking Hack Education'}
+function setTitle(){document.title='VocaBobby | Thinking Hack Education'}
 function loadEdition(ed,then){
   if(ED){S.bestE[ED]=S.best||0;save()}
   ED=ed;try{localStorage.setItem('vq_ed',ed)}catch(e){}
   S.w=S.wE[ed]||(S.wE[ed]={});S.best=S.bestE[ed]||0;S._lp=S.pts;CW=[];save();applySkin();setTitle();
-  main.innerHTML='<div class="card"><p class="q">Loading words…</p></div>';
+  if(!main.querySelector('.seo'))main.innerHTML='<div class="card"><p class="q">Getting the words ready…</p></div>';
   fetch(EDF[ed]).then(r=>r.json()).then(d=>{W=d;addAuto();LB.last='';if(LB.db){refreshLB();syncScore()}(then||home)()}).catch(()=>{splashOut();main.innerHTML='<div class="card"><p class="q">Could not load the word list. Please refresh.</p></div>'});
 }
 function picker(){
   sess=null;hud();
-  main.innerHTML=`<div class="card"><span class="tag">Editions</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Vocab Obby editions</div>
-  <div class="edpick"><button class="edc" id="e1"><b>Vocab Obby</b><small>Six worlds to climb, plus the PSLE Exam Pack from real P6 papers.</small></button>
+  main.innerHTML=`<div class="card"><span class="tag">Editions</span><div class="word" style="font-size:clamp(28px,6vw,40px)">VocaBobby editions</div>
+  <div class="edpick"><button class="edc" id="e1"><b>VocaBobby</b><small>Six worlds to climb, plus the PSLE Exam Pack from real P6 papers.</small></button>
   <button class="edc soon" disabled><b>O-Level Edition</b><small>Coming soon</small></button>
   <button class="edc soon" disabled><b>A-Level Edition</b><small>Coming soon</small></button></div>
   <div class="ownl"><h2>Turn any word list into an adventure</h2><ol><li><b>Type or paste.</b> Spelling list, a story, a science chapter: paste it in.</li><li><b>We build the quest.</b> Meanings, example sentences, sounds and boss battles appear by magic.</li><li><b>Play and share.</b> Your list becomes a Quest world. Share a 6-letter code with friends or a class.</li></ol><a class="go" href="/lists.html" style="display:block;text-align:center;text-decoration:none">Create a list</a></div>
@@ -1134,7 +1308,7 @@ function worldmap(fly){
   sess=null;hud();if(typeof fly!=='number')fly=null;const t=tier(),g=EDGOAL[ED||'psle'];
   main.innerHTML=`<div class="card"><span class="tag">World map</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Six worlds + kingdoms</div>
   <ol class="wmap">${WORLDS.map((w,k)=>{const n=W.filter(x=>rnk(x)===k),seen=n.filter(x=>st(x[0]).seen).length,lock=k>t;return `<li class="${lock?'lock':''} ${k===t?'here':''}"><button ${lock?'disabled':''} data-w="${k}"><span class="wn">${k+1}</span><span class="wt"><b>${esc(w[1])}</b><small>${lock?'Finish 2 runs in the world before to travel here':k<t?'Cleared':'Your adventure'}${k===t?' · You are here':''}</small></span></button></li>`}).join('')}</ol>
-  <p class="wmk"><b>Exam kingdoms</b></p><ol class="wmap kingdoms"><li class="psle"><button data-k="psle"><span class="wn">🇸🇬</span><span class="wt"><b>PSLE Kingdom</b><small>PSLE Edition · real exam words · Exam King boss</small></span></button></li><li class="lock"><button disabled><span class="wn">🇸🇬</span><span class="wt"><b>O-Level Kingdom</b><small>Singapore · O-Level English · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇸🇬</span><span class="wt"><b>A-Level Kingdom</b><small>Singapore · A-Level General Paper · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🌏</span><span class="wt"><b>IELTS Kingdom</b><small>International · IELTS · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>Cambridge Kingdom</b><small>B2 First / C1 Advanced · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>11+ Kingdom</b><small>UK · 11 Plus · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>GCSE Kingdom</b><small>UK · GCSE English · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇺🇸</span><span class="wt"><b>SAT Kingdom</b><small>US · SAT · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🌐</span><span class="wt"><b>IB Kingdom</b><small>International Baccalaureate · English · Coming soon</small></span></button></li></ol>
+  <p class="wmk"><b>Exam kingdoms</b> ${regionBadge()}</p><ol class="wmap kingdoms">${REG().kingdoms.map(k=>`<li class="${k.live?k.id:'lock'}"><button ${k.live?'data-k="'+k.id+'"':'disabled'}><span class="wn">${REG().flag(13)}</span><span class="wt"><b>${esc(k.n)}</b><small>${esc(k.sub||'')}</small></span></button></li>`).join('')}</ol>
   <p class="wmk"><b>My Quests</b></p><ol class="wmap quests">${getQ().map((q,i)=>`<li class="quest"><button data-q="${i}"><span class="wn">⚑</span><span class="wt"><b>${esc(q.name)}</b><small>Quest${q.theme?' · '+esc(q.theme):''} · ${q.words.length} words</small></span></button></li>`).join('')}</ol>
   <div class="qjoin"><input id="qc" maxlength="6" placeholder="Quest code" autocapitalize="characters" autocomplete="off" aria-label="Quest code"><button class="go" id="qj">Join</button></div><a class="go qmake" href="/lists.html">＋ Make a Quest from your own words</a>
   <button class="go" id="rp" style="background:var(--soft)">Replay first run</button><button class="go" id="h">Home</button></div>`;
@@ -1155,41 +1329,49 @@ function plP(l,t){return l<t?.92:l===t?.8:l===t+1?.35:.27}
 function plEst(H){let b=2,bv=-1e9;for(let t=0;t<6;t++){let v=t===2?.01:0;for(const [l,o] of H)v+=Math.log(o?plP(l,t):1-plP(l,t));if(v>bv){bv=v;b=t}}return b}
 function placement(){
   PLRUN=0;sess=null;hud();S.gear=S.gear||{};S.gearOwn=S.gearOwn||[];
-  const used=new Set(),H=[];let lvl=2,last=null,rev=0,i=0;
+  const used=new Set(),H=[];let lvl=2,last=null,i=0;const N=5;
   const pick=l=>{const c=shuf((PLC[LVL[l]]||[]).filter(w=>!used.has(w)&&WF(w)));const w=c[0];used.add(w);return WF(w)};
   const card=h=>{main.innerHTML=`<div class="card runcard">${h}</div>`};
-  card(`<span class="tag">Your first run</span><div class="word" style="font-size:clamp(28px,6vw,40px)">GEAR UP!</div><p>Every hero needs gear. Clear the gates to collect yours!</p><button class="go" id="pgo">Let's go</button>`);
-  const give=(k,ok)=>{const [p,n]=GEARP[k],id=p+'|starter';if(!S.gearOwn.includes(id))S.gearOwn.push(id);S.gear[p]='starter';if(ok)S.coins+=5;save();if(OB.st){OB.say(n+'!');if(ok&&OB.sparkle)OB.sparkle()}return n};
-  const gate=()=>{PLRUN=1;
-    if(i>=10||rev>=6)return boss();
-    card(`<div class="cardhead"><span class="tag">Your first run</span><span class="combo">Gear ${i+1}</span></div><p class="q" style="margin:8px 0 0">Tap <b>Jump</b> or press <b>Space</b> to grab coins. A glowing gear chest is ahead!</p>`);
-    OB.ensure(0);if(OB.st)OB.st.gearRun=1;OB.segment(()=>ask());
-  };
+  const give=(k,ok)=>{const [p,n]=GEARP[k],id=p+'|starter';if(!S.gearOwn.includes(id))S.gearOwn.push(id);S.gear[p]='starter';if(ok)S.coins+=5;save();return n};
+  const gate=()=>{PLRUN=1;if(i>=N)return boss();
+    card(`<div class="cardhead"><span class="tag">${STR.gate} ${i+1}/${N}</span></div><p class="q" style="margin:8px 0 0">Tap <b>Jump</b> or press <b>Space</b> to grab coins!</p>`);
+    OB.ensure(0);if(OB.st)OB.st.gearRun=1;OB.segment(()=>ask());};
   const ask=()=>{
-    const x=pick(lvl);if(!x){i=10;return boss()}
+    const x=pick(lvl);if(!x){i=N;return boss()}
     const L=shuf((PLC[LVL[lvl]]||[]).filter(w=>w!==x[0]).map(WF).filter(y=>y&&y[2]!==x[2])).slice(0,3),opts=shuf([x[2],...L.map(y=>y[2])]);
-    card(`<div class="cardhead"><span class="tag">Gear chest</span><span class="combo">${i+1}</span></div><p class="q">What does <b>${esc(x[0])}</b> mean?</p><div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join('')}</div>`);
+    card(`<div class="cardhead"><span class="tag">${STR.gate} ${i+1}/${N}</span></div><p class="q">What does <b>${esc(x[0])}</b> mean?</p><div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join('')}</div>`);
     if(S.autoRead!==false)setTimeout(()=>speak(x[0]),250);
     main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
-      const ok=opts[b.dataset.k]===x[2];H.push([lvl,ok]);if(last!==null&&ok!==last)rev++;last=ok;
-      const got=give(i,ok);sfx(ok?'ok':'pop');OB.leap();i++;
-      card(`<div class="victory" role="status"><b>Chest opened! ${esc(got)} equipped</b>${ok?'✨ +5 coins':esc(x[0])+' means “'+esc(x[2])+'”'}</div><button class="go" id="nx">Keep running</button>`);
+      const ok=opts[b.dataset.k]===x[2];H.push([lvl,ok]);last=ok;
+      const got=give(i,ok);if(ok){gateHit(5);OB.leap()}else{sfx('pop');wrongFx();OB.fall()}i++;
+      const w=st(x[0]);if(!w.f)w.f=Date.now();w.seen=(w.seen||0)+1;if(!ok){w.miss=(w.miss||0)+1}save();
+      card(`<div class="victory" role="status"><b>${ok?esc(got)+' unlocked! +5 coins':'Not quite!'}</b>${ok?'':'<br><b>'+esc(x[0])+'</b> means “'+esc(x[2])+'”'}</div><button class="go" id="nx">Keep running</button>`);
       lvl=ok?Math.min(5,lvl+1):Math.max(0,lvl-1);$('nx').onclick=gate;$('nx').focus();
     });
   };
   const boss=()=>{
-    card(`<div class="cardhead"><span class="tag">The Gatekeeper</span></div><p class="q" style="margin:8px 0 0">The Gatekeeper wants to check your gear. Run up and show it off!</p>`);
-    let hp=30;OB.segment(()=>{
-      const show=()=>{card(`<div class="cardhead"><span class="tag">The Gatekeeper</span></div><p class="q">“Let me see that gear!”</p><button class="go" id="sh">Show my gear ✨</button>`);
-        $('sh').onclick=()=>{$('sh').disabled=true;sfx('star');OB.shoot('star',()=>{hp-=10;OB.bossHit(hp,10,'');if(hp>0)show();else reveal()})}};
+    card(`<div class="cardhead"><span class="tag">${esc(BOSSES[0].n)}</span></div><p class="q" style="margin:8px 0 0">${STR.bossIntro}</p>`);
+    document.body.classList.add('arena');let hp=30;
+    OB.segment(()=>{
+      const show=()=>{card(`<div class="cardhead"><span class="tag">${esc(BOSSES[0].n)}</span><span class="combo">${'❤'.repeat(Math.ceil(hp/10))}</span></div><div class="bubrow arena-b"><span class="bub b-fire glowb">${BUB.fire}</span><span class="bub b-zap glowb">${BUB.zap}</span><span class="bub b-water glowb">${BUB.water}</span></div><button class="holdbtn hold2" id="hb"><span class="hfill" id="hf"></span><span class="hlab">${STR.hold}<small>${STR.holdSub}</small></span></button>`);
+        const hb=$('hb'),hf=$('hf');let t0=0,raf=0,lvl=0;
+        const draw=()=>{lvl=Math.min(1,(performance.now()-t0)/1100);hf.style.transform=`scaleX(${lvl})`;hb.classList.toggle('full',lvl>=1);if(lvl>=1)hb.querySelector('.hlab').firstChild.textContent=STR.release;raf=requestAnimationFrame(draw)};
+        const down=e=>{e.preventDefault();if(t0)return;t0=performance.now();sfx('zap');raf=requestAnimationFrame(draw);hb.querySelector('.hlab').firstChild.textContent=STR.charging};
+        const up=e=>{if(!t0)return;cancelAnimationFrame(raf);const full=lvl>=1;t0=0;hb.disabled=true;const dmg=full?30:10;
+          if(full){pop(STR.comboName);sfx('star')}else pop(STR.weak);
+          OB.shoot(full?'star':'zap',()=>{hp-=dmg;OB.bossHit(Math.max(0,hp),dmg,'');if(full)gateHit(0);if(hp>0)show();else reveal()})};
+        hb.addEventListener('pointerdown',down);hb.addEventListener('pointerup',up);hb.addEventListener('pointerleave',up);hb.addEventListener('pointercancel',up);
+        hb.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat)down(e)});hb.addEventListener('keyup',e=>{if(e.key===' '||e.key==='Enter')up(e)});hb.focus()};
       show()},{hp,max:hp});
   };
   const reveal=()=>{
-    PLRUN=0;const est=plEst(H);S.lv=est;S.lad.t=0;S.lad.placed=1;S.lad.pr=0;S.coins+=50;save();OB.victory&&OB.victory();sfx('win');confetti(160);
-    card(`<span class="tag">Gear complete!</span><div style="margin:10px 0">${avatar(64)}</div><div class="word" style="font-size:clamp(26px,6vw,38px)">Your adventure starts in Grass Plains!</div><p>Your gear is in the Avatar shop wardrobe. +50 coins</p><button class="go" id="fly">Fly there!</button>`);
-    $('fly').onclick=()=>{OB.hide&&OB.hide();worldmap(0)};
+    PLRUN=0;document.body.classList.remove('arena');const est=plEst(H);S.lv=est;S.lad.t=0;S.lad.placed=1;S.lad.pr=0;S.coins+=50;S.bobby=1;S.bobbyS=0;S.seenHow=1;if(!S.days.includes(today()))S.days.push(today());save();OB.victory&&OB.victory();sfx('win');confetti(160);
+    card(`<span class="tag">${STR.bobbyFree}</span><div class="bobfree">${bobbySVG(0,150,'t-hop')}</div><div class="word" style="font-size:clamp(26px,6vw,38px)"><span class="hl hl-p">Bobby</span> is free!</div><p>${STR.bobbyJoin} +50 coins</p><button class="go" id="fly">${STR.onward}</button>`);
+    $('fly').onclick=()=>{OB.hide&&OB.hide();if(!(VO.me&&VO.me.type==='kid')){card(`<span class="tag">${STR.savePrompt}</span><div class="bobfree">${bobbySVG(0,110)}</div><p>${STR.saveSub}</p><a class="go" href="/account.html#parent" style="display:block;text-align:center;text-decoration:none">${STR.saveBtn}</a><button class="go" id="lt" style="background:var(--soft)">${STR.later}</button>`);$('lt').onclick=()=>worldmap(0)}else worldmap(0)};
   };
-  $('pgo').onclick=gate;
+  const autoplay=/[?&]play=1/.test(location.search)||S.wantPlay;
+  if(autoplay){S.wantPlay=0;gate()}
+  else{card(`<div class="bobfree">${bobbySVG(0,120,'idle')}</div><div class="word" style="font-size:clamp(28px,6vw,40px)">${STR.ready}</div><p>${STR.firstGo}</p><button class="big" id="pgo">${ic('play',30)}${STR.play}</button>`);$('pgo').onclick=gate}
 }
 function challenge(){
   if(!EDLIVE[ED||'psle']){pop('Coming soon');return}
@@ -1278,7 +1460,7 @@ function leaderboard(){
   if(!LB.db)return home();
   if(!S.nick)return askNick(leaderboard);
   hud();syncScore();
-  main.innerHTML=`<div class="card"><span class="tag">Vocab Obby leaderboard</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Leaderboard</div><p style="margin:0 0 6px;color:var(--mut);font-size:14px">XP comes from right answers, combos, streaks and bosses beaten. Everyone gets words picked just for them, so anyone can top the board.</p>
+  main.innerHTML=`<div class="card"><span class="tag">VocaBobby leaderboard</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Leaderboard</div><p style="margin:0 0 6px;color:var(--mut);font-size:14px">XP comes from right answers, combos, streaks and bosses beaten. Everyone gets words picked just for them, so anyone can top the board.</p>
   ${rankLine()}<div class="tabs" role="tablist">${BOARDS.map(b=>`<button class="tab ${b[0]===lbScreen.tab?'on':''}" data-t="${b[0]}" role="tab">${b[1]}</button>`).join('')}</div>
   <div id="lbscreen"></div><p style="color:var(--mut);font-size:14px;margin:10px 0 0">Playing as <b id="mynick"></b> · <button class="linkbtn" id="ren">Change name</button></p>
   <button class="go" id="h">Home</button></div>`;
@@ -1288,7 +1470,7 @@ function leaderboard(){
 }
 function applySup(){const me=window.VO&&window.VO.me;const t=me&&me.type==='kid'&&['any','10','20'].includes(me.sup)?me.sup:'';if(!t){if(S.sup){S.sup='';S.av.cape=false;save()}return}
   S.sup=t;S.av.cape=t!=='any';if(t==='20'&&!S.pets.includes(13)){S.pets.push(13)}
-  if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting Vocab Obby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Yay!</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
+  if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting VocaBobby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Yay!</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
   save();hud()}
 if(window.VO_READY)window.VO_READY.then(applySup).catch(()=>{});
 applySkin();setTitle();fetch(EDF[ED]).then(r=>r.json()).then(d=>{W=d;addAuto();splashOut();const qp=new URLSearchParams(location.search).get('quest');if(qp&&ED&&S.lad&&S.lad.placed){history.replaceState(null,'',location.pathname);joinQuest(qp)}else if(location.hash==='#quests'&&ED&&S.lad&&S.lad.placed){history.replaceState(null,'',location.pathname);worldmap()}else home();lbInit()}).catch(()=>{splashOut();main.innerHTML='<div class="card"><p class="q">Could not load the word list. Please refresh.</p></div>'});

@@ -31,3 +31,13 @@ Set both env vars in Vercel to turn it on: `LIST_LLM_POLISH=1` and `ANTHROPIC_AP
 
 ## Rebuilding the data
 `python3 build_dict.py api/_dict.js` (needs `wn` with `oewn:2024`, `pyphen`, `pronouncing`, `wordfreq`, `lemminflect`, the OLP CSVs and the Tatoeba fra-eng file).
+
+## Choosing the meaning (Nov 2026)
+`api/_meaning.js` picks each word's meaning in this order:
+1. The game's own `words.json` entry for the word or its lemma (meaning, sentence, distractors reused).
+2. `api/_overrides.js`: 458 hand-checked everyday meanings for common multi-sense school words (bank, coral, fossil, pitch, pupil…).
+3. Ranked WordNet senses in `api/_senses.js` (built by `build_senses.py`): dominant everyday sense and part of speech first; archaic, informal, derogatory, technical, proper-noun and rare senses down-ranked. When the words came from a pasted paragraph, the sense whose gloss overlaps the paragraph most wins (an override only gives way on clear evidence, e.g. "river bank").
+4. The dictionary row.
+Words where the ranking is not clearly ahead are flagged **check meaning?** in the builder and are never promoted to the bank.
+
+Accuracy (hand-judged, `data/meaning-eval-2026-11-28.json`, 40 random + 40 multi-sense A1-B2 words, seed 20261128): before 68/80 (85%), after 70/80 (87.5%); after, 9 of the 10 misses are flagged "check meaning?" (79/80 correct or flagged). Words covered by the overrides or words.json are correct by construction. The 95% target for unflagged automatic senses is not yet met; the next lever is growing the override file.

@@ -1,0 +1,7 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>VocaBobby</title></head><body><script>
+// Old address only: carries this device's saved game across to vocabobby.vercel.app (in the URL fragment, never sent to a server).
+(function(){var K=['p6vq3','p6vq3s','p6vq3s_sec','vq_ed','vo_quests','vo_region'],d={};
+try{K.forEach(function(k){var v=localStorage.getItem(k);if(v!=null)d[k]=v})}catch(e){}
+var h='';try{h=Object.keys(d).length?'#vbcarry='+encodeURIComponent(JSON.stringify(d)):''}catch(e){}
+location.replace('https://vocabobby.vercel.app/?carried=1'+h);})();
+</script></body></html>

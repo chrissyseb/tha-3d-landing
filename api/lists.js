@@ -1,6 +1,7 @@
 import { body, send, csrfOk, rateOk, getSession, getJson, putJson, famPath, safe, paidFor, cleanOk } from './_lib.js';
 import { DICT, REDIR } from './_dict.js';
 import WORDS from './_words.js';
+import { pickMeaning, toks } from './_meaning.js';
 // My Lists: custom word lists built automatically from bundled open data (see README-lists.md).
 const D = globalThis.__voDict || (globalThis.__voDict = new Map(DICT.map(r => [r[0], r])));
 const BANK = globalThis.__voBank || (globalThis.__voBank = new Set(WORDS.map(w => String(w[0]).toLowerCase())));
@@ -31,16 +32,21 @@ export function lemma(raw) {
 const shuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const POOLS = globalThis.__voPools || (globalThis.__voPools = (() => { const m = new Map(); for (const r of DICT) if (r[8] === 2 && r[2]) { const k = r[1] + r[2]; if (!m.has(k)) m.set(k, []); m.get(k).push(r[0]); } return m; })());
 // Build one game entry: [word, level, meaning, hint, sentence, distractors, answer, tags, syllables, tip] + {conf, need}
-export function build(raw, meaning) {
+export function build(raw, meaning, ctx) {
   const typed = String(raw || '').trim().toLowerCase();
   const w = lemma(typed); const r = D.get(w);
-  const lvl = r ? r[1] : 'B1', pos = r ? r[2] : '';
-  let m = String(meaning || '').trim().slice(0, 120) || (r ? r[3] : '');
+  const pk = meaning ? null : pickMeaning(w, typed, ctx);
+  if (pk && pk.src === 'bank') { const x = pk.row; return { e: [x[0], r ? r[1] : 'B1', x[2], '', x[3], (x[4] || []).slice(0, 3), x[5] || x[0], ['quest'], r ? r[6] : x[0], r ? r[7] : ''], conf: 2, need: false, check: false, src: 0 }; }
+  const lvl = r ? r[1] : 'B1', pos = (pk && pk.pos) || (r ? r[2] : '');
+  const m = String(meaning || '').trim().slice(0, 120) || (pk ? pk.m : '');
   const conf = meaning ? 2 : r ? r[8] : 0;
+  const check = !meaning && !!m && !pk.sure;
   const pool = (POOLS.get(lvl + pos) || POOLS.get(lvl + 'n') || []).filter(x => x !== w);
   const dis = shuf(pool).slice(0, 3);
-  const sent = r && r[4] ? r[4] : m ? `The word that means "${m}" is ___.` : 'Spell the word you hear: ___.';
-  return { e: [w, lvl, m, pos ? POSN[pos] : '', sent, dis, w, ['quest'], r ? r[6] : w, r ? r[7] : ''], conf, need: !m, src: r && r[5] ? r[5] : 0 };
+  // the dictionary example sentence only fits when we kept the dictionary's own sense
+  const sentOk = r && r[4] && (!pk || m === r[3] || [...toks(m)].some(t => toks(r[3]).has(t)));
+  const sent = sentOk ? r[4] : m ? `The word that means "${m}" is ___.` : 'Spell the word you hear: ___.';
+  return { e: [w, lvl, m, pos ? POSN[pos] : '', sent, dis, w, ['quest'], r ? r[6] : w, r ? r[7] : ''], conf, need: !m, check, src: r && r[5] ? r[5] : 0 };
 }
 export function extract(text) {
   const seen = new Set(), out = [];
@@ -67,14 +73,14 @@ async function feed(code, entries) {
   const auto = (await getJson(AUTO)) || { words: [], removed: [] };
   let changed = false;
   for (const x of entries) {
-    const w = x.e[0]; if (x.conf < 2 || x.need || BANK.has(w) || !cleanOk(w) || !cleanOk(x.e[2]) || auto.removed.includes(w) || auto.words.some(a => a.e[0] === w)) continue;
+    const w = x.e[0]; if (x.conf < 2 || x.need || x.check || BANK.has(w) || !cleanOk(w) || !cleanOk(x.e[2]) || auto.removed.includes(w) || auto.words.some(a => a.e[0] === w)) continue;
     const p = `candidates/${safe(w)}.json`, c = (await getJson(p)) || { w, lists: [], first: Date.now() };
     if (!c.lists.includes(code)) { c.lists.push(code); c.e = x.e; await putJson(p, c); await log({ t: 'candidate', w, list: code, n: c.lists.length }); }
     if (c.lists.length >= PROMOTE_AT) { const e = x.e.slice(); e[7] = ['auto']; auto.words.push({ e, at: Date.now(), lists: c.lists.slice(0, 10) }); changed = true; await log({ t: 'promoted', w, level: e[1], lists: c.lists.length }); }
   }
   if (changed) await putJson(AUTO, auto);
 }
-const pub = L => ({ code: L.code, name: L.name, theme: L.theme || '', shared: !!L.shared, words: L.words.map(x => x.e), need: L.words.filter(x => x.need).map(x => x.e[0]), updated: L.updated });
+const pub = L => ({ code: L.code, name: L.name, theme: L.theme || '', shared: !!L.shared, words: L.words.map(x => x.e), need: L.words.filter(x => x.need).map(x => x.e[0]), check: L.words.filter(x => x.check).map(x => x.e[0]), updated: L.updated });
 function clean(b) {
   const name = String(b.name || '').trim().slice(0, 40), theme = String(b.theme || '').trim().slice(0, 40);
   if (!name) return { err: 'Give your list a name.' };
@@ -82,13 +88,13 @@ function clean(b) {
   const items = Array.isArray(b.words) ? b.words : [];
   if (!items.length) return { err: 'Add at least one word.' };
   if (items.length > MAXW) return { err: `Up to ${MAXW} words per list.` };
-  const seen = new Set(), words = [];
+  const seen = new Set(), words = [], ctx = b.ctx ? toks(String(b.ctx).slice(0, 6000)) : null;
   for (const it of items) {
     const w = String(typeof it === 'string' ? it : it.w || '').trim().toLowerCase();
     if (!/^[a-z][a-z' -]{0,30}$/.test(w)) return { err: `"${w.slice(0, 20)}" isn't a word we can use.` };
     const m = typeof it === 'object' ? String(it.m || '').trim() : '';
     if (!cleanOk(w) || !cleanOk(m)) return { err: `Please remove "${w}". Friendly words only.` };
-    const x = build(w, m); if (seen.has(x.e[0])) continue; seen.add(x.e[0]); words.push(x);
+    const x = build(w, m, ctx); if (seen.has(x.e[0])) continue; seen.add(x.e[0]); words.push(x);
   }
   return { name, theme, words, shared: b.shared === true };
 }
@@ -114,7 +120,7 @@ export default async function handler(req, res) {
   if (b.action === 'build') { // guests: build a local list without saving
     if (!rateOk(req, 'listb', 20)) return send(res, 429, { error: 'Slow down a little.' });
     const c = clean(b); if (c.err) return send(res, 400, { error: c.err });
-    await polish(c.words); return send(res, 200, { list: { code: '', name: c.name, theme: c.theme, shared: false, words: c.words.map(x => x.e), need: c.words.filter(x => x.need).map(x => x.e[0]) } });
+    await polish(c.words); return send(res, 200, { list: { code: '', name: c.name, theme: c.theme, shared: false, words: c.words.map(x => x.e), need: c.words.filter(x => x.need).map(x => x.e[0]), check: c.words.filter(x => x.check).map(x => x.e[0]) } });
   }
   if (!s) return send(res, 401, { error: 'Log in to save lists.' });
   if (!rateOk(req, 'listw', 30)) return send(res, 429, { error: 'Slow down a little.' });

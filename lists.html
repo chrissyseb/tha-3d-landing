@@ -1,12 +1,12 @@
-<!DOCTYPE html><html lang="en-SG"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png"><link rel="manifest" href="/manifest.webmanifest"><title>My Lists | Vocab Obby</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html><html lang="en-SG"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png"><link rel="manifest" href="/manifest.webmanifest"><title>My Lists | VocaBobby</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet"><style>
 :root{--ink:#1b2140;--mut:#5a6480;--sky:#4cb8ff;--sun:#ffd23f;--ok:#3fbf6b;--bad:#d43b3b;--soft:#eef3fb}
 *{box-sizing:border-box;min-width:0}body{margin:0;min-height:100vh;background:linear-gradient(#4cb8ff,#a8e1ff) fixed;color:var(--ink);font:16px/1.55 Nunito,system-ui,sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:16px max(4vw,14px) 60px}
 .brand{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:8px 14px;box-shadow:0 4px 0 var(--ink);text-decoration:none;color:var(--ink);width:fit-content}
-.brand b{font:800 20px Outfit,sans-serif}
+.brand b{font:800 20px Fredoka,sans-serif}
 .card{background:#fff;border:3px solid var(--ink);border-radius:20px;padding:clamp(16px,4vw,26px);box-shadow:0 6px 0 var(--ink);margin-top:16px}
-h1{font:800 clamp(26px,6vw,36px)/1.1 Outfit,sans-serif;margin:0 0 8px}h2{font:800 22px Outfit,sans-serif;margin:0 0 8px}
+h1{font:800 clamp(26px,6vw,36px)/1.1 Fredoka,sans-serif;margin:0 0 8px}h2{font:800 22px Fredoka,sans-serif;margin:0 0 8px}
 label{display:block;font-weight:800;margin:12px 0 4px}input{width:100%;font:16px Nunito,sans-serif;padding:12px;border:3px solid var(--ink);border-radius:12px;background:var(--soft)}
 input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 button,.btn{display:inline-block;min-height:48px;padding:12px 18px;border:3px solid var(--ink);border-radius:14px;background:var(--sun);color:var(--ink);font:800 16px Nunito,sans-serif;box-shadow:0 4px 0 var(--ink);cursor:pointer;text-decoration:none;margin-top:14px}
@@ -14,7 +14,7 @@ button.sec,.btn.sec{background:#fff}button:active{transform:translateY(3px);box-
 .tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button{margin:0;background:#fff}.tabs button[aria-selected=true]{background:var(--sun)}
 .err{color:var(--bad);font-weight:800;min-height:1.4em;margin:8px 0 0}.note{color:var(--mut);font-size:14px}
 .kid{border:3px solid var(--ink);border-radius:16px;padding:14px;margin-top:12px;background:var(--soft)}
-.kid h3{margin:0;font:800 20px Outfit,sans-serif;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.kid h3{margin:0;font:800 20px Fredoka,sans-serif;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .pill{font:800 13px Nunito,sans-serif;background:var(--ok);color:#fff;border-radius:99px;padding:3px 10px}.pill.free{background:#9aa6c0}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}.stats div{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px;text-align:center}.stats b{display:block;font:800 22px Outfit}
 @media(max-width:520px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -24,14 +24,14 @@ button.sec,.btn.sec{background:#fff}button:active{transform:translateY(3px);box-
 footer{text-align:center;color:var(--ink);font-weight:800;font-size:13px;margin-top:28px}footer a{color:var(--ink)}
 .ok{color:#178a3e}
 textarea{width:100%;font:16px Nunito,sans-serif;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;min-height:110px}
-.tabs{display:flex;gap:8px;margin:6px 0 4px}.tabs button{flex:1;font:800 15px Outfit,sans-serif;padding:10px;border:3px solid var(--ink);border-radius:12px;background:var(--soft);color:var(--ink)}.tabs button.on{background:var(--sun)}
+.tabs{display:flex;gap:8px;margin:6px 0 4px}.tabs button{flex:1;font:800 15px Fredoka,sans-serif;padding:10px;border:3px solid var(--ink);border-radius:12px;background:var(--soft);color:var(--ink)}.tabs button.on{background:var(--sun)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chip{font:800 15px Nunito;padding:8px 12px;border:3px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink)}.chip.on{background:#7be0c3}
-.wl{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}.wl li{border:3px solid var(--ink);border-radius:14px;padding:10px 12px;background:var(--soft)}.wl b{font:800 18px Outfit,sans-serif}.wl small{color:var(--mut);display:block}.wl .need{background:#fff4d6}.wl input{margin-top:6px}.wl .x{float:right;border:0;background:none;font:800 20px Outfit;color:var(--mut)}
-.btn{display:inline-block;font:800 17px Outfit,sans-serif;padding:12px 18px;border:3px solid var(--ink);border-radius:14px;background:var(--sun);color:var(--ink);box-shadow:0 4px 0 var(--ink);text-decoration:none;margin:12px 8px 0 0;cursor:pointer}.btn.alt{background:#fff}.btn.go2{background:#7be0c3}
-.code{font:800 30px Outfit,sans-serif;letter-spacing:.18em;background:var(--soft);border:3px dashed var(--ink);border-radius:14px;padding:8px 14px;display:inline-block}
+.wl{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}.wl li{border:3px solid var(--ink);border-radius:14px;padding:10px 12px;background:var(--soft)}.wl b{font:800 18px Fredoka,sans-serif}.wl small{color:var(--mut);display:block}.wl .need{background:#fff4d6}.wl input{margin-top:6px}.wl .x{float:right;border:0;background:none;font:800 20px Outfit;color:var(--mut)}
+.btn{display:inline-block;font:800 17px Fredoka,sans-serif;padding:12px 18px;border:3px solid var(--ink);border-radius:14px;background:var(--sun);color:var(--ink);box-shadow:0 4px 0 var(--ink);text-decoration:none;margin:12px 8px 0 0;cursor:pointer}.btn.alt{background:#fff}.btn.go2{background:#7be0c3}
+.code{font:800 30px Fredoka,sans-serif;letter-spacing:.18em;background:var(--soft);border:3px dashed var(--ink);border-radius:14px;padding:8px 14px;display:inline-block}
 .row{display:flex;gap:10px;align-items:center}.row label{margin:0;font-weight:700}.row input[type=checkbox]{width:22px;height:22px}
 .err{color:var(--bad);font-weight:800}.note{color:var(--mut);font-size:14px}.mine li{display:flex;justify-content:space-between;gap:10px;align-items:center}
-</style></head><body><div class="wrap"><a class="brand" href="/" style="background:none;border:0;box-shadow:none;padding:0" aria-label="Vocab Obby home"><img src="/icons/vo-icon.svg" alt="" width="44" height="44"><b style="font:800 28px/1 Outfit,sans-serif;color:#fff;-webkit-text-stroke:6px #1b2140;paint-order:stroke fill;text-shadow:0 3px 0 #1b2140">Vocab <span style="color:#ffd23f">Obby</span></b></a><div id="app"></div></div>
+.chk{border:3px solid var(--ink);border-radius:14px;background:#fff4d6;padding:10px 12px;margin:10px 0}.chk ul{margin:6px 0 0;padding-left:20px}</style></head><body><div class="wrap"><a class="brand" href="/" style="background:none;border:0;box-shadow:none;padding:0" aria-label="VocaBobby home"><img src="/icons/vo-icon.svg" alt="" width="44" height="44"><b style="font:800 28px/1 Fredoka,sans-serif;color:#fff;-webkit-text-stroke:6px #1b2140;paint-order:stroke fill;text-shadow:0 3px 0 #1b2140">Voca<span style="color:#ffd23f">Bobby</span></b></a><div id="app"></div></div>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const api=(p,o={})=>fetch(p,{...o,credentials:'same-origin',headers:{'x-vo':'1','Content-Type':'application/json'}}).then(async r=>({ok:r.ok,status:r.status,j:await r.json().catch(()=>({}))})).catch(()=>({ok:false,j:{error:'Network problem. Try again.'}}));
@@ -63,7 +63,7 @@ function builder(){
   if(mode==='type'){$('#inp').innerHTML=`<label for="tw">Words (one per line, or separated by commas)</label><textarea id="tw" placeholder="glacier, curious, ancient"></textarea><button class="btn alt" id="ad">Add words</button>`;
     $('#ad').onclick=()=>{$('#tw').value.split(/[\n,;]+/).map(s=>s.trim().toLowerCase()).filter(Boolean).forEach(addW);$('#tw').value='';draw()}}
   else{$('#inp').innerHTML=`<label for="tp">Paste a paragraph or a page of text</label><textarea id="tp" placeholder="Paste a story, article or chapter…"></textarea><button class="btn alt" id="ex">Find words</button><div class="chips" id="ch"></div><button class="btn alt" id="ak" hidden>Add ticked words</button>`;
-    $('#ex').onclick=async()=>{const r=await api('/api/lists',{method:'POST',body:JSON.stringify({action:'extract',text:$('#tp').value})});if(!r.ok)return $('#er').textContent=r.j.error;
+    $('#ex').onclick=async()=>{window.lastCtx=$('#tp').value;const r=await api('/api/lists',{method:'POST',body:JSON.stringify({action:'extract',text:$('#tp').value})});if(!r.ok)return $('#er').textContent=r.j.error;
       $('#ch').innerHTML=r.j.words.map(x=>`<button class="chip ${x.tick?'on':''}" data-w="${esc(x.w)}">${esc(x.w)}</button>`).join('')||'<p class="note">No words found. Try a longer text.</p>';
       $('#ch').querySelectorAll('.chip').forEach(c=>c.onclick=()=>c.classList.toggle('on'));$('#ak').hidden=!r.j.words.length};
     $('#ak').onclick=()=>{$('#ch').querySelectorAll('.chip.on').forEach(c=>addW(c.dataset.w));$('#ch').innerHTML='';$('#ak').hidden=true;draw()}}
@@ -71,19 +71,19 @@ function builder(){
 }
 function addW(w){if(words.length>=100||words.some(x=>x.w===w))return;words.push({w,m:''})}
 function draw(){const need=new Set((window.lastNeed)||[]);
-  $('#wl').innerHTML=words.map((x,i)=>`<li class="${need.has(x.w)&&!x.m?'need':''}"><button class="x" data-x="${i}" aria-label="Remove ${esc(x.w)}">×</button><b>${esc(x.w)}</b>${need.has(x.w)&&!x.m?'<small>Needs a meaning: type one below</small>':''}<input data-m="${i}" maxlength="120" placeholder="${need.has(x.w)?'Type a meaning':'Meaning (optional: we fill it in)'}" value="${esc(x.m)}"></li>`).join('')+(words.length?`<p class="note">${words.length}/100 words</p>`:'');
+  $('#wl').innerHTML=words.map((x,i)=>`<li class="${need.has(x.w)&&!x.m?'need':''}"><button class="x" data-x="${i}" aria-label="Remove ${esc(x.w)}">×</button><b>${esc(x.w)}</b>${need.has(x.w)&&!x.m?'<small>Needs a meaning: type one below</small>':''}${(window.lastCheck||[]).includes(x.w)?'<small>Check meaning?</small>':''}<input data-m="${i}" maxlength="120" placeholder="${need.has(x.w)?'Type a meaning':'Meaning (optional: we fill it in)'}" value="${esc(x.m)}"></li>`).join('')+(words.length?`<p class="note">${words.length}/100 words</p>`:'');
   document.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{words.splice(+b.dataset.x,1);draw()});
   document.querySelectorAll('[data-m]').forEach(b=>b.oninput=()=>{words[+b.dataset.m].m=b.value})}
 async function save(){
-  const p={name:$('#nm').value,theme:$('#th').value,words,shared:!!($('#sh')&&$('#sh').checked)};
+  const p={name:$('#nm').value,theme:$('#th').value,words,shared:!!($('#sh')&&$('#sh').checked)};if(window.lastCtx)p.ctx=window.lastCtx.slice(0,6000);
   if(edit&&edit.code)p.code=edit.code;
   const r=await api('/api/lists',{method:'POST',body:JSON.stringify({action:me?'save':'build',...p})});
   if(!r.ok){$('#er').textContent=r.j.error||'Something went wrong.';if(r.j.upgrade)$('#er').insertAdjacentHTML('beforeend',' <a href="/account.html#unlock">See passes</a>');return}
-  const l=r.j.list;window.lastNeed=l.need;
+  const l=r.j.list;window.lastNeed=l.need;window.lastCheck=l.check||[];
   if(!me){const q=getQ().filter(x=>x.code);q.unshift(l);setQ(q)}
   if(l.need.length){edit=l;words=l.words.map(e=>({w:e[0],m:l.need.includes(e[0])?'':e[2]}));builder();$('#er').textContent=`Saved! ${l.need.length} word${l.need.length>1?'s need':' needs'} a meaning. Type ${l.need.length>1?'them':'it'} in and press Build again.`;return}
   if(me){const r2=await api('/api/lists');me=r2.ok&&r2.j.lists?r2.j:me}
-  $('#app').innerHTML=`<div class="card"><h1>Quest ready!</h1><p><b>${esc(l.name)}</b> · ${l.words.length} words. It's now a world on your map.</p>${l.code&&l.shared?`<p>Share this code:</p><div class="code">${esc(l.code)}</div>`:l.code?'<p class="note">Private: only your family can play it. Edit the list to share it with a code.</p>':''}<br><button class="btn go2" id="pl">Play now</button><button class="btn alt" id="bk">My Lists</button></div>`;
+  $('#app').innerHTML=`<div class="card"><h1>Quest ready!</h1><p><b>${esc(l.name)}</b> · ${l.words.length} words. It's now a world on your map.</p>${(l.check||[]).length?`<div class="chk"><b>Check meaning?</b><p class="note">We weren't sure which meaning you wanted for these words. Edit the list to type your own.</p><ul>${l.words.filter(e=>l.check.includes(e[0])).map(e=>`<li><b>${esc(e[0])}</b>: ${esc(e[2])}</li>`).join('')}</ul></div>`:''}${l.code&&l.shared?`<p>Share this code:</p><div class="code">${esc(l.code)}</div>`:l.code?'<p class="note">Private: only your family can play it. Edit the list to share it with a code.</p>':''}<br><button class="btn go2" id="pl">Play now</button><button class="btn alt" id="bk">My Lists</button></div>`;
   $('#pl').onclick=()=>play(l);$('#bk').onclick=list;
 }
 init();

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-SG"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Team Up | Vocab Obby</title>
-<meta name="description" content="Team Up in Vocab Obby: fight word bosses together with friends.">
+<title>Team Up | VocaBobby</title>
+<meta name="description" content="Team Up in VocaBobby: fight word bosses together with friends.">
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/vo-icon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-180.png"><link rel="apple-touch-icon" href="/icons/apple-180.png">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/vo.css">
 <style>
-:root{--ink:#1b2140;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Outfit','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+:root{--ink:#1b2140;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Fredoka','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:linear-gradient(#3fb4e8,#8fd6f5 70%,#9dd946 70%);color:var(--ink);font:600 17px/1.5 var(--fb);min-height:100vh;overflow-x:clip}
 .wrap{max-width:720px;margin:0 auto;padding:16px max(4vw,14px) 110px}
@@ -75,7 +75,7 @@ body.playing #pn~.card{display:none}
 @media(max-height:760px){body.playing #arena{height:20dvh}body.playing #pn .opts button{min-height:44px;font-size:15px;padding:8px 12px}}
 </style></head><body>
 <div class="wrap">
-<div class="top"><a href="/">← Back to Vocab Obby</a><span class="tag">Team Up</span></div>
+<div class="top"><a href="/">← Back to VocaBobby</a><span class="tag">Team Up</span></div>
 <div id="main"><div class="card"><p>Loading Team Up…</p></div></div>
 <p class="foot">© 2026 Thinking Hack Education. No chat in Team Up, only friendly emotes. Play with friends you know.</p>
 </div>
@@ -155,7 +155,7 @@ function feedHtml(){return `<ul class="feed" id="fd">${R.feed.slice().reverse().
 function bindFeed(){main.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>act('emote',{e:+b.dataset.e}))}
 function render(){
   if(R.phase==='lobby'){
-    main.innerHTML=`<div class="card"><span class="tag">${R.pack?'PSLE Kingdom':R.giant?'Giant raid':WN[R.world]}</span><h2>Room code</h2><div class="bigcode">${esc(R.code)}</div><p style="text-align:center;margin:0">Friends open <b>vocab-obby.vercel.app</b> → Team Up → Join, and type this code.</p>${plist()}
+    main.innerHTML=`<div class="card"><span class="tag">${R.pack?'PSLE Kingdom':R.giant?'Giant raid':WN[R.world]}</span><h2>Room code</h2><div class="bigcode">${esc(R.code)}</div><p style="text-align:center;margin:0">Friends open <b>vocabobby.vercel.app</b> → Team Up → Join, and type this code.</p>${plist()}
     ${R.host===pid?`<button id="go" ${R.players.filter(p=>!p.left).length<2?'disabled':''}>${R.players.filter(p=>!p.left).length<2?'Waiting for a friend…':'Start the battle!'}</button>`:'<p style="text-align:center;font-weight:800">Waiting for the host to start…</p>'}
     <button class="alt" id="lv" style="margin-top:10px">Leave room</button></div><div class="card">${feedHtml()}</div>`;
     if($('go'))$('go').onclick=()=>act('start');$('lv').onclick=leave;bindFeed();return;
@@ -231,7 +231,7 @@ function drawHeroes(W,H,t){
     rect(-10,-18,9,18,pa);rect(1,-18,9,18,pa);rect(-12,-40,24,22,sh);rect(-10,-58,20,18,'#ffcc4d');
     cx.fillStyle='#1b2140';cx.fillRect(-6,-52,3,4);cx.fillRect(3,-52,3,4);
     cx.restore();
-    cx.font='800 11px Outfit,system-ui';cx.textAlign='center';cx.fillStyle=act?'#ffd23f':'#fff';cx.strokeStyle='#1b2140';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
+    cx.font='800 11px Fredoka,system-ui';cx.textAlign='center';cx.fillStyle=act?'#ffd23f':'#fff';cx.strokeStyle='#1b2140';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
   })
 }
 function heroPos(id){const ps=R.players.filter(p=>!p.left),k=Math.max(0,ps.findIndex(p=>p.pid===id));const r=cv.getBoundingClientRect();return [r.width*.1+k*r.width*.1+10,r.height*.8-40]}

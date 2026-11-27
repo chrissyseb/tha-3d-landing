@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   const f = new URLSearchParams({
     mode: 'payment', 'line_items[0][quantity]': '1', 'line_items[0][price_data][currency]': 'sgd',
     'line_items[0][price_data][unit_amount]': String(cents),
-    'line_items[0][price_data][product_data][name]': plan === 'family' ? 'Vocab Obby Family Pass (1 year, up to 3 players)' : `Vocab Obby PSLE Edition (1 year) for ${child.nick}`,
+    'line_items[0][price_data][product_data][name]': plan === 'family' ? 'VocaBobby Family Pass (1 year, up to 3 players)' : `VocaBobby PSLE Edition (1 year) for ${child.nick}`,
     success_url: `${origin}/account.html?paid=1`, cancel_url: `${origin}/account.html?cancel=1`,
     customer_email: fam.email, client_reference_id: fam.id,
     'metadata[fid]': fam.id, 'metadata[plan]': plan, 'metadata[childId]': child ? child.id : '',

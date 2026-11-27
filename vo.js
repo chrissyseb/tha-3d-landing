@@ -1,4 +1,4 @@
-// Vocab Obby site layer: accounts, cloud saves, leaderboard API and PSLE Edition paywall.
+// VocaBobby site layer: accounts, cloud saves, leaderboard API and PSLE Edition paywall.
 (function () {
   const K = 'p6vq3';
   const api = (p, o = {}) => fetch(p, { ...o, credentials: 'same-origin', headers: { 'x-vo': '1', 'Content-Type': 'application/json', ...(o.headers || {}) } })
@@ -15,6 +15,13 @@
   }
   const origSet = Storage.prototype.setItem;
   window.VO_READY = (async () => {
+    // One-time move of a guest's saved game from the old address (vocab-obby.vercel.app).
+    try {
+      const m = /[#&]vbcarry=([^&]*)/.exec(location.hash);
+      if (m) { const d = JSON.parse(decodeURIComponent(m[1])); if (!LS.get(K)) for (const k of ['p6vq3', 'p6vq3s', 'p6vq3s_sec', 'vq_ed', 'vo_quests', 'vo_region']) if (typeof d[k] === 'string') LS.set(k, d[k]); }
+      if (m || /[?&]carried=1/.test(location.search)) { LS.set('vb_carried', '1'); history.replaceState(null, '', location.pathname); }
+      else if (location.host === 'vocabobby.vercel.app' && /[?&]from=old/.test(location.search) && !LS.get(K) && !LS.get('vb_carried')) { LS.set('vb_carried', '1'); location.replace('https://vocab-obby.vercel.app/carry.html'); return; }
+    } catch { }
     try { VO.me = (await api('/api/auth')).j.user || null } catch { }
     const me = VO.me;
     if (me && me.type === 'kid') {
@@ -61,10 +68,10 @@
     const m = document.getElementById('main'); if (!m) return;
     const kid = VO.me && VO.me.type === 'kid', parent = VO.me && VO.me.type === 'parent';
     m.innerHTML = `<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Unlock the PSLE Edition</div>
-      <p>PSLE Kingdom is the PSLE Edition world: words from real PSLE papers, exam-style runs, the Exam King boss and a parent progress report. Your free demo run is used up. Every other world in Vocab Obby stays free.</p>
+      <p>PSLE Kingdom is the PSLE Edition world: words from real PSLE papers, exam-style runs, the Exam King boss and a parent progress report. Your free demo run is used up. Every other world in VocaBobby stays free.</p>
       <p><b>S$29.90</b> per player for a full year, or <b>S$59.90</b> for a Family Pass (up to 3 players). Includes a parent progress report.</p>
       <p class="vo-pn">Pay by <b>PayNow to +65 9003 0002</b>${VO.me && VO.me.code ? ' with family code <b>' + String(VO.me.code).replace(/[^\w-]/g, '') + '</b> as the reference' : ''}, then WhatsApp us. We unlock it the same day.</p>
-      ${kid ? '<p>Ask a parent to unlock it at <b>vocab-obby.vercel.app/account</b>.</p>' : `<a class="go" style="display:block;text-align:center;text-decoration:none" href="/account.html#unlock">${parent ? 'Unlock now' : 'Create a parent account to unlock'}</a>`}
+      ${kid ? '<p>Ask a parent to unlock it at <b>vocabobby.vercel.app/account</b>.</p>' : `<a class="go" style="display:block;text-align:center;text-decoration:none" href="/account.html#unlock">${parent ? 'Unlock now' : 'Create a parent account to unlock'}</a>`}
       <button class="go" id="vo-back" style="background:var(--soft)">Back to the free game</button></div>`;
     const b = document.getElementById('vo-back'); if (b) b.onclick = () => home ? home() : location.reload();
   }
@@ -83,6 +90,6 @@
 
   // Install button (PWA).
   let deferred = null;
-  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = document.createElement('button'); b.className = 'vo-install'; b.textContent = 'Install Vocab Obby'; b.onclick = async () => { b.remove(); deferred.prompt(); deferred = null; }; document.body.appendChild(b); });
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = document.createElement('button'); b.className = 'vo-install'; b.textContent = 'Install VocaBobby'; b.onclick = async () => { b.remove(); deferred.prompt(); deferred = null; }; document.body.appendChild(b); });
   if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => { }));
 })();
