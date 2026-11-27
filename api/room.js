@@ -20,7 +20,8 @@ const worldOf = v => Math.max(0, Math.min(5, Math.floor(Number(v) || 0)));
 
 function makeQuestion(room, p) {
   const r = rng(room.code + ':' + room.n + ':' + p.pid);
-  const pool = room.pack ? W.filter(w => w[6]) : W.filter(w => w[1] === p.world);
+  const lv = p.lv ?? p.world;
+  const pool = room.pack ? W.filter(w => w[6]) : (r() < 0.2 ? W.filter(w => w[1] <= 1) : W.filter(w => w[1] === lv));
   const used = new Set(room.used || []);
   const fresh = pool.filter(w => !used.has(w[0]));
   const w = (fresh.length ? fresh : pool)[Math.floor(r() * (fresh.length ? fresh.length : pool.length))];
@@ -89,7 +90,7 @@ function setupBattle(room) {
 }
 // What clients may see: never the answer or other players' tokens.
 function view(room, me) {
-  const q = room.q && { id: room.q.id, pid: room.q.pid, prompt: room.q.prompt, opts: room.q.opts, golden: room.q.golden, deadline: room.q.deadline };
+  const q = room.q && { id: room.q.id, pid: room.q.pid, prompt: me === room.q.pid ? room.q.prompt : null, opts: me === room.q.pid ? room.q.opts : [], golden: room.q.golden, deadline: room.q.deadline };
   return { code: room.code, v: room.v, phase: room.phase, host: room.host, world: room.world, pack: room.pack, giant: room.giant,
     players: room.players.map(p => ({ pid: p.pid, nick: p.nick, world: p.world, av: p.av, pet: p.pet, sup: p.sup || '', left: !!p.left })),
     turn: room.turn, q, boss: room.boss || null, hearts: room.hearts, maxHearts: room.maxHearts, fx: room.fx || null,
@@ -129,7 +130,7 @@ export default async function handler(req, res) {
     const kid = await sessionKid(req);
     const nick = kid ? kid.nick : String(b.nick || '').trim();
     if (!kid && !nickOk(nick)) return send(res, 400, { error: 'Pick a nickname: 2–14 letters or numbers, nothing rude.' });
-    const player = { pid: pub(), tok: tok(), nick, world: worldOf(b.world), av: cleanAv(b.av), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1, cid: kid?.cid || null, sup: kid?.sup || '' };
+    const player = { pid: pub(), tok: tok(), nick, world: worldOf(b.world), lv: worldOf(b.lv ?? b.world), av: cleanAv(b.av), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1, cid: kid?.cid || null, sup: kid?.sup || '' };
     if (act === 'create') {
       const pack = !!b.pack && !!kid?.paid;
       if (b.pack && !pack) return send(res, 402, { error: 'PSLE Kingdom rooms need the PSLE Edition. Host a free world instead.' });
@@ -173,7 +174,7 @@ export default async function handler(req, res) {
     const ok = String(b.choice) === room.q.ans;
     room.last = { ...(room.last || {}), [me.pid]: { qid: room.q.id, ok, word: room.q.word, meaning: room.q.meaning, ans: room.q.ans } };
     if (ok) { room.phase = 'power'; room.q.deadline = Date.now() + POWER_MS; feed(room, `${me.nick} got it right! Choose a power…`); }
-    else { feed(room, `${me.nick} missed. "${room.q.word}" means ${room.q.meaning}. The boss attacks!`); if (!bossHits(room)) nextTurn(room); }
+    else { feed(room, `${me.nick} missed. The boss attacks!`); if (!bossHits(room)) nextTurn(room); }
   } else if (act === 'power') {
     if (room.phase !== 'power' || room.turn !== me.pid) return send(res, 409, { error: 'Not your turn.', state: view(room, me.pid) });
     const elem = String(b.elem);

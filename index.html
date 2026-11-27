@@ -434,8 +434,9 @@ function start(kind,arg){
   if(kind==='learn'||kind==='world'){
     const d=due().slice(0,15);
     const t=Math.round(S.lv==null?2:S.lv),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rnk(x)===t)),low=shuf(W.filter(x=>rnk(x)<t)),over=shuf(fresh.filter(x=>rnk(x)===t+1));
-    const nw=shuf([...inT.slice(0,25),...over.slice(0,7),...low.slice(0,3)]).concat(inT.slice(25),over.slice(7),low.slice(3));
-    pick=[...d,...nw].slice(0,50);if(pick.length<50)pick=[...pick,...shuf(W.filter(x=>!pick.includes(x))).slice(0,50-pick.length)];
+    let h=0;for(const c of weekKey()+(S.runs||0)%3)h=(h*31+c.charCodeAt(0))>>>0;const rr=()=>(h=(h*1103515245+12345)>>>0)/4294967296,sh=W.filter(x=>rnk(x)<=1).map(x=>[rr(),x]).sort((a,b)=>a[0]-b[0]).map(z=>z[1]).slice(0,10),shS=new Set(sh.map(x=>x[0])),nt=a=>a.filter(x=>!shS.has(x[0]));
+    const nw=sh.concat(shuf([...nt(inT).slice(0,28),...nt(over).slice(0,8),...nt(low).slice(0,4)]),nt(inT).slice(28),nt(over).slice(8),nt(low).slice(4));
+    pick=[...new Set([...d,...nw])].slice(0,50);if(pick.length<50)pick=[...pick,...shuf(W.filter(x=>!pick.includes(x))).slice(0,50-pick.length)];
   }else if(kind==='challenge'){pick=shuf(CW).slice(0,30)}
     else if(kind==='rev')pick=due().slice(0,50);
   else pick=W.filter(x=>st(x[0]).miss>0).slice(0,50);
@@ -540,7 +541,7 @@ function sprint(){
   tm=setInterval(()=>{const e=$('tm');if(!e)return clearInterval(tm);const l=Math.max(0,Math.ceil((end-Date.now())/1000));e.textContent=l+'s';if(!l)done()},250);ask();}
 function result(ok,x,extra=''){
   const w=st(x[0]);setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
-  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=Math.round(g*(1+.04*rnk(x)));S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
+  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=g;S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
     if(w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;
     beep(1);pop('+'+g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);
@@ -681,7 +682,7 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>Hear it, say it, spell it.</b> Tap 🔊 to hear any word (🐢 for slow). Spell-it gates and Spelling Sprint train your spelling, and a word only earns its 5th gem once you have spelt it right.</li>
 <li><b>Beat the bosses.</b> A boss appears every 10 gates, and King Kongo the giant guards the finish line. Answer right, then tap Fire, Water or Electric to attack. Each boss is weak to one power. A wrong answer lets the boss hit back, and you have 3 hearts.</li>
 <li><b>Travel to new worlds.</b> Everyone starts in Grass Plains. Finish 2 runs in a world, or beat King Kongo at the end of a run, to travel to the next one. Replay any world you've reached from the World map.</li>
-<li><b>Words that fit you.</b> Your words adjust as you play: strong runs bring trickier words, and tough runs bring a little more practice.</li>
+<li><b>Words that fit you.</b> Vocab Obby is your personal trainer — it picks words that are just right for you, so everyone's adventure is a little different.</li>
 <li><b>PSLE Exam Pack.</b> Practise the words from real PSLE papers for double coins and the Challenger badge.</li>
 <li><b>Spend your coins.</b> Hatch pets, buy gear and unlock custom shirt and pants colours, including premium finishes.</li>
 <li><b>Streak bonus.</b> Get 10 right in a row to unlock Shadow Chase, a bonus game where you outrun the Word Thief.</li>
@@ -1118,7 +1119,7 @@ const SHIRTS=new Set(SHOP.filter(x=>x[0]==='shirt').map(x=>x[1])),PANTS=new Set(
 const HEX=/^#[0-9a-f]{6}$/i;
 function safeAv(a){a=a&&typeof a==='object'?a:{};return{shirt:finOk(a.shirt)?a.shirt.toLowerCase():'#2f80ed',pants:finOk(a.pants)?a.pants.toLowerCase():'#2b2b2b',hat:HATS.has(a.hat)?a.hat:'none',cape:a.cape===true}}
 const num=v=>{v=Number(v);return Number.isFinite(v)&&v>=0?Math.floor(v):0};
-const BOARDS=[['week','This week','weekXp','XP'],['xp','All-time','xp','XP'],['speed','Speed Run','speedBest','correct'],['mast','Mastered','mastered','words']];
+const BOARDS=[['week','This week','weekXp','XP'],['xp','All-time','xp','XP'],['speed','Speed Run','speedBest','correct'],['mast','Bosses','mastered','beaten']];
 function boardRows(field){const wk=weekKey();return LB.rows.map(r=>({...r,v:field==='weekXp'?(r.wk===wk?num(r.weekXp):0):num(r[field])})).filter(r=>r.v>0||r.id===LB.me).sort((a,b)=>b.v-a.v||String(a.nick).localeCompare(String(b.nick)))}
 function myRank(field='weekXp'){const rows=boardRows(field);const i=rows.findIndex(r=>r.id===LB.me);if(i<0)return null;return{rank:i+1,me:rows[i],above:i>0?rows[i-1]:null,n:rows.length}}
 function rankLine(){if(!LB.ready||!S.nick)return'';const r=myRank('weekXp');if(!r||!r.me.v)return'<p class="rankline">Play a run to get on this week’s board!</p>';
@@ -1140,7 +1141,7 @@ async function lbInit(){
 function refreshLB(){const t=document.getElementById('lbtile');if(t)t.hidden=!LB.db;const rl=document.getElementById('rankslot');if(rl)rl.innerHTML=rankLine();if(document.getElementById('lbscreen'))lbScreen.render()}
 async function syncScore(){
   if(!LB.db||!LB.me||!S.nick)return;
-  const mine={xp:S.edx[ED]||0,weekXp:weekXp(),wk:weekKey(),speedBest:S.best,mastered:W.filter(x=>st(x[0]).m>=5).length};S.lbE.psle=mine;
+  const mine={xp:S.edx[ED]||0,weekXp:weekXp(),wk:weekKey(),speedBest:S.best,mastered:S.bosses||0};S.lbE.psle=mine;
   const doc={nick:S.nick,av:safeAv(S.av),pet:S.pet,world:tier(),updated:Date.now(),psle:mine,xp:mine.xp,weekXp:mine.weekXp,wk:mine.wk,speedBest:mine.speedBest,mastered:mine.mastered};
   const key=JSON.stringify({...doc,updated:0});if(key===LB.last)return;
   if(LB.busy){LB.pending=true;return}LB.busy=true;
@@ -1168,7 +1169,7 @@ function leaderboard(){
   if(!LB.db)return home();
   if(!S.nick)return askNick(leaderboard);
   hud();syncScore();
-  main.innerHTML=`<div class="card"><span class="tag">Vocab Obby leaderboard</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Leaderboard</div><p style="margin:0 0 6px;color:var(--mut);font-size:14px">Everyone climbs the same six worlds. Weekly XP comes from right answers, with a small bonus for higher worlds.</p>
+  main.innerHTML=`<div class="card"><span class="tag">Vocab Obby leaderboard</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Leaderboard</div><p style="margin:0 0 6px;color:var(--mut);font-size:14px">XP comes from right answers, combos, streaks and bosses beaten. Everyone gets words picked just for them, so anyone can top the board.</p>
   ${rankLine()}<div class="tabs" role="tablist">${BOARDS.map(b=>`<button class="tab ${b[0]===lbScreen.tab?'on':''}" data-t="${b[0]}" role="tab">${b[1]}</button>`).join('')}</div>
   <div id="lbscreen"></div><p style="color:var(--mut);font-size:14px;margin:10px 0 0">Playing as <b id="mynick"></b> · <button class="linkbtn" id="ren">Change name</button></p>
   <button class="go" id="h">Home</button></div>`;

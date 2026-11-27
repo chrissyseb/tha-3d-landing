@@ -39,6 +39,7 @@ label{font:800 14px var(--fd);display:block;margin:10px 0 6px}
 .bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;font:800 15px var(--fd);color:#fff}
 .hp{flex:1;height:18px;border:3px solid var(--ink);border-radius:8px;background:#40202a;overflow:hidden}.hp i{display:block;height:100%;background:linear-gradient(90deg,#ef4f5f,#fa895d);transition:width .35s}
 .hearts{font-size:20px;letter-spacing:2px}
+.dots i{display:inline-block;animation:dj 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}@keyframes dj{50%{transform:translateY(-6px)}}@media (prefers-reduced-motion:reduce){.dots i{animation:none}}
 .turnline{font:800 22px/1.2 var(--fd);margin:0 0 10px}
 .q{font:700 20px/1.4 var(--fb);margin:6px 0 14px}
 .q b{font:800 30px var(--fd)}
@@ -73,7 +74,7 @@ const api=(p,o={})=>fetch(p,{...o,credentials:'same-origin',headers:{'x-vo':'1',
 const K='p6vq3', LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 let S={};try{S=JSON.parse(LS.get(K)||'{}')}catch(e){}
 const saveS=()=>LS.set(K,JSON.stringify(S));
-const myWorld=()=>Math.max(0,Math.min(5,(S.lad&&S.lad.t)||0));
+const myWorld=()=>Math.max(0,Math.min(5,(S.lad&&S.lad.t)||0)),myLv=()=>Math.max(0,Math.min(5,Math.round(S.lv==null?2:S.lv)));
 const WN=['Grass Plains','Desert Dunes','Jungle Ruins','Lava Land','Ice Peaks','Outer Space'];
 const EMO=['👍','🔥','Nice!','Your turn!','GG'];
 const BOSSC=[['#4f9a3a','#2f5e24','#ffd23f'],['#d9a54a','#9c6a26','#3fb2f5'],['#2f8f6a','#1d5c44','#ffe14a'],['#7a2b1f','#45150c','#ffb020'],['#7fc9ec','#3f86b4','#ffffff'],['#5a45c2','#2a1d6b','#ff5d8f'],['#5b2c8f','#2e1452','#ffd23f'],['#5a3a22','#2f1d10','#7dff5a']];
@@ -93,13 +94,13 @@ function nickDefault(){return (window.VO&&VO.me&&VO.me.type==='kid')?VO.me.nick:
 function lobbyPick(){
   stop();const kid=window.VO&&VO.me&&VO.me.type==='kid',paid=kid&&VO.me.paid;
   main.innerHTML=`<div class="card"><span class="tag">Team Up</span><h1>Fight bosses together</h1>
-  <p>Take turns answering. Every right answer lets you fire a power at the boss. Friends of any level can play: each of you gets questions from your own world.</p>
+  <p>Take turns answering. Every right answer lets you fire a power at the boss. Everyone can play together: each of you gets your own words, picked just for you.</p>
   ${kid?`<p>Playing as <b>${esc(VO.me.nick)}</b>.</p>`:`<label for="nk">Your nickname</label><input id="nk" maxlength="14" autocomplete="off" value="${esc(nickDefault())}" placeholder="e.g. Carla"><p style="font-size:13px;color:var(--mut);margin:6px 0 0">Letters and numbers only. Don't use your full real name.</p>`}
   <p style="margin:12px 0 0">Your world: <b>${WN[myWorld()]}</b></p>
   <label class="chk"><input type="checkbox" id="gi"> Giant raid (King Kongo, double health)</label>
   ${paid?'<label class="chk"><input type="checkbox" id="pk"> Battle in PSLE Kingdom</label>':''}
   <div class="row" style="margin-top:12px"><button id="host">Host a room</button><button class="alt" id="jn">Join a room</button></div><p class="err" id="er"></p></div>`;
-  $('host').onclick=async()=>{const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'create',nick:kid?'':$('nk').value.trim(),world:myWorld(),av:S.av,pet:S.pet,giant:$('gi').checked,pack:!!($('pk')&&$('pk').checked)})});enter(r)};
+  $('host').onclick=async()=>{const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'create',nick:kid?'':$('nk').value.trim(),world:myWorld(),lv:myLv(),av:S.av,pet:S.pet,giant:$('gi').checked,pack:!!($('pk')&&$('pk').checked)})});enter(r)};
   $('jn').onclick=()=>joinScreen();
 }
 function joinScreen(){
@@ -109,7 +110,7 @@ function joinScreen(){
   ${kid?'':`<label for="nk">Your nickname</label><input id="nk" maxlength="14" autocomplete="off" value="${esc(nickDefault())}">`}
   <button style="margin-top:14px">Join</button></form><button class="alt" id="bk" style="margin-top:10px">Back</button><p class="err" id="er"></p></div>`;
   $('cd').focus();$('bk').onclick=lobbyPick;
-  $('jf').onsubmit=async e=>{e.preventDefault();const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'join',code:$('cd').value.trim().toUpperCase(),nick:kid?'':$('nk').value.trim(),world:myWorld(),av:S.av,pet:S.pet})});enter(r)};
+  $('jf').onsubmit=async e=>{e.preventDefault();const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'join',code:$('cd').value.trim().toUpperCase(),nick:kid?'':$('nk').value.trim(),world:myWorld(),lv:myLv(),av:S.av,pet:S.pet})});enter(r)};
 }
 function enter(r){
   if(!r.ok){$('er').textContent=r.j.error||'Could not do that. Try again.';return}
@@ -149,9 +150,9 @@ function render(){
   const b=R.boss, mine=R.turn===pid, who=R.players.find(p=>p.pid===R.turn);
   let panel='';
   if(R.phase==='question'){
-    const q=R.q, pr=q.prompt.kind==='meaning'?`What does <b>${esc(q.prompt.word)}</b> mean?`:esc(q.prompt.sentence).replace('___','<span style="border-bottom:3px solid var(--ink);display:inline-block;min-width:4em">&nbsp;</span>');
-    panel=`<p class="turnline">${mine?'Your turn!':esc(who?who.nick:'')+"'s turn!"}${q.golden?' 🌟':''}</p><div class="timer"><i id="tm"></i></div><p class="q">${pr}</p>${SAY.ok?`<p style="margin:-6px 0 12px;display:flex;gap:8px"><button class="spk" id="spk" aria-label="Hear it">🔊</button><button class="spk" id="spks" aria-label="Hear it slowly">🐢</button></p>`:''}
-    <div class="opts">${q.opts.map((o,i)=>`<button data-o="${i}" ${mine?'':'disabled'}>${esc(o)}</button>`).join('')}</div>${mine?'':'<p style="margin:10px 0 0;color:var(--mut);font-weight:800">Watch and cheer! Your turn is coming.</p>'}`;
+    const q=R.q, pr=!q.prompt?'':q.prompt.kind==='meaning'?`What does <b>${esc(q.prompt.word)}</b> mean?`:esc(q.prompt.sentence).replace('___','<span style="border-bottom:3px solid var(--ink);display:inline-block;min-width:4em">&nbsp;</span>');
+    panel=mine&&q.prompt?`<p class="turnline">Your turn!${q.golden?' 🌟':''}</p><div class="timer"><i id="tm"></i></div><p class="q">${pr}</p>${SAY.ok?`<p style="margin:-6px 0 12px;display:flex;gap:8px"><button class="spk" id="spk" aria-label="Hear it">🔊</button><button class="spk" id="spks" aria-label="Hear it slowly">🐢</button></p>`:''}
+    <div class="opts">${q.opts.map((o,i)=>`<button data-o="${i}">${esc(o)}</button>`).join('')}</div>`:`<p class="turnline">${esc(who?who.nick:'')} is answering<span class="dots"><i>.</i><i>.</i><i>.</i></span></p><div class="timer"><i id="tm"></i></div><p style="margin:10px 0 0;color:var(--mut);font-weight:800">Get ready to cheer! Your turn is coming.</p>`;
   }else if(R.phase==='power'){
     panel=`<p class="turnline">${mine?'Right! Pick a power':esc(who?who.nick:'')+' is choosing a power…'}</p><div class="timer"><i id="tm"></i></div>
     ${mine?`<div class="powers ${R.q.golden?'four':''}"><button class="pw fire" data-p="fire">Fire</button><button class="pw water" data-p="water">Water</button><button class="pw zap" data-p="zap">Electric</button>${R.q.golden?'<button class="pw star" data-p="star">Star</button>':''}</div><p style="font-size:14px;color:var(--mut);margin:10px 0 0">Tip: use a different power from your teammate's last hit for a <b>Team combo</b> (+50%).</p>`:''}`;
