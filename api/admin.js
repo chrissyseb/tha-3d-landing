@@ -12,6 +12,10 @@ const view = fam => ({ code: fam.code, email: fam.email, created: fam.created ||
 export default async function handler(req, res) {
   if (!rateOk(req, 'admin', 30)) return send(res, 429, { error: 'Too many tries. Wait a minute.' });
   if (!keyOk(req)) return send(res, 401, { error: 'Wrong admin key.' });
+  if (req.method === 'GET' && (req.query?.bank || new URL(req.url, 'http://x').searchParams.get('bank'))) {
+    const a = (await getJson('bank/auto.json')) || { words: [], removed: [] }, l = (await getJson('bank/log.json')) || { ev: [] };
+    return send(res, 200, { auto: a.words.map(x => ({ w: x.e[0], level: x.e[1], meaning: x.e[2], at: x.at, lists: (x.lists || []).length })), removed: a.removed, log: l.ev.slice(-60).reverse() });
+  }
   if (req.method === 'GET') {
     const code = safe(String(req.query?.code || new URL(req.url, 'http://x').searchParams.get('code') || '')).toUpperCase();
     const c = code && await getJson(codePath(code)); const fam = c && await getJson(famPath(c.fid));
@@ -19,7 +23,14 @@ export default async function handler(req, res) {
     return send(res, 200, { family: view(fam) });
   }
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
-  const b = await body(req), code = safe(String(b.code || '')).toUpperCase();
+  const b0 = await body(req);
+  if (b0.action === 'removeAuto') {
+    const a = (await getJson('bank/auto.json')) || { words: [], removed: [] }, w = String(b0.w || '');
+    a.words = a.words.filter(x => x.e[0] !== w); if (!a.removed.includes(w)) a.removed.push(w); await putJson('bank/auto.json', a);
+    const l = (await getJson('bank/log.json')) || { ev: [] }; l.ev.push({ t: 'removed', w, by: 'admin', at: Date.now() }); await putJson('bank/log.json', l);
+    return send(res, 200, { ok: true });
+  }
+  const b = b0, code = safe(String(b.code || '')).toUpperCase();
   const c = code && await getJson(codePath(code)); const fam = c && await getJson(famPath(c.fid));
   if (!fam) return send(res, 404, { error: 'No family with that code.' });
   if (b.action === 'revoke') { fam.paid = null; (fam.payments = fam.payments || []).push({ id: 'admin-revoke', at: Date.now() }); await putJson(famPath(fam.id), fam); return send(res, 200, { family: view(fam) }); }

@@ -99,5 +99,8 @@ export function paidFor(fam, childId) {
 }
 export function supTier(fam) { const s = fam && fam.supporter; return s && ['any', '10', '20'].includes(s.tier) ? s.tier : ''; }
 export const NICK = /^[A-Za-z0-9]{2,14}$/;
-const BAD = ['fuck','shit','bitch','cunt','dick','pussy','slut','whore','nigg','fag','rape','sex','porn','bastard','asshole','arse','wank','cock','knn','ccb','cb','lanjiao','lj','nabeh','pukimak','chibai','kanina','lancau','sohai','motherf','tits','boob','penis','vagina','kill','die','hitler','nazi'];
+export const BAD = ['fuck','shit','bitch','cunt','dick','pussy','slut','whore','nigg','fag','rape','sex','porn','bastard','asshole','arse','wank','cock','knn','ccb','cb','lanjiao','lj','nabeh','pukimak','chibai','kanina','lancau','sohai','motherf','tits','boob','penis','vagina','kill','die','hitler','nazi'];
+export const cleanOk = t => { const s = String(t || '').toLowerCase(), w = s.split(/[^a-z]+/); const j = s.replace(/[^a-z]/g, ''); return !BAD.some(b => WHOLE.has(b) ? w.some(x => x === b || x === b + 's' || x === b + 'ed' || x === b + 'ing') : j.includes(b)) && !BAD2.some(b => w.includes(b)); };
+const WHOLE = new Set(['kill','die','arse','cb','lj','sex','cock','tits','knn','ccb','fag','rape','dick','boob','cunt']);
+const BAD2 = ['poop','butt','crap','damn','hell','stupid','idiot','dumb','loser','ugly','fat','hate','suck','sucks','bum','piss','retard','moron','drugs','weed','beer','vodka','gun','murder','suicide','bomb','naked','bra','sexy','kiss','fart'];
 export const nickOk = n => NICK.test(n) && !BAD.some(b => n.toLowerCase().includes(b));

@@ -25,4 +25,9 @@ function show(f){const paid=f.paid&&f.paid.until>Date.now();
   $('#rv').onclick=async()=>{if(!window.confirm)return;const r=await call('POST','/api/admin',{action:'revoke',code:f.code});if(r.ok)show(r.j.family)};}
 $('#find').onclick=async()=>{$('#e').textContent='';$('#fam').innerHTML='';const c=$('#code').value.trim().toUpperCase();if(!c)return;const r=await call('GET','/api/admin?code='+encodeURIComponent(c));if(r.ok)show(r.j.family);else $('#e').textContent=r.j.error||'Not found'};
 if(K)$('#e').textContent='Key loaded for this tab.';
-}</script></body></html>
+}
+(function(){const box=document.createElement('div');box.className='card';box.innerHTML='<h2>Word bank: auto-added</h2><p>Words built from My Lists that appeared in 3 different lists. Remove any you don\'t want.</p><button id="ld">Load</button><div id="ab"></div>';document.body.appendChild(box);
+document.getElementById('ld').onclick=async()=>{const r=await call('GET','/api/admin?bank=1');const d=document.getElementById('ab');if(!r.ok){d.textContent=(r.j&&r.j.error)||'Error';return}
+d.innerHTML='<ul>'+r.j.auto.map(x=>'<li><b>'+x.w+'</b> <span class="tag">auto-added</span> '+x.level+' · '+x.meaning.replace(/</g,'&lt;')+' · '+x.lists+' lists <button data-rm="'+x.w+'">Remove</button></li>').join('')+'</ul><details><summary>Log</summary><pre>'+r.j.log.map(e=>new Date(e.at).toISOString().slice(0,16)+' '+e.t+' '+e.w+(e.n?' ('+e.n+')':'')).join('\n')+'</pre></details>';
+d.querySelectorAll('[data-rm]').forEach(b=>b.onclick=async()=>{await call('POST','/api/admin',{action:'removeAuto',w:b.dataset.rm});b.parentNode.remove()})}})();
+</script></body></html>
