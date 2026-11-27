@@ -176,7 +176,7 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* one compact stat bar */
-.hud{flex-wrap:nowrap;gap:0;background:var(--paper);border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:4px;overflow:hidden}
+.hud{flex-wrap:wrap;gap:0;background:var(--paper);border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:4px;overflow:hidden}
 .hud .pill{border:0;box-shadow:none;background:none;border-radius:10px;padding:6px 8px;gap:5px;font-size:14px;flex:none}
 .hud .pill+.pill{border-left:2px solid var(--line);border-radius:0}
 .hud .ib{border:0;box-shadow:none;background:var(--soft);min-height:38px;padding:4px 10px;border-radius:10px;font-size:13px;flex:none}
@@ -240,6 +240,14 @@ body.night .lead,body.night .rankline{color:#e8ecff}
 .lb .nk{display:flex;flex-direction:column;min-width:0}.lb .wd{color:var(--mut);font-weight:700;font-size:12px}
 @media(max-width:600px){.obwrap{top:66px}}
 @media(max-width:420px){.obj{width:66px;height:46px}.obed{font-size:11px;top:8px}}
+.spk{display:inline-grid;place-items:center;min-width:44px;min-height:44px;padding:0 10px;margin:0 4px;border-radius:12px;border:3px solid var(--ink,#1b2140);background:var(--soft,#eef3ff);font-size:20px;cursor:pointer;vertical-align:middle;box-shadow:0 3px 0 var(--ink,#1b2140)}
+.spk:active{transform:translateY(2px);box-shadow:none}.sayrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0}
+.syl{font:700 18px var(--fd,inherit);letter-spacing:.5px;color:var(--mut,#556)}.syl b{color:var(--ink,#1b2140);font-weight:900}
+.tip{margin:8px 0 0;padding:8px 10px;border-radius:10px;background:#fff6d6;border:2px dashed #e6b800;font-size:15px}
+[data-say].word,.saytap{cursor:pointer}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}.tile{min-width:44px;min-height:48px;font:800 22px var(--fd,inherit);border-radius:10px;border:3px solid var(--ink,#1b2140);background:#fff;box-shadow:0 3px 0 var(--ink,#1b2140);cursor:pointer;text-transform:lowercase}
+.tile[disabled]{opacity:.25}.slots{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:52px;margin:8px 0}.slot{min-width:30px;height:44px;border-bottom:4px solid var(--ink,#1b2140);font:800 26px var(--fd,inherit);text-align:center}
+.diff{font:800 26px var(--fd,inherit);letter-spacing:2px}.diff .bad{color:#e23b3b;text-decoration:underline wavy}.diff .trk{text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:#e6b800}
 </style></head><body>
 <canvas id="fx"></canvas>
 <div class="scene" aria-hidden="true"><svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMax slice"><rect width="1400" height="900" fill="#3fb4e8"/><rect y="520" width="1400" height="380" fill="#6cc6ee"/><rect y="700" width="1400" height="200" fill="#8fd6f5"/><g transform="translate(60 30) scale(1.1)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(980 20) scale(1.4)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(560 60) scale(0.8)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(1180 100) scale(0.9)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(250 120) scale(0.7)" fill="#fff" opacity=".55"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(40 786)"><rect width="150" height="22" fill="#9dd946"/><rect y="22" width="150" height="30" fill="#7fb336"/><rect y="22" width="150" height="6" fill="#0000001f"/><rect width="150" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(260 760)"><rect width="110" height="22" fill="#ffc642"/><rect y="22" width="110" height="30" fill="#e0a72c"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(430 803)"><rect width="170" height="22" fill="#fa895d"/><rect y="22" width="170" height="30" fill="#d8704a"/><rect y="22" width="170" height="6" fill="#0000001f"/><rect width="170" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(690 773)"><rect width="120" height="22" fill="#ed598c"/><rect y="22" width="120" height="30" fill="#c9467a"/><rect y="22" width="120" height="6" fill="#0000001f"/><rect width="120" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(880 806)"><rect width="160" height="22" fill="#b15fd7"/><rect y="22" width="160" height="30" fill="#8f48b3"/><rect y="22" width="160" height="6" fill="#0000001f"/><rect width="160" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1100 766)"><rect width="130" height="22" fill="#4aa4e6"/><rect y="22" width="130" height="30" fill="#3a86c4"/><rect y="22" width="130" height="6" fill="#0000001f"/><rect width="130" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1270 800)"><rect width="110" height="22" fill="#9dd946"/><rect y="22" width="110" height="30" fill="#7fb336"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#1b2140" stroke-width="4"/></g><g transform="translate(1290 746)"><rect x="8" y="0" width="6" height="64" fill="#1b2140"/><rect x="14" y="2" width="46" height="30" fill="#fff" stroke="#1b2140" stroke-width="4"/><rect x="14" y="2" width="15" height="15" fill="#1b2140"/><rect x="44" y="2" width="16" height="15" fill="#1b2140"/><rect x="29" y="17" width="15" height="15" fill="#1b2140"/></g><rect y="860" width="1400" height="40" fill="#9dd946"/><rect y="856" width="1400" height="6" fill="#1b2140"/></svg></div>
@@ -344,8 +352,8 @@ function streak(){let n=0,d=new Date();while(S.days.includes(d.toDateString())){
 function hud(){
   if(!sess&&typeof OB!=='undefined')OB.hide();
   const mast=W.filter(x=>st(x[0]).m>=5).length,nl=nextLv();
-  $('hud').innerHTML=`${sess?'':`<span class="pill" title="Rank and XP">${ic('rank')}<span>${esc(level()[1])}<span class="xp"> · ${S.pts}${nl?'/'+nl[0]:''}</span></span></span>`}<span class="pill" title="Coins">${ic('coin')}<b>${S.coins}</b></span><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="Words mastered">${ic('gem')}<span><b>${mast}</b>/${W.length}</span></span>`}<span class="sp"></span>${sess?`<span class="pill edp">${esc(EDN[ED||'psle'])}</span><button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>`;
-  $('snd').onclick=()=>{mute=!mute;hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
+  $('hud').innerHTML=`${sess?'':`<span class="pill" title="Rank and XP">${ic('rank')}<span>${esc(level()[1])}<span class="xp"> · ${S.pts}${nl?'/'+nl[0]:''}</span></span></span>`}<span class="pill" title="Coins">${ic('coin')}<b>${S.coins}</b></span><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="Words mastered">${ic('gem')}<span><b>${mast}</b>/${W.length}</span></span>`}<span class="sp"></span>${sess?`<span class="pill edp">${esc(EDN[ED||'psle'])}</span><button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${S.voice===false?'🗣️✕':'🗣️'}</button>`:''}`;
+  $('snd').onclick=()=>{mute=!mute;hud()};if($('vox'))$('vox').onclick=()=>{S.voice=S.voice===false;save();pop(S.voice?'Word voice on':'Word voice off');hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
 }
 // ---------- sound + fx ----------
 let ac;const BOSSES=[{n:'Bramble Brute',b:'#4f9a3a',d:'#2f5e24',e:'#ffd23f',weak:'fire',atk:'slam'},{n:'Sand Sphinx',b:'#d9a54a',d:'#9c6a26',e:'#3fb2f5',weak:'water',atk:'blast'},{n:'Jungle Titan',b:'#2f8f6a',d:'#1d5c44',e:'#ffe14a',weak:'zap',atk:'slam'},{n:'Lava Golem',b:'#7a2b1f',d:'#45150c',e:'#ffb020',weak:'water',atk:'blast'},{n:'Ice Kraken',b:'#7fc9ec',d:'#3f86b4',e:'#ffffff',weak:'fire',atk:'shard'},{n:'Space Overlord',b:'#5a45c2',d:'#2a1d6b',e:'#ff5d8f',weak:'zap',atk:'laser'},{n:'Exam King',b:'#5b2c8f',d:'#2e1452',e:'#ffd23f',weak:'water',atk:'laser'}];
@@ -369,6 +377,16 @@ function tick(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l--
 function pop(t){const d=document.createElement('div');d.className='pop';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),900)}
 // ---------- helpers ----------
 const byName=n=>W.find(y=>A(y)===n||y[0]===n);
+// ---------- voice: pronunciation (Web Speech API, free, on-device) ----------
+const VOX={ok:typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',v:null};
+function pickVoice(){if(!VOX.ok)return null;const vs=speechSynthesis.getVoices()||[];return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/en[-_]SG/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
+if(VOX.ok){try{VOX.v=pickVoice();speechSynthesis.onvoiceschanged=()=>{VOX.v=pickVoice()}}catch(e){}}
+function speak(t,slow){if(!VOX.ok||S.voice===false||!t)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(t));if(VOX.v)u.voice=VOX.v;u.lang=VOX.v?VOX.v.lang:'en-GB';u.rate=slow?.6:(S.vrate||.95);speechSynthesis.speak(u)}catch(e){}}
+const spk=t=>VOX.ok?`<button class="spk" type="button" data-say="${esc(t)}" aria-label="Hear it">🔊</button><button class="spk" type="button" data-say="${esc(t)}" data-slow="1" aria-label="Hear it slowly">🐢</button>`:'';
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-say]');if(!b)return;speak(b.dataset.say,!!b.dataset.slow)});
+const sylHTML=x=>x[8]&&x[8].includes('·')?`<span class="syl">${x[8].split(/(\s+)/).map(w=>w.split('·').map(p=>p!==p.toLowerCase()&&p.length>1&&p===p.toUpperCase()?`<b>${esc(p.toLowerCase())}</b>`:esc(p)).join('·')).join('')}</span>`:'';
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const AMER={color:'colour',colors:'colours',favorite:'favourite',honor:'honour',behavior:'behaviour',neighbor:'neighbour',center:'centre',theater:'theatre',organize:'organise',realize:'realise',recognize:'recognise',recognized:'recognised',apologize:'apologise',analyze:'analyse',traveling:'travelling',traveled:'travelled',defense:'defence',gray:'grey',jewelry:'jewellery',program:'programme',willfully:'wilfully',labor:'labour',humor:'humour',flavor:'flavour',fiber:'fibre',meter:'metre',license:'licence'};
 function look(x,k=3){ // look-alike words first, then same level
   const c=x[5].map(byName).filter(Boolean);
   const more=shuf(W.filter(y=>y!==x&&y[1]===x[1]&&!c.includes(y)));
@@ -378,7 +396,7 @@ const gems=m=>`<span class="gems">${[1,2,3,4,5].map(i=>`<span class="gem ${m>=i?
 const sent=(x,u)=>esc(x[4]).replace('___',u?`<u><b>${esc(A(x))}</b></u>`:'<span class="blank">&nbsp;</span>');
 function teachHTML(x){
   const c=x[5].map(byName).filter(Boolean);
-  return `<div class="teach"><p><b style="font-size:20px">${esc(x[0])}</b> means <b>${esc(x[2])}</b></p><p>${sent(x,1)}</p><p><i>Goes with: ${esc(x[3])}</i></p>${c.length?`<div class="conf">Don't mix it up:<br>${c.map(y=>`<b>${esc(y[0])}</b> = ${esc(y[2])}`).join('<br>')}</div>`:''}</div>`;
+  return `<div class="teach"><div class="sayrow"><b style="font-size:20px" class="saytap" data-say="${esc(x[0])}">${esc(x[0])}</b>${spk(x[0])}${sylHTML(x)}</div><p>means <b>${esc(x[2])}</b></p>${x[9]?`<p class="tip"><b>Spelling tip:</b> ${esc(x[9])}</p>`:''}<p>${sent(x,1)}</p><p><i>Goes with: ${esc(x[3])}</i></p>${c.length?`<div class="conf">Don't mix it up:<br>${c.map(y=>`<b>${esc(y[0])}</b> = ${esc(y[2])}`).join('<br>')}</div>`:''}</div>`;
 }
 // ---------- home ----------
 function due(){const n=Date.now();return W.filter(x=>{const s=st(x[0]);return s.seen&&s.m<5&&s.due<=n})}
@@ -386,7 +404,7 @@ function home(){
   sess=null;hud();
   const nNew=W.filter(x=>!st(x[0]).seen).length,nDue=due().length,nMiss=W.filter(x=>st(x[0]).miss>0).length;
   let saved=null;try{saved=JSON.parse(localStorage.getItem(SK()))}catch(e){}
-  if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();main.innerHTML=`<div class="hero"><div class="txt"><h1>Vocab Obby<span>${EDN[ED]}</span></h1><p class="lead">${W.length} words across six worlds. Run the obby, answer at every word gate, earn coins and climb to your goal.</p><span class="world">${ic('gem',16)}World: ${esc(wn)}</span><span class="world">Goal: ${esc(WORLDS[EDGOAL[ED||'psle']][1])}</span>${tierBar()}<div id="rankslot">${rankLine()}</div></div><div class="stage"><svg class="plat" viewBox="0 0 150 46" preserveAspectRatio="none"><rect x="2" y="2" width="146" height="16" fill="#9dd946" stroke="#1b2140" stroke-width="4"/><rect x="2" y="18" width="146" height="26" fill="#7fb336" stroke="#1b2140" stroke-width="4"/></svg>${avatar(84)}<span class="pt">${petSVG(S.pet,44)}</span></div></div>
+  if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();main.innerHTML=`<div class="hero"><div class="txt"><h1>Vocab Obby<span>${EDN[ED]}</span></h1><p class="lead"><b>Exam vocabulary, levelled up: from PSLE to IELTS.</b> ${W.length} words across six worlds. Run the obby, answer at every word gate, earn coins and climb to your goal.</p><span class="world">${ic('gem',16)}World: ${esc(wn)}</span><span class="world">Goal: ${esc(WORLDS[EDGOAL[ED||'psle']][1])}</span>${tierBar()}<div id="rankslot">${rankLine()}</div></div><div class="stage"><svg class="plat" viewBox="0 0 150 46" preserveAspectRatio="none"><rect x="2" y="2" width="146" height="16" fill="#9dd946" stroke="#1b2140" stroke-width="4"/><rect x="2" y="18" width="146" height="26" fill="#7fb336" stroke="#1b2140" stroke-width="4"/></svg>${avatar(84)}<span class="pt">${petSVG(S.pet,44)}</span></div></div>
   <div class="menu">${saved&&saved.i<saved.steps.length?`<button class="big alt" id="res">${ic('play',30)}Continue run · ${saved.i}/${saved.steps.length}</button>`:''}
   <button class="big" id="go">${ic('play',30)}Start a 50-word run</button>
   <button class="sec" id="chal"><span class="ico c6">${ic('trophy')}</span><span class="lbl"><b>PSLE Kingdom</b><small>PSLE Edition world · real exam words · double coins</small></span></button>
@@ -394,6 +412,7 @@ function home(){
   <button class="sec" id="lbtile" ${LB.db?'':'hidden'}><span class="ico c2">${ic('trophy')}</span><span class="lbl"><b>Leaderboard</b><small>Compete with your class</small></span></button>
   <button class="sec" id="team"><span class="ico c3">${ic('bolt')}</span><span class="lbl"><b>Team Up</b><small>Fight bosses with friends</small></span></button>
   <button class="sec" id="bon"><span class="ico c4">${ic('bolt')}</span><span class="lbl"><b>Bonus games</b><small>${S.bonus?S.bonus+' Shadow Chase ready':'Get 10 right in a row'}</small></span></button>
+  <button class="sec" id="sprint"><span class="ico c5">${ic('book')}</span><span class="lbl"><b>Spelling Sprint</b><small>60 seconds · hear it, spell it · best ${S.spBest||0}</small></span></button>
   <button class="sec" id="spd"><span class="ico c3">${ic('bolt')}</span><span class="lbl"><b>Speed Run</b><small>60 seconds · best ${S.best}</small></span></button>
   <button class="sec" id="egg"><span class="ico c4">${ic('egg')}</span><span class="lbl"><b>Hatch pets</b><small>${new Set(S.pets).size} of ${PETS.length} found</small></span></button>
   <button class="sec" id="rev"><span class="ico c6">${ic('review')}</span><span class="lbl"><b>Review</b><small>${nDue} words due</small></span></button>
@@ -404,11 +423,11 @@ function home(){
   <button class="sec" id="how"><span class="ico c7">${ic('help')}</span><span class="lbl"><b>How to play</b><small>Rules and tips</small></span></button>
   <button class="sec" id="edsw"><span class="ico c5">${ic('review')}</span><span class="lbl"><b>Editions</b><small>Now: ${EDN[ED]}</small></span></button>
   <button class="sec" id="skin"><span class="ico c1">${ic('star')}</span><span class="lbl"><b>${document.body.classList.contains('night')?'Day skin':'Night skin'}</b><small>Change the look</small></span></button></div>`;
-  $('go').onclick=()=>start('learn');$('chal').onclick=challenge;$('wmap').onclick=worldmap;$('edsw').onclick=picker;$('skin').onclick=()=>{S.skin=document.body.classList.contains('night')?'day':'night';save();applySkin();home()};$('rev').onclick=()=>start('rev');$('fix').onclick=()=>start('fix');$('lst').onclick=book;$('how').onclick=howto;$('shp').onclick=shop;$('spd').onclick=speed;$('bon').onclick=()=>{if(!S.bonus){pop('Get 10 right in a row in a run to unlock');return}chase(home)};$('egg').onclick=eggs;$('bdg').onclick=badges;$('team').onclick=teamUp;$('lbtile').onclick=leaderboard;daily();checkBadges();
+  $('go').onclick=()=>start('learn');$('chal').onclick=challenge;$('wmap').onclick=worldmap;$('edsw').onclick=picker;$('skin').onclick=()=>{S.skin=document.body.classList.contains('night')?'day':'night';save();applySkin();home()};$('rev').onclick=()=>start('rev');$('fix').onclick=()=>start('fix');$('lst').onclick=book;$('how').onclick=howto;$('shp').onclick=shop;$('spd').onclick=speed;$('sprint').onclick=sprint;$('bon').onclick=()=>{if(!S.bonus){pop('Get 10 right in a row in a run to unlock');return}chase(home)};$('egg').onclick=eggs;$('bdg').onclick=badges;$('team').onclick=teamUp;$('lbtile').onclick=leaderboard;daily();checkBadges();
   if($('res'))$('res').onclick=()=>{sess=saved;sess.words=sess.words.map(n=>WF(n));sess.steps.forEach(s=>s.x=WF(s.n));run()};
 }
 // ---------- build a session ----------
-const QT=['meaning','reverse','blank','under','tf','spell','lookalike'];
+const QT=['meaning','reverse','blank','under','tf','spellit','lookalike','spellit'];
 function start(kind,arg){
   if(window.VO_GATE&&!window.VO_GATE(kind,arg,tier(),home))return;
   const n=Date.now();let pick;
@@ -428,7 +447,7 @@ function start(kind,arg){
     g.forEach(x=>{if(!st(x[0]).seen)steps.push({t:'intro',n:x[0]})});
     if(g.length>=3)steps.push({t:'match',ns:g.map(x=>x[0])});
     g.forEach(x=>steps.push({t:st(x[0]).seen?QT[Math.random()*QT.length|0]:'blank',n:x[0]}));
-    g.forEach(x=>steps.push({t:shuf(['meaning','under','reverse'])[0],n:x[0]}));
+    g.forEach((x,k)=>steps.push({t:k%2?'spellit':shuf(['meaning','under','reverse'])[0],n:x[0]}));
     // mini boss after every 10 words (gate 10, 20, 30, 40)
     if((i+5)%10===0&&i+5<pick.length){const ten=pick.slice(Math.max(0,i-5),i+5);shuf(ten).slice(0,8).forEach(x=>steps.push({t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],boss:1,bid:'m'+(i+5)}))}
   }
@@ -457,8 +476,9 @@ function run(){
     if(s.giant&&!sess.giantIntro){sess.giantIntro=1;OB.say('A GIANT approaches!');if(OB.st&&!OB.RM())OB.st.shakeT=1.4;sfx('attack')}return;
   }
   if(s.t==='intro'){
-    main.innerHTML=top+`<div class="card">${head('New word',x[1])}<div class="word">${esc(x[0])}</div>${gems(st(x[0]).m)}${teachHTML(x).replace('class="teach"','class="teach" style="background:var(--opt)"')}
-    <button class="go" id="nx">Got it!</button></div>`;
+    main.innerHTML=top+`<div class="card">${head('New word',x[1])}<div class="word" data-say="${esc(x[0])}">${esc(x[0])}</div>${gems(st(x[0]).m)}${teachHTML(x).replace('class="teach"','class="teach" style="background:var(--opt)"')}
+    ${SR?`<button class="go" id="sayit" style="background:var(--soft)">🎤 Say it!</button><div id="sayfb"></div>`:''}<button class="go" id="nx">Got it!</button></div>`;
+    if(S.autoRead!==false)setTimeout(()=>speak(x[0]),250);if(SR)$('sayit').onclick=()=>sayIt(x);
     $('nx').onclick=()=>{st(x[0]).seen=Date.now();save();sess.i++;run()};return;
   }
   if(s.t==='match')return matchGame(s,top);
@@ -470,21 +490,59 @@ function run(){
   if(s.t==='under'){lbl='Closest meaning';q=`<p class="q">${sent(x,1)}</p><p style="color:var(--mut);margin-top:-8px">Choose the meaning of the underlined word.</p>`;key=x[2];opts=[x[2],...L.map(y=>y[2])]}
   if(s.t==='lookalike'){const c=look(x);lbl='Look-alike trap';q=`<p class="q">These look similar. Which one means <b>“${esc(x[2])}”</b>?</p>`;key=x[0];opts=[x[0],...c.map(y=>y[0])]}
   if(s.t==='tf'){lbl='True or false?';const real=Math.random()<.5,m=real?x[2]:L[0][2];q=`<p class="q"><b>${esc(x[0])}</b> means “${esc(m)}”.</p>`;key=real?'True':'False';opts=['True','False'];s.fixed=1}
-  if(s.t==='spell'){lbl='Type the word';
+  if(s.t==='spellit'||s.t==='spell')return spellGate(s,x,top,head);
+  if(s.t==='spell_old'){lbl='Type the word';
     main.innerHTML=top+`<div class="card">${head(lbl+(s.boss?' · Boss round':''),x[1])}<p class="q">Type the word that means <b>“${esc(x[2])}”</b>.</p><p style="color:var(--mut)">Hint: ${esc(x[0][0])}${'_ '.repeat(x[0].length-1)} (${x[0].length} letters)</p>
     <form id="f"><input class="inp" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer"><button class="go">Check</button></form><div id="fb"></div></div>`;
     $('in').focus();
     $('f').onsubmit=e=>{e.preventDefault();const v=$('in').value.trim().toLowerCase();if(!v)return;const ok=v===x[0].toLowerCase()||v===A(x).toLowerCase();$('in').disabled=true;$('f').querySelector('button').remove();
       $('in').style.borderColor=ok?'var(--ok)':'var(--coral)';result(ok,x,ok?'':`<p style="margin:10px 0 0">The word is <b>${esc(x[0])}</b>.</p>`)};return}
+  const sayT=s.t==='blank'?x[4].replace('___','blank'):(s.t==='reverse'||s.t==='lookalike')?x[2]:s.t==='under'?x[4].replace('___',A(x)):x[0];
+  q=`<div class="sayrow" style="justify-content:flex-end;margin:0">${spk(sayT)}</div>`+q;
   opts=s.fixed?opts:shuf([...new Set(opts)]);
   main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div><div id="fb"></div></div>`;
   main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=opts[b.dataset.i]===key;main.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(opts[o.dataset.i]===key)o.classList.add('right')});if(!ok)b.classList.add('wrong');result(ok,x)});
 }
 let s_gold=false,cur_boss=false;
+const coarse=()=>matchMedia('(pointer:coarse)').matches;
+function trickyIdx(w){const s=w.toLowerCase(),t=new Set();[/([bcdfgklmnprstz])\1/g,/ie|ei/g,/(ible|able|ance|ence|ant|ent|ous|ary|ery)$/g,/^(kn|wr|gn|ps)/g,/(gh|mb|mn|sc)/g].forEach(r=>{let m;while((m=r.exec(s))){for(let i=m.index;i<m.index+m[0].length;i++)t.add(i);if(!r.global)break}});return t}
+function diffHTML(word,got){const tk=trickyIdx(word);return [...word].map((c,i)=>{const bad=(got[i]||'').toLowerCase()!==c.toLowerCase();return `<span class="${bad?'bad':''} ${tk.has(i)?'trk':''}">${esc(c)}</span>`}).join('')}
+function checkSpell(x,v){v=v.trim().toLowerCase().replace(/\s+/g,' ');const a=[x[0].toLowerCase(),A(x).toLowerCase()];if(a.includes(v))return {ok:true};const us=Object.keys(AMER).find(k=>AMER[k]===a[0]||AMER[k]===a[1]);if(us&&v===us)return {ok:true,note:'In Singapore we write <b>'+esc(AMER[us])+'</b>.'};const am=AMER[v];if(am&&a.includes(am))return {ok:true,note:'In Singapore we write <b>'+esc(am)+'</b>.'};return {ok:false}}
+function spellGate(s,x,top,head){
+  const word=x[0],tiles=coarse()&&!/[\s'-]/.test(word);
+  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${head('Spell it!'+(s.boss?' · Boss round':''),x[1])}<div class="sayrow" style="justify-content:center">${spk(word)}</div><p class="q" style="text-align:center">Listen, then spell the word that means<br><b>“${esc(x[2])}”</b></p>
+  ${tiles?`<div class="slots" id="slots"></div><div class="tiles" id="tiles"></div><div class="row" style="display:flex;gap:8px"><button class="go" id="undo" style="background:var(--soft);margin:0">⌫ Undo</button><button class="go" id="chk" style="margin:0">Check</button></div>`:`<form id="f"><input class="inp" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="go">Check</button></form>`}<div id="fb"></div></div>`;
+  setTimeout(()=>speak(word),200);
+  const finish=v=>{const r=checkSpell(x,v);if(r.ok)st(word).sp=1;S.spT=(S.spT||0)+1;if(r.ok)S.spOK=(S.spOK||0)+1;else{S.spMiss=S.spMiss||{};S.spMiss[word]=(S.spMiss[word]||0)+1}save();
+    result(r.ok,x,r.ok?(r.note?`<p style="margin:10px 0 0">${r.note}</p>`:''):`<p style="margin:10px 0 0">You wrote: <span class="diff">${diffHTML(v||'?',v)}</span></p><p style="margin:4px 0 0">Correct: <span class="diff">${diffHTML(word,v)}</span> ${spk(word)}</p><p style="color:var(--mut);font-size:14px;margin:2px 0 0">Red = wrong letters. Yellow underline = the tricky part.</p>${x[9]?`<p class="tip">${esc(x[9])}</p>`:''}`)};
+  if(tiles){const letters=shuf([...word.toLowerCase(),...shuf('abcdefghijklmnoprstuwy'.split('')).filter(c=>!word.toLowerCase().includes(c)).slice(0,2)]);let got=[];
+    const draw=()=>{$('slots').innerHTML=[...word].map((_,i)=>`<span class="slot">${esc(got[i]?got[i].c:'')}</span>`).join('');$('tiles').innerHTML=letters.map((c,i)=>`<button class="tile" data-i="${i}" ${got.some(g=>g.i===i)?'disabled':''}>${esc(c)}</button>`).join('');
+      $('tiles').querySelectorAll('.tile').forEach(b=>b.onclick=()=>{if(got.length>=word.length)return;got.push({i:+b.dataset.i,c:letters[b.dataset.i]});sfx&&beep(1);draw();if(got.length===word.length)$('chk').focus()})};
+    draw();$('undo').onclick=()=>{got.pop();draw()};$('chk').onclick=()=>{if(!got.length)return;$('chk').disabled=true;$('undo').disabled=true;$('tiles').querySelectorAll('.tile').forEach(b=>b.disabled=true);finish(got.map(g=>g.c).join(''))}}
+  else{$('in').focus();$('f').onsubmit=e=>{e.preventDefault();const v=$('in').value;if(!v.trim())return;$('in').disabled=true;$('f').querySelector('button').remove();finish(v)}}
+}
+function sayIt(x){if(!SR)return;const fb=$('sayfb');let r;try{r=new SR()}catch(e){return}r.lang='en-GB';r.interimResults=false;r.maxAlternatives=5;
+  fb.innerHTML='<p style="text-align:center">Listening… say <b>'+esc(x[0])+'</b></p>';
+  r.onresult=ev=>{const alts=[...ev.results[0]].map(a=>a.transcript.toLowerCase().trim());const ok=alts.some(a=>a===x[0].toLowerCase()||a.includes(x[0].toLowerCase()));
+    if(ok){const w=st(x[0]);let c='';if(!w.said){w.said=1;S.coins+=5;c=' +5 coins';save();hud()}fb.innerHTML='<p style="text-align:center;color:var(--ok);font-weight:800">Nailed it!'+c+'</p>';beep(1)}
+    else fb.innerHTML='<p style="text-align:center;color:var(--coral);font-weight:800">Try again. Listen first '+spk(x[0])+'</p>'};
+  r.onerror=()=>{fb.innerHTML='<p style="text-align:center">Mic not available. Tap 🔊 to listen instead.</p>'};
+  try{r.start()}catch(e){}}
+function sprint(){
+  const pool=W.filter(x=>st(x[0]).seen&&!/[\s'-]/.test(x[0]));const src=pool.length>=8?pool:W.filter(x=>rnk(x)<=tier()&&!/[\s'-]/.test(x[0]));let score=0,combo=0,end=Date.now()+60000,tm;
+  const ask=()=>{if(Date.now()>=end)return done();const x=src[Math.random()*src.length|0],word=x[0].toLowerCase();
+    main.innerHTML=`<div class="card"><div class="timer" id="tm">${Math.ceil((end-Date.now())/1000)}s</div><p style="text-align:center;font-weight:800;margin:0">Spelling Sprint · ${score} · Best ${S.spBest||0}${combo>1?' · Combo ×'+combo:''}</p><div class="sayrow" style="justify-content:center">${spk(x[0])}</div><p style="text-align:center;color:var(--mut)">${esc(x[2])}</p><div class="slots" id="slots"></div><div class="tiles" id="tiles"></div><div style="display:flex;gap:8px"><button class="go" id="undo" style="background:var(--soft);margin:0">⌫</button><button class="go" id="skip" style="background:var(--soft);margin:0">Skip</button></div></div>`;
+    speak(x[0]);const letters=shuf([...word,...shuf('abcdefghiklmnoprstuy'.split('')).filter(c=>!word.includes(c)).slice(0,2)]);let got=[];
+    const draw=()=>{$('slots').innerHTML=[...word].map((_,i)=>`<span class="slot">${esc(got[i]?got[i].c:'')}</span>`).join('');$('tiles').innerHTML=letters.map((c,i)=>`<button class="tile" data-i="${i}" ${got.some(g=>g.i===i)?'disabled':''}>${esc(c)}</button>`).join('');
+      $('tiles').querySelectorAll('.tile').forEach(b=>b.onclick=()=>{got.push({i:+b.dataset.i,c:letters[b.dataset.i]});draw();if(got.length===word.length){const v=got.map(g=>g.c).join('');if(v===word){score++;combo++;st(x[0]).sp=1;const g=5*Math.min(combo,5);S.coins+=g;pop('+'+g);beep(1)}else{combo=0;beep(0);pop(word)}setTimeout(ask,v===word?250:900)}})};
+    draw();$('undo').onclick=()=>{got.pop();draw()};$('skip').onclick=()=>{combo=0;ask()}};
+  const done=()=>{clearInterval(tm);const nb=score>(S.spBest||0);if(nb)S.spBest=score;save();if(nb)confetti(150);
+    main.innerHTML=`<div class="card"><span class="tag">Spelling Sprint over</span><div class="word">${score} spelt</div><p>${nb?'New personal best!':'Best: '+(S.spBest||0)+'.'} Words you spell right count towards their 5th gem.</p><button class="go" id="ag">Again!</button><button class="go" id="h" style="background:var(--opt)">Home</button></div>`;$('ag').onclick=sprint;$('h').onclick=home;hud()};
+  tm=setInterval(()=>{const e=$('tm');if(!e)return clearInterval(tm);const l=Math.max(0,Math.ceil((end-Date.now())/1000));e.textContent=l+'s';if(!l)done()},250);ask();}
 function result(ok,x,extra=''){
   const w=st(x[0]);setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
   if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=Math.round(g*(1+.06*tier()));S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
-    if(w.m<5&&Date.now()>=w.due){w.m++;w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;
+    if(w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;
     beep(1);pop('+'+g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);
     // it comes back 3 questions later in a different form
@@ -588,7 +646,7 @@ function speed(){
   const pool=W.filter(x=>st(x[0]).seen);const src=pool.length>=10?pool:W;let score=0,end=Date.now()+60000,tm;
   const ask=()=>{const left=Math.max(0,Math.ceil((end-Date.now())/1000));if(!left)return done();
     const x=src[Math.random()*src.length|0],L=look(x),key=x[2],opts=shuf([x[2],...L.map(y=>y[2])]);
-    main.innerHTML=`<div class="card"><div class="timer" id="tm">${left}s</div><p style="text-align:center;font-weight:800;margin:0">Score ${score} · Best ${S.best}</p><div class="word" style="text-align:center;font-size:clamp(30px,6vw,44px)">${esc(x[0])}</div><div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div></div>`;
+    main.innerHTML=`<div class="card"><div class="timer" id="tm">${left}s</div><p style="text-align:center;font-weight:800;margin:0">Score ${score} · Best ${S.best}</p><div class="word" data-say="${esc(x[0])}" style="text-align:center;font-size:clamp(30px,6vw,44px)">${esc(x[0])}</div><div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div></div>`;
     main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(opts[b.dataset.i]===key){score++;beep(1);S.coins+=5;st(x[0]).miss=Math.max(0,st(x[0]).miss-1)}else{beep(0);end-=3000;st(x[0]).miss++;pop('-3s')}ask()})};
   const done=()=>{clearInterval(tm);const nb=score>S.best;if(nb)S.best=score;S.coins+=score*5;S.pts+=score*5;save();checkBadges();syncScore();if(nb)confetti(150);
     main.innerHTML=`<div class="card"><span class="tag">Speed Run over</span><div class="word">${score} correct</div><p>${nb?'New personal best!':'Best: '+S.best+'. So close!'} Wrong answers cost 3 seconds, so knowing the meaning beats guessing.</p><button class="go" id="ag">Again!</button><button class="go" id="h" style="background:var(--opt)">Home</button></div>`;
@@ -622,6 +680,7 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>Answer at every word gate.</b> A right answer builds a bridge and you leap across. A wrong answer drops you back to the last checkpoint, you learn the word, and it comes back at a later gate.</li>
 <li><b>Meet new words first.</b> Before a word's first gate you see its meaning, an example sentence and look-alike words to watch out for.</li>
 <li><b>Hold for combos.</b> After a right answer in a boss fight, tap Hold ⚡ Charge. On your next right answer pick two powers for a big combo like Steam Burst or Plasma Blast. A wrong answer drops your charge!</li>
+<li><b>Hear it, say it, spell it.</b> Tap 🔊 to hear any word (🐢 for slow). Spell-it gates and Spelling Sprint train your spelling, and a word only earns its 5th gem once you have spelt it right.</li>
 <li><b>Beat the bosses.</b> A boss appears every 10 gates, and King Kongo the giant guards the finish line. Answer right, then tap Fire, Water or Electric to attack. Each boss is weak to one power. A wrong answer lets the boss hit back, and you have 3 hearts.</li>
 <li><b>Travel to new worlds.</b> Score 70% or more in a run and you tier up to the next world. In the PSLE Edition your goal is Ice Peaks. Replay any world you've reached from the World map.</li>
 <li><b>PSLE Exam Pack.</b> Practise the words from real PSLE papers for double coins and the Challenger badge.</li>
@@ -934,7 +993,7 @@ function chase(done){
   raf=requestAnimationFrame(frame);
   window.__chase={mv,end:()=>end(false),state:()=>({left,coins,thief,lane,over})};
 }
-if(/[?&]test/.test(location.search))window.__vq={get sess(){return sess},S,chase,home,OB,start,placement,worldmap,challenge,leaderboard,run,result,recap,get W(){return W}};
+if(/[?&]test/.test(location.search))window.__vq={get sess(){return sess},S,chase,home,OB,start,sprint,spellGate,speak,placement,worldmap,challenge,leaderboard,run,result,recap,get W(){return W}};
 
 function applySkin(){const night=S.skin==='night';document.body.classList.toggle('night',night)}
 function setTitle(){document.title='Vocab Obby: '+(ED?EDN[ED]:'PSLE Edition')+' | Thinking Hack Education'}
@@ -959,7 +1018,7 @@ function worldmap(){
   sess=null;hud();const t=tier(),g=EDGOAL[ED||'psle'];
   main.innerHTML=`<div class="card"><span class="tag">World map · ${esc(EDN[ED||'psle'])}</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Six worlds + kingdoms</div>
   <ol class="wmap">${WORLDS.map((w,k)=>{const n=W.filter(x=>rnk(x)===k),seen=n.filter(x=>st(x[0]).seen).length,lock=k>t;return `<li class="${lock?'lock':''} ${k===t?'here':''}"><button ${lock?'disabled':''} data-w="${k}"><span class="wn">${k+1}</span><span class="wt"><b>${esc(w[1])}</b><small>${lock?'Score 70% in a run to travel here':seen+' of '+n.length+' words met'}${k===g?' · Your goal':''}${k===t?' · You are here':''}</small></span></button></li>`}).join('')}</ol>
-  <p class="wmk"><b>Exam kingdoms</b></p><ol class="wmap kingdoms"><li class="psle"><button data-k="psle"><span class="wn">★</span><span class="wt"><b>PSLE Kingdom</b><small>PSLE Edition · real exam words · Exam King boss</small></span></button></li><li class="lock"><button disabled><span class="wn">★</span><span class="wt"><b>O-Level Kingdom</b><small>Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">★</span><span class="wt"><b>A-Level Kingdom</b><small>Coming soon</small></span></button></li></ol>
+  <p class="wmk"><b>Exam kingdoms</b></p><ol class="wmap kingdoms"><li class="psle"><button data-k="psle"><span class="wn">🇸🇬</span><span class="wt"><b>PSLE Kingdom</b><small>PSLE Edition · real exam words · Exam King boss</small></span></button></li><li class="lock"><button disabled><span class="wn">🇸🇬</span><span class="wt"><b>O-Level Kingdom</b><small>Singapore · O-Level English · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇸🇬</span><span class="wt"><b>A-Level Kingdom</b><small>Singapore · A-Level General Paper · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🌏</span><span class="wt"><b>IELTS Kingdom</b><small>International · IELTS · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>Cambridge Kingdom</b><small>B2 First / C1 Advanced · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>11+ Kingdom</b><small>UK · 11 Plus · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>GCSE Kingdom</b><small>UK · GCSE English · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇺🇸</span><span class="wt"><b>SAT Kingdom</b><small>US · SAT · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🌐</span><span class="wt"><b>IB Kingdom</b><small>International Baccalaureate · English · Coming soon</small></span></button></li></ol>
   <button class="go" id="rp" style="background:var(--soft)">Retake placement run</button><button class="go" id="h">Home</button></div>`;
   main.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const k=+b.dataset.w;if(k===t)start('learn');else start('world',k)});
   const pk=main.querySelector('[data-k=psle]');if(pk)pk.onclick=challenge;
@@ -998,7 +1057,7 @@ function shop(){
 function book(){
   hud();
   main.innerHTML=`<div class="card"><span class="tag">My word book</span><p></p><input class="search" id="sr" placeholder="Search a word or meaning"><table id="tb"></table><button class="go" id="h">Home</button></div>`;
-  const f=()=>{const q=$('sr').value.toLowerCase();$('tb').innerHTML=W.filter(x=>(x[0]+' '+x[2]).toLowerCase().includes(q)).map(x=>`<tr><td><b>${esc(x[0])}</b><br>${gems(st(x[0]).m)}</td><td>${esc(x[2])}<br><span style="color:var(--mut);font-size:14px">${sent(x,1)}</span></td></tr>`).join('')};
+  const f=()=>{const q=$('sr').value.toLowerCase();$('tb').innerHTML=W.filter(x=>(x[0]+' '+x[2]).toLowerCase().includes(q)).map(x=>`<tr><td><b class="saytap" data-say="${esc(x[0])}">${esc(x[0])}</b>${VOX.ok?`<button class="spk" data-say="${esc(x[0])}" aria-label="Hear it">🔊</button>`:''}<br>${sylHTML(x)}<br>${gems(st(x[0]).m)}</td><td>${esc(x[2])}<br><span style="color:var(--mut);font-size:14px">${sent(x,1)}</span></td></tr>`).join('')};
   $('sr').oninput=f;f();$('h').onclick=home;
 }
 

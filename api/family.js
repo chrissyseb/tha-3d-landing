@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       miss.sort((a, b) => b[1] - a[1]);
             kids.push({ id: c.id, nick: c.nick, paid: paidFor(fam, c.id), seen, mastered, accuracy: seen ? Math.round(clean / seen * 100) : null, toRevise: miss.slice(0, 15).map(x => x[0]), world: st.lad ? st.lad.t || 0 : 0, lastPlayed: p ? p.updated : null, days: Array.isArray(st.days) ? st.days.length : 0 });
     }
-    return send(res, 200, { code: fam.code, email: fam.email, paid: fam.paid || null, children: kids });
+    return send(res, 200, { code: fam.code, email: fam.email, paid: fam.paid || null, children: kids, stripe: !!process.env.STRIPE_SECRET_KEY });
   }
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
   const b = await body(req);

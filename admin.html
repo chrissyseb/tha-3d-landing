@@ -1,0 +1,23 @@
+<!doctype html><html lang="en-SG"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Vocab Obby admin</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;margin:0;background:#f3f6fc;color:#1b2140}.w{max-width:620px;margin:0 auto;padding:16px}.card{background:#fff;border:3px solid #1b2140;border-radius:14px;padding:16px;margin:12px 0}input,select,button{font:inherit;padding:10px;border-radius:10px;border:2px solid #1b2140;min-height:44px}input{width:100%;box-sizing:border-box;margin:4px 0 10px}button{background:#ffd23f;font-weight:800;cursor:pointer}.err{color:#c0262d;font-weight:700}.ok{color:#178a3e;font-weight:700}label{font-weight:700}.kid{display:flex;gap:8px;align-items:center;margin:6px 0}.kid input{width:auto;min-height:0}small{color:#556}</style></head>
+<body><div class="w"><h1>Vocab Obby admin</h1>
+<div class="card" id="kc"><label for="key">Admin key</label><input id="key" type="password" autocomplete="off"><button id="ks">Use key</button><p><small>The key stays in this browser tab only and is forgotten when you close it.</small></p></div>
+<div class="card"><label for="code">Family code</label><input id="code" autocapitalize="characters" autocomplete="off" placeholder="e.g. AB12CD"><button id="find">Find family</button><p class="err" id="e"></p><div id="fam"></div></div>
+</div><script>{
+const $=s=>document.querySelector(s);let K=sessionStorage.getItem('vo_ak')||'';
+const t=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+$('#ks').onclick=()=>{K=$('#key').value.trim();sessionStorage.setItem('vo_ak',K);$('#e').textContent='Key set.'};
+const call=(m,u,b)=>fetch(u,{method:m,headers:{'x-admin-key':K,'Content-Type':'application/json','x-vo':'1'},body:b?JSON.stringify(b):undefined}).then(async r=>({ok:r.ok,j:await r.json().catch(()=>({}))}));
+const yr=()=>{const d=new Date();d.setFullYear(d.getFullYear()+1);return d.toISOString().slice(0,10)};
+function show(f){const paid=f.paid&&f.paid.until>Date.now();
+  $('#fam').innerHTML=`<h2>Family ${t(f.code)}</h2><p>${t(f.email)}</p><p>Status: <b class="${paid?'ok':''}">${paid?(f.paid.plan==='family'?'Family Pass':'Paid players')+' until '+new Date(f.paid.until).toLocaleDateString('en-SG'):'Not paid'}</b></p>
+  <h3>Unlock PSLE Edition</h3><label><input type="radio" name="pl" value="child" checked style="width:auto;min-height:0"> Per player (S$29.90 each)</label><br><label><input type="radio" name="pl" value="family" style="width:auto;min-height:0"> Family Pass (S$59.90, up to 3)</label>
+  <div id="kids">${f.children.map(k=>`<div class="kid"><input type="checkbox" value="${t(k.id)}" ${paid&&(f.paid.plan==='family'||(f.paid.children||[]).includes(k.id))?'checked':''}> ${t(k.nick)}</div>`).join('')||'<p><small>No players yet.</small></p>'}</div>
+  <label for="until">Paid until</label><input id="until" type="date" value="${yr()}"><label for="note">Note (e.g. PayNow ref / date)</label><input id="note" maxlength="120">
+  <button id="un">Mark paid and unlock</button> <button id="rv" style="background:#eee">Remove access</button><p id="m"></p>`;
+  $('#un').onclick=async()=>{const plan=document.querySelector('[name=pl]:checked').value;const ids=[...document.querySelectorAll('#kids input:checked')].map(i=>i.value);
+    const r=await call('POST','/api/admin',{action:'unlock',code:f.code,plan,childIds:ids,until:$('#until').value,note:$('#note').value});if(r.ok){show(r.j.family);$('#m').className='ok';$('#m').textContent='Unlocked. The player sees it next time they open the game.'}else{$('#m').className='err';$('#m').textContent=r.j.error||'Failed'}};
+  $('#rv').onclick=async()=>{if(!window.confirm)return;const r=await call('POST','/api/admin',{action:'revoke',code:f.code});if(r.ok)show(r.j.family)};}
+$('#find').onclick=async()=>{$('#e').textContent='';$('#fam').innerHTML='';const c=$('#code').value.trim().toUpperCase();if(!c)return;const r=await call('GET','/api/admin?code='+encodeURIComponent(c));if(r.ok)show(r.j.family);else $('#e').textContent=r.j.error||'Not found'};
+if(K)$('#e').textContent='Key loaded for this tab.';
+}</script></body></html>

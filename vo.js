@@ -63,6 +63,7 @@
     m.innerHTML = `<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Unlock the PSLE Edition</div>
       <p>PSLE Kingdom is the PSLE Edition world: words from real PSLE papers, exam-style runs, the Exam King boss and a parent progress report. Your free demo run is used up. Every other world in Vocab Obby stays free.</p>
       <p><b>S$29.90</b> per player for a full year, or <b>S$59.90</b> for a Family Pass (up to 3 players). Includes a parent progress report.</p>
+      <p class="vo-pn">Pay by <b>PayNow to +65 9003 0002</b>${VO.me && VO.me.code ? ' with family code <b>' + String(VO.me.code).replace(/[^\w-]/g, '') + '</b> as the reference' : ''}, then WhatsApp us. We unlock it the same day.</p>
       ${kid ? '<p>Ask a parent to unlock it at <b>vocab-obby.vercel.app/account</b>.</p>' : `<a class="go" style="display:block;text-align:center;text-decoration:none" href="/account.html#unlock">${parent ? 'Unlock now' : 'Create a parent account to unlock'}</a>`}
       <button class="go" id="vo-back" style="background:var(--soft)">Back to the free game</button></div>`;
     const b = document.getElementById('vo-back'); if (b) b.onclick = () => home ? home() : location.reload();
