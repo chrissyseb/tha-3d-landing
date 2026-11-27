@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-SG"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team Up | Vocab Obby</title>
+<meta name="description" content="Team Up in Vocab Obby: fight word bosses together with friends.">
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/logo.svg"><link rel="apple-touch-icon" href="/icons/apple-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vo.css">
+<style>
+:root{--ink:#1b2140;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Outfit','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:linear-gradient(#3fb4e8,#8fd6f5 70%,#9dd946 70%);color:var(--ink);font:600 17px/1.5 var(--fb);min-height:100vh;overflow-x:clip}
+.wrap{max-width:720px;margin:0 auto;padding:16px max(4vw,14px) 110px}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:clamp(16px,4vw,24px);margin-bottom:16px}
+h1{font:800 clamp(28px,6vw,40px)/1.05 var(--fd);margin:0 0 6px}
+h2{font:800 22px/1.2 var(--fd);margin:0 0 8px}
+.tag{display:inline-block;font:800 13px var(--fd);background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:2px 10px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.top a{color:#fff;font:800 15px var(--fd);text-decoration:none;background:rgba(27,33,64,.55);padding:8px 14px;border-radius:999px}
+button,.btn{font:800 17px var(--fd);min-height:52px;border:3px solid var(--ink);border-radius:14px;padding:10px 16px;background:var(--sun);color:var(--ink);box-shadow:0 4px 0 var(--ink);cursor:pointer;width:100%}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.alt{background:var(--soft)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+input{font:800 20px var(--fd);width:100%;padding:12px;border:3px solid var(--ink);border-radius:12px;text-transform:none}
+input.code{text-transform:uppercase;letter-spacing:.3em;text-align:center;font-size:28px}
+label{font:800 14px var(--fd);display:block;margin:10px 0 6px}
+.err{color:var(--bad);font-weight:800;min-height:1.4em;margin:8px 0 0}
+.chk{display:flex;gap:10px;align-items:center;margin:10px 0;font-weight:800}
+.chk input{width:24px;height:24px}
+.bigcode{font:800 56px/1 var(--fd);letter-spacing:.18em;text-align:center;margin:8px 0}
+.plist{display:grid;gap:8px;margin:12px 0}
+.pl{display:flex;align-items:center;gap:10px;background:var(--soft);border:2px solid var(--line);border-radius:12px;padding:8px 12px;font-weight:800}
+.pl.turn{border-color:var(--ink);background:#fff5d6}
+.pl small{margin-left:auto;color:var(--mut);font-weight:700}
+#arena{position:relative;height:250px;border:3px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:14px;background:#3fb4e8}
+#arena canvas{position:absolute;inset:0;width:100%;height:100%}
+.bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;font:800 15px var(--fd);color:#fff}
+.hp{flex:1;height:18px;border:3px solid var(--ink);border-radius:8px;background:#40202a;overflow:hidden}.hp i{display:block;height:100%;background:linear-gradient(90deg,#ef4f5f,#fa895d);transition:width .35s}
+.hearts{font-size:20px;letter-spacing:2px}
+.turnline{font:800 22px/1.2 var(--fd);margin:0 0 10px}
+.q{font:700 20px/1.4 var(--fb);margin:6px 0 14px}
+.q b{font:800 30px var(--fd)}
+.opts{display:grid;gap:10px}
+.opts button{text-align:left;background:var(--soft);font:700 17px var(--fb)}
+.opts button.right{background:var(--ok);color:#fff}.opts button.wrong{background:var(--bad);color:#fff}
+.powers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.powers.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.pw{min-height:84px;border-radius:50%;aspect-ratio:1;font-size:15px;display:grid;place-items:center;padding:4px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.pw.fire{background:radial-gradient(circle at 35% 30%,#ffd27a,#ff6a2b 60%,#c2361b)}.pw.water{background:radial-gradient(circle at 35% 30%,#bfefff,#38a8f0 60%,#1d6fc2)}.pw.zap{background:radial-gradient(circle at 35% 30%,#fff7b0,#ffd23f 55%,#e0a400);color:var(--ink);text-shadow:none}.pw.star{background:conic-gradient(#ff5d8f,#ffd23f,#2fbf71,#38a8f0,#b15fd7,#ff5d8f)}
+.timer{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:4px 0 12px}.timer i{display:block;height:100%;background:var(--ink);transition:width .25s linear}
+.feed{font:700 14px/1.45 var(--fb);color:var(--mut);max-height:132px;overflow:auto;margin:0;padding-left:18px}
+.emotes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
+.emotes button{min-height:44px;font-size:15px;padding:4px;background:#fff}
+.teach{background:#fff5d6;border:2px dashed var(--ink);border-radius:12px;padding:10px 12px;margin-top:10px;font-weight:700}
+.pop{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%);font:800 clamp(22px,6vw,34px)/1.15 var(--fd);color:#fff;text-shadow:0 3px 0 var(--ink),0 0 18px rgba(0,0,0,.4);pointer-events:none;z-index:40;animation:up 1.1s forwards;text-align:center;width:max-content;max-width:90vw}
+@keyframes up{from{opacity:0;transform:translate(-50%,-30%) scale(.8)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}to{opacity:0;transform:translate(-50%,-110%)}}
+.shake{animation:sh .4s}@keyframes sh{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@media(prefers-reduced-motion:reduce){.pop{animation:none;opacity:1}.shake{animation:none}}
+.foot{color:#fff;text-align:center;font-size:13px;font-weight:700;text-shadow:0 1px 0 rgba(0,0,0,.3)}
+</style></head><body>
+<div class="wrap">
+<div class="top"><a href="/">← Back to Vocab Obby</a><span class="tag">Team Up</span></div>
+<div id="main"><div class="card"><p>Loading Team Up…</p></div></div>
+<p class="foot">© 2026 Thinking Hack Education. No chat in Team Up, only friendly emotes. Play with friends you know.</p>
+</div>
+<script src="/vo.js"></script>
+<script>{
+const $=id=>document.getElementById(id), main=$('main');
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const api=(p,o={})=>fetch(p,{...o,credentials:'same-origin',headers:{'x-vo':'1','Content-Type':'application/json'}}).then(async r=>({ok:r.ok,status:r.status,j:await r.json().catch(()=>({}))})).catch(()=>({ok:false,status:0,j:{error:'No connection. Check your internet.'}}));
+const K='p6vq3', LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+let S={};try{S=JSON.parse(LS.get(K)||'{}')}catch(e){}
+const saveS=()=>LS.set(K,JSON.stringify(S));
+const myWorld=()=>Math.max(0,Math.min(5,(S.lad&&S.lad.t)||0));
+const WN=['Grass Plains','Desert Dunes','Jungle Ruins','Lava Land','Ice Peaks','Outer Space'];
+const EMO=['👍','🔥','Nice!','Your turn!','GG'];
+const BOSSC=[['#4f9a3a','#2f5e24','#ffd23f'],['#d9a54a','#9c6a26','#3fb2f5'],['#2f8f6a','#1d5c44','#ffe14a'],['#7a2b1f','#45150c','#ffb020'],['#7fc9ec','#3f86b4','#ffffff'],['#5a45c2','#2a1d6b','#ff5d8f'],['#5b2c8f','#2e1452','#ffd23f'],['#5a3a22','#2f1d10','#7dff5a']];
+const SKY=[['#3fb4e8','#9dd946'],['#f2b45a','#e0a14a'],['#2f8f6a','#4f9a3a'],['#4a1a14','#7a2b1f'],['#9fd8f5','#e8f6ff'],['#0b0b2b','#2a1d6b'],['#3b1f66','#ffd23f'],['#1d5c44','#2f8f6a']];
+const ELC={fire:['#ff6a2b','#ffd27a'],water:['#38a8f0','#bfefff'],zap:['#ffd23f','#fff7b0'],star:['#ff5d8f','#ffd23f']};
+let R=null, tokn=null, pid=null, poll=null, lastFx=0, lastFeed=0, answered={}, awarded=LS.get('vo_team_aw')||'';
+let mute=false;try{mute=!!JSON.parse(LS.get(K)||'{}').mute}catch(e){}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- sound ----------
+let ac;function tone(fs,type='triangle',dur=.25,vol=.14){if(mute)return;try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.type=type;fs.forEach((f,i)=>o.frequency.setValueAtTime(f,t+i*dur/fs.length));g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g);g.connect(ac.destination);o.start();o.stop(t+dur)}catch(e){}}
+const SFX={fire:()=>tone([300,160],'sawtooth',.3),water:()=>tone([700,400,250],'sine',.35),zap:()=>tone([900,200,900,150],'square',.25,.08),star:()=>tone([523,659,784,1046],'triangle',.4),hit:()=>tone([120,70],'square',.2,.12),win:()=>tone([523,659,784,1046,1318],'triangle',.7),hurt:()=>tone([200,90],'sawtooth',.35,.12)};
+function pop(t){const d=document.createElement('div');d.className='pop';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1150)}
+
+// ---------- start screens ----------
+function nickDefault(){return (window.VO&&VO.me&&VO.me.type==='kid')?VO.me.nick:(S.nick||'')}
+function lobbyPick(){
+  stop();const kid=window.VO&&VO.me&&VO.me.type==='kid',paid=kid&&VO.me.paid;
+  main.innerHTML=`<div class="card"><span class="tag">Team Up</span><h1>Fight bosses together</h1>
+  <p>Take turns answering. Every right answer lets you fire a power at the boss. Friends of any level can play: each of you gets questions from your own world.</p>
+  ${kid?`<p>Playing as <b>${esc(VO.me.nick)}</b>.</p>`:`<label for="nk">Your nickname</label><input id="nk" maxlength="14" autocomplete="off" value="${esc(nickDefault())}" placeholder="e.g. Carla"><p style="font-size:13px;color:var(--mut);margin:6px 0 0">Letters and numbers only. Don't use your full real name.</p>`}
+  <p style="margin:12px 0 0">Your world: <b>${WN[myWorld()]}</b></p>
+  <label class="chk"><input type="checkbox" id="gi"> Giant raid (King Kongo, double health)</label>
+  ${paid?'<label class="chk"><input type="checkbox" id="pk"> Battle in PSLE Kingdom</label>':''}
+  <div class="row" style="margin-top:12px"><button id="host">Host a room</button><button class="alt" id="jn">Join a room</button></div><p class="err" id="er"></p></div>`;
+  $('host').onclick=async()=>{const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'create',nick:kid?'':$('nk').value.trim(),world:myWorld(),av:S.av,pet:S.pet,giant:$('gi').checked,pack:!!($('pk')&&$('pk').checked)})});enter(r)};
+  $('jn').onclick=()=>joinScreen();
+}
+function joinScreen(){
+  const kid=window.VO&&VO.me&&VO.me.type==='kid';
+  main.innerHTML=`<div class="card"><span class="tag">Join a room</span><h2>Enter your friend's room code</h2>
+  <form id="jf"><label for="cd">Room code</label><input id="cd" class="code" maxlength="4" autocomplete="off" inputmode="text" required>
+  ${kid?'':`<label for="nk">Your nickname</label><input id="nk" maxlength="14" autocomplete="off" value="${esc(nickDefault())}">`}
+  <button style="margin-top:14px">Join</button></form><button class="alt" id="bk" style="margin-top:10px">Back</button><p class="err" id="er"></p></div>`;
+  $('cd').focus();$('bk').onclick=lobbyPick;
+  $('jf').onsubmit=async e=>{e.preventDefault();const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'join',code:$('cd').value.trim().toUpperCase(),nick:kid?'':$('nk').value.trim(),world:myWorld(),av:S.av,pet:S.pet})});enter(r)};
+}
+function enter(r){
+  if(!r.ok){$('er').textContent=r.j.error||'Could not do that. Try again.';return}
+  tokn=r.j.token;pid=r.j.pid;if(!(window.VO&&VO.me&&VO.me.type==='kid')){const n=r.j.state.players.find(p=>p.pid===pid);if(n){S.nick=n.nick;saveS()}}
+  sessionStorage.setItem('vo_room',JSON.stringify({code:r.j.state.code,tokn,pid}));
+  setState(r.j.state);start();
+}
+
+// ---------- polling ----------
+function start(){stop();const go=async()=>{const r=await api(`/api/room?code=${R.code}&t=${encodeURIComponent(tokn)}`);if(r.ok)setState(r.j);else if(r.status===404){stop();main.innerHTML=`<div class="card"><h2>This room has closed</h2><p>Rooms close after 30 minutes without play.</p><button id="bk">New room</button></div>`;$('bk').onclick=lobbyPick}poll=setTimeout(go,document.hidden?3000:800)};poll=setTimeout(go,800)}
+function stop(){clearTimeout(poll);poll=null}
+async function act(a,extra={}){const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:a,code:R.code,token:tokn,v:R.v,...extra})});if(r.j&&r.j.state)setState(r.j.state);return r}
+
+// ---------- render ----------
+let lastRender='';
+function setState(s){
+  const prev=R;R=s;
+  if(s.fx&&s.fx.seq>lastFx){if(lastFx)fxPlay(s.fx);lastFx=s.fx.seq}
+  if(s.phase==='won'&&prev&&prev.phase!=='won')won();
+  const key=JSON.stringify([s.v,s.phase,s.turn,s.q&&s.q.id,s.players.length,s.hearts,s.boss&&s.boss.hp,s.emotes.length]);
+  if(key!==lastRender){lastRender=key;render()}else tickTimer();
+}
+function plist(){return `<div class="plist">${R.players.filter(p=>!p.left).map(p=>`<div class="pl ${p.pid===R.turn&&(R.phase==='question'||R.phase==='power')?'turn':''}">${esc(p.nick)}${p.pid===pid?' (you)':''}${p.pid===R.host?' ★':''}<small>${R.pack?'PSLE Kingdom':WN[p.world]}</small></div>`).join('')}</div>`}
+function feedHtml(){return `<ul class="feed" id="fd">${R.feed.slice().reverse().map(f=>`<li>${esc(f.t)}</li>`).join('')}</ul>${R.emotes.length?`<p style="margin:8px 0 0;font-weight:800">${R.emotes.slice(-3).map(e=>esc(e.nick)+': '+esc(e.e)).join(' · ')}</p>`:''}<div class="emotes">${EMO.map((e,i)=>`<button data-e="${i}" aria-label="Send ${esc(e)}">${esc(e)}</button>`).join('')}</div>`}
+function bindFeed(){main.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>act('emote',{e:+b.dataset.e}))}
+function render(){
+  if(R.phase==='lobby'){
+    main.innerHTML=`<div class="card"><span class="tag">${R.pack?'PSLE Kingdom':R.giant?'Giant raid':WN[R.world]}</span><h2>Room code</h2><div class="bigcode">${esc(R.code)}</div><p style="text-align:center;margin:0">Friends open <b>vocab-obby.vercel.app</b> → Team Up → Join, and type this code.</p>${plist()}
+    ${R.host===pid?`<button id="go" ${R.players.filter(p=>!p.left).length<2?'disabled':''}>${R.players.filter(p=>!p.left).length<2?'Waiting for a friend…':'Start the battle!'}</button>`:'<p style="text-align:center;font-weight:800">Waiting for the host to start…</p>'}
+    <button class="alt" id="lv" style="margin-top:10px">Leave room</button></div><div class="card">${feedHtml()}</div>`;
+    if($('go'))$('go').onclick=()=>act('start');$('lv').onclick=leave;bindFeed();return;
+  }
+  const b=R.boss, mine=R.turn===pid, who=R.players.find(p=>p.pid===R.turn);
+  let panel='';
+  if(R.phase==='question'){
+    const q=R.q, pr=q.prompt.kind==='meaning'?`What does <b>${esc(q.prompt.word)}</b> mean?`:esc(q.prompt.sentence).replace('___','<span style="border-bottom:3px solid var(--ink);display:inline-block;min-width:4em">&nbsp;</span>');
+    panel=`<p class="turnline">${mine?'Your turn!':esc(who?who.nick:'')+"'s turn!"}${q.golden?' 🌟':''}</p><div class="timer"><i id="tm"></i></div><p class="q">${pr}</p>
+    <div class="opts">${q.opts.map((o,i)=>`<button data-o="${i}" ${mine?'':'disabled'}>${esc(o)}</button>`).join('')}</div>${mine?'':'<p style="margin:10px 0 0;color:var(--mut);font-weight:800">Watch and cheer! Your turn is coming.</p>'}`;
+  }else if(R.phase==='power'){
+    panel=`<p class="turnline">${mine?'Right! Pick a power':esc(who?who.nick:'')+' is choosing a power…'}</p><div class="timer"><i id="tm"></i></div>
+    ${mine?`<div class="powers ${R.q.golden?'four':''}"><button class="pw fire" data-p="fire">Fire</button><button class="pw water" data-p="water">Water</button><button class="pw zap" data-p="zap">Electric</button>${R.q.golden?'<button class="pw star" data-p="star">Star</button>':''}</div><p style="font-size:14px;color:var(--mut);margin:10px 0 0">Tip: use a different power from your teammate's last hit for a <b>Team combo</b> (+50%).</p>`:''}`;
+  }else if(R.phase==='won'){
+    panel=`<h2>🏆 ${esc(b.name)} defeated!</h2><p>Team Saviours! Everyone gets <b>+150 coins</b> and the <b>Team Saviour</b> badge.</p><button id="rt">Battle again</button><button class="alt" id="lv" style="margin-top:10px">Leave room</button>`;
+  }else if(R.phase==='lost'){
+    panel=`<h2>Knocked out!</h2><p>The boss won this time. Words you learnt still count. Try again together?</p><button id="rt">Try again</button><button class="alt" id="lv" style="margin-top:10px">Leave room</button>`;
+  }
+  const L=R.last;let teach='';
+  if(L&&!L.ok&&answered[L.qid]!=='shown'){teach=`<div class="teach"><b>${esc(L.word)}</b> means ${esc(L.meaning)}.</div>`;}
+  main.innerHTML=`<div class="bar"><span>${esc(b.name)}</span><div class="hp"><i style="width:${b.hp/b.max*100}%"></i></div><span>${b.hp}/${b.max}</span></div>
+  <div class="bar"><span class="hearts" aria-label="${R.hearts} hearts">${'❤️'.repeat(R.hearts)}${'🖤'.repeat(Math.max(0,R.maxHearts-R.hearts))}</span><span style="margin-left:auto">Weak to ${b.weak==='zap'?'Electric':b.weak[0].toUpperCase()+b.weak.slice(1)}</span></div>
+  <div id="arena"><canvas id="cv"></canvas></div>
+  <div class="card" id="pn">${panel}${teach}</div><div class="card">${plist()}${feedHtml()}</div>`;
+  main.querySelectorAll('[data-o]').forEach(btn=>btn.onclick=async()=>{main.querySelectorAll('[data-o]').forEach(x=>x.disabled=true);const ch=R.q.opts[+btn.dataset.o],qid=R.q.id;const r=await act('answer',{qid,choice:ch});const L=r.j&&r.j.state&&r.j.state.last;if(L&&L.qid===qid)learn(L)});
+  main.querySelectorAll('[data-p]').forEach(btn=>btn.onclick=()=>{main.querySelectorAll('[data-p]').forEach(x=>x.disabled=true);act('power',{elem:btn.dataset.p})});
+  if($('rt'))$('rt').onclick=()=>act('retry');if($('lv'))$('lv').onclick=leave;bindFeed();
+  initCanvas();tickTimer();
+}
+function tickTimer(){const t=$('tm');if(!t||!R.q)return;const tot=R.phase==='power'?15000:30000;const left=Math.max(0,R.q.deadline-(Date.now()-(R.now?0:0)));t.style.width=Math.max(0,Math.min(100,left/tot*100))+'%'}
+setInterval(tickTimer,250);
+async function leave(){await act('leave');sessionStorage.removeItem('vo_room');stop();lobbyPick()}
+
+// ---------- mastery + rewards (own answers only; synced by the site layer when logged in) ----------
+const DAY=864e5,GAP=[0,DAY*.5,DAY,DAY*3,DAY*7,DAY*16];
+function learn(L){
+  answered[L.qid]=L.ok?'ok':'pending';
+  S.wE=S.wE||{};const ed=(S.wE.psle?'psle':'psle');const wm=S.wE[ed]||(S.wE[ed]={});const w=wm[L.word]||(wm[L.word]={m:0,due:0,miss:0,seen:Date.now()});
+  if(L.ok){if(w.m<5&&Date.now()>=w.due){w.m++;w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--}else{w.miss++;w.m=Math.max(0,w.m-1);w.due=0}
+  w.seen=w.seen||Date.now();saveS();
+}
+function won(){
+  SFX.win();pop('Team Saviours!');const key=R.code+':'+(R.fx&&R.fx.seq);
+  if(!awarded.split(',').includes(key)){awarded=(awarded+','+key).split(',').slice(-20).join(',');LS.set('vo_team_aw',awarded);
+    S.coins=(S.coins||0)+150;S.pts=(S.pts||0)+150;S.teamWins=(S.teamWins||0)+1;S.badges=S.badges||[];if(!S.badges.includes('Team Saviour'))S.badges.push('Team Saviour');saveS();}
+}
+
+// ---------- arena canvas ----------
+let cv,cx,parts=[],shot=null,flash=0,shake=0,raf=null,bossHurt=0,t0=performance.now();
+function initCanvas(){cv=$('cv');if(!cv)return;cx=cv.getContext('2d');const fit=()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;cx.setTransform(d,0,0,d,0,0)};fit();if(!raf)loop()}
+function rect(x,y,w,h,c,s='#1b2140'){cx.fillStyle=c;cx.fillRect(x,y,w,h);cx.lineWidth=2;cx.strokeStyle=s;cx.strokeRect(x+1,y+1,w-2,h-2)}
+function drawBoss(W,H,t){
+  const i=R.boss.i,[b,d,e]=BOSSC[i]||BOSSC[0],giant=i===7,sc=giant?1.35:1;
+  const bx=W*.68,by=H*.78+Math.sin(t/400)*(reduce?0:3),s=Math.min(W,H)*.0042*sc;
+  cx.save();cx.translate(bx,by);cx.scale(s,s);
+  if(bossHurt>0){cx.globalAlpha=.6+.4*Math.sin(t/30)}
+  rect(-34,-20,68,20,d);rect(-40,-80,80,62,b);rect(-30,-118,60,42,b);
+  if(giant){rect(-58,-76,20,46,d);rect(38,-76,20,46,d);rect(-26,-128,52,12,'#2f8f3a')}
+  else{rect(-52,-70,14,34,d);rect(38,-70,14,34,d)}
+  cx.fillStyle=e;cx.fillRect(-20,-104,12,10);cx.fillRect(8,-104,12,10);
+  cx.fillStyle='#1b2140';cx.fillRect(-16,-90,32,6);
+  if(i===6){cx.fillStyle='#ffd23f';cx.beginPath();cx.moveTo(-28,-118);cx.lineTo(-28,-138);cx.lineTo(-14,-126);cx.lineTo(0,-142);cx.lineTo(14,-126);cx.lineTo(28,-138);cx.lineTo(28,-118);cx.closePath();cx.fill();cx.stroke()}
+  if(bossHurt>0){cx.globalCompositeOperation='lighter';cx.fillStyle='rgba(255,255,255,.55)';cx.fillRect(-40,-118,80,118);cx.globalCompositeOperation='source-over'}
+  cx.restore();
+}
+function drawHeroes(W,H,t){
+  const ps=R.players.filter(p=>!p.left);ps.forEach((p,k)=>{
+    const x=W*.1+k*W*.1,y=H*.8,s=Math.min(W,H)*.0032,act=p.pid===R.turn;
+    cx.save();cx.translate(x,y-(act&&!reduce?Math.abs(Math.sin(t/220))*6:0));cx.scale(s,s);
+    const sh=(p.av&&p.av.shirt&&p.av.shirt[0]==='#')?p.av.shirt:(p.av&&p.av.shirt==='f:gold'?'#ffd23f':'#2f80ed'),pa=(p.av&&p.av.pants&&p.av.pants[0]==='#')?p.av.pants:'#2b2b2b';
+    rect(-10,-18,9,18,pa);rect(1,-18,9,18,pa);rect(-12,-40,24,22,sh);rect(-10,-58,20,18,'#ffcc4d');
+    cx.fillStyle='#1b2140';cx.fillRect(-6,-52,3,4);cx.fillRect(3,-52,3,4);
+    cx.restore();
+    cx.font='800 11px Outfit,system-ui';cx.textAlign='center';cx.fillStyle=act?'#ffd23f':'#fff';cx.strokeStyle='#1b2140';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
+  })
+}
+function heroPos(id){const ps=R.players.filter(p=>!p.left),k=Math.max(0,ps.findIndex(p=>p.pid===id));const r=cv.getBoundingClientRect();return [r.width*.1+k*r.width*.1+10,r.height*.8-40]}
+function fxPlay(fx){
+  if(!cv)return;const r=cv.getBoundingClientRect(),W=r.width,H=r.height;
+  if(fx.kind==='shot'){
+    const [sx,sy]=heroPos(fx.by),tx=W*.68,ty=H*.6,c=fx.color?[fx.color,'#fff']:ELC[fx.elem]||ELC.fire;
+    (SFX[fx.elem]||SFX.fire)();
+    shot={sx,sy,tx,ty,t:0,c,elem:fx.elem,dmg:fx.dmg,combo:fx.combo,sup:fx.super};
+    if(reduce){shot.t=1}
+  }else if(fx.kind==='attack'){SFX.hurt();shake=reduce?0:14;flash=reduce?.25:.5;const a=$('arena');if(a&&!reduce){a.classList.remove('shake');void a.offsetWidth;a.classList.add('shake')}pop(fx.missed?'Too slow! -1 heart':'-1 heart')}
+}
+function loop(){
+  raf=requestAnimationFrame(loop);if(!cv||!document.body.contains(cv)){cancelAnimationFrame(raf);raf=null;return}
+  const r=cv.getBoundingClientRect(),W=r.width,H=r.height,t=performance.now()-t0;if(!R||!R.boss)return;
+  const sky=SKY[R.boss.i]||SKY[0];const g=cx.createLinearGradient(0,0,0,H);g.addColorStop(0,sky[0]);g.addColorStop(1,sky[1]);cx.fillStyle=g;cx.fillRect(0,0,W,H);
+  cx.save();if(shake>0){cx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);shake*=.85;if(shake<.5)shake=0}
+  rect(-4,H*.8,W+8,H*.2+4,'#6b4a2b');cx.fillStyle='#9dd946';cx.fillRect(0,H*.8,W,8);
+  drawHeroes(W,H,t);drawBoss(W,H,t);
+  if(shot){shot.t+=reduce?1:.045;const k=Math.min(1,shot.t),x=shot.sx+(shot.tx-shot.sx)*k,y=shot.sy+(shot.ty-shot.sy)*k-Math.sin(k*Math.PI)*40;
+    if(shot.elem==='zap'&&!reduce){cx.strokeStyle=shot.c[0];cx.lineWidth=5;cx.beginPath();cx.moveTo(shot.sx,shot.sy);for(let s=1;s<=8;s++){const kk=s/8*k;cx.lineTo(shot.sx+(shot.tx-shot.sx)*kk+(Math.random()-.5)*16,shot.sy+(shot.ty-shot.sy)*kk+(Math.random()-.5)*16)}cx.stroke()}
+    else{cx.fillStyle=shot.c[0];cx.beginPath();cx.arc(x,y,shot.combo?16:11,0,7);cx.fill();cx.fillStyle=shot.c[1];cx.beginPath();cx.arc(x-3,y-3,shot.combo?7:5,0,7);cx.fill();if(!reduce)for(let i=0;i<2;i++)parts.push({x,y,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,l:22,c:shot.c[i%2]})}
+    if(shot.t>=1){SFX.hit();bossHurt=18;if(!reduce)for(let i=0;i<26;i++)parts.push({x:shot.tx,y:shot.ty,vx:(Math.random()-.5)*7,vy:(Math.random()-.5)*7,l:30,c:shot.c[i%2]});
+      pop((shot.combo?'Team combo: '+shot.combo+'! ':shot.sup?'Super effective! ':'')+'-'+shot.dmg);if(shot.elem==='zap')flash=.35;shot=null}}
+  parts=parts.filter(p=>p.l-->0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;cx.globalAlpha=p.l/30;cx.fillStyle=p.c;cx.fillRect(p.x-3,p.y-3,6,6)});cx.globalAlpha=1;
+  if(bossHurt>0)bossHurt--;
+  cx.restore();
+  if(flash>0){cx.fillStyle=`rgba(255,255,255,${flash})`;cx.fillRect(0,0,W,H);flash*=.85;if(flash<.02)flash=0}
+}
+addEventListener('resize',()=>{if(cv)initCanvas()});
+
+// resume a room after refresh
+VO_READY.then(async()=>{
+  let saved=null;try{saved=JSON.parse(sessionStorage.getItem('vo_room')||'null')}catch(e){}
+  if(saved){const r=await api(`/api/room?code=${saved.code}&t=${encodeURIComponent(saved.tokn)}`);if(r.ok&&r.j.players.some(p=>p.pid===saved.pid&&!p.left)){tokn=saved.tokn;pid=saved.pid;setState(r.j);start();return}}
+  lobbyPick();
+});
+}</script></body></html>
