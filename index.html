@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Miss Christine · Exam Preparation Specialist · Thinking Hack Education</title>
+<meta name="description" content="Singapore Exam Preparation Specialist (L.L.B Hons) for PSLE English and Math, O-Level English and Humanities, and A-Level General Paper. Thinking Hack Education.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --blue:#3FA7E1;
+  --pink:#F0487A;
+  --green:#3FBF4F;
+  --yellow:#EEF03A;
+  --orange:#F7661C;
+  --ink:#16181D;
+  --paper:#FFFDF6;
+  --sheet:#FFFFFF;
+  --rule:#E8E4DC;
+  --ink-soft:#6B655E;
+  --display:"Fraunces",Georgia,serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+
+  /* Highlighter stroke mixins */
+  --hl-blue:rgba(63,167,225,0.35);
+  --hl-pink:rgba(240,72,122,0.35);
+  --hl-green:rgba(63,191,79,0.35);
+  --hl-yellow:rgba(238,240,58,0.45);
+  --hl-orange:rgba(247,102,28,0.35);
+
+  /* Chisel-tip stroke paths */
+  --stroke-blue:polygon(0% 65%, 100% 55%, 100% 100%, 0% 100%);
+  --stroke-pink:polygon(0% 0%, 100% 0%, 100% 45%, 0% 55%);
+  --stroke-green:polygon(0% 55%, 100% 45%, 100% 90%, 0% 100%);
+  --stroke-yellow:polygon(0% 15%, 100% 5%, 100% 85%, 0% 95%);
+  --stroke-orange:polygon(0% 5%, 100% 15%, 100% 65%, 0% 55%);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.frame{max-width:1120px;margin:16px auto;border:1px solid var(--rule);border-radius:24px;background:var(--sheet);overflow:hidden;box-shadow:0 2px 24px rgba(22,24,29,0.04)}
+@media (max-width:600px){.frame{margin:0;border-radius:0;border-left:0;border-right:0}}
+
+.wrap{padding:0 clamp(16px,5vw,64px)}
+
+h1,h2,h3{font-family:var(--display);font-weight:300;letter-spacing:-.03em;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(48px,7vw,88px);font-weight:300}
+h2{font-size:clamp(32px,4.5vw,48px);font-weight:300}
+h3{font-size:clamp(20px,2.5vw,24px);font-weight:400;letter-spacing:-.02em}
+
+p{margin:0;max-width:70ch}
+a{color:var(--ink);text-decoration:none}
+a:hover{text-decoration:underline}
+
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+
+/* Highlighter swipe utility classes */
+.hl-swipe{position:relative;display:inline}
+.hl-swipe::before{content:"";position:absolute;left:-0.15em;right:-0.15em;bottom:0.12em;height:1.1em;z-index:-1;border-radius:4px 8px 8px 4px/6px 12px 12px 6px;transform:rotate(-1deg)}
+.hl-blue::before{background:var(--hl-blue);clip-path:var(--stroke-blue)}
+.hl-pink::before{background:var(--hl-pink);clip-path:var(--stroke-pink)}
+.hl-green::before{background:var(--hl-green);clip-path:var(--stroke-green)}
+.hl-yellow::before{background:var(--hl-yellow);clip-path:var(--stroke-yellow)}
+.hl-orange::before{background:var(--hl-orange);clip-path:var(--stroke-orange)}
+
+/* Underline swipe animation */
+.hl-underline{position:relative;display:inline}
+.hl-underline::after{content:"";position:absolute;left:0;bottom:0.08em;width:100%;height:0.35em;z-index:-1;border-radius:2px 4px 4px 2px/3px 6px 6px 3px;background:var(--hl-yellow);clip-path:polygon(0% 20%, 100% 10%, 100% 90%, 0% 100%);transform:scaleX(0);transform-origin:left;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)}
+.hl-underline:hover::after,.hl-underline:focus::after{transform:scaleX(1)}
+
+/* Section color coding */
+.section-blue{border-top-color:var(--blue)}
+.section-pink{border-top-color:var(--pink)}
+.section-green{border-top-color:var(--green)}
+.section-yellow{border-top-color:var(--yellow)}
+.section-orange{border-top-color:var(--orange)}
+
+.section-blue .head .eyebrow{color:var(--blue)}
+.section-pink .head .eyebrow{color:var(--pink)}
+.section-green .head .eyebrow{color:var(--green)}
+.section-yellow .head .eyebrow{color:#B8B91A}
+.section-orange .head .eyebrow{color:var(--orange)}
+
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(16px,5vw,64px);border-bottom:1px solid var(--rule);background:var(--sheet)}
+.brand{display:inline-flex;align-items:center;gap:.6em;font-family:var(--display);font-size:22px;letter-spacing:-.03em;text-decoration:none;line-height:1.1;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.brand small{display:block;font-family:var(--body);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-top:-2px}
+.brand .logo-mark{width:38px;height:38px;flex:none}
+
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 15px var(--body);text-decoration:none;padding:14px 24px;border-radius:999px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);white-space:nowrap;transition:background 0.2s,border-color 0.2s,color 0.2s}
+.btn:hover{background:var(--ink-soft);border-color:var(--ink-soft);color:var(--paper);text-decoration:none}
+.btn.ghost{background:var(--sheet);color:var(--ink);border-color:var(--rule)}
+.btn.ghost:hover{background:var(--paper);border-color:var(--ink-soft);text-decoration:none}
+.btn.sm{padding:10px 18px;font-size:14px}
+@media(max-width:560px){.th-top{display:none}}
+
+.hero{padding:clamp(56px,9vw,112px) 0 clamp(48px,7vw,80px);display:grid;gap:28px;max-width:800px}
+.role{font-family:var(--display);font-size:clamp(22px,2.8vw,30px);font-weight:300;letter-spacing:-.02em;color:var(--ink-soft)}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{border:1px solid var(--rule);border-radius:999px;padding:8px 18px;font-size:14px;background:var(--sheet);color:var(--ink-soft);font-weight:500}
+
+.levels{list-style:none;padding:0;margin:0;display:grid}
+.levels li{display:grid;grid-template-columns:6.5rem 1fr;gap:16px;border-top:1px solid var(--rule);padding:14px 0;font-size:16px;align-items:start}
+.levels li:last-child{border-bottom:1px solid var(--rule)}
+.levels b{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:4px}
+.levels span{color:var(--ink)}
+
+.promise{font-size:clamp(19px,2.2vw,22px);line-height:1.55}
+.promise .mark{position:relative;display:inline}
+.promise .mark::before{content:"";position:absolute;left:-0.1em;right:-0.1em;bottom:0.15em;height:1.05em;z-index:-1;background:var(--hl-yellow);border-radius:4px 8px 8px 4px/6px 12px 12px 6px;clip-path:var(--stroke-yellow);transform:rotate(-1deg)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note{font-size:14px;color:var(--ink-soft)}
+
+section{border-top:1px solid var(--rule);padding:clamp(56px,8vw,96px) 0;display:grid;gap:32px}
+.head{display:grid;gap:16px}
+.lede{color:var(--ink-soft);font-size:18px;line-height:1.6}
+
+/* Results section */
+.results{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.rcard{border:1px solid var(--rule);border-radius:20px;padding:28px;display:grid;gap:14px;align-content:start;background:var(--sheet);transition:box-shadow 0.3s,border-color 0.3s}
+.rcard:hover{box-shadow:0 8px 32px rgba(22,24,29,0.08);border-color:var(--ink-soft)}
+.rcard h3{font-family:var(--display);font-size:22px;font-weight:400;letter-spacing:-.02em;margin:0}
+.res{width:100%;border-collapse:collapse;font-size:15px}
+.res td{padding:10px 0;border-bottom:1px solid var(--rule);vertical-align:baseline}
+.res tr:last-child td{border-bottom:0}
+.res td:last-child{text-align:right;font-family:var(--display);font-size:22px;letter-spacing:-.02em;white-space:nowrap;color:var(--ink);font-weight:400}
+.res small{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-left:8px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+
+/* Credentials */
+.creds{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.cred{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:28px;display:grid;gap:8px;align-content:start;transition:transform 0.3s,box-shadow 0.3s}
+.cred:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(22,24,29,0.08)}
+.cred .k{font-family:var(--display);font-size:26px;font-weight:300;letter-spacing:-.03em;color:var(--ink)}
+.cred .v{font-size:15px;color:var(--ink-soft);line-height:1.5}
+.schools{font-size:16px;color:var(--ink-soft);max-width:78ch;line-height:1.7}
+
+/* Methods */
+.methods{display:grid;grid-template-columns:repeat(2,1fr);gap:0 48px}
+.m{padding:22px 0;border-bottom:1px solid var(--rule);display:grid;gap:10px}
+.m .lv{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+.m h3{font-size:22px;font-weight:400;letter-spacing:-.02em}
+.m h3 span{color:var(--pink);position:relative;display:inline}
+.m h3 span::after{content:"";position:absolute;left:-0.1em;right:-0.1em;bottom:0.12em;height:1.05em;z-index:-1;background:var(--hl-pink);border-radius:4px 8px 8px 4px/6px 12px 12px 6px;clip-path:var(--stroke-pink);transform:rotate(-1deg)}
+.m p{font-size:15px;color:var(--ink-soft);line-height:1.6}
+
+/* Subjects */
+.subjects{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.scard{border:1px solid var(--rule);border-radius:20px;padding:28px;display:grid;gap:14px;align-content:start;background:var(--sheet);transition:box-shadow 0.3s,border-color 0.3s}
+.scard:hover{box-shadow:0 8px 32px rgba(22,24,29,0.08);border-color:var(--ink-soft)}
+.scard h3{font-family:var(--display);font-size:22px;font-weight:400;letter-spacing:-.02em;margin:0}
+.scard ul{margin:0;padding-left:20px;font-size:15px;color:var(--ink-soft);line-height:1.8}
+.scard li{margin-bottom:6px}
+
+/* Color-coded subject cards */
+.scard:nth-child(1){border-left:4px solid var(--blue)}
+.scard:nth-child(2){border-left:4px solid var(--green)}
+.scard:nth-child(3){border-left:4px solid var(--orange)}
+.scard:nth-child(4){border-left:4px solid var(--pink)}
+
+/* Masterclasses */
+.camps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.camp{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:28px;display:grid;gap:12px;align-content:start;transition:transform 0.3s,box-shadow 0.3s}
+.camp:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(22,24,29,0.08)}
+.camp h3{font-family:var(--display);font-size:20px;font-weight:400;letter-spacing:-.02em;margin:0}
+.camp p{font-size:15px;color:var(--ink-soft);line-height:1.6}
+
+/* Color-coded camp cards */
+.camp:nth-child(1){border-left:4px solid var(--pink)}
+.camp:nth-child(2){border-left:4px solid var(--orange)}
+.camp:nth-child(3){border-left:4px solid var(--green)}
+.camp:nth-child(4){border-left:4px solid var(--blue)}
+.camp:nth-child(5){border-left:4px solid var(--yellow)}
+
+/* Close section */
+.close{gap:24px;text-align:center}
+.close h2{max-width:24ch;margin:0 auto}
+.close .lede{max-width:56ch;margin:0 auto}
+
+/* Footer */
+footer{padding:32px clamp(16px,5vw,64px) 110px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:14px;color:var(--ink-soft);background:var(--sheet)}
+footer a:hover{color:var(--ink)}
+
+/* Sticky CTA */
+.sticky{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--sheet);border-top:1px solid var(--rule);display:none;z-index:20;box-shadow:0 -4px 24px rgba(22,24,29,0.06)}
+.sticky .btn{display:flex;justify-content:center;width:100%}
+
+@media (max-width:860px){.methods{grid-template-columns:1fr;gap:0}}
+@media (max-width:720px){.sticky{display:block}footer{padding-bottom:110px}}
+@media (min-width:721px){footer{padding-bottom:32px}}
+@media (max-width:420px){.levels li{grid-template-columns:5rem 1fr}}
+
+/* Highlighter decorative elements for section headers */
+.head h2{position:relative;display:inline-block}
+.head h2::before{content:"";position:absolute;left:-0.2em;right:-0.2em;bottom:0.1em;height:1.15em;z-index:-1;border-radius:6px 10px 10px 6px/8px 14px 14px 8px;transform:rotate(-1.5deg)}
+
+/* Section-specific highlighter colors for h2 */
+.section-blue .head h2::before{background:var(--hl-blue);clip-path:var(--stroke-blue)}
+.section-pink .head h2::before{background:var(--hl-pink);clip-path:var(--stroke-pink)}
+.section-green .head h2::before{background:var(--hl-green);clip-path:var(--stroke-green)}
+.section-yellow .head h2::before{background:var(--hl-yellow);clip-path:var(--stroke-yellow)}
+.section-orange .head h2::before{background:var(--hl-orange);clip-path:var(--stroke-orange)}
+
+/* Animations for highlighter strokes */
+@keyframes hl-draw{
+  from{clip-path:polygon(0% 50%, 0% 50%, 0% 100%, 0% 100%)}
+  to{clip-path:var(--stroke-final)}
+}
+/* Creations + Support */
+.apps{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.app{border:1px solid var(--rule);border-radius:20px;overflow:hidden;background:var(--sheet);display:grid;align-content:start;transition:box-shadow 0.3s,border-color 0.3s}
+.app:hover{box-shadow:0 8px 32px rgba(22,24,29,0.08);border-color:var(--ink-soft)}
+.app .shot{aspect-ratio:4/3;background:var(--paper);border-bottom:1px solid var(--rule);overflow:hidden}
+.app .shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.app .shot.el{isolation:isolate;display:grid;place-items:center;background:linear-gradient(135deg,#FFFDF6,#EAF5FC)}
+.app .shot.el span{font-family:var(--display);font-size:clamp(36px,5vw,52px);font-weight:300;letter-spacing:-.04em}
+.app .body{padding:24px 28px 28px;display:grid;gap:12px}
+.app h3{font-size:22px;font-weight:400}
+.app p{font-size:15px;color:var(--ink-soft);line-height:1.6}
+.support{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));align-items:start}
+.pay{border:1px solid var(--rule);border-left:4px solid var(--green);border-radius:20px;padding:28px;background:var(--paper);display:grid;gap:14px}
+.pay ol{margin:0;padding-left:20px;font-size:16px;line-height:1.8}
+.ref{font-family:var(--mono);font-size:14px;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:2px 8px;word-break:break-all}
+.amts{display:flex;flex-wrap:wrap;gap:8px}
+.wall{border:1px solid var(--rule);border-radius:20px;padding:28px;display:grid;gap:12px}
+.wall ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.wall li{border:1px solid var(--rule);border-radius:999px;padding:6px 14px;font-size:14px;background:var(--sheet)}
+</style>
+</head>
+<body>
+<div class="frame">
+  <header class="bar">
+    <div class="brand">
+      <a href="https://thinking-hack.vercel.app" aria-label="Thinking Hack Education website">
+        <svg class="logo-mark" viewBox="0 0 120 120" width="38" height="38" aria-hidden="true"><use href="/logo-mark.svg#logo-mark" /></svg>
+      </a>
+      <span>
+        <a href="#top" style="text-decoration:none">Miss Christine</a>
+        <small>Thinking Hack Education</small>
+      </span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <a class="btn sm ghost th-top" href="https://thinking-hack.vercel.app" target="_blank" rel="noopener">Thinking Hack Education</a>
+      <a class="btn sm" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27d%20like%20to%20ask%20about%20tuition." target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <div class="hero">
+      <p class="eyebrow">Singapore · 1-to-1 and small groups · islandwide</p>
+      <h1>Miss Christine</h1>
+      <p class="role">Exam Preparation Specialist · L.L.B (Hons)</p>
+      <div class="pills">
+        <span class="pill">L.L.B (Hons), Second Upper</span>
+        <span class="pill">TESOL, Higher Distinction</span>
+        <span class="pill">10+ years full-time</span>
+      </div>
+      <ul class="levels">
+        <li><b>PSLE</b><span>English and Math</span></li>
+        <li><b>O-Level</b><span>English and Humanities (Social Studies, History, Geography, Literature)</span></li>
+        <li><b>A-Level</b><span>General Paper</span></li>
+        <li><b>Intl</b><span>IB, IGCSE, AEIS / SPERS, IELTS</span></li>
+      </ul>
+      <p class="promise">I equip students with clear, structured answering frameworks to <span class="mark">eliminate exam traps and secure distinctions.</span></p>
+      <div class="cta-row">
+        <a class="btn" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27d%20like%20to%20ask%20about%20tuition." target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn ghost" href="https://thinking-hack.vercel.app" target="_blank" rel="noopener">Visit Thinking Hack Education</a>
+        <span class="note">+65 9003 0002 · usually replies same day</span>
+      </div>
+    </div>
+
+    <section class="section-blue" aria-labelledby="r">
+      <div class="head">
+        <p class="eyebrow">2025 cohort</p>
+        <h2 id="r">Results</h2>
+        <p class="lede">Distinction rates across my 2025 students.</p>
+      </div>
+      <div class="results">
+        <div class="rcard"><h3>PSLE</h3>
+          <table class="res"><tr><td>English</td><td>98%<small>AL1/AL2</small></td></tr><tr><td>Mathematics</td><td>100%<small>AL1/AL2</small></td></tr></table></div>
+        <div class="rcard"><h3>O-Level</h3>
+          <table class="res"><tr><td>English Language</td><td>98%<small>A1</small></td></tr><tr><td>Social Studies</td><td>100%<small>A1</small></td></tr><tr><td>History (Full & Elective)</td><td>100%<small>A1</small></td></tr><tr><td>Geography (Full & Elective)</td><td>100%<small>A1</small></td></tr><tr><td>Literature in English</td><td>100%<small>A1</small></td></tr></table></div>
+        <div class="rcard"><h3>A-Level</h3>
+          <table class="res"><tr><td>General Paper</td><td>98%<small>A/B</small></td></tr></table></div>
+      </div>
+    </section>
+
+    <section class="section-pink" aria-labelledby="b">
+      <div class="head"><p class="eyebrow">About me</p><h2 id="b">Background</h2></div>
+      <div class="creds">
+        <div class="cred"><span class="k">L.L.B (Hons)</span><span class="v">Law, Second Upper Honours, First Division</span></div>
+        <div class="cred"><span class="k">TESOL</span><span class="v">Higher Distinction</span></div>
+        <div class="cred"><span class="k">10+ years</span><span class="v">Full-time exam preparation teaching</span></div>
+        <div class="cred"><span class="k">56 students</span><span class="v">Mentored across P6, S4 and J2, 1-to-1 and small group</span></div>
+        <div class="cred"><span class="k">Islandwide</span><span class="v">Home visits, Zoom, or classroom sessions</span></div>
+      </div>
+      <p class="schools">Students have come from Raffles Institution, Hwa Chong Institution, Nanyang Girls' High, Raffles Girls' School, ACS (Independent/Barker), St. Andrew's, Catholic High, Methodist Girls' School, SCGS, Tao Nan, Nanyang Primary, Henry Park and other top schools, alongside international syllabi, bridging programmes and AEIS / SPERS / IB / IGCSE preparation. Student and parent testimonials are available on request.</p>
+    </section>
+
+    <section class="section-green" aria-labelledby="t">
+      <div class="head">
+        <p class="eyebrow">Methods</p>
+        <h2 id="t">How I teach</h2>
+        <p class="lede">Every subject is taught as a system with a name, so students know exactly what to do when they open the paper.</p>
+      </div>
+      <div class="methods">
+        <div class="m"><span class="lv">PSLE English</span><h3><span>The BUG Method</span></h3><p>Box the keywords, underline the context clues, glance back. A fixed routine for decoding comprehension traps, paired with grammar templates for synthesis and transformation.</p></div>
+        <div class="m"><span class="lv">PSLE Mathematics</span><h3><span>Model Drawing into Heuristics</span></h3><p>Visual models first, then the shortcuts: unitary method, constant difference, working backwards. Problem sums are scaffolded step by step so method marks are never lost.</p></div>
+        <div class="m"><span class="lv">O-Level English</span><h3><span>PEEL Essay Architecture</span></h3><p>Point, evidence, explanation, link. Plus systematic decoding for visual texts, narrative and non-narrative comprehension, and drills that remove recurring grammar slips under time pressure.</p></div>
+        <div class="m"><span class="lv">O-Level Humanities</span><h3><span>The SBCS Skill Toolkit</span></h3><p>Every source-based question type covered: comparison, cross-referencing, surprise, purpose and utility. Plus causal factor mapping for structured essays, and case study banks for Geography.</p></div>
+        <div class="m"><span class="lv">O-Level Literature</span><h3><span>PEEL-L</span></h3><p>Close reading built around literary device analysis and thematic linkage, with a three-step strategy for unseen poetry and prose.</p></div>
+        <div class="m"><span class="lv">A-Level General Paper</span><h3><span>AQ Localisation + Macro-Argumentation</span></h3><p>Global arguments evaluated through Singapore's socio-cultural lens, with thesis refinement and anticipated counter-perspectives for top-band evaluation marks.</p></div>
+      </div>
+    </section>
+
+    <section class="section-yellow" aria-labelledby="l">
+      <div class="head"><p class="eyebrow">What I teach</p><h2 id="l">Levels and subjects</h2></div>
+      <div class="subjects">
+        <div class="scard"><h3>Primary</h3><ul><li>PSLE English</li><li>PSLE Mathematics</li></ul></div>
+        <div class="scard"><h3>Secondary</h3><ul><li>English Language</li><li>History (Full & Elective)</li><li>Geography (Full & Elective)</li><li>Social Studies</li><li>Literature in English</li></ul></div>
+        <div class="scard"><h3>Junior College</h3><ul><li>General Paper</li></ul></div>
+        <div class="scard"><h3>International & Bridging</h3><ul><li>AEIS / SPERS preparation</li><li>IB and IGCSE</li><li>IELTS</li><li>Diagnostic gap-mapping and timed mocks</li></ul></div>
+      </div>
+    </section>
+
+    <section class="section-orange" aria-labelledby="rt">
+      <div class="head"><p class="eyebrow">Fees</p><h2 id="rt">Rates</h2><p class="lede">Per hour, one-to-one. Usually 1.5h lessons. All notes, worksheets and practice papers included. Billed monthly (4 lessons).</p><p class="rates-match">Subject outside your specialist's range? We have other Exam Preparation Specialists™ and will match your child accordingly.</p></div>
+      <ul class="levels">
+        <li><b>P1&ndash;P4</b><span>$65 / h</span></li>
+        <li><b>P5&ndash;P6 (PSLE)</b><span>$70 / h</span></li>
+        <li><b>Sec 1&ndash;2</b><span>$80 / h</span></li>
+        <li><b>Sec 3&ndash;4 (O-Level)</b><span>$85 / h</span></li>
+        <li><b>IP</b><span>$100 / h</span></li>
+        <li><b>JC1</b><span>$90 / h</span></li>
+        <li><b>JC2</b><span>$95 / h</span></li>
+        <li><b>IB</b><span>$105 / h</span></li>
+      </ul>
+    </section>
+
+    <section class="section-pink" aria-labelledby="mc">
+      <div class="head">
+        <p class="eyebrow">Intensives</p>
+        <h2 id="mc">Masterclasses and bootcamps</h2>
+        <p class="lede">Short-term intensives for holiday acceleration or a fast, targeted skill fix.</p>
+      </div>
+      <div class="camps">
+        <div class="camp"><h3>English & Literature</h3><p>4-session Comprehension Mastery · 8-session Argumentative Essay Writing · 4-session Unseen Literature Clinic</p></div>
+        <div class="camp"><h3>PSLE Math</h3><p>8-session Math Heuristics & Problem Sum Sprint</p></div>
+        <div class="camp"><h3>Secondary Humanities</h3><p>4-session SBCS Source Analysis Toolkit · 8-session Essay & Case Study Bootcamp</p></div>
+        <div class="camp"><h3>A-Level General Paper</h3><p>4-session Application Question (AQ) Clinic · 8-session Macro-Argumentation Series</p></div>
+        <div class="camp"><h3>International Prep</h3><p>4-session Diagnostic & Syllabus Bridging Bootcamp for AEIS / SPERS / IB / IGCSE</p></div>
+      </div>
+    </section>
+
+    <section class="section-green" aria-labelledby="cr">
+      <div class="head">
+        <p class="eyebrow">Built for my students</p>
+        <h2 id="cr">My creations</h2>
+        <p class="lede">Tools I made so students can keep practising between lessons.</p>
+      </div>
+      <div class="apps">
+        <a class="app" href="https://vocab-obby.vercel.app" target="_blank" rel="noopener" style="text-decoration:none">
+          <div class="shot"><img src="/vocab-obby.jpg" width="360" height="450" loading="lazy" alt="Vocab Obby home screen: PSLE Edition, 1379 words across six worlds"></div>
+          <div class="body"><h3>Vocab Obby</h3><p>A Roblox-style vocabulary game for primary and secondary students. Run the obby, answer at every word gate, collect pets and beat the word bosses. Free to play, with a PSLE Edition for exam prep.</p><span class="btn sm ghost" style="width:fit-content">Play Vocab Obby</span></div>
+        </a>
+        <a class="app" href="https://essaylab-sg.vercel.app" target="_blank" rel="noopener" style="text-decoration:none">
+          <div class="shot el" aria-hidden="true"><span>Essay<span class="hl-swipe hl-blue">Lab</span></span></div>
+          <div class="body"><h3>EssayLab</h3><p>Essay marking and feedback built around Singapore exam rubrics, so students see exactly where marks are won and lost and how to fix it.</p><span class="btn sm ghost" style="width:fit-content">Open EssayLab</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section-orange" aria-labelledby="sp">
+      <div class="head">
+        <p class="eyebrow">Say thanks</p>
+        <h2 id="sp">Support Miss Christine</h2>
+        <p class="lede">I build these tools myself, after lessons. If they've helped your child, any amount helps me keep making new worlds, words and features.</p>
+      </div>
+      <div class="support">
+        <div class="pay">
+          <ol>
+            <li>PayNow any amount to <b>+65 9003 0002</b>: S$5, S$10, S$20 or anything you like.</li>
+            <li>Reference: your Vocab Obby family code + <span class="ref">SUPPORT</span> (or your name if you don't play).</li>
+            <li>Tap a button below so I can say thank you.</li>
+          </ol>
+          <div class="amts"><a class="btn sm" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27ve%20sent%20S%245%20PayNow%20to%20support%20your%20work.%20Reference%3A%20%5Bfamily%20code%5DSUPPORT%20%28or%20my%20name%29." target="_blank" rel="noopener">I sent S$5</a><a class="btn sm" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27ve%20sent%20S%2410%20PayNow%20to%20support%20your%20work.%20Reference%3A%20%5Bfamily%20code%5DSUPPORT%20%28or%20my%20name%29." target="_blank" rel="noopener">I sent S$10</a><a class="btn sm" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27ve%20sent%20S%2420%20PayNow%20to%20support%20your%20work.%20Reference%3A%20%5Bfamily%20code%5DSUPPORT%20%28or%20my%20name%29." target="_blank" rel="noopener">I sent S$20</a><a class="btn sm ghost" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27ve%20sent%20a%20PayNow%20to%20support%20your%20work.%20Reference%3A%20%5Bfamily%20code%5DSUPPORT%20%28or%20my%20name%29." target="_blank" rel="noopener">I sent another amount</a></div>
+          <p class="note">Vocab Obby families get cosmetic thank-you rewards: a 🏅 badge for any amount, a Golden Cape at S$10+, and the Thank-You Phoenix plus early access at S$20+.</p>
+        </div>
+        <div class="wall" aria-live="polite">
+          <h3>Supporters Wall</h3>
+          <p class="note">Families who chose to be listed. Nicknames only.</p>
+          <ul id="wall"><li>Be the first supporter</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-blue close" aria-labelledby="e">
+      <h2 id="e">Enquire about a slot</h2>
+      <p class="lede">Tell me the level, subject and what your child is struggling with. I'll tell you honestly whether I'm the right fit and what availability looks like.</p>
+      <div class="cta-row"><a class="btn" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27d%20like%20to%20ask%20about%20tuition." target="_blank" rel="noopener">Message on WhatsApp</a><a class="btn ghost" href="https://thinking-hack.vercel.app" target="_blank" rel="noopener">Visit Thinking Hack Education</a></div>
+    </section>
+  </main>
+
+  <footer><span>© 2026 Christine Sebastian. All rights reserved. · <a href="https://thinking-hack.vercel.app" style="color:inherit">Thinking Hack Education</a> · Singapore</span><span>+65 9003 0002</span></footer>
+</div>
+<div class="sticky"><a class="btn" href="https://wa.me/6590030002?text=Hi%20Miss%20Christine%2C%20I%27d%20like%20to%20ask%20about%20tuition." target="_blank" rel="noopener">Message on WhatsApp</a></div>
+<script>
+fetch('https://vocab-obby.vercel.app/supporters').then(r=>r.json()).then(d=>{const l=(d&&d.supporters)||[];if(!l.length)return;const ul=document.getElementById('wall');ul.innerHTML='';const t={'20':'🔥 ','10':'✨ ','any':'🏅 '};l.slice(0,60).forEach(s=>{const li=document.createElement('li');li.textContent=(t[s.tier]||'🏅 ')+s.nick;ul.appendChild(li)})}).catch(()=>{});
+</script>
+</body>
+</html>
