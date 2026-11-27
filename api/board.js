@@ -1,4 +1,4 @@
-import { body, send, csrfOk, getSession, getJson, putJson, listJson, boardPath, famPath } from './_lib.js';
+import { body, send, csrfOk, getSession, getJson, putJson, listJson, boardPath, famPath, supTier } from './_lib.js';
 const n = v => { v = Number(v); return Number.isFinite(v) && v >= 0 ? Math.min(Math.floor(v), 1e7) : 0; };
 const COL = /^(#[0-9a-f]{6}|f:(gold|silver|galaxy|rainbow)|f:neon#[0-9a-f]{6})$/i;
 const col = (v, d) => typeof v === 'string' && COL.test(v) ? v : d;
@@ -15,6 +15,7 @@ export default async function handler(req, res) {
   const row = { id: kid.id, nick: kid.nick, world: Math.min(5, n(b.world)), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1,
     av: { shirt: col(b.av && b.av.shirt, '#2f80ed'), pants: col(b.av && b.av.pants, '#2b2b2b'), hat: String((b.av && b.av.hat) || 'none').replace(/[^\w-]/g, '').slice(0, 20) },
     xp: n(e.xp), weekXp: n(e.weekXp), wk: String(e.wk || '').replace(/[^\w-]/g, '').slice(0, 12), speedBest: n(e.speedBest), mastered: n(e.mastered), updated: Date.now() };
+  const tier = supTier(fam); row.sup = tier; row.av.cape = tier === '10' || tier === '20';
   row.psle = { xp: row.xp, weekXp: row.weekXp, wk: row.wk, speedBest: row.speedBest, mastered: row.mastered };
   await putJson(boardPath(kid.id), row); cache.t = 0;
   return send(res, 200, { ok: true });

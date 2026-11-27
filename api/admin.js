@@ -8,7 +8,7 @@ function keyOk(req) {
   return timingSafeEqual(a, b);
 }
 const view = fam => ({ code: fam.code, email: fam.email, created: fam.created || null, paid: fam.paid || null,
-  children: (fam.children || []).map(c => ({ id: c.id, nick: c.nick })), payments: (fam.payments || []).slice(-10) });
+  children: (fam.children || []).map(c => ({ id: c.id, nick: c.nick })), payments: (fam.payments || []).slice(-10), supporter: fam.supporter || null });
 export default async function handler(req, res) {
   if (!rateOk(req, 'admin', 30)) return send(res, 429, { error: 'Too many tries. Wait a minute.' });
   if (!keyOk(req)) return send(res, 401, { error: 'Wrong admin key.' });
@@ -23,6 +23,13 @@ export default async function handler(req, res) {
   const c = code && await getJson(codePath(code)); const fam = c && await getJson(famPath(c.fid));
   if (!fam) return send(res, 404, { error: 'No family with that code.' });
   if (b.action === 'revoke') { fam.paid = null; (fam.payments = fam.payments || []).push({ id: 'admin-revoke', at: Date.now() }); await putJson(famPath(fam.id), fam); return send(res, 200, { family: view(fam) }); }
+  if (b.action === 'supporter') {
+    const tier = ['any', '10', '20'].includes(b.tier) ? b.tier : '';
+    const since = Date.parse(String(b.date || '')) || Date.now();
+    fam.supporter = tier ? { ...(fam.supporter || {}), tier, since } : { ...(fam.supporter || {}), tier: '' };
+    (fam.payments = fam.payments || []).push({ id: 'support-admin', tier: tier || 'none', note: String(b.note || '').slice(0, 120), at: Date.now() });
+    await putJson(famPath(fam.id), fam); globalThis.__voSupCache = null; return send(res, 200, { family: view(fam) });
+  }
   if (b.action !== 'unlock') return send(res, 400, { error: 'Unknown action' });
   const until = Date.parse(String(b.until || '')); if (!(until > Date.now())) return send(res, 400, { error: 'Pick an end date in the future.' });
   const plan = b.plan === 'family' ? 'family' : 'child';

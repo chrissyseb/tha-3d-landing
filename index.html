@@ -153,7 +153,7 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .item.on{background:#fff3c4}
 .item.lock{opacity:.55;box-shadow:none}
 .rar{display:inline-block;font:800 12px var(--fd);padding:3px 10px;border-radius:999px;border:2px solid var(--ink);color:#fff}
-.r0{background:#8a95a5}.r1{background:var(--blue)}.r2{background:var(--plum)}.r3{background:var(--orng)}
+.r0{background:#8a95a5}.r1{background:var(--blue)}.r2{background:var(--plum)}.r3{background:var(--orng)}.r4{background:linear-gradient(90deg,#ff8a3d,#ffc642)}.supb{font-size:.9em;margin-left:3px}.ea{font:800 11px var(--fd);background:#ffc642;color:#1b2140;border-radius:99px;padding:2px 8px;margin-left:6px}
 .egg{display:inline-block}
 @media(prefers-reduced-motion:no-preference){.egg{animation:wob .5s infinite alternate}}
 @keyframes wob{to{transform:rotate(8deg)}}
@@ -301,8 +301,8 @@ const LV=[[0,'Noob'],[500,'Builder'],[1500,'Speedrunner'],[3000,'Pro'],[6000,'Le
 const SHOP=[['shirt','#2f80ed','Blue shirt',0],['shirt','#ff4b4b','Red shirt',150],['shirt','#36c95f','Green shirt',150],['shirt','#ff7ac6','Pink shirt',250],['shirt','#8b5cf6','Violet shirt',300],['shirt','#111111','Black hoodie',500],['shirt','#ffd23f','Gold shirt',4000],
 ['pants','#2b2b2b','Dark pants',0],['pants','#3a6fd8','Jeans',150],['pants','#e8e8e8','White pants',250],['pants','#ff7ac6','Pink pants',300],
 ['hat','none','No hat',0],['hat','cap','Red cap',300],['hat','beanie','Beanie',400],['hat','phones','Headphones',700],['hat','tophat','Top hat',3500],['hat','horns','Horns',5000],['hat','crown','Gold crown',10000]];
-const PETS=[['Pebble Pup',0,'#c8a27a'],['Bit Cat',0,'#f2a65a'],['Hop Bunny',0,'#f5f5f5'],['Block Chick',0,'#ffd23f'],['Ninja Fox',1,'#ff7b25'],['Byte Panda',1,'#ffffff'],['Frost Owl',1,'#9fd8ff'],['Lava Pig',2,'#ff4b4b'],['Neon Shark',2,'#29e7cd'],['Galaxy Axolotl',2,'#c77dff'],['Golden Dragon',3,'#ffd23f'],['Rainbow Unicorn',3,'#ff7ac6'],['Shadow Phoenix',3,'#3a0ca3']];
-const RN=['Common','Rare','Epic','Legendary'],BON=[.1,.25,.5,1];
+const PETS=[['Pebble Pup',0,'#c8a27a'],['Bit Cat',0,'#f2a65a'],['Hop Bunny',0,'#f5f5f5'],['Block Chick',0,'#ffd23f'],['Ninja Fox',1,'#ff7b25'],['Byte Panda',1,'#ffffff'],['Frost Owl',1,'#9fd8ff'],['Lava Pig',2,'#ff4b4b'],['Neon Shark',2,'#29e7cd'],['Galaxy Axolotl',2,'#c77dff'],['Golden Dragon',3,'#ffd23f'],['Rainbow Unicorn',3,'#ff7ac6'],['Shadow Phoenix',3,'#3a0ca3'],['Thank-You Phoenix',4,'#ff8a3d']];
+const RN=['Common','Rare','Epic','Legendary','Supporter'],BON=[.1,.25,.5,1,0];
 S.pets=S.pets||[];S.bonus=S.bonus||0;S.chaseBest=S.chaseBest||0;S.cust=S.cust||[];S.pet=S.pet??-1;S.best=S.best||0;S.daily=S.daily||{d:'',n:0};S.badges=S.badges||[];
 function petSVG(i,sz){if(i<0)return'';const[,r,c]=PETS[i];const k='#1b2140',eye=r===3?'#fff':k,eyeb=r===3?k:'#fff';
 const ears=i%3===0?`<rect x="5" y="3" width="6" height="9" rx="1" fill="${c}" stroke="${k}" stroke-width="2"/><rect x="21" y="3" width="6" height="9" rx="1" fill="${c}" stroke="${k}" stroke-width="2"/>`:i%3===1?`<polygon points="5,11 7,2 13,9" fill="${c}" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><polygon points="19,9 25,2 27,11" fill="${c}" stroke="${k}" stroke-width="2" stroke-linejoin="round"/>`:`<rect x="7" y="0" width="5" height="12" rx="2" fill="${c}" stroke="${k}" stroke-width="2"/><rect x="20" y="0" width="5" height="12" rx="2" fill="${c}" stroke="${k}" stroke-width="2"/>`;
@@ -336,7 +336,7 @@ tophat:`<rect x="12" y="-12" width="16" height="15" fill="${k}"/><rect x="12" y=
 horns:`<polygon points="10,3 12,-7 17,3" fill="#ef4f5f" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><polygon points="23,3 28,-7 30,3" fill="#ef4f5f" stroke="${k}" stroke-width="2" stroke-linejoin="round"/>`,
 crown:`<polygon points="8,4 8,-6 14,0 20,-8 26,0 32,-6 32,4" fill="#ffc642" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><rect x="18.5" y="-2" width="3" height="3" fill="#ed598c"/>`};
 const n=++AVN,fs=finDefs(a.shirt,'fs'+n),fp=finDefs(a.pants,'fp'+n),SF=fs[1],PF=fp[1],sfl=fs[2]?` filter="url(#${fs[2]})"`:'',pfl=fp[2]?` filter="url(#${fp[2]})"`:'',stars=a.shirt==='f:galaxy'?'<g fill="#fff"><rect x="12" y="27" width="1.6" height="1.6"/><rect x="24" y="31" width="1.4" height="1.4"/><rect x="18" y="35" width="1.2" height="1.2"/><rect x="28" y="26" width="1.2" height="1.2"/></g>':'',pstars=a.pants==='f:galaxy'?'<g fill="#fff"><rect x="12" y="48" width="1.4" height="1.4"/><rect x="25" y="51" width="1.4" height="1.4"/></g>':'';
-return `<svg class="av" width="${sz}" height="${sz*1.55}" viewBox="0 -10 40 72" aria-hidden="true"><defs>${fs[0]}${fp[0]}</defs>
+return `<svg class="av" width="${sz}" height="${sz*1.55}" viewBox="0 -10 40 72" aria-hidden="true"><defs>${fs[0]}${fp[0]}</defs>${a.cape?`<path d="M7 24 L33 24 L37 61 L3 61 Z" fill="#ffc642" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><path d="M12 26 L28 26 L31 58 L9 58 Z" fill="#ffd96b"/>`:''}
 <rect x="9" y="3" width="22" height="20" rx="2" fill="${sk}" stroke="${k}" stroke-width="2.4"/><rect x="9" y="18" width="22" height="5" fill="${sd}"/>
 <rect x="14" y="9" width="3.5" height="5" rx="1" fill="${k}"/><rect x="22.5" y="9" width="3.5" height="5" rx="1" fill="${k}"/><rect x="15" y="10" width="1.4" height="1.6" fill="#fff"/><rect x="23.5" y="10" width="1.4" height="1.6" fill="#fff"/>
 <path d="M15.5 16.5q4.5 3.2 9 0" stroke="${k}" stroke-width="2" fill="none" stroke-linecap="round"/>${hats[a.hat]||''}
@@ -352,7 +352,7 @@ function streak(){let n=0,d=new Date();while(S.days.includes(d.toDateString())){
 function hud(){
   if(!sess&&typeof OB!=='undefined')OB.hide();
   const mast=W.filter(x=>st(x[0]).m>=5).length,nl=nextLv();
-  $('hud').innerHTML=`${sess?'':`<span class="pill" title="Rank and XP">${ic('rank')}<span>${esc(level()[1])}<span class="xp"> · ${S.pts}${nl?'/'+nl[0]:''}</span></span></span>`}<span class="pill" title="Coins">${ic('coin')}<b>${S.coins}</b></span><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="Words mastered">${ic('gem')}<span><b>${mast}</b>/${W.length}</span></span>`}<span class="sp"></span>${sess?`<span class="pill edp">${esc(EDN[ED||'psle'])}</span><button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${S.voice===false?'🗣️✕':'🗣️'}</button>`:''}`;
+  $('hud').innerHTML=`${sess?'':`<span class="pill" title="Rank and XP">${ic('rank')}<span>${esc(level()[1])}<span class="xp"> · ${S.pts}${nl?'/'+nl[0]:''}</span></span></span>`}<span class="pill" title="Coins">${ic('coin')}<b>${S.coins}</b></span><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="Words mastered">${ic('gem')}<span><b>${mast}</b>/${W.length}</span></span>`}${S.sup==='20'?'<span class="ea" title="Thank you for supporting Miss Christine">Early access</span>':''}<span class="sp"></span>${sess?`<span class="pill edp">${esc(EDN[ED||'psle'])}</span><button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${S.voice===false?'🗣️✕':'🗣️'}</button>`:''}`;
   $('snd').onclick=()=>{mute=!mute;hud()};if($('vox'))$('vox').onclick=()=>{S.voice=S.voice===false;save();pop(S.voice?'Word voice on':'Word voice off');hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
 }
 // ---------- sound + fx ----------
@@ -414,7 +414,7 @@ function home(){
   <button class="sec" id="bon"><span class="ico c4">${ic('bolt')}</span><span class="lbl"><b>Bonus games</b><small>${S.bonus?S.bonus+' Shadow Chase ready':'Get 10 right in a row'}</small></span></button>
   <button class="sec" id="sprint"><span class="ico c5">${ic('book')}</span><span class="lbl"><b>Spelling Sprint</b><small>60 seconds · hear it, spell it · best ${S.spBest||0}</small></span></button>
   <button class="sec" id="spd"><span class="ico c3">${ic('bolt')}</span><span class="lbl"><b>Speed Run</b><small>60 seconds · best ${S.best}</small></span></button>
-  <button class="sec" id="egg"><span class="ico c4">${ic('egg')}</span><span class="lbl"><b>Hatch pets</b><small>${new Set(S.pets).size} of ${PETS.length} found</small></span></button>
+  <button class="sec" id="egg"><span class="ico c4">${ic('egg')}</span><span class="lbl"><b>Hatch pets</b><small>${new Set(S.pets.filter(p=>p<13)).size} of 13 found</small></span></button>
   <button class="sec" id="rev"><span class="ico c6">${ic('review')}</span><span class="lbl"><b>Review</b><small>${nDue} words due</small></span></button>
   <button class="sec" id="fix"><span class="ico c3">${ic('fix')}</span><span class="lbl"><b>Fix mistakes</b><small>${nMiss} words</small></span></button>
   <button class="sec" id="shp"><span class="ico c5">${ic('shirt')}</span><span class="lbl"><b>Avatar shop</b><small>${S.coins} coins to spend</small></span></button>
@@ -663,7 +663,7 @@ function eggs(){
   main.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{S.pet=+b.dataset.p;save();syncScore();eggs()});
   main.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{const e=E[b.dataset.e];if(S.coins<e[1]){pop('Need '+e[1]+' coins');return}S.coins-=e[1];
     let r=Math.random()*100,rar=0;for(let k=0;k<4;k++){if(r<e[2][k]){rar=k;break}r-=e[2][k]}
-    const pool=PETS.map((p,i)=>[p,i]).filter(z=>z[0][1]===rar),pi=pool[Math.random()*pool.length|0][1],isNew=!S.pets.includes(pi);S.pets.push(pi);if(S.pet<0)S.pet=pi;save();
+    const pool=PETS.map((p,i)=>[p,i]).filter(z=>z[0][1]===rar&&z[1]<13),pi=pool[Math.random()*pool.length|0][1],isNew=!S.pets.includes(pi);S.pets.push(pi);if(S.pet<0)S.pet=pi;save();
     main.innerHTML=`<div class="card" style="text-align:center"><p class="q">Hatching…</p><div class="egg" style="font-size:16px"><svg width="90" height="110" viewBox="0 0 44 54"><ellipse cx="22" cy="30" rx="18" ry="22" fill="#fff3d6" stroke="#141414" stroke-width="3"/></svg></div></div>`;
     setTimeout(()=>{confetti(rar>=2?220:90);beep(1);checkBadges();main.innerHTML=`<div class="card" style="text-align:center"><span class="rar r${rar}">${RN[rar]}</span>${petSVG(pi,120)}<div class="word">${esc(PETS[pi][0])}</div><p>${isNew?'NEW PET! Added to your collection.':'Duplicate! Still counts as a pet.'}</p><button class="go" id="eq">Equip it</button><button class="go" id="bk" style="background:var(--opt)">Back to hatchery</button></div>`;
       $('eq').onclick=()=>{S.pet=pi;save();syncScore();eggs()};$('bk').onclick=eggs;hud()},1400)});
@@ -1069,7 +1069,7 @@ function weekKey(d=new Date()){const t=new Date(Date.UTC(d.getFullYear(),d.getMo
 function weekXp(){const k=weekKey(),x=S.edx[ED]||0;const w=S.wkE[ED];if(!w||w.k!==k){S.wkE[ED]={k,base:x};save()}return Math.max(0,x-S.wkE[ED].base)}
 const SHIRTS=new Set(SHOP.filter(x=>x[0]==='shirt').map(x=>x[1])),PANTS=new Set(SHOP.filter(x=>x[0]==='pants').map(x=>x[1])),HATS=new Set(SHOP.filter(x=>x[0]==='hat').map(x=>x[1]));
 const HEX=/^#[0-9a-f]{6}$/i;
-function safeAv(a){a=a&&typeof a==='object'?a:{};return{shirt:finOk(a.shirt)?a.shirt.toLowerCase():'#2f80ed',pants:finOk(a.pants)?a.pants.toLowerCase():'#2b2b2b',hat:HATS.has(a.hat)?a.hat:'none'}}
+function safeAv(a){a=a&&typeof a==='object'?a:{};return{shirt:finOk(a.shirt)?a.shirt.toLowerCase():'#2f80ed',pants:finOk(a.pants)?a.pants.toLowerCase():'#2b2b2b',hat:HATS.has(a.hat)?a.hat:'none',cape:a.cape===true}}
 const num=v=>{v=Number(v);return Number.isFinite(v)&&v>=0?Math.floor(v):0};
 const BOARDS=[['week','This week','weekXp','XP'],['xp','All-time','xp','XP'],['speed','Speed Run','speedBest','correct'],['mast','Mastered','mastered','words']];
 function boardRows(field){const wk=weekKey();return LB.rows.map(r=>({...r,v:field==='weekXp'?(r.wk===wk?num(r.weekXp):0):num(r[field])})).filter(r=>r.v>0||r.id===LB.me).sort((a,b)=>b.v-a.v||String(a.nick).localeCompare(String(b.nick)))}
@@ -1085,7 +1085,7 @@ async function lbInit(){
     LB.unsub=db.collection('scores').onSnapshot(snap=>{clearTimeout(to);
       const docs=(snap&&snap.docs)||snap||[];LB.rows=[];
       for(const d of docs){const v=typeof d.data==='function'?d.data():(d.data||d);if(!v)continue;const id=d.id||v.id;if(!id)continue;
-        const nick=typeof v.nick==='string'&&nickOk(v.nick)?v.nick:'Player';const e=v.psle&&typeof v.psle==='object'?v.psle:(v.xp!=null?v:null);if(!e)continue;LB.rows.push({id,nick,world:Number.isInteger(v.world)&&v.world>=0&&v.world<6?v.world:0,xp:e.xp,weekXp:e.weekXp,wk:e.wk,speedBest:e.speedBest,mastered:e.mastered,av:safeAv(v.av),pet:Number.isInteger(v.pet)&&v.pet>=0&&v.pet<PETS.length?v.pet:-1})}
+        const nick=typeof v.nick==='string'&&nickOk(v.nick)?v.nick:'Player';const e=v.psle&&typeof v.psle==='object'?v.psle:(v.xp!=null?v:null);if(!e)continue;LB.rows.push({id,nick,world:Number.isInteger(v.world)&&v.world>=0&&v.world<6?v.world:0,xp:e.xp,weekXp:e.weekXp,wk:e.wk,speedBest:e.speedBest,mastered:e.mastered,sup:['any','10','20'].includes(v.sup)?v.sup:'',av:safeAv(v.av),pet:Number.isInteger(v.pet)&&v.pet>=0&&v.pet<PETS.length?v.pet:-1})}
       LB.ready=true;refreshLB()},()=>{clearTimeout(to);LB.ready=true;refreshLB()});
     if(S.nick)syncScore();
   }catch(e){LB.db=null}
@@ -1115,7 +1115,7 @@ const lbScreen={tab:'week',render(){
   if(!LB.ready){el.innerHTML='<p class="q" style="text-align:center">Loading the board…</p>';return}
   const rows=boardRows(b[2]).slice(0,50);
   el.innerHTML=rows.length?`<ol class="lb">${rows.map((r,i)=>`<li class="${r.id===LB.me?'mine':''} ${i<3?'p'+(i+1):''}"><span class="rk">${i+1}</span><span class="who">${avatar(22,r.av)}${petSVG(r.pet,18)}</span><span class="nk"><span data-nick="${i}"></span><small class="wd">${esc(WORLDS[r.world||0][1])}</small></span><span class="sc"><b>${r.v}</b> ${b[3]}</span></li>`).join('')}</ol>`:'<p class="q" style="text-align:center">Be the first on the board!</p>';
-  el.querySelectorAll('[data-nick]').forEach(s=>{const r=rows[+s.dataset.nick];s.textContent=(r.nick||'Player')+(r.id===LB.me?' (you)':'')});
+  el.querySelectorAll('[data-nick]').forEach(s=>{const r=rows[+s.dataset.nick];s.textContent=(r.nick||'Player')+(r.sup?' 🏅':'')+(r.id===LB.me?' (you)':'')});
 }};
 function leaderboard(){
   if(!LB.db)return home();
@@ -1129,5 +1129,10 @@ function leaderboard(){
   main.querySelectorAll('[data-t]').forEach(t=>t.onclick=()=>{lbScreen.tab=t.dataset.t;main.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===t));lbScreen.render()});
   lbScreen.render();
 }
+function applySup(){const me=window.VO&&window.VO.me;const t=me&&me.type==='kid'&&['any','10','20'].includes(me.sup)?me.sup:'';if(!t){if(S.sup){S.sup='';S.av.cape=false;save()}return}
+  S.sup=t;S.av.cape=t!=='any';if(t==='20'&&!S.pets.includes(13)){S.pets.push(13)}
+  if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting Vocab Obby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Yay!</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
+  save();hud()}
+if(window.VO_READY)window.VO_READY.then(applySup).catch(()=>{});
 applySkin();setTitle();fetch(EDF[ED]).then(r=>r.json()).then(d=>{W=d;home();lbInit()}).catch(()=>{main.innerHTML='<div class="card"><p class="q">Could not load the word list. Please refresh.</p></div>'});
 })</script></body></html>

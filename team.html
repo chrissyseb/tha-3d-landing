@@ -59,7 +59,7 @@ label{font:800 14px var(--fd);display:block;margin:10px 0 6px}
 .shake{animation:sh .4s}@keyframes sh{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 @media(prefers-reduced-motion:reduce){.pop{animation:none;opacity:1}.shake{animation:none}}
 .foot{color:#fff;text-align:center;font-size:13px;font-weight:700;text-shadow:0 1px 0 rgba(0,0,0,.3)}
-</style></head><body>
+.spk{min-width:48px;min-height:44px;font-size:20px;padding:4px 10px;border-radius:12px}</style></head><body>
 <div class="wrap">
 <div class="top"><a href="/">← Back to Vocab Obby</a><span class="tag">Team Up</span></div>
 <div id="main"><div class="card"><p>Loading Team Up…</p></div></div>
@@ -132,7 +132,11 @@ function setState(s){
   const key=JSON.stringify([s.v,s.phase,s.turn,s.q&&s.q.id,s.players.length,s.hearts,s.boss&&s.boss.hp,s.emotes.length]);
   if(key!==lastRender){lastRender=key;render()}else tickTimer();
 }
-function plist(){return `<div class="plist">${R.players.filter(p=>!p.left).map(p=>`<div class="pl ${p.pid===R.turn&&(R.phase==='question'||R.phase==='power')?'turn':''}">${esc(p.nick)}${p.pid===pid?' (you)':''}${p.pid===R.host?' ★':''}<small>${R.pack?'PSLE Kingdom':WN[p.world]}</small></div>`).join('')}</div>`}
+const SAY={ok:'speechSynthesis' in window&&typeof SpeechSynthesisUtterance!=='undefined',v:null,
+  pick(){const vs=speechSynthesis.getVoices();this.v=vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/en[-_]SG/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null},
+  say(t,r){try{speechSynthesis.cancel();if(!this.v)this.pick();const u=new SpeechSynthesisUtterance(String(t));if(this.v){u.voice=this.v;u.lang=this.v.lang}else u.lang='en-GB';u.rate=r||1;speechSynthesis.speak(u)}catch(e){}}};
+if(SAY.ok&&speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',()=>SAY.pick());
+function plist(){return `<div class="plist">${R.players.filter(p=>!p.left).map(p=>`<div class="pl ${p.pid===R.turn&&(R.phase==='question'||R.phase==='power')?'turn':''}">${esc(p.nick)}${p.sup?' 🏅':''}${p.pid===pid?' (you)':''}${p.pid===R.host?' ★':''}<small>${R.pack?'PSLE Kingdom':WN[p.world]}</small></div>`).join('')}</div>`}
 function feedHtml(){return `<ul class="feed" id="fd">${R.feed.slice().reverse().map(f=>`<li>${esc(f.t)}</li>`).join('')}</ul>${R.emotes.length?`<p style="margin:8px 0 0;font-weight:800">${R.emotes.slice(-3).map(e=>esc(e.nick)+': '+esc(e.e)).join(' · ')}</p>`:''}<div class="emotes">${EMO.map((e,i)=>`<button data-e="${i}" aria-label="Send ${esc(e)}">${esc(e)}</button>`).join('')}</div>`}
 function bindFeed(){main.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>act('emote',{e:+b.dataset.e}))}
 function render(){
@@ -146,7 +150,7 @@ function render(){
   let panel='';
   if(R.phase==='question'){
     const q=R.q, pr=q.prompt.kind==='meaning'?`What does <b>${esc(q.prompt.word)}</b> mean?`:esc(q.prompt.sentence).replace('___','<span style="border-bottom:3px solid var(--ink);display:inline-block;min-width:4em">&nbsp;</span>');
-    panel=`<p class="turnline">${mine?'Your turn!':esc(who?who.nick:'')+"'s turn!"}${q.golden?' 🌟':''}</p><div class="timer"><i id="tm"></i></div><p class="q">${pr}</p>
+    panel=`<p class="turnline">${mine?'Your turn!':esc(who?who.nick:'')+"'s turn!"}${q.golden?' 🌟':''}</p><div class="timer"><i id="tm"></i></div><p class="q">${pr}</p>${SAY.ok?`<p style="margin:-6px 0 12px;display:flex;gap:8px"><button class="spk" id="spk" aria-label="Hear it">🔊</button><button class="spk" id="spks" aria-label="Hear it slowly">🐢</button></p>`:''}
     <div class="opts">${q.opts.map((o,i)=>`<button data-o="${i}" ${mine?'':'disabled'}>${esc(o)}</button>`).join('')}</div>${mine?'':'<p style="margin:10px 0 0;color:var(--mut);font-weight:800">Watch and cheer! Your turn is coming.</p>'}`;
   }else if(R.phase==='power'){
     panel=`<p class="turnline">${mine?'Right! Pick a power':esc(who?who.nick:'')+' is choosing a power…'}</p><div class="timer"><i id="tm"></i></div>
@@ -163,6 +167,7 @@ function render(){
   <div id="arena"><canvas id="cv"></canvas></div>
   <div class="card" id="pn">${panel}${teach}</div><div class="card">${plist()}${feedHtml()}</div>`;
   main.querySelectorAll('[data-o]').forEach(btn=>btn.onclick=async()=>{main.querySelectorAll('[data-o]').forEach(x=>x.disabled=true);const ch=R.q.opts[+btn.dataset.o],qid=R.q.id;const r=await act('answer',{qid,choice:ch});const L=r.j&&r.j.state&&r.j.state.last;if(L&&L.qid===qid)learn(L)});
+  if($('spk')){const txt=R.q.prompt.kind==='meaning'?R.q.prompt.word:String(R.q.prompt.sentence).replace('___',' blank ');$('spk').onclick=()=>SAY.say(txt,1);$('spks').onclick=()=>SAY.say(txt,.6)}
   main.querySelectorAll('[data-p]').forEach(btn=>btn.onclick=()=>{main.querySelectorAll('[data-p]').forEach(x=>x.disabled=true);act('power',{elem:btn.dataset.p})});
   if($('rt'))$('rt').onclick=()=>act('retry');if($('lv'))$('lv').onclick=leave;bindFeed();
   initCanvas();tickTimer();

@@ -1,4 +1,4 @@
-import { body, send, csrfOk, getSession, getJson, putJson, hashSecret, id, famPath, progPath, nickOk, paidFor } from './_lib.js';
+import { body, send, csrfOk, getSession, getJson, putJson, hashSecret, id, famPath, progPath, nickOk, paidFor, supTier } from './_lib.js';
 export default async function handler(req, res) {
   if (!csrfOk(req)) return send(res, 403, { error: 'Bad request' });
   const s = getSession(req); if (!s || s.t !== 'p') return send(res, 401, { error: 'Please log in as a parent.' });
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       miss.sort((a, b) => b[1] - a[1]);
             kids.push({ id: c.id, nick: c.nick, paid: paidFor(fam, c.id), seen, mastered, accuracy: seen ? Math.round(clean / seen * 100) : null, toRevise: miss.slice(0, 15).map(x => x[0]), world: st.lad ? st.lad.t || 0 : 0, lastPlayed: p ? p.updated : null, days: Array.isArray(st.days) ? st.days.length : 0 });
     }
-    return send(res, 200, { code: fam.code, email: fam.email, paid: fam.paid || null, children: kids, stripe: !!process.env.STRIPE_SECRET_KEY });
+    return send(res, 200, { code: fam.code, email: fam.email, paid: fam.paid || null, children: kids, stripe: !!process.env.STRIPE_SECRET_KEY, sup: supTier(fam), wall: !!(fam.supporter && fam.supporter.wall) });
   }
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
   const b = await body(req);
@@ -29,6 +29,7 @@ export default async function handler(req, res) {
     const c = fam.children.find(x => x.id === b.childId); if (!c || !/^\d{4}$/.test(String(b.pin || ''))) return send(res, 400, { error: 'PIN must be 4 digits.' });
     c.pin = hashSecret(String(b.pin)); await putJson(famPath(fam.id), fam); return send(res, 200, { ok: true });
   }
+  if (b.action === 'wall') { fam.supporter = { ...(fam.supporter || {}), wall: b.on === true }; await putJson(famPath(fam.id), fam); globalThis.__voSupCache = null; return send(res, 200, { ok: true, wall: fam.supporter.wall }); }
   if (b.action === 'playAs') { // parent hands the device to a child
     const c = fam.children.find(x => x.id === b.childId); if (!c) return send(res, 404, { error: 'Player not found.' });
     const { setSession } = await import('./_lib.js'); setSession(res, { t: 'k', fid: fam.id, cid: c.id }); return send(res, 200, { ok: true });

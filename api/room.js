@@ -1,7 +1,7 @@
 // Team Up: turn-based co-op boss battles. Room state lives in one private Blob JSON per code.
 // The server picks every question and keeps the answer; damage is computed here, never trusted from clients.
 import { createHash, randomBytes } from 'node:crypto';
-import { body, send, csrfOk, rateOk, getSession, getJson, putJson, famPath, paidFor, nickOk, safe } from './_lib.js';
+import { body, send, csrfOk, rateOk, getSession, getJson, putJson, famPath, paidFor, nickOk, safe, supTier } from './_lib.js';
 import W from './_words.js';
 
 const TTL = 30 * 60000, TURN_MS = 30000, POWER_MS = 15000, MAX = 4;
@@ -91,7 +91,7 @@ function setupBattle(room) {
 function view(room, me) {
   const q = room.q && { id: room.q.id, pid: room.q.pid, prompt: room.q.prompt, opts: room.q.opts, golden: room.q.golden, deadline: room.q.deadline };
   return { code: room.code, v: room.v, phase: room.phase, host: room.host, world: room.world, pack: room.pack, giant: room.giant,
-    players: room.players.map(p => ({ pid: p.pid, nick: p.nick, world: p.world, av: p.av, pet: p.pet, left: !!p.left })),
+    players: room.players.map(p => ({ pid: p.pid, nick: p.nick, world: p.world, av: p.av, pet: p.pet, sup: p.sup || '', left: !!p.left })),
     turn: room.turn, q, boss: room.boss || null, hearts: room.hearts, maxHearts: room.maxHearts, fx: room.fx || null,
     feed: room.feed || [], emotes: room.emotes || [], last: me ? room.last?.[me] || null : null, now: Date.now() };
 }
@@ -104,7 +104,7 @@ async function save(room) { room.v++; room.touched = Date.now(); await putJson(r
 async function sessionKid(req) {
   const s = getSession(req); if (!s || s.t !== 'k') return null;
   const fam = await getJson(famPath(s.fid)); const kid = fam && fam.children.find(c => c.id === s.cid);
-  return kid ? { nick: kid.nick, paid: paidFor(fam, kid.id), cid: kid.id } : null;
+  return kid ? { nick: kid.nick, paid: paidFor(fam, kid.id), cid: kid.id, sup: supTier(fam) } : null;
 }
 const COLR = /^(#[0-9a-f]{6}|f:(gold|silver|galaxy|rainbow)|f:neon#[0-9a-f]{6})$/i;
 const cleanAv = a => ({ shirt: COLR.test(a?.shirt || '') ? a.shirt : '#2f80ed', pants: COLR.test(a?.pants || '') ? a.pants : '#2b2b2b', hat: String(a?.hat || 'none').replace(/[^\w-]/g, '').slice(0, 20) });
@@ -129,7 +129,7 @@ export default async function handler(req, res) {
     const kid = await sessionKid(req);
     const nick = kid ? kid.nick : String(b.nick || '').trim();
     if (!kid && !nickOk(nick)) return send(res, 400, { error: 'Pick a nickname: 2–14 letters or numbers, nothing rude.' });
-    const player = { pid: pub(), tok: tok(), nick, world: worldOf(b.world), av: cleanAv(b.av), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1, cid: kid?.cid || null };
+    const player = { pid: pub(), tok: tok(), nick, world: worldOf(b.world), av: cleanAv(b.av), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1, cid: kid?.cid || null, sup: kid?.sup || '' };
     if (act === 'create') {
       const pack = !!b.pack && !!kid?.paid;
       if (b.pack && !pack) return send(res, 402, { error: 'PSLE Kingdom rooms need the PSLE Edition. Host a free world instead.' });

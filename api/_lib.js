@@ -97,6 +97,7 @@ export function paidFor(fam, childId) {
   const p = fam && fam.paid; if (!p || !(p.until > Date.now())) return false;
   return p.plan === 'family' || (p.children || []).includes(childId);
 }
+export function supTier(fam) { const s = fam && fam.supporter; return s && ['any', '10', '20'].includes(s.tier) ? s.tier : ''; }
 export const NICK = /^[A-Za-z0-9]{2,14}$/;
 const BAD = ['fuck','shit','bitch','cunt','dick','pussy','slut','whore','nigg','fag','rape','sex','porn','bastard','asshole','arse','wank','cock','knn','ccb','cb','lanjiao','lj','nabeh','pukimak','chibai','kanina','lancau','sohai','motherf','tits','boob','penis','vagina','kill','die','hitler','nazi'];
 export const nickOk = n => NICK.test(n) && !BAD.some(b => n.toLowerCase().includes(b));
