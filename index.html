@@ -1316,7 +1316,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;
  },
- leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
+ leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(typeof sess!=='undefined'&&sess&&sess.combo>=7&&sess.combo%7===0){s.mount=3.2;this.say('Golden ride!')}if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
   s.mode='leap';s.anim=0;s.leapFrom=s.ax;s.leapTo=gp.x1+30;s.gates++;
   if(s.gates%5===0){s.flags.push(s.leapTo);this.say('Checkpoint!')}
   for(let i=0;i<10;i++)s.fx.push({x:gp.x0+48,y:0,vx:(Math.random()-.5)*160,vy:-120-Math.random()*120,l:.7,c:OB.PAL[this.w][4]})},
@@ -1349,7 +1349,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   const RM=this.RM();s.t+=dt;if(s.msgT>0)s.msgT-=dt;
   // physics
   if(s.crouch>0){s.crouch-=dt;if(s.crouch<=0){s.crouch=0;s.vy=-540;s.ground=false}}
-  if(s.land>0)s.land-=dt;if(s.pump>0)s.pump-=dt;
+  if(s.mount>0)s.mount-=dt;if(s.land>0)s.land-=dt;if(s.pump>0)s.pump-=dt;
   if(!s.ground||s.vy<0){s.vy+=1500*dt;s.ay+=s.vy*dt;if(s.ay>=0&&s.mode!=='fall'){s.ay=0;if(s.vy>200&&!RM)s.land=.16;s.vy=0;s.ground=true}}
   if(s.mode==='run'){
    if(s.stun>0)s.stun-=dt;else s.ax+=(RM?190:220)*dt;
@@ -1468,6 +1468,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   const g=this.g,s=this.st,P=this.PAL[this.w]||this.PAL[0],W2=this.c.width,H=230,GY=182,cam=s.cam,RM=this.RM();
   g.save();if(s.shakeT>0&&!RM)g.translate((Math.random()-.5)*10,(Math.random()-.5)*8);
   const sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,P[0]);sky.addColorStop(1,P[1]);g.fillStyle=sky;g.fillRect(0,0,W2,H);
+  if(s.mount>0){const a=Math.min(1,s.mount,3.2-s.mount)*.35;const gg=g.createLinearGradient(0,0,0,H);gg.addColorStop(0,'rgba(255,228,92,0)');gg.addColorStop(1,'rgba(255,196,40,'+(a*1.6)+')');g.fillStyle=gg;g.fillRect(0,0,W2,H)}
   if(this.w===5){g.fillStyle='#ffffffaa';for(let i=0;i<40;i++){const x=((i*137-cam*.1)%W2+W2)%W2,y=(i*53)%140;g.fillRect(x,y,2,2)}}
   // parallax floating blocks
   g.globalAlpha=.55;for(let i=0;i<7;i++){const px=((i*190-cam*(RM?0:.35))%(W2+200)+W2+200)%(W2+200)-100,py=30+(i*41)%90;this.blk(px,py,58,18,P[2])}g.globalAlpha=1;
@@ -1492,7 +1493,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   const a=S.av,run=s.mode==='run'&&s.ground&&!RM,leg=run?Math.sin(s.t*16)*5:0;
   // body squash/stretch + lean; gear is drawn inside the same transform so armour moves with the body
   {const cr=s.crouch>0?1-s.crouch/.07:0,ld=s.land>0?s.land/.18:0,air=!s.ground&&!RM?Math.max(-1,Math.min(1,-s.vy/540)):0,sq=RM?0:Math.sin(cr*Math.PI/2)*.22+Math.sin(ld*Math.PI)*.2-air*.1;
-   g.save();g.translate(ax,ay);g.scale(1+sq*.6,1-sq);if(run)g.rotate(.09);if(run)g.translate(0,-Math.abs(Math.sin(s.t*16))*1.5);g.translate(-ax,-ay)}
+   g.save();g.translate(ax,ay-(s.mount>0?34:0));g.scale(1+sq*.6,1-sq);if(run)g.rotate(.09);if(run)g.translate(0,-Math.abs(Math.sin(s.t*16))*1.5);g.translate(-ax,-ay)}
   this.blk(ax-13,ay-58,26,22,'#ffcf5a');g.fillStyle='#1b2140';g.fillRect(ax-7,ay-51,4,5);g.fillRect(ax+4,ay-51,4,5);
   {const G=S.gear||{},GC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'},C=k=>G[k]?GC[k]:null;let c;
   if((c=C('cape')))this.blk(ax-23,ay-37,8,30,c);

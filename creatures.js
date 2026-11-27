@@ -137,13 +137,14 @@ function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];
  if(SP.k==='fly'&&!rm)dx+=Math.sin(sk*Math.PI)*22;
  const hop=re&&(re.k==='ok'||re.k==='flip')&&!rm?Math.sin(Math.min(1,k/.7)*Math.PI)*(re.k==='flip'?24:16):0;
  if(re&&re.k==='flip'&&!rm)rot=Math.min(1,k/.7)*-Math.PI*2;
- const cx=ax-44+dx,base=ay-bounce-hop;
+ const mt=s&&s.mount>0,cx=mt?ax+10:ax-44+dx,base=mt?ay-(rm?0:Math.abs(Math.sin(t*10))*3):ay-bounce-hop;
+ if(mt){g.save();g.translate(cx,base);g.scale(1.6,1.6);g.translate(-cx,-base)}
  g.fillStyle='rgba(15,18,48,.2)';g.beginPath();g.ellipse(cx,ay+1,15-hop*.3,3.5,0,0,7);g.fill();
  g.save();g.translate(cx,base-22);if(rot)g.rotate(rot);if(sx!==1)g.scale(sx,1);
  if(id==='bobby'){const ex=re&&re.k==='bad'?'sorry':re?'excited':SP.k?'excited':'happy',pose=re&&re.k!=='bad'?'hop':running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand';
   const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,-17,-25,33,47)}
  else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,-25,-26,50,50)}
- g.restore();
+ g.restore();if(mt){g.restore();if(!rm&&Math.random()<.5)s.fx.push({x:s.ax-10,y:-6,vx:-60-Math.random()*60,vy:-40,l:.5,c:['#FFE45C','#fff','#FFB23F'][Math.random()*3|0]})}
  // wrong answer: puzzled "?" (never a punishment); Bobby throws a rope to pull the avatar back
  if(re&&re.k==='bad'){
   if(id==='bobby'&&s&&s.mode==='fall'){const px=ax,py=ay+(s.ay||0)-30;g.strokeStyle='#C98A4B';g.lineWidth=2.5;g.beginPath();g.moveTo(cx+10,base-24);g.quadraticCurveTo((cx+px)/2,Math.max(base,py)+18,px,py);g.stroke();g.fillStyle='#C98A4B';g.beginPath();g.arc(px,py,3.5,0,7);g.fill()}
