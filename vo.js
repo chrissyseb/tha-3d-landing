@@ -74,7 +74,7 @@
   function bar() {
     const me = VO.me, d = document.createElement('div'); d.className = 'vo-bar';
     if (!me) d.innerHTML = `<span>Playing as guest. Progress is saved on this device only.</span><a href="/account.html">Log in / Save progress</a>`;
-    else if (me.type === 'kid') d.innerHTML = `<span>Player: <b></b>${me.paid ? ' · PSLE Edition unlocked' : ''}</span><a href="#" id="vo-out">Log out</a>`;
+    else if (me.type === 'kid') d.innerHTML = `<span>Player: <b></b>${me.paid ? ' · PSLE Kingdom unlocked' : ''}</span><a href="#" id="vo-out">Log out</a>`;
     else d.innerHTML = `<span>Parent account. Pick a player to save progress.</span><a href="/account.html">Parent dashboard</a>`;
     if (me && me.type === 'kid') d.querySelector('b').textContent = me.nick;
     document.body.appendChild(d);
