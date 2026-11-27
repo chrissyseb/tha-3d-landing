@@ -1258,6 +1258,7 @@ function custUI(){const el=$('cust');if(!el)return;const v=cuVal(),prev={...S.av
     S.av[CU.part]=val;save();if(typeof syncScore==='function')syncScore();shop()};
 }
 // ---------- Obby runner: the core run is a real side-scrolling obby ----------
+const SPECIAL={fire:['Fireball','#FF8A3D'],water:['Tidal Wave','#3FABE7'],zap:['Lightning','#FFE45C'],wind:['Gust','#9BE7C4'],leaf:['Vine Whip','#5CBF4A'],star:['Star Burst','#B15FD7']};
 var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  PAL:[['#5ec8ff','#c9efff','#9dd946','#6fae2e','#ffc642'],['#f3a957','#ffe6b0','#f2cf7e','#c9973f','#ef4f5f'],['#2f8f6a','#b5ecc4','#5cbf4a','#3b7d32','#ffc642'],['#FFB98A','#FFE9C7','#E8A27A','#B86A4A','#FFD040'],['#7ec8e3','#eef9ff','#e9f7ff','#93c2dc','#4aa4e6'],['#9FB4F5','#E6E3FF','#9C8CF0','#6F5FD0','#FFE45C'],['#C7A6F2','#F4EAFF','#E8C45A','#9A7424','#FFE45C']],
  RM:()=>matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -1293,7 +1294,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;
  },
- leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
+ leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
   s.mode='leap';s.anim=0;s.leapFrom=s.ax;s.leapTo=gp.x1+30;s.gates++;
   if(s.gates%5===0){s.flags.push(s.leapTo);this.say('Checkpoint!')}
   for(let i=0;i<10;i++)s.fx.push({x:gp.x0+48,y:0,vx:(Math.random()-.5)*160,vy:-120-Math.random()*120,l:.7,c:OB.PAL[this.w][4]})},
@@ -1303,7 +1304,14 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   s.fx.push({x:b.x,y:-130,vx:0,vy:-70,l:1.1,c:'#fff',txt:'-'+(dmg||10),big:1});
   if(eff)this.say('Super effective!');if(hp<=0){b.dead=true;b.deadT=0;this.say('Boss defeated!')}
   if(!this.RM())for(let i=0;i<14;i++)s.fx.push({x:b.x,y:-60,vx:(Math.random()-.5)*260,vy:-160-Math.random()*160,l:.8,c:'#ffc642'})},
- shoot(k,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}s.proj={k,t:0,dur:this.RM()?.22:(k==='zap'?.32:.55),x0:s.ax+16,y0:-38,x1:s.boss.x-10,y1:-62,cb}},
+ // creature energy: each correct answer adds 1; at 5 the companion's species special replaces the next hit.
+ // Same damage for every creature (rarity only adds sparkle), so no creature is stronger.
+ charge(){const s=this.st;if(!s)return;s.en=Math.min(5,(s.en||0)+1)},
+ shoot(k,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}this.charge();
+  if(s.en>=5&&window.CRE){s.en=0;const id=CRE.st().act,el=CRE.ELEM[id]||'fire',sp=SPECIAL[el],rar=CRE.R(id)||0;this.say(CRE.nick(id)+': '+sp[0]+'!');CRE.react('flip');
+   if(!this.RM()&&rar>=2)for(let i=0;i<16;i++)s.fx.push({x:s.ax-44,y:-30,vx:(Math.random()-.5)*200,vy:-100-Math.random()*150,l:.8,c:['#FFE45C','#fff',sp[1]][i%3]});
+   s.proj={k:'combo',col:sp[1],t:0,dur:this.RM()?.25:.65,x0:s.ax-44,y0:-30,x1:s.boss.x-10,y1:-70,cb};return}
+  s.proj={k,t:0,dur:this.RM()?.22:(k==='zap'?.32:.55),x0:s.ax+16,y0:-38,x1:s.boss.x-10,y1:-62,cb}},
  combo(a,b,col,nm,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}
   this.shoot(a,()=>{if(!this.st)return cb&&cb();this.shoot(b,()=>{const s2=this.st;if(!s2||!s2.boss)return cb&&cb();this.say(nm+'!');
    s2.proj={k:'combo',col,t:0,dur:this.RM()?.25:.6,x0:s2.ax+16,y0:-46,x1:s2.boss.x-10,y1:-70,cb}})})},
@@ -1488,6 +1496,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(s.boss&&sess&&sess.bossOn!=null&&sess.hearts!=null){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
   if(s.flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.85,s.flash*4)+')';g.fillRect(-20,-20,W2+40,H+40)}
   g.restore();
+  if(s.en>0||s.boss){const e=s.en||0,col=window.CRE?SPECIAL[CRE.ELEM[CRE.st().act]||'fire'][1]:'#FF8A3D';g.fillStyle='rgba(255,255,255,.9)';g.fillRect(10,36,96,12);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,36,96,12);g.fillStyle=col;g.fillRect(12,38,92*e/5,8);if(e>=5){g.fillStyle='#fff';g.globalAlpha=.5+.5*Math.sin(s.t*8);g.fillRect(12,38,92,8);g.globalAlpha=1}g.fillStyle='#241B4B';g.font='800 9px Fredoka,sans-serif';g.textAlign='left';g.fillText(e>=5?'SPECIAL READY':'ENERGY',110,46)}
   if(s.paused){g.fillStyle='rgba(36,27,75,.45)';g.fillRect(0,0,W2,H);g.fillStyle='#fff';g.textAlign='center';g.font='800 28px Fredoka,Nunito,sans-serif';g.fillText('Paused',W2/2,H/2)}
   else if(s.mode==='run'&&s.t<4&&s.gates===0){g.textAlign='center';g.font='800 16px Fredoka,Nunito,sans-serif';g.fillStyle='rgba(255,255,255,.92)';g.fillRect(W2/2-150,96,300,30);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(W2/2-150,96,300,30);g.fillStyle='#1b2140';g.fillText('Tap or press Space to jump!',W2/2,117)}
  }
