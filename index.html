@@ -1463,7 +1463,14 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
      if(a.type==='shard'){g.save();g.translate(px,py);g.rotate(Math.PI);g.fillStyle='#e9fbff';g.strokeStyle='#3f86b4';g.lineWidth=3;g.beginPath();g.moveTo(-18,0);g.lineTo(0,-8);g.lineTo(14,0);g.lineTo(0,8);g.closePath();g.fill();g.stroke();g.restore()}
      else{const lava=this.w===3;g.fillStyle=lava?'#ff6a1f':'#e9c27a';g.strokeStyle=lava?'#45150c':'#7a5520';g.lineWidth=3;g.beginPath();g.arc(px,py,13,0,7);g.fill();g.stroke();g.fillStyle=lava?'#ffe14a':'#fff1cc';g.fillRect(px-4,py-5,5,5)}}}}
  },
- blk(x,y,w,h,f){const g=this.g;g.fillStyle=f;g.fillRect(x,y,w,h);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(x+1.5,y+1.5,w-3,h-3)},
+ blk(x,y,w,h,f){const g=this.g;g.fillStyle=f;g.fillRect(x,y,w,h);if(w>6&&h>6){g.fillStyle='rgba(255,255,255,.32)';g.fillRect(x+3,y+3,w-6,Math.max(2,h*.18));g.fillStyle='rgba(20,16,60,.16)';g.fillRect(x+3,y+h*.68,w-6,h*.32-3)}g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(x+1.5,y+1.5,w-3,h-3)},
+ // parallax layers, pre-rendered once per world into offscreen canvases (clouds, floating islands with trees, near hills)
+ layers(P){const key=this.w+'|'+this.c.width;if(this._lk===key)return this._ly;this._lk=key;const mk=(w,h,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;fn(c.getContext('2d'));return c};
+  const ink='#1b2140',tree=(g,x,y,sc)=>{g.fillStyle='#8a5a33';g.fillRect(x-2*sc,y-10*sc,4*sc,10*sc);const gr=g.createRadialGradient(x-4*sc,y-20*sc,2,x,y-16*sc,13*sc);gr.addColorStop(0,'#9be36a');gr.addColorStop(1,P[3]);g.fillStyle=gr;g.beginPath();g.arc(x,y-17*sc,10*sc,0,7);g.fill();g.strokeStyle=ink;g.lineWidth=2;g.stroke()};
+  const clouds=mk(900,120,g=>{for(let i=0;i<6;i++){const x=40+i*150,y=24+(i*37)%60;g.fillStyle='rgba(255,255,255,.85)';for(const [dx,dy,r] of [[0,0,16],[18,-8,20],[38,0,15],[18,6,16]]){g.beginPath();g.arc(x+dx,y+dy,r,0,7);g.fill()}g.fillStyle='rgba(125,130,222,.12)';g.fillRect(x-14,y+8,66,6)}});
+  const isl=mk(900,140,g=>{for(let i=0;i<3;i++){const x=90+i*300,y=60+(i%2)*26,w=110;const gr=g.createLinearGradient(0,y,0,y+46);gr.addColorStop(0,P[3]);gr.addColorStop(1,'#6b4a8a');g.fillStyle=gr;g.beginPath();g.moveTo(x,y);g.lineTo(x+w,y);g.lineTo(x+w*.7,y+40);g.lineTo(x+w*.45,y+52);g.lineTo(x+w*.25,y+38);g.closePath();g.fill();g.strokeStyle=ink;g.lineWidth=2.5;g.stroke();g.fillStyle=P[2];g.fillRect(x,y-6,w,9);g.strokeRect(x,y-6,w,9);g.fillStyle='rgba(255,255,255,.35)';g.fillRect(x+3,y-4,w-6,2);tree(g,x+30,y-5,1);tree(g,x+78,y-5,.8)}});
+  const hills=mk(900,90,g=>{const gr=g.createLinearGradient(0,10,0,90);gr.addColorStop(0,P[2]);gr.addColorStop(1,P[3]);g.fillStyle=gr;g.globalAlpha=.55;g.beginPath();g.moveTo(0,90);for(let x=0;x<=900;x+=10)g.lineTo(x,50-Math.sin(x/900*Math.PI*6)*22);g.lineTo(900,90);g.fill();g.globalAlpha=1;for(let i=0;i<9;i++)tree(g,50+i*100,60-Math.sin((50+i*100)/900*Math.PI*6)*22,.9)});
+  return this._ly=[[clouds,.08,6],[isl,.22,40],[hills,.45,112]]},
  draw(){
   const g=this.g,s=this.st,P=this.PAL[this.w]||this.PAL[0],W2=this.c.width,H=230,GY=182,cam=s.cam,RM=this.RM();
   g.save();if(s.shakeT>0&&!RM)g.translate((Math.random()-.5)*10,(Math.random()-.5)*8);
@@ -1471,7 +1478,8 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(s.mount>0){const a=Math.min(1,s.mount,3.2-s.mount)*.35;const gg=g.createLinearGradient(0,0,0,H);gg.addColorStop(0,'rgba(255,228,92,0)');gg.addColorStop(1,'rgba(255,196,40,'+(a*1.6)+')');g.fillStyle=gg;g.fillRect(0,0,W2,H)}
   if(this.w===5){g.fillStyle='#ffffffaa';for(let i=0;i<40;i++){const x=((i*137-cam*.1)%W2+W2)%W2,y=(i*53)%140;g.fillRect(x,y,2,2)}}
   // parallax floating blocks
-  g.globalAlpha=.55;for(let i=0;i<7;i++){const px=((i*190-cam*(RM?0:.35))%(W2+200)+W2+200)%(W2+200)-100,py=30+(i*41)%90;this.blk(px,py,58,18,P[2])}g.globalAlpha=1;
+  if(this.w===5||this.w===3){g.globalAlpha=.55;for(let i=0;i<7;i++){const px=((i*190-cam*(RM?0:.35))%(W2+200)+W2+200)%(W2+200)-100,py=30+(i*41)%90;this.blk(px,py,58,18,P[2])}g.globalAlpha=1}
+  else for(const [L,f,y] of this.layers(P)){const o=((-cam*(RM?0:f))%900+900)%900;g.drawImage(L,o-900,y);g.drawImage(L,o,y);if(o+900<W2)g.drawImage(L,o+900,y)}
   // ground tiles
   const x0=Math.floor((cam-40)/40)*40;
   for(let x=x0;x<cam+W2+40;x+=40){const mid=x+20;const gp=s.gaps.find(q=>mid>q.x0&&mid<q.x1);const sx=x-cam;
@@ -1490,6 +1498,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   // avatar (+pet)
   const ax=s.ax-cam,ay=GY+(s.mode==='fall'?s.ay:s.ay);
   CRE.drawFollower(g,ax,ay,s.t,s.mode==='run'&&s.ground,RM,s);
+  if(s.mode!=='fall'){const sh=Math.max(.35,1+Math.min(0,s.ay)/90);g.fillStyle='rgba(15,18,48,.22)';g.beginPath();g.ellipse(ax,GY+1,16*sh,4*sh,0,0,7);g.fill()}
   const a=S.av,run=s.mode==='run'&&s.ground&&!RM,leg=run?Math.sin(s.t*16)*5:0;
   // body squash/stretch + lean; gear is drawn inside the same transform so armour moves with the body
   {const cr=s.crouch>0?1-s.crouch/.07:0,ld=s.land>0?s.land/.18:0,air=!s.ground&&!RM?Math.max(-1,Math.min(1,-s.vy/540)):0,sq=RM?0:Math.sin(cr*Math.PI/2)*.22+Math.sin(ld*Math.PI)*.2-air*.1;
