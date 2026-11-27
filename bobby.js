@@ -76,6 +76,6 @@ function full(o={}){
  return `<svg class="bobby bobfull ${o.cls||''}" width="${sz}" height="${h}" viewBox="36 10 440 620" aria-hidden="true">${glow}${shadow}${cape}${tail}${legs}${pack}${body}${badge}${arms}${scarf}<g class="bheadw">${head(ex)}</g>${crown}</svg>`}
 // small image cache for the canvas run (same SVG, rasterised)
 const IMG={};
-function img(stage,pose){const k=stage+pose;if(IMG[k])return IMG[k];const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(full({stage,pose,size:88,noShadow:1}).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '));IMG[k]=i;return i}
+function img(stage,pose,expr){const k=stage+pose+(expr||'');if(IMG[k])return IMG[k];const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(full({stage,pose,expr,size:88,noShadow:1}).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '));IMG[k]=i;return i}
 window.BOB={face,full,head,img,EXPR:Object.keys(EYES),OUTFITS:['Kit','Scout','Hero','Legend']};
 })();

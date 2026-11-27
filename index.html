@@ -1291,12 +1291,12 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;
  },
- leap(){const s=this.st;if(!s)return;let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
+ leap(){const s=this.st;if(!s)return;if(window.CRE&&CRE.react)CRE.react('ok');let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
   s.mode='leap';s.anim=0;s.leapFrom=s.ax;s.leapTo=gp.x1+30;s.gates++;
   if(s.gates%5===0){s.flags.push(s.leapTo);this.say('Checkpoint!')}
   for(let i=0;i<10;i++)s.fx.push({x:gp.x0+48,y:0,vx:(Math.random()-.5)*160,vy:-120-Math.random()*120,l:.7,c:OB.PAL[this.w][4]})},
  sparkle(){const s=this.st;if(!s||this.RM())return;for(let i=0;i<18;i++)s.fx.push({x:s.ax,y:-40,vx:(Math.random()-.5)*220,vy:-120-Math.random()*160,l:.8,c:['#fff','#ffe14a','#8ff0ff'][i%3]})},
- fall(){const s=this.st;if(!s)return;s.mode='fall';s.anim=0;s.leapFrom=s.ax;this.say('Back to checkpoint')},
+ fall(){const s=this.st;if(!s)return;if(window.CRE&&CRE.react)CRE.react('bad');s.mode='fall';s.anim=0;s.leapFrom=s.ax;this.say('Back to checkpoint')},
  bossHit(hp,dmg,eff){const s=this.st;if(!s||!s.boss)return;const b=s.boss;b.hp=hp;b.shake=.45;b.hurt=.35;
   s.fx.push({x:b.x,y:-130,vx:0,vy:-70,l:1.1,c:'#fff',txt:'-'+(dmg||10),big:1});
   if(eff)this.say('Super effective!');if(hp<=0){b.dead=true;b.deadT=0;this.say('Boss defeated!')}
@@ -1692,7 +1692,7 @@ async function lbInit(){
     LB.unsub=db.collection('scores').onSnapshot(snap=>{clearTimeout(to);
       const docs=(snap&&snap.docs)||snap||[];LB.rows=[];
       for(const d of docs){const v=typeof d.data==='function'?d.data():(d.data||d);if(!v)continue;const id=d.id||v.id;if(!id)continue;
-        const nick=typeof v.nick==='string'&&nickOk(v.nick)?v.nick:'Player';const e=v.psle&&typeof v.psle==='object'?v.psle:(v.xp!=null?v:null);if(!e)continue;LB.rows.push({id,nick,world:Number.isInteger(v.world)&&v.world>=0&&v.world<6?v.world:0,xp:e.xp,weekXp:e.weekXp,wk:e.wk,speedBest:e.speedBest,mastered:e.mastered,sup:['any','10','20'].includes(v.sup)?v.sup:'',av:safeAv(v.av),pet:Number.isInteger(v.pet)&&v.pet>=0&&v.pet<PETS.length?v.pet:-1})}
+        const nick=typeof v.nick==='string'&&nickOk(v.nick)?v.nick:'Player';const e=v.psle&&typeof v.psle==='object'?v.psle:(v.xp!=null?v:null);if(!e)continue;LB.rows.push({id,nick,world:Number.isInteger(v.world)&&v.world>=0&&v.world<6?v.world:0,xp:e.xp,weekXp:e.weekXp,wk:e.wk,speedBest:e.speedBest,mastered:e.mastered,sup:['any','10','20'].includes(v.sup)?v.sup:'',cr:typeof v.cr==='string'&&CRA.ids.includes(v.cr)?v.cr:'bobby',crs:Number.isInteger(v.crs)?Math.max(0,Math.min(2,v.crs)):0})}
       LB.ready=true;refreshLB()},()=>{clearTimeout(to);LB.ready=true;refreshLB()});
     if(S.nick)syncScore();
   }catch(e){LB.db=null}
@@ -1701,7 +1701,7 @@ function refreshLB(){const t=document.getElementById('lbtile');if(t)t.hidden=!LB
 async function syncScore(){
   if(!LB.db||!LB.me||!S.nick)return;
   const mine={xp:S.edx[ED]||0,weekXp:weekXp(),wk:weekKey(),speedBest:S.best,mastered:S.bosses||0};S.lbE.psle=mine;
-  const doc={nick:S.nick,av:safeAv(S.av),pet:S.pet,world:tier(),updated:Date.now(),psle:mine,xp:mine.xp,weekXp:mine.weekXp,wk:mine.wk,speedBest:mine.speedBest,mastered:mine.mastered};
+  const ca=CRE.st().act,doc={nick:S.nick,av:safeAv(S.av),cr:ca,crs:ca==='bobby'?0:CRE.stageOf(ca,CRE.st().own[ca]),world:tier(),updated:Date.now(),psle:mine,xp:mine.xp,weekXp:mine.weekXp,wk:mine.wk,speedBest:mine.speedBest,mastered:mine.mastered};
   const key=JSON.stringify({...doc,updated:0});if(key===LB.last)return;
   if(LB.busy){LB.pending=true;return}LB.busy=true;
   try{await LB.db.doc('scores/'+LB.me).set(doc);LB.last=key}catch(e){}
@@ -1721,7 +1721,7 @@ const lbScreen={tab:'week',render(){
   const b=BOARDS.find(x=>x[0]===this.tab);
   if(!LB.ready){el.innerHTML='<p class="q" style="text-align:center">Loading the board…</p>';return}
   const rows=boardRows(b[2]).slice(0,50);
-  el.innerHTML=rows.length?`<ol class="lb">${rows.map((r,i)=>`<li class="${r.id===LB.me?'mine':''} ${i<3?'p'+(i+1):''}"><span class="rk">${i+1}</span><span class="who">${avatar(22,r.av)}${petSVG(r.pet,18)}</span><span class="nk"><span data-nick="${i}"></span><small class="wd">${esc(WORLDS[r.world||0][1])}</small></span><span class="sc"><b>${r.v}</b> ${b[3]}</span></li>`).join('')}</ol>`:'<p class="q" style="text-align:center">Be the first on the board!</p>';
+  el.innerHTML=rows.length?`<ol class="lb">${rows.map((r,i)=>`<li class="${r.id===LB.me?'mine':''} ${i<3?'p'+(i+1):''}"><span class="rk">${i+1}</span><span class="who">${r.cr&&r.cr!=='bobby'?CRA.svg(r.cr,r.crs||0,36):BOB.face('happy',34)}</span><span class="nk"><span data-nick="${i}"></span></span><span class="sc"><b>${r.v}</b> ${b[3]}</span></li>`).join('')}</ol>`:'<p class="q" style="text-align:center">Be the first on the board!</p>';
   el.querySelectorAll('[data-nick]').forEach(s=>{const r=rows[+s.dataset.nick];s.textContent=(r.nick||'Player')+(r.sup?' 🏅':'')+(r.id===LB.me?' (you)':'')});
 }};
 function leaderboard(){

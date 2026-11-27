@@ -114,9 +114,24 @@ function eggInfo(){const t=T(),d=document.createElement('div');d.className='shee
  document.body.appendChild(d);const x=()=>d.remove();$('eix').onclick=x;d.onclick=e=>{if(e.target===d)x()};$('eix').focus()}
 // ---------------- creature in the run (canvas follower) ----------------
 const IMG={};function cimg(id,s){const k=id+s;if(IMG[k])return IMG[k];const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CRA.svg(id,s,64).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '));IMG[k]=i;return i}
-function drawFollower(g,ax,ay,t,running,rm){const c=st(),id=c.act,o=c.own[id];if(!o)return;const bounce=rm?0:Math.abs(Math.sin(t*(running?9:3)))*(running?6:3);
- if(id==='bobby'){const im=BOB.img(H().bobbyStage(),running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,ax-84,ay-62-bounce,44,62);return}
- const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,ax-92,ay-60-bounce,60,60)}
+// Companion runs beside the avatar. Visible art ~40 units tall (~68% of the 58-unit avatar), so it reads on a 390px phone.
+// react('ok') = hop + sparkle, react('bad') = sorry face / teardrop (gentle, no penalty). Reduced motion: no hop/bob, cues stay.
+let RX=null,PRE=0;function react(k){RX={k,t0:performance.now()}}
+function drawFollower(g,ax,ay,t,running,rm){const c=st(),id=c.act,o=c.own[id];if(!o)return;
+ if(!PRE&&id==='bobby'){PRE=1;const bs=H().bobbyStage();BOB.img(bs,'hop','excited');BOB.img(bs,'stand','sorry');BOB.img(bs,'runA','sorry');BOB.img(bs,'runB','sorry')}
+ const now=performance.now(),re=RX&&now-RX.t0<(RX.k==='ok'?700:1300)?RX:null,k=re?(now-re.t0)/(re.k==='ok'?700:1300):0;
+ const bounce=rm?0:Math.abs(Math.sin(t*(running?9:3)))*(running?4:2);
+ const hop=re&&re.k==='ok'&&!rm&&k<.6?Math.sin(k/.6*Math.PI)*16:0,droop=re&&re.k==='bad'&&!rm?Math.sin(Math.min(1,k*3)*Math.PI/2)*3:0;
+ const cx=ax-44,base=ay-bounce-hop+droop;
+ g.fillStyle='rgba(15,18,48,.18)';g.beginPath();g.ellipse(cx,ay+1,15-hop*.3,3.5,0,0,7);g.fill();
+ if(id==='bobby'){const ex=re&&re.k==='bad'?'sorry':re&&re.k==='ok'?'excited':'happy',pose=re&&re.k==='ok'?'hop':running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand';
+  const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,cx-17,base-47,33,47)}
+ else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,cx-25,base-48,50,50);
+  if(re&&re.k==='bad'){g.fillStyle='#8FD0F6';g.strokeStyle='#241B4B';g.lineWidth=1.5;g.beginPath();g.moveTo(cx+16,base-40);g.quadraticCurveTo(cx+21,base-32,cx+16,base-30);g.quadraticCurveTo(cx+11,base-32,cx+16,base-40);g.fill();g.stroke()}}
+ if(re&&re.k==='ok'){const a=1-k;g.save();g.globalAlpha=Math.max(0,a);g.fillStyle='#FFE45C';g.strokeStyle='#241B4B';g.lineWidth=1.2;
+  for(let i=0;i<5;i++){const ang=i*1.256+.4,r=rm?24:16+k*14,x=cx+Math.cos(ang)*r,y=base-24+Math.sin(ang)*r*.8,z=rm?3.5:3.5+Math.sin(k*Math.PI)*1.5;
+   g.beginPath();g.moveTo(x,y-z*1.6);g.lineTo(x+z*.5,y-z*.5);g.lineTo(x+z*1.6,y);g.lineTo(x+z*.5,y+z*.5);g.lineTo(x,y+z*1.6);g.lineTo(x-z*.5,y+z*.5);g.lineTo(x-z*1.6,y);g.lineTo(x-z*.5,y-z*.5);g.closePath();g.fill();g.stroke()}
+  g.restore()}}
 // ---------------- bottom nav ----------------
 const NI={home:'<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>',map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14"/>',cr:'<path d="M12 3c4 0 7 6 7 10a7 7 0 0 1-14 0c0-4 3-10 7-10z"/>',av:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7z"/>',more:'<circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>'};
 function navHTML(){const t=T(),c=st();return `<nav class="bnav" id="bnav" aria-label="${t.navLabel}">${[['home',t.nav[0]],['map',t.nav[1]],['cr',t.nav[2]],['av',t.nav[3]],['more',t.nav[4]]].map(([k,l])=>`<button data-nav="${k}" type="button"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">${NI[k]}</svg><span>${l}</span>${k==='cr'&&c.eggs.length?`<i class="nbadge" aria-label="${c.eggs.length}">${c.eggs.length}</i>`:''}</button>`).join('')}</nav>`}
@@ -157,6 +172,6 @@ function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"
  $('ab').onclick=more;$('adv').onclick=()=>dedication(null,1);nav('more')}
 // ---------------- share card helper ----------------
 function shareList(){const c=st();return [c.act,...Object.keys(c.own).filter(k=>k!==c.act)].slice(0,4)}
-window.CRE={evolve,init,ev,give,hatch,screen,detail,eggInfo,drawFollower,nav,more,story,hint,dedication,about,checkEvo,st,stageOf,nick,shareList,R,RCOL,LIST,count:()=>LIST.filter(x=>x[1]<4&&st().own[x[0]]).length,total:()=>LIST.filter(x=>x[1]<4).length,
+window.CRE={evolve,init,ev,give,hatch,screen,detail,eggInfo,drawFollower,react,nav,more,story,hint,dedication,about,checkEvo,st,stageOf,nick,shareList,R,RCOL,LIST,count:()=>LIST.filter(x=>x[1]<4&&st().own[x[0]]).length,total:()=>LIST.filter(x=>x[1]<4).length,
  bonus:()=>{const r=R(st().act);return [.1,.25,.5,1,0][r]||0},hideNav:()=>{const n=$('bnav');if(n)n.remove();document.body.classList.remove('hasnav')}};
 })();
