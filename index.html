@@ -269,7 +269,7 @@ try{S=JSON.parse(localStorage.getItem(K))||{}}catch(e){}
 let ED=null;try{ED=localStorage.getItem('vq_ed')}catch(e){}if(ED!=='psle'){ED='psle';try{localStorage.setItem('vq_ed','psle')}catch(e){}}
 const EDN={psle:'PSLE Edition',o:'O-Level Edition',a:'A-Level Edition'},EDF={psle:'words.json',o:'words.json',a:'words.json'},EDLIVE={psle:1},EDGOAL={psle:4,o:5,a:5},EDTAG={psle:'psle',o:'o',a:'a'};
 S.wE=S.wE||{psle:S.w||{}};S.edx=S.edx||{psle:S.pts||0};S.bestE=S.bestE||{psle:S.best||0};S.tierE=S.tierE||{};S.tierPrE=S.tierPrE||{};S.placedE=S.placedE||{};S.lbE=S.lbE||{};S.wkE=S.wkE||{};
-if(!S.mig2){const a=S.wE.psle||(S.wE.psle={}),b=S.wE.sec||{};for(const k in b){if(!a[k]||((b[k].m||0)>(a[k].m||0)))a[k]=b[k]}S.edx.psle=(S.edx.psle||0)+(S.edx.sec||0);S.bestE.psle=Math.max(S.bestE.psle||0,S.bestE.sec||0);const mp={psle:[3,4,5],sec:[2,3,4]};let t=-1,pl=0;for(const e of ['psle','sec']){if(S.placedE[e]){pl=1;t=Math.max(t,mp[e][Math.min(2,S.tierE[e]||0)])}}S.lad={t:Math.max(0,t),pr:0,placed:pl};S.mig2=1}S.lad=S.lad||{t:0,pr:0,placed:0};
+if(!S.mig2){const a=S.wE.psle||(S.wE.psle={}),b=S.wE.sec||{};for(const k in b){if(!a[k]||((b[k].m||0)>(a[k].m||0)))a[k]=b[k]}S.edx.psle=(S.edx.psle||0)+(S.edx.sec||0);S.bestE.psle=Math.max(S.bestE.psle||0,S.bestE.sec||0);const mp={psle:[3,4,5],sec:[2,3,4]};let t=-1,pl=0;for(const e of ['psle','sec']){if(S.placedE[e]){pl=1;t=Math.max(t,mp[e][Math.min(2,S.tierE[e]||0)])}}S.lad={t:Math.max(0,t),pr:0,placed:pl};S.mig2=1}S.lad=S.lad||{t:0,pr:0,placed:0};if(S.lv==null&&S.lad.placed)S.lv=S.lad.t;
 S.w=S.wE[ED||'psle']||(S.wE[ED||'psle']={});S.pts=S.pts||0;S.coins=S.coins||0;S.days=S.days||[];S.av=S.av||{shirt:'#2f80ed',pants:'#2b2b2b',hat:'none',own:['#2f80ed','#2b2b2b','none']};
 const save=()=>{if(ED){const d=S.pts-(S._lp??S.pts);if(d>0)S.edx[ED]=(S.edx[ED]||0)+d;S._lp=S.pts;S.bestE[ED]=S.best||0}try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const SK=()=>K+'s'+(ED==='sec'?'_sec':'');
@@ -315,7 +315,7 @@ const petBonus=()=>S.pet>=0?BON[PETS[S.pet][1]]:0;
 const WORLDS=[[0,'Grass Plains'],[1,'Desert Dunes'],[2,'Jungle Ruins'],[3,'Lava Land'],[4,'Ice Peaks'],[5,'Outer Space']];
 const tier=()=>Math.max(0,Math.min(5,S.lad.t||0));
 function world(){const k=tier();document.body.dataset.world=k;return WORLDS[k][1]}
-function tierBar(){const t=tier(),g=EDGOAL[ED||'psle'],goal=t>=g?' · Goal reached!':' · Goal: '+WORLDS[g][1];if(t>=5)return `<div class="tbar"><span>${esc(WORLDS[5][1])}: top world reached</span><i style="width:100%"></i></div>`;const p=Math.min(100,Math.round((S.lad.pr||0)/70*100));return `<div class="tbar"><span>Next: ${esc(WORLDS[t+1][1])} at 70%</span><i style="width:${p}%"></i></div>`}
+function tierBar(){const t=tier(),g=EDGOAL[ED||'psle'],goal=t>=g?' · Goal reached!':' · Goal: '+WORLDS[g][1];if(t>=5)return `<div class="tbar"><span>${esc(WORLDS[5][1])}: top world reached</span><i style="width:100%"></i></div>`;const p=Math.min(100,Math.round((S.lad.pr||0)/2*100));return `<div class="tbar"><span>Next: ${esc(WORLDS[t+1][1])} · ${Math.min(2,S.lad.pr||0)}/2 runs</span><i style="width:${p}%"></i></div>`}
 const BADGES=[['First Run','Finish a 50-word run',()=>S.runs>=1],['Team Saviour','Beat a boss in Team Up',()=>(S.teamWins||0)>=1],['Combo King','Hit a 20 combo',()=>S.bestCombo>=20],['Word Hoarder','Meet 250 words',()=>W.filter(x=>st(x[0]).seen).length>=250],['Gem Cutter','Master 50 words',()=>W.filter(x=>st(x[0]).m>=5).length>=50],['Speed Demon','Score 20 in Speed Run',()=>S.best>=20],['Pet Collector','Own 6 different pets',()=>new Set(S.pets).size>=6],['Legend Hatch','Hatch a Legendary pet',()=>S.pets.some(p=>PETS[p][1]===3)],['On Fire','7-day streak',()=>streak()>=7],['Boss Slayer','Beat 5 bosses',()=>(S.bosses||0)>=5],['Word Master','Master all words',()=>W.every(x=>st(x[0]).m>=5)],['Challenger','Finish a PSLE Kingdom run',()=>!!S.challenger],['Giant Slayer','Defeat King Kongo',()=>(S.giants||0)>=1]];
 function checkBadges(){BADGES.forEach(b=>{if(!S.badges.includes(b[0])&&b[2]()){S.badges.push(b[0]);setTimeout(()=>{pop('Badge: '+b[0]);confetti(120)},600)}});save()}
 let AVN=0;const FIN={gold:['Metallic Gold',1500],silver:['Metallic Silver',1000],neon:['Neon glow',1200],galaxy:['Galaxy',2500],rainbow:['Rainbow',4000]};
@@ -431,14 +431,13 @@ const QT=['meaning','reverse','blank','under','tf','spellit','lookalike','spelli
 function start(kind,arg){
   if(window.VO_GATE&&!window.VO_GATE(kind,arg,tier(),home))return;
   const n=Date.now();let pick;
-  if(kind==='learn'){
+  if(kind==='learn'||kind==='world'){
     const d=due().slice(0,15);
-    const t=tier(),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rnk(x)===t)),low=shuf(fresh.filter(x=>rnk(x)<t)),over=shuf(fresh.filter(x=>rnk(x)===t+1));
-    const nw=[...inT.slice(0,40),...over.slice(0,10),...inT.slice(40),...over.slice(10),...low];
+    const t=Math.round(S.lv==null?2:S.lv),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rnk(x)===t)),low=shuf(W.filter(x=>rnk(x)<t)),over=shuf(fresh.filter(x=>rnk(x)===t+1));
+    const nw=shuf([...inT.slice(0,25),...over.slice(0,7),...low.slice(0,3)]).concat(inT.slice(25),over.slice(7),low.slice(3));
     pick=[...d,...nw].slice(0,50);if(pick.length<50)pick=[...pick,...shuf(W.filter(x=>!pick.includes(x))).slice(0,50-pick.length)];
   }else if(kind==='challenge'){pick=shuf(CW).slice(0,30)}
-  else if(kind==='world'){pick=shuf(W.filter(x=>rnk(x)===arg)).slice(0,50)}
-  else if(kind==='rev')pick=due().slice(0,50);
+    else if(kind==='rev')pick=due().slice(0,50);
   else pick=W.filter(x=>st(x[0]).miss>0).slice(0,50);
   if(!pick.length){main.innerHTML=`<div class="card"><p class="q">Nothing here right now. Start a 50-word session instead!</p><button class="go" id="h">Back</button></div>`;$('h').onclick=home;return}
   const steps=[];
@@ -541,7 +540,7 @@ function sprint(){
   tm=setInterval(()=>{const e=$('tm');if(!e)return clearInterval(tm);const l=Math.max(0,Math.ceil((end-Date.now())/1000));e.textContent=l+'s';if(!l)done()},250);ask();}
 function result(ok,x,extra=''){
   const w=st(x[0]);setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
-  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=Math.round(g*(1+.06*tier()));S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
+  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=Math.round(g*(1+.04*rnk(x)));S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
     if(w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;
     beep(1);pop('+'+g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);
@@ -628,10 +627,10 @@ function matchGame(s,top){
 }
 function recap(){
   try{localStorage.removeItem(SK())}catch(e){}
-  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'){S.lad.pr=Math.max(S.lad.pr||0,accR);if(accR>=70&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
+  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=85)S.lv=Math.min(5,S.lv+.5);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
   const wr=sess.wrongs.map(n=>WF(n));
   main.innerHTML=`<div class="card"><span class="tag">Session complete</span><div class="word" style="font-size:clamp(30px,6vw,44px)">${acc>=90?'Obby cleared!':acc>=75?'Great run!':'Run complete!'}</div>
-  ${tierUp?`<div class="tierup"><b>Tier up!</b> You've travelled to <b>${esc(world())}</b>. New words are waiting there.</div>`:''}
+  ${tierUp?`<div class="tierup"><b>New world!</b> You've travelled to <b>${esc(world())}</b>. Your adventure continues there.</div>`:''}
   <p style="margin:6px 0 10px">You worked through <b>${learnt} words</b>${sess.best>=5?` and hit a <b>${sess.best}-answer streak</b>`:''}${sess.kind==='challenge'?' in PSLE Kingdom with double coins':''}. Every word you get wrong now is one you won't get wrong later.</p>
   ${`<p style="font:800 20px var(--fd);margin:6px 0">${sess.kind==='challenge'?(sess.beatFinal?'The Exam King is defeated!':'The Exam King still rules. Beat him next run!'):sess.beatFinal?'King Kongo defeated! Giant Slayer!':'King Kongo is still standing. Beat him next run!'}${sess.beaten?` · ${sess.beaten} boss${sess.beaten>1?'es':''} beaten`:''}</p>`}<div class="stat"><div><b>${sess.pts}</b>coins won</div><div><b>${acc}%</b>correct</div><div><b>${sess.best}</b>best combo</div></div>
   ${wr.length?`<p><b>Words to look at again tonight</b> (they'll come back first next time):</p><table>${wr.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[2])}</td></tr>`).join('')}</table>`:'<p>No mistakes at all. Amazing!</p>'}
@@ -681,7 +680,8 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>Hold for combos.</b> After a right answer in a boss fight, tap Hold ⚡ Charge. On your next right answer pick two powers for a big combo like Steam Burst or Plasma Blast. A wrong answer drops your charge!</li>
 <li><b>Hear it, say it, spell it.</b> Tap 🔊 to hear any word (🐢 for slow). Spell-it gates and Spelling Sprint train your spelling, and a word only earns its 5th gem once you have spelt it right.</li>
 <li><b>Beat the bosses.</b> A boss appears every 10 gates, and King Kongo the giant guards the finish line. Answer right, then tap Fire, Water or Electric to attack. Each boss is weak to one power. A wrong answer lets the boss hit back, and you have 3 hearts.</li>
-<li><b>Travel to new worlds.</b> Score 70% or more in a run and you tier up to the next world. Your goal is Ice Peaks. Replay any world you've reached from the World map.</li>
+<li><b>Travel to new worlds.</b> Everyone starts in Grass Plains. Finish 2 runs in a world, or beat King Kongo at the end of a run, to travel to the next one. Replay any world you've reached from the World map.</li>
+<li><b>Words that fit you.</b> Your words adjust as you play: strong runs bring trickier words, and tough runs bring a little more practice.</li>
 <li><b>PSLE Exam Pack.</b> Practise the words from real PSLE papers for double coins and the Challenger badge.</li>
 <li><b>Spend your coins.</b> Hatch pets, buy gear and unlock custom shirt and pants colours, including premium finishes.</li>
 <li><b>Streak bonus.</b> Get 10 right in a row to unlock Shadow Chase, a bonus game where you outrun the Word Thief.</li>
@@ -1026,7 +1026,7 @@ function picker(){
 function worldmap(fly){
   sess=null;hud();if(typeof fly!=='number')fly=null;const t=tier(),g=EDGOAL[ED||'psle'];
   main.innerHTML=`<div class="card"><span class="tag">World map</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Six worlds + kingdoms</div>
-  <ol class="wmap">${WORLDS.map((w,k)=>{const n=W.filter(x=>rnk(x)===k),seen=n.filter(x=>st(x[0]).seen).length,lock=k>t;return `<li class="${lock?'lock':''} ${k===t?'here':''}"><button ${lock?'disabled':''} data-w="${k}"><span class="wn">${k+1}</span><span class="wt"><b>${esc(w[1])}</b><small>${lock?'Score 70% in a run to travel here':seen+' of '+n.length+' words met'}${k===g?' · Your goal':''}${k===t?' · You are here':''}</small></span></button></li>`}).join('')}</ol>
+  <ol class="wmap">${WORLDS.map((w,k)=>{const n=W.filter(x=>rnk(x)===k),seen=n.filter(x=>st(x[0]).seen).length,lock=k>t;return `<li class="${lock?'lock':''} ${k===t?'here':''}"><button ${lock?'disabled':''} data-w="${k}"><span class="wn">${k+1}</span><span class="wt"><b>${esc(w[1])}</b><small>${lock?'Finish 2 runs in the world before to travel here':k<t?'Cleared':'Your adventure'}${k===t?' · You are here':''}</small></span></button></li>`}).join('')}</ol>
   <p class="wmk"><b>Exam kingdoms</b></p><ol class="wmap kingdoms"><li class="psle"><button data-k="psle"><span class="wn">🇸🇬</span><span class="wt"><b>PSLE Kingdom</b><small>PSLE Edition · real exam words · Exam King boss</small></span></button></li><li class="lock"><button disabled><span class="wn">🇸🇬</span><span class="wt"><b>O-Level Kingdom</b><small>Singapore · O-Level English · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇸🇬</span><span class="wt"><b>A-Level Kingdom</b><small>Singapore · A-Level General Paper · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🌏</span><span class="wt"><b>IELTS Kingdom</b><small>International · IELTS · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>Cambridge Kingdom</b><small>B2 First / C1 Advanced · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>11+ Kingdom</b><small>UK · 11 Plus · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇬🇧</span><span class="wt"><b>GCSE Kingdom</b><small>UK · GCSE English · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🇺🇸</span><span class="wt"><b>SAT Kingdom</b><small>US · SAT · Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">🌐</span><span class="wt"><b>IB Kingdom</b><small>International Baccalaureate · English · Coming soon</small></span></button></li></ol>
   <button class="go" id="rp" style="background:var(--soft)">Replay first run</button><button class="go" id="h">Home</button></div>`;
   main.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const k=+b.dataset.w;if(k===t)start('learn');else start('world',k)});
@@ -1075,9 +1075,9 @@ function placement(){
       show()},{hp,max:hp});
   };
   const reveal=()=>{
-    PLRUN=0;const t=plEst(H);S.lad.t=t;S.lad.placed=1;S.lad.pr=0;S.coins+=50;save();OB.victory&&OB.victory();sfx('win');confetti(160);
-    card(`<span class="tag">Gear complete!</span><div style="margin:10px 0">${avatar(64)}</div><div class="word" style="font-size:clamp(26px,6vw,38px)">World unlocked: ${esc(WORLDS[t][1])}</div><p>Your gear is in the Avatar shop wardrobe. +50 coins</p><button class="go" id="fly">Fly there!</button>`);
-    $('fly').onclick=()=>{OB.hide&&OB.hide();worldmap(t)};
+    PLRUN=0;const est=plEst(H);S.lv=est;S.lad.t=0;S.lad.placed=1;S.lad.pr=0;S.coins+=50;save();OB.victory&&OB.victory();sfx('win');confetti(160);
+    card(`<span class="tag">Gear complete!</span><div style="margin:10px 0">${avatar(64)}</div><div class="word" style="font-size:clamp(26px,6vw,38px)">Your adventure starts in Grass Plains!</div><p>Your gear is in the Avatar shop wardrobe. +50 coins</p><button class="go" id="fly">Fly there!</button>`);
+    $('fly').onclick=()=>{OB.hide&&OB.hide();worldmap(0)};
   };
   $('pgo').onclick=gate;
 }
