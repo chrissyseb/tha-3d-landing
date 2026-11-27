@@ -1280,7 +1280,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  fit(){const nw=(this.el.parentNode&&this.el.parentNode.clientWidth||innerWidth)<600?470:720;if(this.c.width!==nw){this.c.width=nw;this.c.style.aspectRatio=nw+'/230'}if(!this._fit){this._fit=1;addEventListener('resize',()=>{if(this.c)this.fit()})}},
  hide(){if(this.el)this.el.hidden=true;if(this.raf)cancelAnimationFrame(this.raf);this.raf=0;this.st=null},
  pause(){const s=this.st;if(!s)return;s.paused=!s.paused;this.el.querySelector('.obp').textContent=s.paused?'▶':'II';this.el.querySelector('.obp').setAttribute('aria-label',s.paused?'Resume':'Pause');this.last=performance.now()},
- jump(){const s=this.st;if(!s||s.paused||s.mode!=='run'||!s.ground)return;s.vy=this.RM()?-470:-540;s.ground=false},
+ jump(){const s=this.st;if(!s||s.paused||s.mode!=='run'||!s.ground||s.crouch>0)return;if(this.RM()){s.vy=-470;s.ground=false;return}s.crouch=.07},
  say(m){if(this.st){this.st.msg=m;this.st.msgT=1.4}},
  // run to the next gate, then call cb
  segment(cb,boss){const s=this.st;if(!s)return cb();
@@ -1293,7 +1293,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;
  },
- leap(){const s=this.st;if(!s)return;if(window.CRE&&CRE.react)CRE.react('ok');let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
+ leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
   s.mode='leap';s.anim=0;s.leapFrom=s.ax;s.leapTo=gp.x1+30;s.gates++;
   if(s.gates%5===0){s.flags.push(s.leapTo);this.say('Checkpoint!')}
   for(let i=0;i<10;i++)s.fx.push({x:gp.x0+48,y:0,vx:(Math.random()-.5)*160,vy:-120-Math.random()*120,l:.7,c:OB.PAL[this.w][4]})},
@@ -1318,13 +1318,15 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   let dt=Math.min(.05,(now-this.last)/1000);this.last=now;if(s.paused)dt=0;
   const RM=this.RM();s.t+=dt;if(s.msgT>0)s.msgT-=dt;
   // physics
-  if(!s.ground||s.vy<0){s.vy+=1500*dt;s.ay+=s.vy*dt;if(s.ay>=0&&s.mode!=='fall'){s.ay=0;s.vy=0;s.ground=true}}
+  if(s.crouch>0){s.crouch-=dt;if(s.crouch<=0){s.crouch=0;s.vy=-540;s.ground=false}}
+  if(s.land>0)s.land-=dt;if(s.pump>0)s.pump-=dt;
+  if(!s.ground||s.vy<0){s.vy+=1500*dt;s.ay+=s.vy*dt;if(s.ay>=0&&s.mode!=='fall'){s.ay=0;if(s.vy>200&&!RM)s.land=.16;s.vy=0;s.ground=true}}
   if(s.mode==='run'){
    if(s.stun>0)s.stun-=dt;else s.ax+=(RM?190:220)*dt;
    for(const c of s.coins)if(!c.got&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;S.coins+=2;if(sess)sess.pts+=2;beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
    for(const k of s.crates)if(!k.hit&&s.ax>k.x-14&&s.ax<k.x+k.w+6&&s.ay>-k.h+2){k.hit=true;s.stun=.35;this.say('Oops! Jump the crates')}
    if(s.ax>=s.target){s.ax=s.target;s.mode='idle';const cb=s.cb;s.cb=null;hud();if(cb)cb()}
-  }else if(s.mode==='leap'){s.anim+=dt/(RM?.35:.75);const k=Math.min(1,s.anim);s.ax=s.leapFrom+(s.leapTo-s.leapFrom)*k;s.ay=-Math.sin(k*Math.PI)*(RM?30:80);if(k>=1){s.ay=0;s.mode='idle';const a=s.after;s.after=null;if(a)a()}}
+  }else if(s.mode==='leap'){s.anim+=dt/(RM?.35:.75);const k=Math.min(1,s.anim);s.ax=s.leapFrom+(s.leapTo-s.leapFrom)*k;s.ay=-Math.sin(k*Math.PI)*(RM?30:80);if(k>=1){s.ay=0;s.mode='idle';if(!RM)s.land=.18;const a=s.after;s.after=null;if(a)a()}}
   else if(s.mode==='fall'){s.anim+=dt/(RM?.5:1);const k=s.anim;if(k<.35){s.ax=s.leapFrom+60*k/.35;s.ay=0}else{s.ay=(k-.35)*360}
    if(k>=1){const f=s.flags[s.flags.length-1];s.ax=f;s.ay=0;s.vy=0;s.ground=true;s.gaps=s.gaps.filter(g=>g.b||g.x1<f);s.coins=s.coins.filter(c=>c.x<f);s.crates=s.crates.filter(c=>c.x<f);s.mode='idle';const a=s.after;s.after=null;if(a)a()}}
   else if(s.mode==='knock'){s.anim+=dt/(RM?.3:.6);const k=Math.min(1,s.anim);s.ax=s.leapFrom-70*Math.sin(k*Math.PI/2);s.ay=-Math.sin(k*Math.PI)*40;if(k>=1){s.ay=0;s.mode='idle';const a=s.after;s.after=null;if(a)a()}}
@@ -1458,6 +1460,9 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   const ax=s.ax-cam,ay=GY+(s.mode==='fall'?s.ay:s.ay);
   CRE.drawFollower(g,ax,ay,s.t,s.mode==='run'&&s.ground,RM,s);
   const a=S.av,run=s.mode==='run'&&s.ground&&!RM,leg=run?Math.sin(s.t*16)*5:0;
+  // body squash/stretch + lean; gear is drawn inside the same transform so armour moves with the body
+  {const cr=s.crouch>0?1-s.crouch/.07:0,ld=s.land>0?s.land/.18:0,air=!s.ground&&!RM?Math.max(-1,Math.min(1,-s.vy/540)):0,sq=RM?0:Math.sin(cr*Math.PI/2)*.22+Math.sin(ld*Math.PI)*.2-air*.1;
+   g.save();g.translate(ax,ay);g.scale(1+sq*.6,1-sq);if(run)g.rotate(.09);if(run)g.translate(0,-Math.abs(Math.sin(s.t*16))*1.5);g.translate(-ax,-ay)}
   this.blk(ax-13,ay-58,26,22,'#ffcf5a');g.fillStyle='#1b2140';g.fillRect(ax-7,ay-51,4,5);g.fillRect(ax+4,ay-51,4,5);
   {const G=S.gear||{},GC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'},C=k=>G[k]?GC[k]:null;let c;
   if((c=C('cape')))this.blk(ax-23,ay-37,8,30,c);
@@ -1469,6 +1474,8 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if((c=C('boots'))){this.blk(ax-15+leg,ay-7,14,8,c);this.blk(ax+1-leg,ay-7,14,8,c)}
   if((c=C('helmet')))this.blk(ax-15,ay-64,30,9,c);if((c=C('goggles')))this.blk(ax-10,ay-53,20,6,c);
 }
+  if(s.pump>0){const up=RM?1:Math.abs(Math.sin((1.1-s.pump)*9));this.blk(ax+12,ay-36-up*22,7,14+up*8,flat(a.shirt));this.blk(ax+11,ay-46-up*22,9,9,'#ffcf5a')}
+  g.restore();
   if(s.phurt>0){g.globalAlpha=Math.min(.6,s.phurt);g.fillStyle='#ff4b6e';g.fillRect(ax-16,ay-60,32,60);g.globalAlpha=1}
   if(s.koT){g.fillStyle='#ffe14a';for(let i=0;i<3;i++){const an=s.t*4+i*2.1;g.font='800 16px sans-serif';g.textAlign='center';g.fillText('★',ax+Math.cos(an)*18,ay-66+Math.sin(an)*5)}}
   this.drawFX(s,GY,cam,RM,ax,ay);
