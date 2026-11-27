@@ -1,0 +1,21 @@
+/* VocaBobby v5 light skin for secondary pages: bright, clean, TH gradient + one highlighter */
+:root{--ink:#241B4B;--mut:#4F4A78;--sky:#CDEBFB;--sun:#FFE45C;--ok:#2F7FBF;--bad:#B3261E;--soft:#F3F6FD;--line:#E3E6F5;--plum:#7D82DE;--fd:'Nunito','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+html body{background:linear-gradient(#F7FBFF,#CDEBFB 70%) fixed!important;color:var(--ink);font-family:var(--fb)!important}
+h1,h2,h3,h4,h5,.brand b,.tag,.bigcode,.code,.stats b,.price b.big,.wl b,button,.btn,label,input{font-family:'Nunito','Segoe UI',system-ui,sans-serif!important}
+h1,h2,h3{font-weight:900!important;letter-spacing:-.01em}
+.card{background:#fff;border-color:var(--ink)}
+button,.btn{background:linear-gradient(120deg,#2F8FD0,#6A6FD3 50%,#9B47C4)!important;color:#fff!important;text-shadow:0 1px 0 rgba(36,27,75,.5);font-weight:900!important;border-color:var(--ink)!important}
+button.sec,.btn.sec,.btn.alt,button.alt,.alt,.tabs button,.chip,.linkbtn{background:#fff!important;color:var(--ink)!important;text-shadow:none}
+.tabs button[aria-selected=true],.tabs button.on,.chip.on{background:#FFE45C!important;color:var(--ink)!important}
+.pill{background:#DDEFFC!important;color:var(--ink)!important;border:2px solid var(--ink)}.pill.free{background:#F3F6FD!important}
+.code{background:#FFE45C;color:var(--ink)}
+.tag{background:#FFE45C!important;color:var(--ink)!important}
+.ok{color:#1F6E3A!important}.err{color:#B3261E!important}.note,small{color:var(--mut)}
+.hl{background:linear-gradient(transparent 40%,#FFE45C 40%,#FFE45C 92%,transparent 92%)!important}
+footer,footer a{color:var(--ink)!important}
+.top a{background:#fff!important;color:var(--ink)!important;border:2px solid var(--ink)}
+.pl.turn{background:#FFFBE0!important}
+.brand b{color:var(--ink)!important;-webkit-text-stroke:0!important;text-shadow:none!important;font-weight:900!important}
+.brand b span{color:var(--ink)!important;background:linear-gradient(transparent 55%,#FFE45C 55%)}
+input,textarea,select{background:#fff;color:var(--ink)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #7D82DE!important;outline-offset:2px}
