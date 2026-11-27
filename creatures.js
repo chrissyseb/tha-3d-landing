@@ -115,23 +115,46 @@ function eggInfo(){const t=T(),d=document.createElement('div');d.className='shee
 // ---------------- creature in the run (canvas follower) ----------------
 const IMG={};function cimg(id,s){const k=id+s;if(IMG[k])return IMG[k];const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CRA.svg(id,s,64).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '));IMG[k]=i;return i}
 // Companion runs beside the avatar. Visible art ~40 units tall (~68% of the 58-unit avatar), so it reads on a 390px phone.
-// react('ok') = hop + sparkle, react('bad') = sorry face / teardrop (gentle, no penalty). Reduced motion: no hop/bob, cues stay.
-let RX=null,PRE=0;function react(k){RX={k,t0:performance.now()}}
-function drawFollower(g,ax,ay,t,running,rm){const c=st(),id=c.act,o=c.own[id];if(!o)return;
- if(!PRE&&id==='bobby'){PRE=1;const bs=H().bobbyStage();BOB.img(bs,'hop','excited');BOB.img(bs,'stand','sorry');BOB.img(bs,'runA','sorry');BOB.img(bs,'runB','sorry')}
- const now=performance.now(),re=RX&&now-RX.t0<(RX.k==='ok'?700:1300)?RX:null,k=re?(now-re.t0)/(re.k==='ok'?700:1300):0;
- const bounce=rm?0:Math.abs(Math.sin(t*(running?9:3)))*(running?4:2);
- const hop=re&&re.k==='ok'&&!rm&&k<.6?Math.sin(k/.6*Math.PI)*16:0,droop=re&&re.k==='bad'&&!rm?Math.sin(Math.min(1,k*3)*Math.PI/2)*3:0;
- const cx=ax-44,base=ay-bounce-hop+droop;
- g.fillStyle='rgba(15,18,48,.18)';g.beginPath();g.ellipse(cx,ay+1,15-hop*.3,3.5,0,0,7);g.fill();
- if(id==='bobby'){const ex=re&&re.k==='bad'?'sorry':re&&re.k==='ok'?'excited':'happy',pose=re&&re.k==='ok'?'hop':running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand';
-  const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,cx-17,base-47,33,47)}
- else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,cx-25,base-48,50,50);
-  if(re&&re.k==='bad'){g.fillStyle='#8FD0F6';g.strokeStyle='#241B4B';g.lineWidth=1.5;g.beginPath();g.moveTo(cx+16,base-40);g.quadraticCurveTo(cx+21,base-32,cx+16,base-30);g.quadraticCurveTo(cx+11,base-32,cx+16,base-40);g.fill();g.stroke()}}
- if(re&&re.k==='ok'){const a=1-k;g.save();g.globalAlpha=Math.max(0,a);g.fillStyle='#FFE45C';g.strokeStyle='#241B4B';g.lineWidth=1.2;
-  for(let i=0;i<5;i++){const ang=i*1.256+.4,r=rm?24:16+k*14,x=cx+Math.cos(ang)*r,y=base-24+Math.sin(ang)*r*.8,z=rm?3.5:3.5+Math.sin(k*Math.PI)*1.5;
-   g.beginPath();g.moveTo(x,y-z*1.6);g.lineTo(x+z*.5,y-z*.5);g.lineTo(x+z*1.6,y);g.lineTo(x+z*.5,y+z*.5);g.lineTo(x,y+z*1.6);g.lineTo(x-z*.5,y+z*.5);g.lineTo(x-z*1.6,y);g.lineTo(x-z*.5,y-z*.5);g.closePath();g.fill();g.stroke()}
-  g.restore()}}
+// Personality: a signature idle per species, a celebration on correct, a gentle reaction on wrong (Bobby throws a rope),
+// and the odd spontaneous moment (butterfly chase, presenting a word token). Reduced motion: no hops/flips/bobs, cues stay.
+const ELEM={bobby:'fire',phoenix:'fire',rex:'fire',inkoo:'water',crab:'water',glyphin:'water',syntaxolotl:'water',lexi:'zap',echobat:'zap',hootle:'wind',pagewing:'wind',snailbet:'leaf',lexicorn:'star'};
+const IDLE={bobby:'wag',hootle:'blink',inkoo:'float',snailbet:'peek',crab:'side',lexi:'spin',pagewing:'flap',echobat:'float',glyphin:'arc',syntaxolotl:'wiggle',lexicorn:'prance',rex:'stomp',phoenix:'float'};
+let RX=null,PRE=0,SP={next:0,k:'',t0:0};
+function react(k){RX={k,t0:performance.now()}}
+const DUR={ok:700,bad:1300,flip:900};
+function star(g,x,y,z){g.beginPath();g.moveTo(x,y-z*1.6);g.lineTo(x+z*.5,y-z*.5);g.lineTo(x+z*1.6,y);g.lineTo(x+z*.5,y+z*.5);g.lineTo(x,y+z*1.6);g.lineTo(x-z*.5,y+z*.5);g.lineTo(x-z*1.6,y);g.lineTo(x-z*.5,y-z*.5);g.closePath();g.fill();g.stroke()}
+function followerPos(ax,ay){return{x:ax-44,y:ay-24}}
+function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];if(!o)return;
+ if(!PRE&&id==='bobby'){PRE=1;const bs=H().bobbyStage();['excited','sorry','cheer'].forEach(e=>['stand','hop','runA','runB'].forEach(p=>BOB.img(bs,p,e)))}
+ const now=performance.now(),re=RX&&now-RX.t0<DUR[RX.k]?RX:null,k=re?(now-re.t0)/DUR[re.k]:0,ink='#241B4B';
+ // spontaneous moments, only while calmly running and not reacting
+ if(!SP.next)SP.next=now+9000+Math.random()*8000;
+ if(!SP.k&&!re&&running&&now>SP.next){SP.k=Math.random()<.5&&!rm?'fly':'token';SP.t0=now}
+ const sk=SP.k?(now-SP.t0)/2600:0;if(SP.k&&sk>=1){SP.k='';SP.next=now+14000+Math.random()*10000}
+ const idle=IDLE[id]||'wag',ph=t*(running?9:3);
+ let bounce=rm?0:Math.abs(Math.sin(ph))*(running?4:2),dx=0,rot=0,sx=1;
+ if(!rm){if(idle==='float'||idle==='flap')bounce=6+Math.sin(t*4)*4;if(idle==='side')dx=Math.sin(t*3)*3;if(idle==='spin'&&(t%5)<.5)sx=Math.cos((t%5)/.5*Math.PI*2);if(idle==='wiggle')rot=Math.sin(t*6)*.08;if(idle==='prance')bounce=Math.abs(Math.sin(ph*.5))*7;if(idle==='stomp')bounce=Math.max(0,Math.sin(ph*.7))*3}
+ if(SP.k==='fly'&&!rm)dx+=Math.sin(sk*Math.PI)*22;
+ const hop=re&&(re.k==='ok'||re.k==='flip')&&!rm?Math.sin(Math.min(1,k/.7)*Math.PI)*(re.k==='flip'?24:16):0;
+ if(re&&re.k==='flip'&&!rm)rot=Math.min(1,k/.7)*-Math.PI*2;
+ const cx=ax-44+dx,base=ay-bounce-hop;
+ g.fillStyle='rgba(15,18,48,.2)';g.beginPath();g.ellipse(cx,ay+1,15-hop*.3,3.5,0,0,7);g.fill();
+ g.save();g.translate(cx,base-22);if(rot)g.rotate(rot);if(sx!==1)g.scale(sx,1);
+ if(id==='bobby'){const ex=re&&re.k==='bad'?'sorry':re?'excited':SP.k?'excited':'happy',pose=re&&re.k!=='bad'?'hop':running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand';
+  const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,-17,-25,33,47)}
+ else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,-25,-26,50,50)}
+ g.restore();
+ // wrong answer: puzzled "?" (never a punishment); Bobby throws a rope to pull the avatar back
+ if(re&&re.k==='bad'){
+  if(id==='bobby'&&s&&s.mode==='fall'){const px=ax,py=ay+(s.ay||0)-30;g.strokeStyle='#C98A4B';g.lineWidth=2.5;g.beginPath();g.moveTo(cx+10,base-24);g.quadraticCurveTo((cx+px)/2,Math.max(base,py)+18,px,py);g.stroke();g.fillStyle='#C98A4B';g.beginPath();g.arc(px,py,3.5,0,7);g.fill()}
+  else{g.fillStyle='#fff';g.strokeStyle=ink;g.lineWidth=1.5;g.beginPath();g.arc(cx+20,base-46,8,0,7);g.fill();g.stroke();g.fillStyle=ink;g.font='800 12px Fredoka,sans-serif';g.textAlign='center';g.fillText(id==='bobby'?'!':'?',cx+20,base-42)}}
+ // celebration sparkles
+ if(re&&re.k!=='bad'){g.save();g.globalAlpha=Math.max(0,1-k);g.fillStyle='#FFE45C';g.strokeStyle=ink;g.lineWidth=1.2;
+  for(let i=0;i<(re.k==='flip'?7:5);i++){const ang=i*(6.283/(re.k==='flip'?7:5))+.4,r=rm?24:16+k*16;star(g,cx+Math.cos(ang)*r,base-24+Math.sin(ang)*r*.8,rm?3.5:3.5+Math.sin(k*Math.PI)*1.5)}g.restore()}
+ // spontaneous: butterfly to chase, or proudly hold up a word token
+ if(SP.k==='fly'){const bx=cx+30+Math.sin(sk*9)*10,by=base-50+Math.cos(sk*13)*6,w=Math.abs(Math.sin(t*20))*5+1;g.fillStyle='#FF7AA8';g.strokeStyle=ink;g.lineWidth=1;g.beginPath();g.ellipse(bx-w*.7,by,w,4,0,0,7);g.ellipse(bx+w*.7,by,w,4,0,0,7);g.fill();g.stroke()}
+ if(SP.k==='token'){const a=Math.min(1,sk*4,(1-sk)*4),ty=base-52-(rm?0:Math.sin(Math.min(1,sk*3)*Math.PI/2)*4);g.save();g.globalAlpha=a;g.fillStyle='#FFE45C';g.strokeStyle=ink;g.lineWidth=2;g.beginPath();g.roundRect?g.roundRect(cx-14,ty-9,28,16,5):g.rect(cx-14,ty-9,28,16);g.fill();g.stroke();g.fillStyle=ink;g.font='800 10px Fredoka,sans-serif';g.textAlign='center';g.fillText('ABC',cx,ty+3);g.restore()}
+}
 // ---------------- bottom nav ----------------
 const NI={home:'<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>',map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14"/>',cr:'<path d="M12 3c4 0 7 6 7 10a7 7 0 0 1-14 0c0-4 3-10 7-10z"/>',av:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7z"/>',more:'<circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>'};
 function navHTML(){const t=T(),c=st();return `<nav class="bnav" id="bnav" aria-label="${t.navLabel}">${[['home',t.nav[0]],['map',t.nav[1]],['cr',t.nav[2]],['av',t.nav[3]],['more',t.nav[4]]].map(([k,l])=>`<button data-nav="${k}" type="button"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">${NI[k]}</svg><span>${l}</span>${k==='cr'&&c.eggs.length?`<i class="nbadge" aria-label="${c.eggs.length}">${c.eggs.length}</i>`:''}</button>`).join('')}</nav>`}
@@ -172,6 +195,6 @@ function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"
  $('ab').onclick=more;$('adv').onclick=()=>dedication(null,1);nav('more')}
 // ---------------- share card helper ----------------
 function shareList(){const c=st();return [c.act,...Object.keys(c.own).filter(k=>k!==c.act)].slice(0,4)}
-window.CRE={evolve,init,ev,give,hatch,screen,detail,eggInfo,drawFollower,react,nav,more,story,hint,dedication,about,checkEvo,st,stageOf,nick,shareList,R,RCOL,LIST,count:()=>LIST.filter(x=>x[1]<4&&st().own[x[0]]).length,total:()=>LIST.filter(x=>x[1]<4).length,
+window.CRE={evolve,init,ev,give,hatch,screen,detail,eggInfo,drawFollower,react,ELEM,followerPos,nav,more,story,hint,dedication,about,checkEvo,st,stageOf,nick,shareList,R,RCOL,LIST,count:()=>LIST.filter(x=>x[1]<4&&st().own[x[0]]).length,total:()=>LIST.filter(x=>x[1]<4).length,
  bonus:()=>{const r=R(st().act);return [.1,.25,.5,1,0][r]||0},hideNav:()=>{const n=$('bnav');if(n)n.remove();document.body.classList.remove('hasnav')}};
 })();

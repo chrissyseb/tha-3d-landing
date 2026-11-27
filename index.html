@@ -1454,7 +1454,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(s.boss)this.drawBoss(s.boss,GY,cam,RM,s);
   // avatar (+pet)
   const ax=s.ax-cam,ay=GY+(s.mode==='fall'?s.ay:s.ay);
-  CRE.drawFollower(g,ax,ay,s.t,s.mode==='run'&&s.ground,RM);
+  CRE.drawFollower(g,ax,ay,s.t,s.mode==='run'&&s.ground,RM,s);
   const a=S.av,run=s.mode==='run'&&s.ground&&!RM,leg=run?Math.sin(s.t*16)*5:0;
   this.blk(ax-13,ay-58,26,22,'#ffcf5a');g.fillStyle='#1b2140';g.fillRect(ax-7,ay-51,4,5);g.fillRect(ax+4,ay-51,4,5);
   {const G=S.gear||{},GC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'},C=k=>G[k]?GC[k]:null;let c;
@@ -1485,6 +1485,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
 };
 
 // ---------- Shadow Chase (streak bonus game) ----------
+if(/[?&]qa=1/.test(location.search))window.__OB=OB;
 function chase(done){
   OB.hide();setTimeout(()=>document.body.classList.add('playing'),0);
   if(S.bonus>0)S.bonus--;save();hud();
