@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#8E6FE3"/><stop offset="1" stop-color="#4A2A9C"/></linearGradient>
-<radialGradient id="gl"><stop offset="0" stop-color="#FFE45C" stop-opacity="0.55"/><stop offset=".55" stop-color="#FFE45C" stop-opacity="0.1925"/><stop offset="1" stop-color="#FFE45C" stop-opacity="0"/></radialGradient>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient>
+<radialGradient id="gl"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.6"/><stop offset=".55" stop-color="#FFFFFF" stop-opacity="0.21"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
 <linearGradient id="hi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
 <rect width="512" height="512" fill="url(#bg)"/><circle cx="256" cy="262" r="210" fill="url(#gl)"/>
-<ellipse cx="256" cy="442.0" rx="156.0" ry="19.2" fill="#2A1260" opacity=".35"/>
-<g transform="translate(0 16.8)" opacity=".55"><g transform="translate(256 262) scale(1.2) translate(-256 -190)"><g fill="#2A1260" stroke="#2A1260" stroke-width="12" stroke-linejoin="round"><path d="M128 178 L150 52 L238 128Z"/><path d="M384 178 L362 52 L274 128Z"/><path d="M112 168 Q256 96 400 168 Q412 236 256 330 Q100 236 112 168Z"/></g></g></g>
+<ellipse cx="256" cy="442.0" rx="156.0" ry="19.2" fill="#3B2A8C" opacity=".35"/>
+<g transform="translate(0 16.8)" opacity=".55"><g transform="translate(256 262) scale(1.2) translate(-256 -190)"><g fill="#3B2A8C" stroke="#3B2A8C" stroke-width="12" stroke-linejoin="round"><path d="M128 178 L150 52 L238 128Z"/><path d="M384 178 L362 52 L274 128Z"/><path d="M112 168 Q256 96 400 168 Q412 236 256 330 Q100 236 112 168Z"/></g></g></g>
 <g transform="translate(256 262) scale(1.2) translate(-256 -190)"><g  stroke="#160C30" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
 <path d="M128 178 L150 52 L238 128Z" fill="#FF8A3D"/><path d="M384 178 L362 52 L274 128Z" fill="#FF8A3D"/>
 <path d="M150 150 L160 88 L208 128Z" fill="#3B1C4A" stroke-width="0"/><path d="M362 150 L352 88 L304 128Z" fill="#3B1C4A" stroke-width="0"/>

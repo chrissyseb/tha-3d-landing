@@ -3,11 +3,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Team Up | VocaBobby</title>
 <meta name="description" content="Team Up in VocaBobby: fight word bosses together with friends.">
-<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#1b2140"><link rel="icon" href="/icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" sizes="180x180">
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#241B4B"><link rel="icon" href="/icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="/icons/favicon-48.png" sizes="48x48"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" sizes="180x180">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/vo.css">
 <style>
-:root{--ink:#1b2140;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Fredoka','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+:root{--ink:#241B4B;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Fredoka','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:linear-gradient(#3fb4e8,#8fd6f5 70%,#9dd946 70%);color:var(--ink);font:600 17px/1.5 var(--fb);min-height:100vh;overflow-x:clip}
 .wrap{max-width:720px;margin:0 auto;padding:16px max(4vw,14px) 110px}
@@ -49,7 +49,7 @@ label{font:800 14px var(--fd);display:block;margin:10px 0 6px}
 .powers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .powers.four{grid-template-columns:repeat(4,minmax(0,1fr))}
 .pw{min-height:84px;border-radius:50%;aspect-ratio:1;font-size:15px;display:grid;place-items:center;padding:4px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35)}
-.pw.fire{background:radial-gradient(circle at 35% 30%,#ffd27a,#ff6a2b 60%,#c2361b)}.pw.water{background:radial-gradient(circle at 35% 30%,#bfefff,#38a8f0 60%,#1d6fc2)}.pw.zap{background:radial-gradient(circle at 35% 30%,#fff7b0,#ffd23f 55%,#e0a400);color:var(--ink);text-shadow:none}.pw.star{background:conic-gradient(#ff5d8f,#ffd23f,#2fbf71,#38a8f0,#b15fd7,#ff5d8f)}
+.pw.fire{background:radial-gradient(circle at 35% 30%,#ffd27a,#ff6a2b 60%,#c2361b)}.pw.water{background:radial-gradient(circle at 35% 30%,#bfefff,#38a8f0 60%,#1d6fc2)}.pw.zap{background:radial-gradient(circle at 35% 30%,#fff7b0,#FFE45C 55%,#e0a400);color:var(--ink);text-shadow:none}.pw.star{background:conic-gradient(#ff5d8f,#FFE45C,#2fbf71,#38a8f0,#b15fd7,#ff5d8f)}
 .timer{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:4px 0 12px}.timer i{display:block;height:100%;background:var(--ink);transition:width .25s linear}
 .feed{font:700 14px/1.45 var(--fb);color:var(--mut);max-height:132px;overflow:auto;margin:0;padding-left:18px}
 .emotes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
@@ -90,9 +90,9 @@ const saveS=()=>LS.set(K,JSON.stringify(S));
 const myWorld=()=>Math.max(0,Math.min(5,(S.lad&&S.lad.t)||0)),myLv=()=>Math.max(0,Math.min(5,Math.round(S.lv==null?2:S.lv)));
 const WN=['Grass Plains','Desert Dunes','Jungle Ruins','Lava Land','Ice Peaks','Outer Space'];
 const EMO=['👍','🔥','Nice!','Your turn!','GG'];
-const BOSSC=[['#4f9a3a','#2f5e24','#ffd23f'],['#d9a54a','#9c6a26','#3fb2f5'],['#2f8f6a','#1d5c44','#ffe14a'],['#7a2b1f','#45150c','#ffb020'],['#7fc9ec','#3f86b4','#ffffff'],['#5a45c2','#2a1d6b','#ff5d8f'],['#5b2c8f','#2e1452','#ffd23f'],['#5a3a22','#2f1d10','#7dff5a']];
-const SKY=[['#3fb4e8','#9dd946'],['#f2b45a','#e0a14a'],['#2f8f6a','#4f9a3a'],['#4a1a14','#7a2b1f'],['#9fd8f5','#e8f6ff'],['#0b0b2b','#2a1d6b'],['#3b1f66','#ffd23f'],['#1d5c44','#2f8f6a']];
-const ELC={fire:['#ff6a2b','#ffd27a'],water:['#38a8f0','#bfefff'],zap:['#ffd23f','#fff7b0'],star:['#ff5d8f','#ffd23f']};
+const BOSSC=[['#4f9a3a','#2f5e24','#FFE45C'],['#d9a54a','#9c6a26','#3fb2f5'],['#2f8f6a','#1d5c44','#ffe14a'],['#7a2b1f','#45150c','#ffb020'],['#7fc9ec','#3f86b4','#ffffff'],['#5a45c2','#2a1d6b','#ff5d8f'],['#5b2c8f','#2e1452','#FFE45C'],['#5a3a22','#2f1d10','#7dff5a']];
+const SKY=[['#3fb4e8','#9dd946'],['#f2b45a','#e0a14a'],['#2f8f6a','#4f9a3a'],['#4a1a14','#7a2b1f'],['#9fd8f5','#e8f6ff'],['#0b0b2b','#2a1d6b'],['#3b1f66','#FFE45C'],['#1d5c44','#2f8f6a']];
+const ELC={fire:['#ff6a2b','#ffd27a'],water:['#38a8f0','#bfefff'],zap:['#FFE45C','#fff7b0'],star:['#ff5d8f','#FFE45C']};
 let R=null, tokn=null, pid=null, poll=null, lastFx=0, lastFeed=0, answered={}, awarded=LS.get('vo_team_aw')||'';
 let mute=false;try{mute=!!JSON.parse(LS.get(K)||'{}').mute}catch(e){}
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -208,7 +208,7 @@ function won(){
 // ---------- arena canvas ----------
 let cv,cx,parts=[],shot=null,flash=0,shake=0,raf=null,bossHurt=0,t0=performance.now();
 function initCanvas(){cv=$('cv');if(!cv)return;cx=cv.getContext('2d');const fit=()=>{const r=cv.getBoundingClientRect(),d=devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;cx.setTransform(d,0,0,d,0,0)};fit();if(!raf)loop()}
-function rect(x,y,w,h,c,s='#1b2140'){cx.fillStyle=c;cx.fillRect(x,y,w,h);cx.lineWidth=2;cx.strokeStyle=s;cx.strokeRect(x+1,y+1,w-2,h-2)}
+function rect(x,y,w,h,c,s='#241B4B'){cx.fillStyle=c;cx.fillRect(x,y,w,h);cx.lineWidth=2;cx.strokeStyle=s;cx.strokeRect(x+1,y+1,w-2,h-2)}
 function drawBoss(W,H,t){
   const i=R.boss.i,[b,d,e]=BOSSC[i]||BOSSC[0],giant=i===7,sc=giant?1.35:1;
   const bx=W*.68,by=H*.78+Math.sin(t/400)*(reduce?0:3),s=Math.min(W,H)*.0042*sc;
@@ -218,8 +218,8 @@ function drawBoss(W,H,t){
   if(giant){rect(-58,-76,20,46,d);rect(38,-76,20,46,d);rect(-26,-128,52,12,'#2f8f3a')}
   else{rect(-52,-70,14,34,d);rect(38,-70,14,34,d)}
   cx.fillStyle=e;cx.fillRect(-20,-104,12,10);cx.fillRect(8,-104,12,10);
-  cx.fillStyle='#1b2140';cx.fillRect(-16,-90,32,6);
-  if(i===6){cx.fillStyle='#ffd23f';cx.beginPath();cx.moveTo(-28,-118);cx.lineTo(-28,-138);cx.lineTo(-14,-126);cx.lineTo(0,-142);cx.lineTo(14,-126);cx.lineTo(28,-138);cx.lineTo(28,-118);cx.closePath();cx.fill();cx.stroke()}
+  cx.fillStyle='#241B4B';cx.fillRect(-16,-90,32,6);
+  if(i===6){cx.fillStyle='#FFE45C';cx.beginPath();cx.moveTo(-28,-118);cx.lineTo(-28,-138);cx.lineTo(-14,-126);cx.lineTo(0,-142);cx.lineTo(14,-126);cx.lineTo(28,-138);cx.lineTo(28,-118);cx.closePath();cx.fill();cx.stroke()}
   if(bossHurt>0){cx.globalCompositeOperation='lighter';cx.fillStyle='rgba(255,255,255,.55)';cx.fillRect(-40,-118,80,118);cx.globalCompositeOperation='source-over'}
   cx.restore();
 }
@@ -227,11 +227,11 @@ function drawHeroes(W,H,t){
   const ps=R.players.filter(p=>!p.left);ps.forEach((p,k)=>{
     const x=W*.1+k*W*.1,y=H*.8,s=Math.min(W,H)*.0032,act=p.pid===R.turn;
     cx.save();cx.translate(x,y-(act&&!reduce?Math.abs(Math.sin(t/220))*6:0));cx.scale(s,s);
-    const sh=(p.av&&p.av.shirt&&p.av.shirt[0]==='#')?p.av.shirt:(p.av&&p.av.shirt==='f:gold'?'#ffd23f':'#2f80ed'),pa=(p.av&&p.av.pants&&p.av.pants[0]==='#')?p.av.pants:'#2b2b2b';
+    const sh=(p.av&&p.av.shirt&&p.av.shirt[0]==='#')?p.av.shirt:(p.av&&p.av.shirt==='f:gold'?'#FFE45C':'#2f80ed'),pa=(p.av&&p.av.pants&&p.av.pants[0]==='#')?p.av.pants:'#2b2b2b';
     rect(-10,-18,9,18,pa);rect(1,-18,9,18,pa);rect(-12,-40,24,22,sh);rect(-10,-58,20,18,'#ffcc4d');
-    cx.fillStyle='#1b2140';cx.fillRect(-6,-52,3,4);cx.fillRect(3,-52,3,4);
+    cx.fillStyle='#241B4B';cx.fillRect(-6,-52,3,4);cx.fillRect(3,-52,3,4);
     cx.restore();
-    cx.font='800 11px Fredoka,system-ui';cx.textAlign='center';cx.fillStyle=act?'#ffd23f':'#fff';cx.strokeStyle='#1b2140';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
+    cx.font='800 11px Fredoka,system-ui';cx.textAlign='center';cx.fillStyle=act?'#FFE45C':'#fff';cx.strokeStyle='#241B4B';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
   })
 }
 function heroPos(id){const ps=R.players.filter(p=>!p.left),k=Math.max(0,ps.findIndex(p=>p.pid===id));const r=cv.getBoundingClientRect();return [r.width*.1+k*r.width*.1+10,r.height*.8-40]}
