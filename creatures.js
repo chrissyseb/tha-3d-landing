@@ -149,11 +149,11 @@ function hint(k){const c=st();if(c.hints[k])return;const tx=T().hints[k];if(!tx)
  setTimeout(()=>{document.body.appendChild(d);d.onclick=()=>d.remove();setTimeout(()=>d.remove(),7000)},350)}
 // ---------------- dedication (book-style) ----------------
 function dedication(after,manual){const d=document.createElement('div');d.className='dedi';d.setAttribute('role','dialog');d.setAttribute('aria-label',T().dediLabel);
- d.innerHTML=`<div class="dedip"><p>${H().STR.dedication.map(l=>l?esc(l):'').join('<br>')}</p><div class="dedib">${BOB.face('happy',40)}</div>${manual?`<button class="dedic" type="button">${H().STR.close}</button>`:''}</div>`;
+ d.innerHTML=`<div class="dedip"><p>${H().STR.dedication.map(l=>l?(/^PS:/.test(l)?`<span class="deps">${esc(l)}</span>`:esc(l)):'').join('<br>')}</p><div class="dedib">${BOB.face('happy',40)}</div>${manual?`<button class="dedic" type="button">${H().STR.close}</button>`:''}</div>`;
  document.body.appendChild(d);requestAnimationFrame(()=>d.classList.add('in'));let gone=false;
  const out=()=>{if(gone)return;gone=true;d.classList.add('out');setTimeout(()=>{d.remove();after&&after()},RM()?0:700)};
- d.onclick=out;if(!manual)setTimeout(out,3400)}
-function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"><button class="back" id="ab">‹ ${t.back}</button><span class="tag">${t.mAbout}</span><div class="aboutded">${h.STR.dedication.map(l=>l?esc(l):'').join('<br>')}<div>${BOB.face('happy',40)}</div></div><p class="crmut">${t.credits}</p><button class="go soft" id="adv">${t.showDedi}</button></div>`;
+ d.onclick=out;if(!manual)setTimeout(out,5200)}
+function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"><button class="back" id="ab">‹ ${t.back}</button><span class="tag">${t.mAbout}</span><div class="aboutded">${h.STR.dedication.map(l=>l?(/^PS:/.test(l)?`<span class="deps">${esc(l)}</span>`:esc(l)):'').join('<br>')}<div>${BOB.face('happy',40)}</div></div><p class="crmut">${t.credits}</p><button class="go soft" id="adv">${t.showDedi}</button></div>`;
  $('ab').onclick=more;$('adv').onclick=()=>dedication(null,1);nav('more')}
 // ---------------- share card helper ----------------
 function shareList(){const c=st();return [c.act,...Object.keys(c.own).filter(k=>k!==c.act)].slice(0,4)}
