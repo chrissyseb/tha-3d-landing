@@ -1273,9 +1273,11 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    addEventListener('keydown',e=>{if(!this.st||this.el.hidden)return;if((e.code==='Space'||e.key==='ArrowUp'||e.key==='w')&&this.st.mode==='run'){e.preventDefault();this.jump()}if(e.key==='p'&&this.st.mode==='run')this.pause()});
    document.addEventListener('visibilitychange',()=>{if(document.hidden&&this.st&&this.st.mode==='run'&&!this.st.paused)this.pause()});
   }
-  this.el.hidden=false;if(w!=null)this.w=w;if(!this.st)this.reset();
+  this.fit();this.el.hidden=false;if(w!=null)this.w=w;if(!this.st)this.reset();
   if(!this.raf){this.last=performance.now();this.raf=requestAnimationFrame(t=>this.frame(t))}
  },
+ // Phones: zoom in by drawing a narrower slice of the course (470 wide instead of 720), so the avatar and companion are ~1.5x bigger.
+ fit(){const nw=(this.el.parentNode&&this.el.parentNode.clientWidth||innerWidth)<600?470:720;if(this.c.width!==nw){this.c.width=nw;this.c.style.aspectRatio=nw+'/230'}if(!this._fit){this._fit=1;addEventListener('resize',()=>{if(this.c)this.fit()})}},
  hide(){if(this.el)this.el.hidden=true;if(this.raf)cancelAnimationFrame(this.raf);this.raf=0;this.st=null},
  pause(){const s=this.st;if(!s)return;s.paused=!s.paused;this.el.querySelector('.obp').textContent=s.paused?'▶':'II';this.el.querySelector('.obp').setAttribute('aria-label',s.paused?'Resume':'Pause');this.last=performance.now()},
  jump(){const s=this.st;if(!s||s.paused||s.mode!=='run'||!s.ground)return;s.vy=this.RM()?-470:-540;s.ground=false},
@@ -1340,7 +1342,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(!a.hitDone&&a.t>=a.wind+a.strike){a.hitDone=true;s.phurt=.6;if(!RM)s.shakeT=.45;else s.flash=.1;s.fx.push({x:s.ax,y:-80,vx:0,vy:-60,l:1,c:'#ff4b6e',txt:'-1 heart',big:1});if(!RM)for(let i=0;i<12;i++)s.fx.push({x:s.ax,y:-40,vx:(Math.random()-.5)*200,vy:-120-Math.random()*140,l:.6,c:'#ff4b6e'})}
    if(a.t>=a.wind+a.strike+(RM?.1:.35)){s.batk=null;if(b)b.lean=0;if(a.cb)a.cb()}}
   s.fx=s.fx.filter(p=>(p.l-=dt)>0);for(const p of s.fx){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=500*dt}
-  const camT=s.ax-170;s.cam+=(camT-s.cam)*Math.min(1,dt*(RM?20:6))||0;if(!isFinite(s.cam))s.cam=camT;
+  const camT=s.ax-(this.c.width<600?120:170);s.cam+=(camT-s.cam)*Math.min(1,dt*(RM?20:6))||0;if(!isFinite(s.cam))s.cam=camT;
   this.draw();
  },
  drawBoss(b,GY,cam,RM,s){const g=this.g,B=CB();
@@ -1431,7 +1433,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  },
  blk(x,y,w,h,f){const g=this.g;g.fillStyle=f;g.fillRect(x,y,w,h);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(x+1.5,y+1.5,w-3,h-3)},
  draw(){
-  const g=this.g,s=this.st,P=this.PAL[this.w]||this.PAL[0],W2=720,H=230,GY=182,cam=s.cam,RM=this.RM();
+  const g=this.g,s=this.st,P=this.PAL[this.w]||this.PAL[0],W2=this.c.width,H=230,GY=182,cam=s.cam,RM=this.RM();
   g.save();if(s.shakeT>0&&!RM)g.translate((Math.random()-.5)*10,(Math.random()-.5)*8);
   const sky=g.createLinearGradient(0,0,0,H);sky.addColorStop(0,P[0]);sky.addColorStop(1,P[1]);g.fillStyle=sky;g.fillRect(0,0,W2,H);
   if(this.w===5){g.fillStyle='#ffffffaa';for(let i=0;i<40;i++){const x=((i*137-cam*.1)%W2+W2)%W2,y=(i*53)%140;g.fillRect(x,y,2,2)}}
