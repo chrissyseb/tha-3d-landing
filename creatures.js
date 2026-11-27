@@ -144,6 +144,8 @@ function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];
  if(id==='bobby'){const ex=re&&re.k==='bad'?'sorry':re?'excited':SP.k?'excited':'happy',pose=re&&re.k!=='bad'?'hop':running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand';
   const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,-17,-25,33,47)}
  else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,-25,-26,50,50)}
+ // Twin finish (optional, More > Settings): collar in the avatar's shirt/armour colour
+ if(S().twin){const col=H().flat(S().av&&S().av.shirt)||'#2f80ed',ny=id==='bobby'?-4:4;g.fillStyle=col;g.strokeStyle='#241B4B';g.lineWidth=1.5;g.beginPath();g.roundRect?g.roundRect(-11,ny,22,5,2.5):g.rect(-11,ny,22,5);g.fill();g.stroke();g.fillStyle='#FFE45C';g.beginPath();g.arc(0,ny+6,2.6,0,7);g.fill();g.stroke()}
  g.restore();if(mt){g.restore();if(!rm&&Math.random()<.5)s.fx.push({x:s.ax-10,y:-6,vx:-60-Math.random()*60,vy:-40,l:.5,c:['#FFE45C','#fff','#FFB23F'][Math.random()*3|0]})}
  // wrong answer: puzzled "?" (never a punishment); Bobby throws a rope to pull the avatar back
  if(re&&re.k==='bad'){
@@ -170,9 +172,9 @@ function more(){const h=H();h.leave();const t=T(),s=S();
  <p class="wmk"><b>${t.mMe}</b></p>${row('mbdg','medal',t.mBadges,t.mBadgesS((s.badges||[]).length,h.BADGES.length))}${row('mlb','trophy',t.mBoard,t.mBoardS)}
  <p class="wmk"><b>${t.mHelp}</b></p>${row('mstory','book',t.mStory,t.mStoryS)}${row('mhow','help',t.mHow,t.mHowS)}
  <p class="wmk"><b>${t.mSet}</b></p>${row('mvib','bolt',t.mVib(h.VIBON()),t.mVibS)}${row('mskin','star',t.mSkin(document.body.classList.contains('night')),t.mSkinS)}
- ${row('mabout','help',t.mAbout,t.mAboutS)}<a class="sec" href="/account.html"><span class="ico">${h.ic('lock')}</span><span class="lbl"><b>${t.mAcc}</b><small>${t.mAccS}</small></span></a></div></div>`;
+ ${row('mtwin','star','Twin finish: '+(s.twin?'on':'off'),'Your creature\'s collar matches your outfit colour')}${row('mabout','help',t.mAbout,t.mAboutS)}<a class="sec" href="/account.html"><span class="ico">${h.ic('lock')}</span><span class="lbl"><b>${t.mAcc}</b><small>${t.mAccS}</small></span></a></div></div>`;
  $('mrev').onclick=()=>h.start('rev');$('mfix').onclick=()=>h.start('fix');$('mbook').onclick=h.book;$('mbdg').onclick=h.badges;$('mlb').onclick=h.leaderboard;$('mstory').onclick=()=>story(more);$('mhow').onclick=h.howto;
- $('mvib').onclick=()=>{h.setVib(!h.VIBON());h.buzz(30);more()};$('mskin').onclick=()=>{h.toggleSkin();more()};$('mabout').onclick=about;
+ $('mvib').onclick=()=>{h.setVib(!h.VIBON());h.buzz(30);more()};$('mskin').onclick=()=>{h.toggleSkin();more()};$('mabout').onclick=about;$('mtwin').onclick=()=>{s.twin=!s.twin;save();more()};
  nav('more');hint('more')}
 // ---------------- story intro (skippable, 3 cards) ----------------
 function story(after){const t=T(),cards=t.story;let i=0;const d=document.createElement('div');d.className='storyov';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',t.storyLabel);document.body.appendChild(d);
