@@ -48,23 +48,23 @@
     return null;
   } };
 
-  // Paywall: free = worlds 1-3, reviews and mini-games. PSLE Edition = exam-level worlds (4-6) + Exam Pack, one demo of each.
+  // Paywall: the whole game is free (all six worlds, pets, bosses, mini-games, leaderboard). PSLE Edition = the PSLE Kingdom world, first run free.
   window.VO_GATE = function (kind, arg, tier, home) {
-    const needs = (kind === 'learn' && tier >= 3) ? 'world' : (kind === 'world' && Number(arg) >= 3) ? 'world' : kind === 'challenge' ? 'pack' : null;
+    const needs = kind === 'challenge' ? 'pack' : null;
     if (!needs) return true;
     if (VO.me && VO.me.paid) return true;
     let d = {}; try { d = JSON.parse(LS.get('vo_demo') || '{}') } catch { }
-    if (!d[needs]) { d[needs] = 1; LS.set('vo_demo', JSON.stringify(d)); toast(needs === 'pack' ? 'Free demo: one Exam Pack run on us!' : 'Free demo: one run in the PSLE Edition worlds!'); return true; }
+    if (!d[needs]) { d[needs] = 1; LS.set('vo_demo', JSON.stringify(d)); toast('Free demo: your first PSLE Kingdom run is on us!'); return true; }
     lock(home); return false;
   };
   function lock(home) {
     const m = document.getElementById('main'); if (!m) return;
     const kid = VO.me && VO.me.type === 'kid', parent = VO.me && VO.me.type === 'parent';
     m.innerHTML = `<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Unlock the PSLE Edition</div>
-      <p>You've reached the exam-level worlds: Lava Land, Ice Peaks and Outer Space, plus the PSLE Exam Pack built from real PSLE papers. Your free demo is used up.</p>
+      <p>PSLE Kingdom is the PSLE Edition world: words from real PSLE papers, exam-style runs, the Exam King boss and a parent progress report. Your free demo run is used up. Every other world in Vocab Obby stays free.</p>
       <p><b>S$29.90</b> per player for a full year, or <b>S$59.90</b> for a Family Pass (up to 3 players). Includes a parent progress report.</p>
       ${kid ? '<p>Ask a parent to unlock it at <b>vocab-obby.vercel.app/account</b>.</p>' : `<a class="go" style="display:block;text-align:center;text-decoration:none" href="/account.html#unlock">${parent ? 'Unlock now' : 'Create a parent account to unlock'}</a>`}
-      <button class="go" id="vo-back" style="background:var(--soft)">Keep playing the free worlds</button></div>`;
+      <button class="go" id="vo-back" style="background:var(--soft)">Back to the free game</button></div>`;
     const b = document.getElementById('vo-back'); if (b) b.onclick = () => home ? home() : location.reload();
   }
   function toast(t) { const d = document.createElement('div'); d.className = 'vo-toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3200); }

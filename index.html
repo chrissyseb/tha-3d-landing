@@ -125,7 +125,17 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .victory{background:linear-gradient(135deg,#ffe48a,#ffb020);animation:bubIn .4s both}
 .victory b,.ko b{font:800 26px var(--fd);display:block}
 .ko{background:#ffe1e1}.ko p{margin:6px 0 10px}.ko .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.ko .row .go{margin:0;width:auto;flex:1;min-width:130px}
-@media(prefers-reduced-motion:reduce){.bub{animation:none}.victory{animation:none}}
+.wmk{margin:14px 0 6px}.kingdoms .psle button{background:linear-gradient(90deg,#5b2c8f,#8a4fd1);color:#fff}.kingdoms .psle small{color:#f3e6ff}
+.holdbtn{display:block;margin:12px auto 0;min-height:52px;padding:8px 18px;border-radius:14px;border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);background:#ffe14a;color:#1b2140;font:800 16px var(--fd)}
+.holdbtn small{display:block;font:700 12px var(--fb,Nunito);opacity:.8}
+.bubbles.charged .bub{box-shadow:0 0 0 4px #ffe14a,0 5px 0 var(--ink)}
+.comboname{display:inline-block;font:900 26px var(--fd);color:var(--cc);-webkit-text-stroke:1.5px #1b2140;animation:bubIn .35s}
+.charge{font-size:16px;line-height:1}
+.tipq{width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:2px solid var(--ink);background:#fff;font:800 15px var(--fd);flex:none}
+.tips{margin:8px 0 0;border:3px solid var(--ink);border-radius:16px;background:#fffdf2;padding:12px 14px;box-shadow:0 4px 0 var(--ink)}
+.tips ul{margin:6px 0 8px;padding-left:18px}.tips li{margin:3px 0;font-size:14px}.tips .go{margin-top:4px}
+.giantwin b{font-size:28px}
+@media(prefers-reduced-motion:reduce){.bub{animation:none}.victory{animation:none}.comboname{animation:none}}
 .gold{border-color:#b98500;background:#fffbea}
 .gold .tag:first-child{background:var(--sun)}
 .timer{display:flex;align-items:center;justify-content:center;gap:8px;font:800 40px var(--fd)}
@@ -298,7 +308,7 @@ const WORLDS=[[0,'Grass Plains'],[1,'Desert Dunes'],[2,'Jungle Ruins'],[3,'Lava 
 const tier=()=>Math.max(0,Math.min(5,S.lad.t||0));
 function world(){const k=tier();document.body.dataset.world=k;return WORLDS[k][1]}
 function tierBar(){const t=tier(),g=EDGOAL[ED||'psle'],goal=t>=g?' · Goal reached!':' · Goal: '+WORLDS[g][1];if(t>=5)return `<div class="tbar"><span>${esc(WORLDS[5][1])}: top world reached</span><i style="width:100%"></i></div>`;const p=Math.min(100,Math.round((S.lad.pr||0)/70*100));return `<div class="tbar"><span>Next: ${esc(WORLDS[t+1][1])} at 70%</span><i style="width:${p}%"></i></div>`}
-const BADGES=[['First Run','Finish a 50-word run',()=>S.runs>=1],['Combo King','Hit a 20 combo',()=>S.bestCombo>=20],['Word Hoarder','Meet 250 words',()=>W.filter(x=>st(x[0]).seen).length>=250],['Gem Cutter','Master 50 words',()=>W.filter(x=>st(x[0]).m>=5).length>=50],['Speed Demon','Score 20 in Speed Run',()=>S.best>=20],['Pet Collector','Own 6 different pets',()=>new Set(S.pets).size>=6],['Legend Hatch','Hatch a Legendary pet',()=>S.pets.some(p=>PETS[p][1]===3)],['On Fire','7-day streak',()=>streak()>=7],['Boss Slayer','Beat 5 bosses',()=>(S.bosses||0)>=5],['Word Master','Master all words',()=>W.every(x=>st(x[0]).m>=5)],['Challenger','Finish a PSLE Exam Pack run',()=>!!S.challenger]];
+const BADGES=[['First Run','Finish a 50-word run',()=>S.runs>=1],['Combo King','Hit a 20 combo',()=>S.bestCombo>=20],['Word Hoarder','Meet 250 words',()=>W.filter(x=>st(x[0]).seen).length>=250],['Gem Cutter','Master 50 words',()=>W.filter(x=>st(x[0]).m>=5).length>=50],['Speed Demon','Score 20 in Speed Run',()=>S.best>=20],['Pet Collector','Own 6 different pets',()=>new Set(S.pets).size>=6],['Legend Hatch','Hatch a Legendary pet',()=>S.pets.some(p=>PETS[p][1]===3)],['On Fire','7-day streak',()=>streak()>=7],['Boss Slayer','Beat 5 bosses',()=>(S.bosses||0)>=5],['Word Master','Master all words',()=>W.every(x=>st(x[0]).m>=5)],['Challenger','Finish a PSLE Kingdom run',()=>!!S.challenger],['Giant Slayer','Defeat King Kongo',()=>(S.giants||0)>=1]];
 function checkBadges(){BADGES.forEach(b=>{if(!S.badges.includes(b[0])&&b[2]()){S.badges.push(b[0]);setTimeout(()=>{pop('Badge: '+b[0]);confetti(120)},600)}});save()}
 let AVN=0;const FIN={gold:['Metallic Gold',1500],silver:['Metallic Silver',1000],neon:['Neon glow',1200],galaxy:['Galaxy',2500],rainbow:['Rainbow',4000]};
 const finOk=v=>typeof v==='string'&&(/^#[0-9a-f]{6}$/i.test(v)||/^f:(gold|silver|galaxy|rainbow)$/.test(v)||/^f:neon#[0-9a-f]{6}$/i.test(v));
@@ -338,7 +348,11 @@ function hud(){
   $('snd').onclick=()=>{mute=!mute;hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
 }
 // ---------- sound + fx ----------
-let ac;const BOSSES=[{n:'Bramble Brute',b:'#4f9a3a',d:'#2f5e24',e:'#ffd23f',weak:'fire',atk:'slam'},{n:'Sand Sphinx',b:'#d9a54a',d:'#9c6a26',e:'#3fb2f5',weak:'water',atk:'blast'},{n:'Jungle Titan',b:'#2f8f6a',d:'#1d5c44',e:'#ffe14a',weak:'zap',atk:'slam'},{n:'Lava Golem',b:'#7a2b1f',d:'#45150c',e:'#ffb020',weak:'water',atk:'blast'},{n:'Ice Kraken',b:'#7fc9ec',d:'#3f86b4',e:'#ffffff',weak:'fire',atk:'shard'},{n:'Space Overlord',b:'#5a45c2',d:'#2a1d6b',e:'#ff5d8f',weak:'zap',atk:'laser'}];
+let ac;const BOSSES=[{n:'Bramble Brute',b:'#4f9a3a',d:'#2f5e24',e:'#ffd23f',weak:'fire',atk:'slam'},{n:'Sand Sphinx',b:'#d9a54a',d:'#9c6a26',e:'#3fb2f5',weak:'water',atk:'blast'},{n:'Jungle Titan',b:'#2f8f6a',d:'#1d5c44',e:'#ffe14a',weak:'zap',atk:'slam'},{n:'Lava Golem',b:'#7a2b1f',d:'#45150c',e:'#ffb020',weak:'water',atk:'blast'},{n:'Ice Kraken',b:'#7fc9ec',d:'#3f86b4',e:'#ffffff',weak:'fire',atk:'shard'},{n:'Space Overlord',b:'#5a45c2',d:'#2a1d6b',e:'#ff5d8f',weak:'zap',atk:'laser'},{n:'Exam King',b:'#5b2c8f',d:'#2e1452',e:'#ffd23f',weak:'water',atk:'laser'}];
+const KONGO={n:'King Kongo',b:'#6b4a2e',d:'#3b2716',e:'#7dff6a',weak:'fire',atk:'slam',giant:1};
+const CB=()=>(sess&&sess.giant)?KONGO:(BOSSES[OB.w]||BOSSES[0]);
+const COMBOS={'fire+water':['Steam Burst','#b48cff'],'fire+zap':['Plasma Blast','#ff3fd0'],'water+zap':['Storm Surge','#2ff0ff']};
+const comboOf=(a,b)=>{if(a==='star'||b==='star')return['Super Nova','#ffe14a'];return COMBOS[[a,b].sort().join('+')]||['Combo','#ffffff']};
 const ELN={fire:'Fire',water:'Water',zap:'Electric',star:'Star'};
 const BUB={fire:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c3 9 13 13 13 25a13 13 0 0 1-26 0c0-7 4-10 6-15 1 4 3 6 5 6-1-6 0-11 2-16z" fill="#fff3c4" stroke="#7a1d05" stroke-width="3" stroke-linejoin="round"/><path d="M24 24c2 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3z" fill="#ff7a1f"/></svg>',water:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5C18 16 10 22 10 31a14 14 0 0 0 28 0c0-9-8-15-14-26z" fill="#e6f8ff" stroke="#0b3f86" stroke-width="3" stroke-linejoin="round"/><path d="M17 31a7 7 0 0 0 7 7" stroke="#3fb2f5" stroke-width="4" fill="none" stroke-linecap="round"/></svg>',zap:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M28 3 10 27h12l-4 18 20-26H26z" fill="#fffbe0" stroke="#6b3d00" stroke-width="3" stroke-linejoin="round"/></svg>',star:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3l6 13 14 2-10 10 3 14-13-7-13 7 3-14L4 18l14-2z" fill="#fff" stroke="#1b2140" stroke-width="3" stroke-linejoin="round"/></svg>'};
 const HEART=on=>`<svg viewBox="0 0 24 24" class="${on?'':'lost'}" aria-hidden="true"><path d="M12 21 3.5 12.5A5 5 0 0 1 12 6a5 5 0 0 1 8.5 6.5z" fill="#ff4b6e" stroke="#fff" stroke-width="2"/></svg>`;
@@ -375,7 +389,7 @@ function home(){
   if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();main.innerHTML=`<div class="hero"><div class="txt"><h1>Vocab Obby<span>${EDN[ED]}</span></h1><p class="lead">${W.length} words across six worlds. Run the obby, answer at every word gate, earn coins and climb to your goal.</p><span class="world">${ic('gem',16)}World: ${esc(wn)}</span><span class="world">Goal: ${esc(WORLDS[EDGOAL[ED||'psle']][1])}</span>${tierBar()}<div id="rankslot">${rankLine()}</div></div><div class="stage"><svg class="plat" viewBox="0 0 150 46" preserveAspectRatio="none"><rect x="2" y="2" width="146" height="16" fill="#9dd946" stroke="#1b2140" stroke-width="4"/><rect x="2" y="18" width="146" height="26" fill="#7fb336" stroke="#1b2140" stroke-width="4"/></svg>${avatar(84)}<span class="pt">${petSVG(S.pet,44)}</span></div></div>
   <div class="menu">${saved&&saved.i<saved.steps.length?`<button class="big alt" id="res">${ic('play',30)}Continue run · ${saved.i}/${saved.steps.length}</button>`:''}
   <button class="big" id="go">${ic('play',30)}Start a 50-word run</button>
-  <button class="sec" id="chal"><span class="ico c6">${ic('trophy')}</span><span class="lbl"><b>PSLE Exam Pack</b><small>Words from real PSLE papers · double coins</small></span></button>
+  <button class="sec" id="chal"><span class="ico c6">${ic('trophy')}</span><span class="lbl"><b>PSLE Kingdom</b><small>PSLE Edition world · real exam words · double coins</small></span></button>
   <button class="sec" id="wmap"><span class="ico c1">${ic('gem')}</span><span class="lbl"><b>World map</b><small>Replay any world you've reached</small></span></button>
   <button class="sec" id="lbtile" ${LB.db?'':'hidden'}><span class="ico c2">${ic('trophy')}</span><span class="lbl"><b>Leaderboard</b><small>Compete with your class</small></span></button>
   <button class="sec" id="bon"><span class="ico c4">${ic('bolt')}</span><span class="lbl"><b>Bonus games</b><small>${S.bonus?S.bonus+' Shadow Chase ready':'Get 10 right in a row'}</small></span></button>
@@ -414,27 +428,32 @@ function start(kind,arg){
     if(g.length>=3)steps.push({t:'match',ns:g.map(x=>x[0])});
     g.forEach(x=>steps.push({t:st(x[0]).seen?QT[Math.random()*QT.length|0]:'blank',n:x[0]}));
     g.forEach(x=>steps.push({t:shuf(['meaning','under','reverse'])[0],n:x[0]}));
+    // mini boss after every 10 words (gate 10, 20, 30, 40)
+    if((i+5)%10===0&&i+5<pick.length){const ten=pick.slice(Math.max(0,i-5),i+5);shuf(ten).slice(0,8).forEach(x=>steps.push({t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],boss:1,bid:'m'+(i+5)}))}
   }
-  // final boss: every word once more, mixed and hardest types
-  shuf(pick).forEach(x=>steps.push({t:shuf(['spell','under','lookalike','tf'])[0],n:x[0],boss:1}));
+  // finish line: the giant, King Kongo
+  shuf(pick).slice(0,16).forEach(x=>steps.push({t:shuf(['spell','under','lookalike','tf'])[0],n:x[0],boss:1,bid:'final',giant:1}));
   steps.forEach(s=>s.x=WF(s.n));
   if(kind==='challenge')steps.forEach(s=>{if(s.t==='intro')s.t='meaning'});
-  sess={kind,words:pick,steps,i:0,ok:0,bad:0,combo:0,best:0,pts:0,wrongs:[],w:kind==='world'?arg:tier()};
+  if(kind==='challenge')steps.forEach(s=>{if(s.giant)s.giant=0});
+  sess={kind,words:pick,steps,i:0,ok:0,bad:0,combo:0,best:0,pts:0,wrongs:[],w:kind==='world'?arg:kind==='challenge'?6:tier()};
   run();
 }
 function persist(){try{localStorage.setItem(SK(),JSON.stringify({...sess,words:sess.words.map(x=>x[0]),steps:sess.steps.map(({x,...r})=>r)}))}catch(e){}}
 // ---------- run ----------
 function run(){
   hud();persist();
-  if(sess.i>=sess.steps.length){if(sess.bossOn&&sess.boss>0&&sess.hearts>0)addBossStep();else return recap()}
+  if(sess.bossOn&&sess.boss>0&&sess.hearts>0){const s0=sess.steps[sess.i];if(!s0||s0.bid!==sess.bid)addBossStep()}
+  if(sess.i>=sess.steps.length)return recap();
   const s=sess.steps[sess.i],x=s.x,pct=Math.round(sess.i/sess.steps.length*100);
   cur_boss=!!s.boss;if(s.gold==null)s.gold=s.t!=='intro'&&s.t!=='match'&&Math.random()<.07;s_gold=s.gold;
-  if(cur_boss&&sess.boss==null){sess.bossMax=sess.boss=Math.max(60,Math.ceil(sess.steps.filter(z=>z.boss).length*.6)*10);sess.hearts=3;sess.bossOn=1}
+  if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;sess.bossMax=sess.boss=sess.giant?100:50;sess.hearts=3;sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
   OB.ensure(sess.w!=null?sess.w:tier());const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
   const head=(label,lvl)=>`<div class="cardhead"><span class="tag ${s.t==='intro'?'new':''}">${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
   if(s.t!=='intro'&&s.t!=='match'&&!s.arr){
-    main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?'Boss battle! The '+esc(BOSSES[OB.w].n)+' blocks the path. Answer right, then pick a power to attack. You have 3 hearts.':'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
-    OB.segment(()=>{if(sess&&sess.steps[sess.i]===s){s.arr=1;run()}},s.boss?{hp:sess.boss,max:sess.bossMax}:null);return;
+    main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?(s.giant&&sess.kind!=='challenge'?'<b>A GIANT approaches!</b> King Kongo blocks the finish line. Answer right, then attack. Hold your charge for combos! You have 3 hearts.':'Boss battle! The '+esc(CB().n)+' blocks the path. Answer right, then pick a power to attack. You have 3 hearts.'):'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
+    OB.segment(()=>{if(sess&&sess.steps[sess.i]===s){s.arr=1;run()}},s.boss?{hp:sess.boss,max:sess.bossMax,giant:!!s.giant}:null);
+    if(s.giant&&!sess.giantIntro){sess.giantIntro=1;OB.say('A GIANT approaches!');if(OB.st&&!OB.RM())OB.st.shakeT=1.4;sfx('attack')}return;
   }
   if(s.t==='intro'){
     main.innerHTML=top+`<div class="card">${head('New word',x[1])}<div class="word">${esc(x[0])}</div>${gems(st(x[0]).m)}${teachHTML(x).replace('class="teach"','class="teach" style="background:var(--opt)"')}
@@ -468,7 +487,7 @@ function result(ok,x,extra=''){
     beep(1);pop('+'+g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);
     // it comes back 3 questions later in a different form
-    sess.steps.splice(Math.min(sess.i+4,sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1}:{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x})}
+    sess.steps.splice(Math.min(sess.i+4,sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x})}
   if(cur_boss&&sess.bonusNow){sess.bonusNow=0;setTimeout(()=>pop('Streak bonus saved for later!'),900)}
   if(!S.days.includes(today()))S.days.push(today());save();
   $('fb').innerHTML=`<p style="font:800 24px var(--fd);margin:16px 0 0;color:${ok?'var(--ok)':'var(--coral)'}">${ok?shuf(['Brilliant!','Spot on!','Nailed it!','Yes!','Sharp!'])[0]:'Not quite. Learn it:'}</p>${extra}${ok?`<p style="margin:6px 0 0"><b>${esc(x[0])}</b> = ${esc(x[2])} ${gems(w.m)}</p>`:teachHTML(x)}${sess.bonusNow?`<div class="bonuscard"><b>Streak bonus unlocked!</b><br>${sess.combo} right in a row. You earned a round of Shadow Chase.<div class="row"><button class="go" id="bplay" style="margin:0">Play now</button><button class="go" id="bsave" style="margin:0;background:var(--paper)">Save for later</button></div></div>`:''}<button class="go" id="nx">Next</button>`;
@@ -477,43 +496,67 @@ function result(ok,x,extra=''){
   hud();
   if(cur_boss)bossTurn(ok);
 }
-function bossBarHTML(){const B=BOSSES[OB.w]||BOSSES[0],h=sess.hearts==null?3:sess.hearts;return `<span class="tag new">${esc(B.n)}</span><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${[0,1,2].map(i=>HEART(i<h)).join('')}</span>`}
-function updBossBar(){const b=$('bossbar');if(b&&sess)b.innerHTML=bossBarHTML()}
-function addBossStep(){const w=sess.words[Math.random()*sess.words.length|0];sess.steps.push({t:shuf(['meaning','under','reverse','lookalike','tf'])[0],n:w[0],x:w,boss:1,arr:1})}
+function bossBarHTML(){const B=CB(),h=sess.hearts==null?3:sess.hearts,c=sess.charge||0;return `<span class="tag new">${esc(B.n)}</span>${c?`<span class="charge" aria-label="${c} charge stored">${'⚡'.repeat(c)}</span>`:''}<button class="tipq" id="tipq" type="button" aria-label="Power tips">?</button><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${[0,1,2].map(i=>HEART(i<h)).join('')}</span>`}
+function updBossBar(){const b=$('bossbar');if(b&&sess){b.innerHTML=bossBarHTML();wireTips()}}
+function tipsHTML(){const B=CB(),w=ELN[B.weak];return `<div class="tips" id="tips" role="dialog" aria-label="Power tips"><b>Power tips</b>
+<ul><li>Fire, Water or Electric: <b>10</b> damage. Use <b>${esc(w)}</b> on the ${esc(B.n)} for <b>15</b> (super effective).</li>
+<li><b>Hold ⚡ Charge</b> after a right answer to save it. On your next right answer pick <b>two</b> powers for a combo:</li>
+<li>Fire + Water = <b>Steam Burst</b> · Fire + Electric = <b>Plasma Blast</b> · Water + Electric = <b>Storm Surge</b>: <b>25</b> damage (<b>35</b> if it uses ${esc(w)}).</li>
+<li>Star + any = <b>Super Nova</b>: <b>50</b> damage!</li>
+<li>Careful: a wrong answer drops your charge.</li></ul><button class="go" id="tipsok" type="button">Got it</button></div>`}
+function showTips(){if($('tips'))return;const bb=$('bossbar');if(!bb)return;bb.insertAdjacentHTML('afterend',tipsHTML());$('tipsok').onclick=()=>{const t=$('tips');if(t)t.remove();S.tipsSeen=1;save()};$('tipsok').focus()}
+function wireTips(){const q=$('tipq');if(q)q.onclick=()=>{const t=$('tips');if(t)t.remove();else showTips()}}
+function addBossStep(){const w=sess.words[Math.random()*sess.words.length|0];sess.steps.splice(sess.i,0,{t:shuf(['meaning','under','reverse','lookalike','tf'])[0],n:w[0],x:w,boss:1,arr:1,bid:sess.bid,giant:sess.giant})}
 function bossTurn(ok){
-  const nx=$('nx');if(!nx)return;nx.hidden=true;const B=BOSSES[OB.w]||BOSSES[0];
+  const nx=$('nx');if(!nx)return;nx.hidden=true;const B=CB();wireTips();if(!S.tipsSeen)showTips();
   if(ok){
     const star=s_gold||(sess.combo>0&&sess.combo%5===0);const el=['fire','water','zap'];if(star)el.push('star');
-    const box=document.createElement('div');box.className='bubbles';
-    box.innerHTML=`<p class="bubtitle">Pick a power to attack!</p><div class="bubrow">${el.map(k=>`<button class="bub b-${k}" data-k="${k}" aria-label="${ELN[k]} attack">${BUB[k]}<span>${ELN[k]}</span>${k==='star'?'<span class="wk">Big hit!</span>':''}</button>`).join('')}</div>`;
+    const charged=(sess.charge||0)>0;
+    const box=document.createElement('div');box.className='bubbles'+(charged?' charged':'');
+    box.innerHTML=`<p class="bubtitle">${charged?'Charged! Pick <b>two</b> powers to combine':'Pick a power to attack!'}</p><div class="bubrow">${el.map(k=>`<button class="bub b-${k}" data-k="${k}" aria-label="${ELN[k]} attack">${BUB[k]}<span>${ELN[k]}</span>${k==='star'?'<span class="wk">Big hit!</span>':''}</button>`).join('')}</div>${(sess.charge||0)<2?'<button class="holdbtn" id="holdbtn" type="button">Hold ⚡ Charge <small>save it for a combo</small></button>':''}`;
     nx.before(box);const first=box.querySelector('.bub');if(first)first.focus();
-    box.querySelectorAll('.bub').forEach(b=>b.onclick=()=>{
-      box.querySelectorAll('.bub').forEach(q=>q.disabled=true);b.classList.add('picked');
-      const k=b.dataset.k;let dmg=10,eff='';if(k==='star')dmg=25;else if(k===B.weak){dmg=15;eff='super'}
-      sfx(k);
-      OB.shoot(k,()=>{if(!sess)return;sess.boss=Math.max(0,sess.boss-dmg);sfx('hit');OB.bossHit(sess.boss,dmg,eff);updBossBar();
+    const hb=box.querySelector('#holdbtn');if(hb)hb.onclick=()=>{sess.charge=(sess.charge||0)+1;persist();sfx('zap');pop('Charge stored!');updBossBar();box.innerHTML='<p class="bubtitle">Charge stored ⚡ Next right answer = combo!</p>';nx.hidden=false;nx.focus()};
+    const after=(dmg,eff,label)=>{if(!sess)return;sess.boss=Math.max(0,sess.boss-dmg);sfx('hit');OB.bossHit(sess.boss,dmg,eff);updBossBar();
         if(sess.boss<=0)bossWin(box,nx);
-        else{box.innerHTML=`<p class="bubtitle">${eff?'Super effective! ':''}-${dmg} HP</p>`;nx.hidden=false;nx.focus()}});
+        else{box.innerHTML=`<p class="bubtitle">${label?esc(label)+'! ':''}${eff?'Super effective! ':''}-${dmg} HP</p>`;nx.hidden=false;nx.focus()}};
+    let picks=[];
+    box.querySelectorAll('.bub').forEach(b=>b.onclick=()=>{
+      const k=b.dataset.k;
+      if(!charged){box.querySelectorAll('.bub,.holdbtn').forEach(q=>q.disabled=true);b.classList.add('picked');
+        let dmg=10,eff='';if(k==='star')dmg=25;else if(k===B.weak){dmg=15;eff='super'}
+        sfx(k);OB.shoot(k,()=>after(dmg,eff,''));return}
+      if(picks.includes(k))return;picks.push(k);b.classList.add('picked');b.disabled=true;sfx(k);const hb2=box.querySelector('#holdbtn');if(hb2)hb2.remove();
+      if(picks.length<2){box.querySelector('.bubtitle').innerHTML='Now pick a <b>second</b> power';return}
+      box.querySelectorAll('.bub').forEach(q=>q.disabled=true);
+      const [nm,col]=comboOf(picks[0],picks[1]);sess.charge=Math.max(0,sess.charge-1);updBossBar();
+      let dmg=25,eff='';if(nm==='Super Nova')dmg=50;else if(picks.includes(B.weak)){dmg=35;eff='super'}
+      box.querySelector('.bubtitle').innerHTML=`<span class="comboname" style="--cc:${col}">${esc(nm)}!</span>`;
+      OB.combo(picks[0],picks[1],col,nm,()=>after(dmg,eff,nm));
     });
   }else{
+    if(sess.charge){sess.charge=0;setTimeout(()=>pop('Charge lost!'),300)}
     sess.hearts=Math.max(0,(sess.hearts==null?3:sess.hearts)-1);persist();sfx('attack');
     OB.bossAttack(()=>{if(!sess)return;sfx('ouch');updBossBar();if(sess.hearts<=0)knockedOut(nx);else{nx.hidden=false}});
   }
 }
 function bossWin(box,nx){
-  sfx('win');OB.victory();confetti(220);
-  sess.steps=sess.steps.filter((z,i)=>i<=sess.i||!z.boss);sess.bossOn=0;
-  box.outerHTML=`<div class="victory" role="status"><b>Boss defeated!</b>You beat the ${esc((BOSSES[OB.w]||BOSSES[0]).n)}. +200 coins</div>`;
-  nx.textContent='Finish run';nx.hidden=false;nx.focus();
+  sfx('win');OB.victory();confetti(sess.giant?320:220);
+  const bid=sess.bid,giant=sess.giant,name=CB().n,fin=bid==='final';
+  sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);sess.bossOn=0;sess.boss=null;sess.charge=0;
+  const reward=giant?400:100;S.coins+=reward;S.pts+=reward;sess.pts+=reward;S.bosses=(S.bosses||0)+1;if(giant)S.giants=(S.giants||0)+1;sess.beaten=(sess.beaten||0)+1;if(fin)sess.beatFinal=1;save();checkBadges();
+  box.outerHTML=`<div class="victory${giant?' giantwin':''}" role="status"><b>${giant?'GIANT DEFEATED!':'Boss defeated!'}</b>You beat ${esc(name)}. +${reward} coins</div>`;
+  nx.textContent=fin?'Finish run':'Keep running';nx.hidden=false;nx.focus();
 }
 function knockedOut(nx){
   sfx('ko');OB.ko();nx.remove();
   $('fb').insertAdjacentHTML('beforeend',`<div class="ko" role="status"><b>Knocked out!</b><p>The words you learnt are saved. Ready for a rematch?</p><div class="row"><button class="go" id="kretry">Try again</button><button class="go" id="kend" style="background:var(--paper)">Finish run</button></div></div>`);
   $('kretry').focus();
-  $('kretry').onclick=()=>{sess.boss=sess.bossMax;sess.hearts=3;sess.bossOn=1;OB.revive(sess.bossMax);
-    const rest=sess.steps.slice(0,sess.i+1);shuf(sess.words).slice(0,Math.ceil(sess.bossMax/10)+3).forEach(w=>rest.push({t:shuf(['under','lookalike','meaning','reverse'])[0],n:w[0],x:w,boss:1,arr:1}));
-    sess.steps=rest;sess.i++;run()};
-  $('kend').onclick=()=>{sess.bossOn=0;sess.steps=sess.steps.slice(0,sess.i+1);sess.i++;run()};
+  const bid=sess.bid,fin=bid==='final';$('kend').textContent=fin?'Finish run':'Skip this boss';
+  $('kretry').onclick=()=>{sess.boss=sess.bossMax;sess.hearts=3;sess.bossOn=1;sess.charge=0;OB.revive(sess.bossMax);
+    const before=sess.steps.slice(0,sess.i+1),later=sess.steps.slice(sess.i+1).filter(z=>z.bid!==bid),fresh=[];
+    shuf(sess.words).slice(0,8).forEach(w=>fresh.push({t:shuf(['under','lookalike','meaning','reverse'])[0],n:w[0],x:w,boss:1,arr:1,bid,giant:sess.giant}));
+    sess.steps=[...before,...fresh,...later];sess.i++;run()};
+  $('kend').onclick=()=>{sess.bossOn=0;sess.boss=null;sess.charge=0;sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);if(OB.st)OB.st.boss=null;sess.i++;run()};
 }
 function matchGame(s,top){
   const xs=s.ns.map(n=>WF(n)).filter(Boolean),L=shuf(xs),R=shuf(xs);let sel=null,left=xs.length,miss=0;
@@ -526,12 +569,12 @@ function matchGame(s,top){
 }
 function recap(){
   try{localStorage.removeItem(SK())}catch(e){}
-  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'){S.lad.pr=Math.max(S.lad.pr||0,accR);if(accR>=70&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;const beat=sess.boss===0;if(beat){S.bosses=(S.bosses||0)+1;S.coins+=200;S.pts+=200}save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
+  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'){S.lad.pr=Math.max(S.lad.pr||0,accR);if(accR>=70&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
   const wr=sess.wrongs.map(n=>WF(n));
   main.innerHTML=`<div class="card"><span class="tag">Session complete</span><div class="word" style="font-size:clamp(30px,6vw,44px)">${acc>=90?'Obby cleared!':acc>=75?'Great run!':'Run complete!'}</div>
   ${tierUp?`<div class="tierup"><b>Tier up!</b> You've travelled to <b>${esc(world())}</b>. New words are waiting there.</div>`:''}
-  <p style="margin:6px 0 10px">You worked through <b>${learnt} words</b>${sess.best>=5?` and hit a <b>${sess.best}-answer streak</b>`:''}${sess.kind==='challenge'?' on a PSLE Exam Pack run with double coins':''}. Every word you get wrong now is one you won't get wrong later.</p>
-  ${sess.boss!=null?`<p style="font:800 20px var(--fd);margin:6px 0">${sess.boss===0?'Word Boss defeated! +200 coins':'The Word Boss survived with '+sess.boss+' HP. Beat it next run!'}</p>`:''}<div class="stat"><div><b>${sess.pts}</b>coins won</div><div><b>${acc}%</b>correct</div><div><b>${sess.best}</b>best combo</div></div>
+  <p style="margin:6px 0 10px">You worked through <b>${learnt} words</b>${sess.best>=5?` and hit a <b>${sess.best}-answer streak</b>`:''}${sess.kind==='challenge'?' in PSLE Kingdom with double coins':''}. Every word you get wrong now is one you won't get wrong later.</p>
+  ${`<p style="font:800 20px var(--fd);margin:6px 0">${sess.kind==='challenge'?(sess.beatFinal?'The Exam King is defeated!':'The Exam King still rules. Beat him next run!'):sess.beatFinal?'King Kongo defeated! Giant Slayer!':'King Kongo is still standing. Beat him next run!'}${sess.beaten?` · ${sess.beaten} boss${sess.beaten>1?'es':''} beaten`:''}</p>`}<div class="stat"><div><b>${sess.pts}</b>coins won</div><div><b>${acc}%</b>correct</div><div><b>${sess.best}</b>best combo</div></div>
   ${wr.length?`<p><b>Words to look at again tonight</b> (they'll come back first next time):</p><table>${wr.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[2])}</td></tr>`).join('')}</table>`:'<p>No mistakes at all. Amazing!</p>'}
   <div id="rankslot">${rankLine()}</div><button class="go" id="h">Home</button></div>`;
   $('h').onclick=home;sess=null;hud();syncScore();
@@ -575,7 +618,8 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>Run and jump.</b> Your avatar runs the course. Tap <b>Jump</b> or press Space to grab coins and hop over crates.</li>
 <li><b>Answer at every word gate.</b> A right answer builds a bridge and you leap across. A wrong answer drops you back to the last checkpoint, you learn the word, and it comes back at a later gate.</li>
 <li><b>Meet new words first.</b> Before a word's first gate you see its meaning, an example sentence and look-alike words to watch out for.</li>
-<li><b>Beat the Word Boss.</b> Every run ends in a boss battle. Answer right, then tap Fire, Water or Electric to attack. Each boss is weak to one power. A wrong answer lets the boss hit back, and you have 3 hearts.</li>
+<li><b>Hold for combos.</b> After a right answer in a boss fight, tap Hold ⚡ Charge. On your next right answer pick two powers for a big combo like Steam Burst or Plasma Blast. A wrong answer drops your charge!</li>
+<li><b>Beat the bosses.</b> A boss appears every 10 gates, and King Kongo the giant guards the finish line. Answer right, then tap Fire, Water or Electric to attack. Each boss is weak to one power. A wrong answer lets the boss hit back, and you have 3 hearts.</li>
 <li><b>Travel to new worlds.</b> Score 70% or more in a run and you tier up to the next world. In the PSLE Edition your goal is Ice Peaks. Replay any world you've reached from the World map.</li>
 <li><b>PSLE Exam Pack.</b> Practise the words from real PSLE papers for double coins and the Challenger badge.</li>
 <li><b>Spend your coins.</b> Hatch pets, buy gear and unlock custom shirt and pants colours, including premium finishes.</li>
@@ -606,7 +650,7 @@ function custUI(){const el=$('cust');if(!el)return;const v=cuVal(),prev={...S.av
 }
 // ---------- Obby runner: the core run is a real side-scrolling obby ----------
 var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
- PAL:[['#5ec8ff','#c9efff','#9dd946','#6fae2e','#ffc642'],['#f3a957','#ffe6b0','#f2cf7e','#c9973f','#ef4f5f'],['#2f8f6a','#b5ecc4','#5cbf4a','#3b7d32','#ffc642'],['#64202d','#f0864a','#6b5560','#3f2f37','#ffb020'],['#7ec8e3','#eef9ff','#e9f7ff','#93c2dc','#4aa4e6'],['#0b0b2b','#40347a','#7b5cf0','#4b3aa0','#ffc642']],
+ PAL:[['#5ec8ff','#c9efff','#9dd946','#6fae2e','#ffc642'],['#f3a957','#ffe6b0','#f2cf7e','#c9973f','#ef4f5f'],['#2f8f6a','#b5ecc4','#5cbf4a','#3b7d32','#ffc642'],['#64202d','#f0864a','#6b5560','#3f2f37','#ffb020'],['#7ec8e3','#eef9ff','#e9f7ff','#93c2dc','#4aa4e6'],['#0b0b2b','#40347a','#7b5cf0','#4b3aa0','#ffc642'],['#3b1f6e','#d9c2ff','#e8c45a','#9a7424','#ffd23f']],
  RM:()=>matchMedia('(prefers-reduced-motion: reduce)').matches,
  reset(){this.st={ax:120,ay:0,vy:0,ground:true,mode:'idle',target:0,cb:null,after:null,gaps:[],coins:[],crates:[],flags:[120],gates:0,paused:false,stun:0,t:0,anim:0,fx:[],boss:null,msg:'',msgT:0,cam:0,leapFrom:0,leapTo:0}},
  ensure(w){
@@ -634,7 +678,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   s.coins=s.coins.filter(c=>c.x>s.ax-400);s.crates=s.crates.filter(c=>c.x>s.ax-400);
   const n=this.RM()?2:4;for(let i=0;i<n;i++){const x=start+80+(L-140)*(i+.5)/n+Math.random()*30;s.coins.push({x,y:30+Math.random()*70,got:false})}
   if(!this.RM()&&L>300)s.crates.push({x:start+170+Math.random()*120,w:30,h:30,hit:false});
-  if(boss!=null){s.boss={x:edge+90,hp:boss.hp,max:Math.max(boss.max,1),shake:0,hurt:0,dead:false,deadT:0,lean:0}}
+  if(boss!=null){s.boss={x:edge+(boss.giant?150:90),hp:boss.hp,max:Math.max(boss.max,1),shake:0,hurt:0,dead:false,deadT:0,lean:0,giant:!!boss.giant}}
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;
  },
@@ -648,7 +692,10 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(eff)this.say('Super effective!');if(hp<=0){b.dead=true;b.deadT=0;this.say('Boss defeated!')}
   if(!this.RM())for(let i=0;i<14;i++)s.fx.push({x:b.x,y:-60,vx:(Math.random()-.5)*260,vy:-160-Math.random()*160,l:.8,c:'#ffc642'})},
  shoot(k,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}s.proj={k,t:0,dur:this.RM()?.22:(k==='zap'?.32:.55),x0:s.ax+16,y0:-38,x1:s.boss.x-10,y1:-62,cb}},
- bossAttack(cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}const B=BOSSES[this.w]||BOSSES[0];s.batk={type:B.atk,t:0,wind:this.RM()?.12:.45,strike:this.RM()?.15:.38,cb,hitDone:false}},
+ combo(a,b,col,nm,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}
+  this.shoot(a,()=>{if(!this.st)return cb&&cb();this.shoot(b,()=>{const s2=this.st;if(!s2||!s2.boss)return cb&&cb();this.say(nm+'!');
+   s2.proj={k:'combo',col,t:0,dur:this.RM()?.25:.6,x0:s2.ax+16,y0:-46,x1:s2.boss.x-10,y1:-70,cb}})})},
+ bossAttack(cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}const B=CB();s.batk={type:B.atk,t:0,wind:this.RM()?.12:.45,strike:this.RM()?.15:.38,cb,hitDone:false}},
  victory(){const s=this.st;if(!s)return;if(s.boss){s.boss.dead=true;s.boss.hp=0}s.cheer=1.6;if(!this.RM())for(let i=0;i<40;i++)s.fx.push({x:s.boss?s.boss.x:s.ax+120,y:-70,vx:(Math.random()-.5)*420,vy:-200-Math.random()*240,l:1.2,c:['#ff5d8f','#ffb020','#ffe14a','#3ddc84','#3fb2f5','#8b5cf6'][i%6]})},
  ko(){const s=this.st;if(s)s.koT=1},
  revive(hp){const s=this.st;if(!s)return;s.koT=0;s.cheer=0;if(s.boss){s.boss.hp=hp;s.boss.max=hp;s.boss.dead=false;s.boss.deadT=0}else{s.boss={x:s.ax+160,hp,max:hp,shake:0,hurt:0,dead:false,deadT:0,lean:0}}this.say('Rematch!')},
@@ -673,10 +720,10 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(s.boss){if(s.boss.hurt>0)s.boss.hurt-=dt;if(s.boss.dead)s.boss.deadT+=dt}
   if(s.shakeT>0)s.shakeT-=dt;if(s.flash>0)s.flash-=dt;if(s.phurt>0)s.phurt-=dt;if(s.cheer>0){s.cheer-=dt;if(s.ground&&!RM){s.vy=-380;s.ground=false}}
   if(s.proj){const p=s.proj;p.t+=dt/p.dur;const k=Math.min(1,p.t),px=p.x0+(p.x1-p.x0)*k,py=p.y0+(p.y1-p.y0)*k-Math.sin(k*Math.PI)*(p.k==='water'?50:p.k==='fire'?30:0);p.px=px;p.py=py;
-   if(!RM&&p.k!=='zap'){const c=p.k==='fire'?['#ffb020','#ff5a1f','#ffe14a']:p.k==='water'?['#bff0ff','#3fb2f5','#ffffff']:['#ff5d8f','#ffe14a','#3fb2f5','#3ddc84'];for(let i=0;i<2;i++)s.fx.push({x:px,y:py,vx:(Math.random()-.5)*60-60,vy:(Math.random()-.5)*60-(p.k==='fire'?40:0),l:.35,c:c[(Math.random()*c.length)|0]})}
-   if(p.t>=1){s.proj=null;const ix=p.x1,iy=p.y1;if(p.k==='zap'||p.k==='star')s.flash=RM?.08:.22;
-    const c=p.k==='fire'?['#ffb020','#ff5a1f','#ffe14a']:p.k==='water'?['#bff0ff','#3fb2f5','#ffffff']:p.k==='zap'?['#fff7a8','#ffd21f']:['#ff5d8f','#ffb020','#ffe14a','#3ddc84','#3fb2f5','#8b5cf6'];
-    const n=RM?6:(p.k==='star'?40:24);for(let i=0;i<n;i++)s.fx.push({x:ix,y:iy,vx:(Math.random()-.5)*(p.k==='water'?240:320),vy:-80-Math.random()*220,l:.7,c:c[i%c.length]});
+   if(!RM&&p.k!=='zap'){const c=p.k==='combo'?[p.col,'#ffffff',p.col]:p.k==='fire'?['#ffb020','#ff5a1f','#ffe14a']:p.k==='water'?['#bff0ff','#3fb2f5','#ffffff']:['#ff5d8f','#ffe14a','#3fb2f5','#3ddc84'];for(let i=0;i<2;i++)s.fx.push({x:px,y:py,vx:(Math.random()-.5)*60-60,vy:(Math.random()-.5)*60-(p.k==='fire'?40:0),l:.35,c:c[(Math.random()*c.length)|0]})}
+   if(p.t>=1){s.proj=null;const ix=p.x1,iy=p.y1;if(p.k==='zap'||p.k==='star'||p.k==='combo')s.flash=RM?.08:.26;
+    const c=p.k==='combo'?[p.col,'#ffffff',p.col,'#ffe14a']:p.k==='fire'?['#ffb020','#ff5a1f','#ffe14a']:p.k==='water'?['#bff0ff','#3fb2f5','#ffffff']:p.k==='zap'?['#fff7a8','#ffd21f']:['#ff5d8f','#ffb020','#ffe14a','#3ddc84','#3fb2f5','#8b5cf6'];
+    const n=RM?6:(p.k==='star'||p.k==='combo'?48:24);if(p.k==='combo')s.fx.push({ring:1,x:ix,y:iy,l:.6,c:p.col});for(let i=0;i<n;i++)s.fx.push({x:ix,y:iy,vx:(Math.random()-.5)*(p.k==='water'?240:320),vy:-80-Math.random()*220,l:.7,c:c[i%c.length]});
     if(p.k==='water')s.fx.push({ring:1,x:ix,y:iy,l:.5,c:'#3fb2f5'});
     if(!RM)s.shakeT=.18;if(p.cb)p.cb()}}
   if(s.batk){const a=s.batk;a.t+=dt;const b=s.boss;if(b)b.lean=a.t<a.wind?Math.min(1,a.t/a.wind):Math.max(0,1-(a.t-a.wind)/a.strike);
@@ -686,8 +733,8 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   const camT=s.ax-170;s.cam+=(camT-s.cam)*Math.min(1,dt*(RM?20:6))||0;if(!isFinite(s.cam))s.cam=camT;
   this.draw();
  },
- drawBoss(b,GY,cam,RM,s){const g=this.g,B=BOSSES[this.w]||BOSSES[0];
-  if(b.dead&&b.deadT>1.2)return;
+ drawBoss(b,GY,cam,RM,s){const g=this.g,B=CB();
+  if(b.dead&&b.deadT>1.2)return;if(b.giant)return this.drawGiant(b,GY,cam,RM,s);
   const bob=RM?0:Math.sin(s.t*2.2)*3,sh=b.shake>0&&!RM?Math.sin(s.t*60)*5:0,lean=(b.lean||0)*(RM?0:1);
   const atk=s.batk&&s.batk.t>=s.batk.wind,lunge=atk&&B.atk==='slam'?-40*Math.sin(Math.min(1,(s.batk.t-s.batk.wind)/s.batk.strike)*Math.PI):0;
   const sx=b.x-cam+sh+lean*14+lunge,base=GY+(b.dead?b.deadT*80:0)+bob,W=96,Ht=112,x0=sx-W/2,y0=base-Ht;
@@ -712,7 +759,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(w===2){g.strokeStyle='#3ddc84';g.lineWidth=4;g.beginPath();g.moveTo(x0+4,y0+30);g.quadraticCurveTo(sx,y0+70,x0+W-4,y0+34);g.stroke();g.fillStyle='#3ddc84';g.fillRect(x0+20,hy-10,10,12);g.fillRect(x0+W-30,hy-10,10,12)}
   if(w===3){g.strokeStyle='#ffb020';g.lineWidth=3;g.beginPath();g.moveTo(x0+20,y0+40);g.lineTo(x0+34,y0+58);g.lineTo(x0+26,y0+74);g.moveTo(x0+W-24,y0+36);g.lineTo(x0+W-36,y0+56);g.stroke();g.fillStyle='#ffb020';g.globalAlpha*=(.6+.4*Math.sin(s.t*5));g.fillRect(x0+14,hy-8,10,8);g.fillRect(x0+W-24,hy-8,10,8);g.globalAlpha=b.dead?Math.max(0,1-b.deadT/1.2):1}
   if(w===4){for(let i=0;i<4;i++){const tx=x0+6+i*24,wav=RM?0:Math.sin(s.t*3+i)*4;this.blk(tx,base-10+wav,18,14,B.d)}g.fillStyle='#fff';g.beginPath();g.moveTo(x0+14,hy);g.lineTo(x0+22,hy-16);g.lineTo(x0+30,hy);g.fill();g.beginPath();g.moveTo(x0+W-30,hy);g.lineTo(x0+W-22,hy-16);g.lineTo(x0+W-14,hy);g.fill()}
-  if(w===5){g.fillStyle='#ffd23f';g.beginPath();g.moveTo(x0+16,hy);g.lineTo(x0+22,hy-18);g.lineTo(x0+34,hy-6);g.lineTo(sx,hy-22);g.lineTo(x0+W-34,hy-6);g.lineTo(x0+W-22,hy-18);g.lineTo(x0+W-16,hy);g.closePath();g.fill();g.stroke();g.fillStyle='#ff5d8f';g.fillRect(sx-4,hy-14,8,8)}
+  if(w===5||w===6){g.fillStyle='#ffd23f';g.beginPath();g.moveTo(x0+16,hy);g.lineTo(x0+22,hy-18);g.lineTo(x0+34,hy-6);g.lineTo(sx,hy-22);g.lineTo(x0+W-34,hy-6);g.lineTo(x0+W-22,hy-18);g.lineTo(x0+W-16,hy);g.closePath();g.fill();g.stroke();g.fillStyle='#ff5d8f';g.fillRect(sx-4,hy-14,8,8)}
   // eyes
   const angry=(b.lean||0)>.1||atk;const ec=angry?'#ff3b3b':B.e;
   this.blk(x0+20,hy+10,20,14,'#fff');this.blk(x0+W-40,hy+10,20,14,'#fff');g.fillStyle=ec;g.fillRect(x0+27,hy+14,8,8);g.fillRect(x0+W-33,hy+14,8,8);
@@ -725,9 +772,41 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   // hp bar above
   if(!b.dead){const hw=96;this.blk(sx-hw/2,y0-34,hw,14,'#3b1d1d');g.fillStyle='#ff6a4a';g.fillRect(sx-hw/2+3,y0-31,(hw-6)*Math.max(0,b.hp)/b.max,8)}
  },
+ drawGiant(b,GY,cam,RM,s){const g=this.g,B=KONGO;
+  const atk=s.batk&&s.batk.t>=s.batk.wind,wind=s.batk&&s.batk.t<s.batk.wind;
+  const thump=RM?0:Math.sin(s.t*7),bob=RM?0:Math.abs(Math.sin(s.t*1.8))*3,sh=b.shake>0&&!RM?Math.sin(s.t*60)*6:0;
+  const rise=wind&&!RM?-18*Math.min(1,s.batk.t/s.batk.wind):0,slam=atk&&!RM?10*Math.sin(Math.min(1,(s.batk.t-s.batk.wind)/s.batk.strike)*Math.PI):0;
+  const W=200,Ht=196,sx=b.x-cam+sh,base=GY+(b.dead?b.deadT*120:0)+rise+slam-bob,x0=sx-W/2,y0=base-Ht;
+  g.save();if(b.dead)g.globalAlpha=Math.max(0,1-b.deadT/1.2);const K=.72;g.translate(sx,GY);g.scale(K,K);g.translate(-sx,-GY);
+  g.fillStyle='rgba(0,0,0,.22)';g.beginPath();g.ellipse(sx,GY+3,118,12,0,0,7);g.fill();
+  // legs
+  this.blk(x0+26,base-44,52,44,B.d);this.blk(x0+W-78,base-44,52,44,B.d);
+  // body + chest
+  this.blk(x0+6,y0+64,W-12,Ht-104,B.b);g.fillStyle='#a9825a';g.fillRect(x0+48,y0+86,W-96,58);
+  // arms: chest-thump idle, raised on wind-up, pound on strike
+  const up=wind?-70:atk?20:0,l1=up||(thump>0?-14*thump:0),l2=up||(thump<0?14*thump:0);
+  this.blk(x0-34,y0+70+l1,42,96,B.d);this.blk(x0+W-8,y0+70+l2,42,96,B.d);
+  this.blk(x0-38,y0+156+l1,50,30,'#2a1c10');this.blk(x0+W-12,y0+156+l2,50,30,'#2a1c10');
+  // head
+  const hy=y0+8;this.blk(x0+36,hy,W-72,66,B.b);g.fillStyle='#c79d6e';g.fillRect(x0+58,hy+28,W-116,36);
+  // vines
+  g.strokeStyle='#3ddc84';g.lineWidth=5;g.beginPath();g.moveTo(x0+10,y0+70);g.quadraticCurveTo(sx-20,y0+120,x0+W-14,y0+78);g.moveTo(x0+40,hy+4);g.quadraticCurveTo(sx,hy-14,x0+W-40,hy+4);g.stroke();
+  g.fillStyle='#3ddc84';for(let i=0;i<5;i++){g.beginPath();g.ellipse(x0+30+i*36,y0+92+Math.sin(i)*8,8,5,i,0,7);g.fill()}
+  // glowing eyes
+  const glow=.6+.4*Math.sin(s.t*4),ec=(atk||wind)?'#ff3b3b':B.e;g.save();g.shadowColor=ec;g.shadowBlur=RM?0:18*glow;g.fillStyle=ec;g.fillRect(x0+62,hy+14,22,14);g.fillRect(x0+W-84,hy+14,22,14);g.restore();
+  g.strokeStyle='#1b2140';g.lineWidth=5;g.beginPath();g.moveTo(x0+56,hy+8);g.lineTo(x0+88,hy+14);g.moveTo(x0+W-56,hy+8);g.lineTo(x0+W-88,hy+14);g.stroke();
+  // mouth
+  this.blk(sx-26,hy+42,52,14,'#1b2140');g.fillStyle='#fff';g.fillRect(sx-22,hy+42,8,7);g.fillRect(sx+14,hy+42,8,7);
+  if(b.hurt>0){g.globalAlpha=Math.min(.85,b.hurt*3);g.fillStyle='#fff';g.fillRect(x0-40,hy-6,W+80,base-hy+6);g.globalAlpha=1}
+  if(!b.dead){const hw=170,hy2=y0-26;this.blk(sx-hw/2,hy2,hw,16,'#3b1d1d');g.fillStyle='#ff6a4a';g.fillRect(sx-hw/2+3,hy2+3,(hw-6)*Math.max(0,b.hp)/b.max,10)}
+  g.restore();
+  if(atk&&!RM&&!s.batk.dust){s.batk.dust=1;for(let i=0;i<26;i++)s.fx.push({x:b.x+(Math.random()-.5)*220,y:-4,vx:(Math.random()-.5)*260,vy:-60-Math.random()*160,l:.8,c:'#8a6a45'})}
+
+ },
  drawFX(s,GY,cam,RM,ax,ay){const g=this.g;
   if(s.proj&&s.proj.px!=null){const p=s.proj,x=p.px-cam,y=GY+p.py;
-   if(p.k==='fire'){const r=14+Math.sin(s.t*40)*2;const gr=g.createRadialGradient(x,y,2,x,y,r);gr.addColorStop(0,'#fff6c4');gr.addColorStop(.5,'#ffb020');gr.addColorStop(1,'#ff4a1f');g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,7);g.fill();g.strokeStyle='#7a1d05';g.lineWidth=2;g.stroke()}
+   if(p.k==='combo'){const r=24+Math.sin(s.t*30)*3;const gr=g.createRadialGradient(x,y,2,x,y,r);gr.addColorStop(0,'#ffffff');gr.addColorStop(.45,p.col);gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,7);g.fill();g.strokeStyle=p.col;g.lineWidth=3;g.beginPath();g.arc(x,y,r*.7+Math.sin(s.t*20)*3,0,7);g.stroke()}
+   else if(p.k==='fire'){const r=14+Math.sin(s.t*40)*2;const gr=g.createRadialGradient(x,y,2,x,y,r);gr.addColorStop(0,'#fff6c4');gr.addColorStop(.5,'#ffb020');gr.addColorStop(1,'#ff4a1f');g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,7);g.fill();g.strokeStyle='#7a1d05';g.lineWidth=2;g.stroke()}
    else if(p.k==='water'){g.fillStyle='#3fb2f5';g.strokeStyle='#0b3f86';g.lineWidth=3;g.beginPath();g.ellipse(x,y,15,12,0,0,7);g.fill();g.stroke();g.fillStyle='#e6f8ff';g.fillRect(x-6,y-6,5,5)}
    else if(p.k==='zap'){const k=Math.min(1,p.t);const x0=p.x0-cam,y0=GY+p.y0,x1=x0+(p.x1-p.x0)*k,y1=y0+(p.y1-p.y0)*k;g.lineCap='round';
     for(const [wd,cl] of [[10,'rgba(255,214,31,.5)'],[5,'#fff7a8'],[2,'#ffffff']]){g.strokeStyle=cl;g.lineWidth=wd;g.beginPath();g.moveTo(x0,y0);const n=8;for(let i=1;i<=n;i++){const t=i/n;g.lineTo(x0+(x1-x0)*t,y0+(y1-y0)*t+(i<n?(Math.random()-.5)*22:0))}g.stroke()}}
@@ -776,7 +855,7 @@ var OB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   for(const p of s.fx){if(p.ring){const r=(1-p.l/.5)*60;g.strokeStyle=p.c;g.lineWidth=4;g.globalAlpha=Math.max(0,p.l*2);g.beginPath();g.ellipse(p.x-cam,GY+p.y,r,r*.5,0,0,7);g.stroke();g.globalAlpha=1;continue}
    if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Outfit,Nunito,sans-serif':'800 14px Outfit,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}}
   // HUD on canvas
-  g.textAlign='left';g.font='800 14px Outfit,Nunito,system-ui,sans-serif';g.fillStyle='rgba(27,33,64,.75)';g.fillRect(10,10,190,26);g.fillStyle='#fff';g.fillText((WORLDS[this.w]||WORLDS[0])[1]+' · Gate '+(s.gates+1),18,28);
+  g.textAlign='left';g.font='800 14px Outfit,Nunito,system-ui,sans-serif';g.fillStyle='rgba(27,33,64,.75)';g.fillRect(10,10,190,26);g.fillStyle='#fff';g.fillText((this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
   if(s.msgT>0){g.textAlign='center';g.font='800 20px Outfit,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,64);g.fillStyle='#fff';g.fillText(s.msg,W2/2,62)}
   if(s.boss&&sess&&sess.bossOn!=null&&sess.hearts!=null){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
   if(s.flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.85,s.flash*4)+')';g.fillRect(-20,-20,W2+40,H+40)}
@@ -875,10 +954,12 @@ function picker(){
 }
 function worldmap(){
   sess=null;hud();const t=tier(),g=EDGOAL[ED||'psle'];
-  main.innerHTML=`<div class="card"><span class="tag">World map · ${esc(EDN[ED||'psle'])}</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Six worlds</div>
+  main.innerHTML=`<div class="card"><span class="tag">World map · ${esc(EDN[ED||'psle'])}</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Six worlds + kingdoms</div>
   <ol class="wmap">${WORLDS.map((w,k)=>{const n=W.filter(x=>rnk(x)===k),seen=n.filter(x=>st(x[0]).seen).length,lock=k>t;return `<li class="${lock?'lock':''} ${k===t?'here':''}"><button ${lock?'disabled':''} data-w="${k}"><span class="wn">${k+1}</span><span class="wt"><b>${esc(w[1])}</b><small>${lock?'Score 70% in a run to travel here':seen+' of '+n.length+' words met'}${k===g?' · Your goal':''}${k===t?' · You are here':''}</small></span></button></li>`}).join('')}</ol>
+  <p class="wmk"><b>Exam kingdoms</b></p><ol class="wmap kingdoms"><li class="psle"><button data-k="psle"><span class="wn">★</span><span class="wt"><b>PSLE Kingdom</b><small>PSLE Edition · real exam words · Exam King boss</small></span></button></li><li class="lock"><button disabled><span class="wn">★</span><span class="wt"><b>O-Level Kingdom</b><small>Coming soon</small></span></button></li><li class="lock"><button disabled><span class="wn">★</span><span class="wt"><b>A-Level Kingdom</b><small>Coming soon</small></span></button></li></ol>
   <button class="go" id="rp" style="background:var(--soft)">Retake placement run</button><button class="go" id="h">Home</button></div>`;
   main.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{const k=+b.dataset.w;if(k===t)start('learn');else start('world',k)});
+  const pk=main.querySelector('[data-k=psle]');if(pk)pk.onclick=challenge;
   $('rp').onclick=placement;$('h').onclick=home;
 }
 function placement(){
@@ -896,7 +977,7 @@ function challenge(){
   if(!EDLIVE[ED||'psle']){pop('Coming soon');return}
   CW=W.filter(x=>(x[7]||[]).includes(EDTAG[ED||'psle']));
   if(!CW.length){pop('Exam Pack is loading, try again');return}
-  main.innerHTML=`<div class="card"><span class="tag">${esc(EDN[ED||'psle'])}</span><div class="word" style="font-size:clamp(28px,6vw,40px)">PSLE Exam Pack</div><p>${CW.length} words taken from real PSLE papers. Each run has 30 of them. Every right answer pays <b>double coins</b>, and finishing earns the <b>Challenger</b> badge.</p><button class="go" id="cgo">Start Exam Pack run</button><button class="go" id="h" style="background:var(--soft)">Back</button></div>`;
+  main.innerHTML=`<div class="card"><span class="tag">${esc(EDN[ED||'psle'])}</span><div class="word" style="font-size:clamp(28px,6vw,40px)">PSLE Kingdom</div><p>The PSLE Edition world. ${CW.length} words taken from real PSLE papers, exam-style runs, and the Exam King guarding the throne. Each run has 30 words. Every right answer pays <b>double coins</b>, and finishing earns the <b>Challenger</b> badge.</p><button class="go" id="cgo">Enter PSLE Kingdom</button><button class="go" id="h" style="background:var(--soft)">Back</button></div>`;
   $('cgo').onclick=()=>start('challenge');$('h').onclick=home;
 }
 function shop(){
