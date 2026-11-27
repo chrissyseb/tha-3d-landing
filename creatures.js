@@ -83,7 +83,7 @@ const nick=id=>{const o=st().own[id];return (o&&o.nick)||name(id)};
 // ---------------- feeding (never hunger, never punishment) ----------------
 function feed(id){const c=st(),o=c.own[id],s=S(),t=T(),td=today();o.fed=o.fed&&o.fed.d===td?o.fed:{d:td,n:0,w:[]};
  if(o.fed.n>=FEEDS){H().pop(t.full(nick(id)));return null}
- const learnt=Object.keys(s.w).filter(w=>(s.w[w].m||0)>=1&&!o.fed.w.includes(w));
+ const learnt=Object.keys(s.w).filter(w=>((s.w[w].m||0)>=1||s.w[w].seen)&&!o.fed.w.includes(w));
  if(!learnt.length){H().pop(t.noWords);return null}
  const w=learnt[Math.floor(Math.random()*learnt.length)];o.fed.n++;o.fed.w.push(w);o.xp=(o.xp||0)+1;save();H().buzz([10,30,10]);try{H().sfx('star')}catch(e){}return w}
 // ---------------- screens ----------------
@@ -116,7 +116,7 @@ function eggInfo(){const t=T(),d=document.createElement('div');d.className='shee
 const IMG={};function cimg(id,s){const k=id+s;if(IMG[k])return IMG[k];const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CRA.svg(id,s,64).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '));IMG[k]=i;return i}
 function drawFollower(g,ax,ay,t,running,rm){const c=st(),id=c.act,o=c.own[id];if(!o)return;const bounce=rm?0:Math.abs(Math.sin(t*(running?9:3)))*(running?6:3);
  if(id==='bobby'){const im=BOB.img(H().bobbyStage(),running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,ax-84,ay-62-bounce,44,62);return}
- const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,ax-86,ay-50-bounce,48,48)}
+ const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,ax-92,ay-60-bounce,60,60)}
 // ---------------- bottom nav ----------------
 const NI={home:'<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>',map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z M9 4v14 M15 6v14"/>',cr:'<path d="M12 3c4 0 7 6 7 10a7 7 0 0 1-14 0c0-4 3-10 7-10z"/>',av:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7z"/>',more:'<circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>'};
 function navHTML(){const t=T(),c=st();return `<nav class="bnav" id="bnav" aria-label="${t.navLabel}">${[['home',t.nav[0]],['map',t.nav[1]],['cr',t.nav[2]],['av',t.nav[3]],['more',t.nav[4]]].map(([k,l])=>`<button data-nav="${k}" type="button"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">${NI[k]}</svg><span>${l}</span>${k==='cr'&&c.eggs.length?`<i class="nbadge" aria-label="${c.eggs.length}">${c.eggs.length}</i>`:''}</button>`).join('')}</nav>`}

@@ -141,5 +141,7 @@ function egg(r=0,sz=90,o={}){const e=EGG[r]||EGG[0],u='e'+(++N),cr=o.crack||0;
 <path d="M50 8 C80 8 92 50 92 72 C92 98 74 114 50 114 C26 114 8 98 8 72 C8 50 20 8 50 8Z" fill="${e.b}"/>
 <g clip-path="url(#${u}c)">${pat}<path d="M8 90 Q50 104 92 90 V120 H8Z" fill="${e.d}" opacity=".45"/><ellipse cx="34" cy="38" rx="9" ry="14" fill="#fff" opacity=".6" transform="rotate(20 34 38)"/></g>
 <path d="M50 8 C80 8 92 50 92 72 C92 98 74 114 50 114 C26 114 8 98 8 72 C8 50 20 8 50 8Z" fill="none" stroke="${K}" stroke-width="5"/>${cracks.slice(0,cr).join('')}</svg>`}
-window.CRA={svg,egg,ids:Object.keys(ART)};
+// keep the last of any repeated attribute so the SVG is valid XML (needed for canvas images and the share card)
+const dd=h=>h.replace(/<([a-zA-Z]+)((?:\s+[\w:-]+="[^"]*")+)\s*(\/?)>/g,(m,tag,at,sl)=>{const o={};at.replace(/([\w:-]+)="([^"]*)"/g,(z,k,v)=>{delete o[k];o[k]=v});return '<'+tag+Object.entries(o).map(([k,v])=>` ${k}="${v}"`).join('')+(sl?'/':'')+'>'});
+window.CRA={svg:(...a)=>dd(svg(...a)),egg:(...a)=>dd(egg(...a)),ids:Object.keys(ART)};
 })();
