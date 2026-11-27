@@ -1,0 +1,87 @@
+// Vocab Obby site layer: accounts, cloud saves, leaderboard API and PSLE Edition paywall.
+(function () {
+  const K = 'p6vq3';
+  const api = (p, o = {}) => fetch(p, { ...o, credentials: 'same-origin', headers: { 'x-vo': '1', 'Content-Type': 'application/json', ...(o.headers || {}) } })
+    .then(async r => ({ ok: r.ok, status: r.status, j: await r.json().catch(() => ({})) }))
+    .catch(() => ({ ok: false, status: 0, j: {} }));
+  const LS = { get: k => { try { return localStorage.getItem(k) } catch { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch { } }, del: k => { try { localStorage.removeItem(k) } catch { } } };
+  const VO = window.VO = { me: null };
+  let pushT = null;
+  function push(keep) {
+    const v = LS.get(K); if (!v || !VO.me || VO.me.type !== 'kid') return;
+    const up = Date.now(); origSet.call(localStorage, 'vo_up', String(up));
+    let state; try { state = JSON.parse(v) } catch { return }
+    api('/api/progress', { method: 'PUT', keepalive: !!keep, body: JSON.stringify({ state, updated: up }) });
+  }
+  const origSet = Storage.prototype.setItem;
+  window.VO_READY = (async () => {
+    try { VO.me = (await api('/api/auth')).j.user || null } catch { }
+    const me = VO.me;
+    if (me && me.type === 'kid') {
+      const r = await api('/api/progress');
+      const owner = LS.get('vo_owner');
+      if (r.ok && r.j.state) { LS.set(K, JSON.stringify(r.j.state)); LS.set('vo_up', String(r.j.updated || 0)); }
+      else if (owner && owner !== me.childId) { LS.del(K); LS.del(K + 's'); }
+      LS.set('vo_owner', me.childId);
+      try { const s = JSON.parse(LS.get(K) || '{}'); if (s.nick !== me.nick) { s.nick = me.nick; LS.set(K, JSON.stringify(s)); } } catch { }
+      Storage.prototype.setItem = function (k, v) { origSet.call(this, k, v); if (this === localStorage && k === K) { clearTimeout(pushT); pushT = setTimeout(push, 2500); } };
+      addEventListener('pagehide', () => push(true));
+      document.addEventListener('visibilitychange', () => { if (document.hidden) push(true) });
+    }
+    bar();
+  })().catch(() => { });
+
+  // Data layer the game uses for the shared leaderboard (replaces the old Claude-only one).
+  window.VOC = { use: async n => {
+    await window.VO_READY; const me = VO.me;
+    if (n === 'user') return me && me.type === 'kid' ? { id: async () => me.childId } : null;
+    if (n === 'db') {
+      if (!(me && me.type === 'kid')) return null;
+      return {
+        collection: () => ({ onSnapshot(cb, err) {
+          const go = async () => { const r = await api('/api/board'); if (r.ok) cb({ docs: (r.j.rows || []).map(v => ({ id: v.id, data: () => v })) }); else if (err) err(); };
+          go(); const iv = setInterval(go, 30000); return () => clearInterval(iv);
+        } }),
+        doc: () => ({ set: async d => { const r = await api('/api/board', { method: 'POST', body: JSON.stringify(d) }); if (!r.ok) throw new Error('save failed'); } })
+      };
+    }
+    return null;
+  } };
+
+  // Paywall: free = worlds 1-3, reviews and mini-games. PSLE Edition = exam-level worlds (4-6) + Exam Pack, one demo of each.
+  window.VO_GATE = function (kind, arg, tier, home) {
+    const needs = (kind === 'learn' && tier >= 3) ? 'world' : (kind === 'world' && Number(arg) >= 3) ? 'world' : kind === 'challenge' ? 'pack' : null;
+    if (!needs) return true;
+    if (VO.me && VO.me.paid) return true;
+    let d = {}; try { d = JSON.parse(LS.get('vo_demo') || '{}') } catch { }
+    if (!d[needs]) { d[needs] = 1; LS.set('vo_demo', JSON.stringify(d)); toast(needs === 'pack' ? 'Free demo: one Exam Pack run on us!' : 'Free demo: one run in the PSLE Edition worlds!'); return true; }
+    lock(home); return false;
+  };
+  function lock(home) {
+    const m = document.getElementById('main'); if (!m) return;
+    const kid = VO.me && VO.me.type === 'kid', parent = VO.me && VO.me.type === 'parent';
+    m.innerHTML = `<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Unlock the PSLE Edition</div>
+      <p>You've reached the exam-level worlds: Lava Land, Ice Peaks and Outer Space, plus the PSLE Exam Pack built from real PSLE papers. Your free demo is used up.</p>
+      <p><b>S$29.90</b> per player for a full year, or <b>S$59.90</b> for a Family Pass (up to 3 players). Includes a parent progress report.</p>
+      ${kid ? '<p>Ask a parent to unlock it at <b>vocab-obby.vercel.app/account</b>.</p>' : `<a class="go" style="display:block;text-align:center;text-decoration:none" href="/account.html#unlock">${parent ? 'Unlock now' : 'Create a parent account to unlock'}</a>`}
+      <button class="go" id="vo-back" style="background:var(--soft)">Keep playing the free worlds</button></div>`;
+    const b = document.getElementById('vo-back'); if (b) b.onclick = () => home ? home() : location.reload();
+  }
+  function toast(t) { const d = document.createElement('div'); d.className = 'vo-toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3200); }
+
+  // Account strip (guest / player / parent).
+  function bar() {
+    const me = VO.me, d = document.createElement('div'); d.className = 'vo-bar';
+    if (!me) d.innerHTML = `<span>Playing as guest. Progress is saved on this device only.</span><a href="/account.html">Log in / Save progress</a>`;
+    else if (me.type === 'kid') d.innerHTML = `<span>Player: <b></b>${me.paid ? ' · PSLE Edition unlocked' : ''}</span><a href="#" id="vo-out">Log out</a>`;
+    else d.innerHTML = `<span>Parent account. Pick a player to save progress.</span><a href="/account.html">Parent dashboard</a>`;
+    if (me && me.type === 'kid') d.querySelector('b').textContent = me.nick;
+    document.body.appendChild(d);
+    const o = d.querySelector('#vo-out'); if (o) o.onclick = async e => { e.preventDefault(); push(true); await api('/api/auth', { method: 'POST', body: JSON.stringify({ action: 'logout' }) }); location.reload(); };
+  }
+
+  // Install button (PWA).
+  let deferred = null;
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = document.createElement('button'); b.className = 'vo-install'; b.textContent = 'Install Vocab Obby'; b.onclick = async () => { b.remove(); deferred.prompt(); deferred = null; }; document.body.appendChild(b); });
+  if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => { }));
+})();
