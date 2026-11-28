@@ -325,7 +325,7 @@ body.playing #main>.card .opts{margin-top:auto;gap:8px}
 body.playing #main>.card .opt{min-height:48px;padding:10px 12px;font-size:16px}
 body.playing #main>.card .tag{padding:5px 10px;font-size:12px}
 body.playing #main>.card .word{font-size:clamp(26px,8vw,40px)!important;margin:2px 0}
-body.playing .chase{flex:1 1 0;min-height:0;display:flex;justify-content:center;background:#2b3463}
+body.playing .chase{flex:none;height:clamp(280px,calc(100dvh - 240px),680px);min-height:0;display:flex;justify-content:center;background:#2b3463}
 body.playing .chase canvas{height:100%;width:auto;max-width:100%;aspect-ratio:360/480}
 body.playing .chase-top{margin:4px 0}body.playing .chase-word{font-size:18px;margin:2px 0 6px}
 body.playing .ctl2{flex:none;margin-top:8px}body.playing .ctl2 .go{min-height:56px}
@@ -896,7 +896,7 @@ let ED=null;try{ED=localStorage.getItem('vq_ed')}catch(e){}if(ED!=='psle'){ED='p
 const EDN={psle:'PSLE Edition',o:'O-Level Edition',a:'A-Level Edition'},EDF={psle:'words.json',o:'words.json',a:'words.json'},EDLIVE={psle:1},EDGOAL={psle:4,o:5,a:5},EDTAG={psle:'psle',o:'o',a:'a'};
 S.wE=S.wE||{psle:S.w||{}};S.edx=S.edx||{psle:S.pts||0};S.bestE=S.bestE||{psle:S.best||0};S.tierE=S.tierE||{};S.tierPrE=S.tierPrE||{};S.placedE=S.placedE||{};S.lbE=S.lbE||{};S.wkE=S.wkE||{};
 if(!S.mig2){const a=S.wE.psle||(S.wE.psle={}),b=S.wE.sec||{};for(const k in b){if(!a[k]||((b[k].m||0)>(a[k].m||0)))a[k]=b[k]}S.edx.psle=(S.edx.psle||0)+(S.edx.sec||0);S.bestE.psle=Math.max(S.bestE.psle||0,S.bestE.sec||0);const mp={psle:[3,4,5],sec:[2,3,4]};let t=-1,pl=0;for(const e of ['psle','sec']){if(S.placedE[e]){pl=1;t=Math.max(t,mp[e][Math.min(2,S.tierE[e]||0)])}}S.lad={t:Math.max(0,t),pr:0,placed:pl};S.mig2=1}S.lad=S.lad||{t:0,pr:0,placed:0};if(S.lv==null&&S.lad.placed)S.lv=S.lad.t;
-S.w=S.wE[ED||'psle']||(S.wE[ED||'psle']={});S.pts=S.pts||0;S.coins=S.coins||0;S.days=S.days||[];S.av=S.av||{shirt:'#2f80ed',pants:'#2b2b2b',hat:'none',own:['#2f80ed','#2b2b2b','none']};
+S.w=S.wE[ED||'psle']||(S.wE[ED||'psle']={});S.pts=S.pts||0;S.coins=S.coins||0;S.days=S.days||[];S.av=S.av||{shirt:'#2f80ed',pants:'#2b2b2b',hat:'none',own:['#2f80ed','#2b2b2b','none']};if(!Array.isArray(S.av.own))S.av.own=['#2f80ed','#2b2b2b','none'];
 const save=()=>{if(ED){const d=S.pts-(S._lp??S.pts);if(d>0)S.edx[ED]=(S.edx[ED]||0)+d;S._lp=S.pts;S.bestE[ED]=S.best||0}try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const SK=()=>K+'s'+(ED==='sec'?'_sec':'');
 const st=w=>S.w[w]||(S.w[w]={m:0,due:0,miss:0,seen:0});
