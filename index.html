@@ -118,6 +118,7 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .boss .hp{flex:1;height:18px;border:2px solid #fff;border-radius:999px;background:#3a1b2a;overflow:hidden}
 .boss .hp i{display:block;height:100%;background:var(--bad);transition:width .3s}
 .boss b{font:800 14px var(--fd);white-space:nowrap}
+.hintb{display:inline-flex;align-items:center;gap:6px;margin:10px 0 0;min-height:44px;padding:6px 14px;border-radius:999px;border:2px solid #C9CDEB;background:#fff;color:var(--ink);font:700 15px var(--fb)}.hintc{display:flex;align-items:center;gap:8px;margin:10px 0 0;padding:10px 12px;border-radius:12px;background:#F2F3FF;border:1px solid #DADDF5;font:700 15px/1.4 var(--fb)}.opt.out{text-decoration:line-through;opacity:.45}
 .boss .hearts{display:flex;gap:3px}.boss .hearts svg{width:20px;height:20px;display:block}
 .boss .hearts .lost{opacity:.25;filter:grayscale(1)}
 .bubbles{margin:14px 0 0;text-align:center}
@@ -719,7 +720,7 @@ button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid #7D82D
 </section></div>
 <p class="foot"><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxm" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask><linearGradient id="gthxm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient></defs><g mask="url(#thxm)"><rect x="0" y="0" width="100" height="100" fill="url(#gthxm)"/></g></svg><span>by Thinking Hack Education</span></span>© 2026 Thinking Hack Education. Created by Miss Christine, Exam Preparation Specialist. All rights reserved. No copying or redistribution. · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/account.html" style="color:inherit">Account</a> · WhatsApp +65 9003 0002</p>
 </div>
-<script src="/bobby.js"></script><script src="/creatures-art.js"></script><script src="/creatures.js"></script><script src="/vo.js"></script>
+<script src="/psle.js"></script><script src="/bobby.js"></script><script src="/creatures-art.js"></script><script src="/creatures.js"></script><script src="/vo.js"></script>
 <script>VO_READY.then(()=>{
 const $=id=>document.getElementById(id),main=$('main');
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1067,11 +1068,11 @@ function start(kind,arg){
   const n=Date.now();let pick;
   if(kind==='learn'||kind==='world'){
     const d=due().slice(0,15);
-    const t=Math.round(S.lv==null?2:S.lv),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rnk(x)===t)),low=shuf(W.filter(x=>rnk(x)<t)),over=shuf(fresh.filter(x=>rnk(x)===t+1));
+    const t=Math.round(S.lv==null?2:S.lv),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rnk(x)===t)),low=shuf(W.filter(x=>rnk(x)<t)),over0=shuf(fresh.filter(x=>rnk(x)===t+1)),pb=Math.max(0,Math.min(.6,((S.lv==null?2:S.lv)-1.5)*.4)),isPw=x=>(x[7]||[]).includes('psle'),over=[...over0.filter(isPw).slice(0,Math.round(8*pb)),...over0.filter(x=>!isPw(x))].concat(over0.filter(isPw).slice(Math.round(8*pb)));
     let h=0;for(const c of weekKey()+(S.runs||0)%3)h=(h*31+c.charCodeAt(0))>>>0;const rr=()=>(h=(h*1103515245+12345)>>>0)/4294967296,sh=W.filter(x=>rnk(x)<=1).map(x=>[rr(),x]).sort((a,b)=>a[0]-b[0]).map(z=>z[1]).slice(0,10),shS=new Set(sh.map(x=>x[0])),nt=a=>a.filter(x=>!shS.has(x[0]));
     const nw=sh.concat(shuf([...nt(inT).slice(0,28),...nt(over).slice(0,8),...nt(low).slice(0,4)]),nt(inT).slice(28),nt(over).slice(8),nt(low).slice(4));
     pick=[...new Set([...d,...nw])].slice(0,50);if(pick.length<50)pick=[...pick,...shuf(W.filter(x=>!pick.includes(x))).slice(0,50-pick.length)];
-  }else if(kind==='challenge'){pick=shuf(CW).slice(0,30)}
+  }else if(kind==='challenge'){pick=PK.deck(S,W,CW)}
     else if(kind==='quest'){QW=arg.words.filter(e=>e&&e[0]&&e[2]);pick=shuf(QW).slice(0,50)}
     else if(kind==='rev')pick=due().slice(0,50);
   else pick=W.filter(x=>st(x[0]).miss>0).slice(0,50);
@@ -1089,9 +1090,9 @@ function start(kind,arg){
   // finish line: the giant, King Kongo
   shuf(pick).slice(0,16).forEach(x=>steps.push({t:shuf(['spell','under','lookalike','tf'])[0],n:x[0],boss:1,bid:'final',giant:1}));
   steps.forEach(s=>s.x=WF(s.n));
-  if(kind==='challenge')steps.forEach(s=>{if(s.t==='intro')s.t='meaning'});
+  if(kind==='challenge')steps.forEach(s=>{const p=s.x&&PK.isP(s.x),m=(st(s.n).m||0);if(s.t==='intro')s.t=p?'under':'meaning';if(p&&s.t==='meaning')s.t='under';if(p&&s.t==='reverse')s.t='blank';if(p&&(s.t==='spellit'||s.t==='spell')&&m<3)s.t=s.boss?'under':'blank';if(p)s.pk=1});
   if(kind==='challenge')steps.forEach(s=>{if(s.giant)s.giant=0});
-  sess={kind,words:pick,steps,i:0,ok:0,bad:0,combo:0,best:0,pts:0,wrongs:[],w:kind==='world'?arg:kind==='challenge'?6:tier(),qname:kind==='quest'?arg.name:''};
+  sess={kind,pkN:0,pkOk:0,pkMiss:[],pkHit:[],words:pick,steps,i:0,ok:0,bad:0,combo:0,best:0,pts:0,wrongs:[],w:kind==='world'?arg:kind==='challenge'?6:tier(),qname:kind==='quest'?arg.name:''};
   run();
 }
 function persist(){if(sess&&sess.kind==='quest')return;try{localStorage.setItem(SK(),JSON.stringify({...sess,words:sess.words.map(x=>x[0]),steps:sess.steps.map(({x,...r})=>r)}))}catch(e){}}
@@ -1102,7 +1103,7 @@ function run(){
   if(sess.i>=sess.steps.length)return recap();
   const s=sess.steps[sess.i],x=s.x,pct=Math.round(sess.i/sess.steps.length*100);
   cur_boss=!!s.boss;if(s.gold==null)s.gold=s.t!=='intro'&&s.t!=='match'&&Math.random()<.07;s_gold=s.gold;
-  if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;sess.bossMax=sess.boss=sess.giant?100:50;sess.hearts=3;sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
+  if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;sess.bossMax=sess.boss=sess.giant?100:sess.kind==='challenge'?(s.bid==='final'?45:35):50;sess.hearts=3;sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
   OB.ensure(sess.w!=null?sess.w:tier());const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
   const head=(label,lvl)=>`<div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace(s.t==='intro'?'idle':'think',52)}</span><span class="tag ${s.t==='intro'?'new':''}">${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
   if(s.t!=='intro'&&s.t!=='match'&&!s.arr){
@@ -1135,8 +1136,14 @@ function run(){
   const sayT=s.t==='blank'?x[4].replace('___','blank'):(s.t==='reverse'||s.t==='lookalike')?x[2]:s.t==='under'?x[4].replace('___',A(x)):x[0];
   q=`<div class="sayrow" style="justify-content:flex-end;margin:0">${spk(sayT)}</div>`+q;
   opts=s.fixed?opts:shuf([...new Set(opts)]);
-  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div><div id="fb"></div></div>`;
-  main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=opts[b.dataset.i]===key;main.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(opts[o.dataset.i]===key)o.classList.add('right')});if(!ok)b.classList.add('wrong');result(ok,x)});
+  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div>${s.pk&&!s.fixed?`<button class="hintb" id="hintb" type="button">${ic('book',18)} Hint</button><div id="hintc" class="hintc" role="note" hidden></div>`:''}<div id="fb"></div></div>`;
+  const hintTx=s.t==='blank'?`Clue: the missing word means <b>“${esc(x[2])}”</b>.`:(s.t==='reverse'||s.t==='lookalike')?`In a sentence: ${esc(x[4])}`:`Break it up: <b>${esc(x[8]||x[0])}</b>${x[3]?` · often seen as “${esc(x[3])}”`:''}`;
+  const showHint=()=>{const c=$('hintc');if(!c||!c.hidden)return;s.hint=1;c.innerHTML=`<span class="bobr" aria-hidden="true">${bobFace('idle',30)}</span><span>${hintTx}</span>`;c.hidden=false;const hb=$('hintb');if(hb)hb.remove()};
+  if($('hintb')){$('hintb').onclick=showHint;if(PK.hintOpen(S)&&!s.boss)showHint()}
+  main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=opts[b.dataset.i]===key;
+    if(!ok&&s.pk&&!s.fixed&&!s.tried&&opts.length>2){s.tried=1;b.disabled=true;b.classList.add('out');const others=[...main.querySelectorAll('.opt')].filter(o=>!o.disabled&&opts[o.dataset.i]!==key);if(others.length>1){const o=others[Math.random()*others.length|0];o.disabled=true;o.classList.add('out')}
+      buzz(HAP.bad);bobSay('think');$('fb').innerHTML=`<p class="fbh pkx" style="margin:12px 0 0;display:flex;align-items:center;gap:8px">${bobFace('think',36)}Not that one. Bobby crossed one out. Have another go.</p>`;return}
+    main.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(opts[o.dataset.i]===key)o.classList.add('right')});if(!ok)b.classList.add('wrong');const hb=$('hintb');if(hb)hb.remove();result(ok,x,'',{assist:!!(s.tried||s.hint)})});
 }
 let s_gold=false,cur_boss=false;
 const coarse=()=>matchMedia('(pointer:coarse)').matches;
@@ -1174,17 +1181,18 @@ function sprint(){setTimeout(()=>document.body.classList.add('playing'),0);
   const done=()=>{clearInterval(tm);const nb=score>(S.spBest||0);if(nb)S.spBest=score;save();CRE.ev.side('sprint',score,nb);if(nb)confetti(150);
     main.innerHTML=`<div class="card"><span class="tag">Spelling Sprint over</span><div class="word">${score} spelt</div><p>${nb?'New personal best!':'Best: '+(S.spBest||0)+'.'} Words you spell right count towards their 5th gem.</p><button class="go" id="ag">Again!</button><button class="go" id="h" style="background:var(--opt)">Home</button></div>`;$('ag').onclick=sprint;$('h').onclick=home;hud()};
   tm=setInterval(()=>{const e=$('tm');if(!e)return clearInterval(tm);const l=Math.max(0,Math.ceil((end-Date.now())/1000));e.textContent=l+'s';if(!l)done()},250);ask();}
-function result(ok,x,extra=''){
-  const w=st(x[0]);if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
+function result(ok,x,extra='',fl={}){
+  const w=st(x[0]);const cs=sess.steps[sess.i]||{};
+  if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.sw=0;setTimeout(()=>{pop('Second wind! +1 heart');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
   if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=g;S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
-    if(w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0)w.miss--;if(isMastered(w)&&!w.ms){w.ms=Date.now();CRE.ev.mastered(x[0])}
+    if(!fl.assist&&w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0&&!fl.assist)w.miss--;if(!fl.assist&&isMastered(w)&&!w.ms){w.ms=Date.now();CRE.ev.mastered(x[0])}
     window.__pm=sess.combo;if(!cur_boss)gateHit(g);else{beep(1);pop('+'+g)}juice(sess.combo,g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;window.__pm=0;buzz(HAP.bad);bobSay('sorry');cardFx(0);w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);wrongFx();
     // it comes back 3 questions later in a different form
-    sess.steps.splice(Math.min(sess.i+4,sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x})}
+    sess.steps.splice(Math.min(sess.i+(cs.pk&&!cur_boss?9:4),sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:cs.pk?shuf(['under','blank','lookalike'])[0]:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,pk:cs.pk})}
   if(cur_boss&&sess.bonusNow){sess.bonusNow=0;setTimeout(()=>pop('Streak bonus saved for later!'),900)}
   if(!S.days.includes(today()))S.days.push(today());save();bobbyCheck();
-  $('fb').innerHTML=`<p class="fbh" style="font:800 24px var(--fd);margin:16px 0 0;display:flex;align-items:center;gap:8px;color:${ok?'#2F7FBF':'var(--ink)'}">${bobFace(ok?'excited':'sorry',44)}${ok?shuf(['Brilliant!','Spot on!','Nailed it!','Yes!','Sharp!'])[0]:'Nearly! Bobby will help you learn this one:'}</p>${extra}${ok?`<p style="margin:6px 0 0"><b>${esc(x[0])}</b> = ${esc(x[2])} ${gems(w.m)}</p>`:teachHTML(x)}${sess.bonusNow?`<div class="bonuscard"><b>Streak bonus unlocked!</b><br>${sess.combo} right in a row. You earned a round of Shadow Chase.<div class="row"><button class="go" id="bplay" style="margin:0">Play now</button><button class="go" id="bsave" style="margin:0;background:var(--paper)">Save for later</button></div></div>`:''}<button class="go" id="nx">Next</button>`;
+  $('fb').innerHTML=`<p class="fbh" style="font:800 24px var(--fd);margin:16px 0 0;display:flex;align-items:center;gap:8px;color:${ok?'#2F7FBF':'var(--ink)'}">${bobFace(ok?'excited':'sorry',44)}${ok?(fl.assist?shuf(['Got there!','Worked it out!','That\'s the one.'])[0]:shuf(['Brilliant!','Spot on!','Nailed it!','Yes!','Sharp!'])[0]):'Nearly! Bobby will help you learn this one:'}</p>${extra}${ok?`<p style="margin:6px 0 0"><b>${esc(x[0])}</b> = ${esc(x[2])} ${gems(w.m)}</p>`:teachHTML(x)}${sess.bonusNow?`<div class="bonuscard"><b>Streak bonus unlocked!</b><br>${sess.combo} right in a row. You earned a round of Shadow Chase.<div class="row"><button class="go" id="bplay" style="margin:0">Play now</button><button class="go" id="bsave" style="margin:0;background:var(--paper)">Save for later</button></div></div>`:''}<button class="go" id="nx">Next</button>`;
   $('nx').focus();$('nx').onclick=()=>{sess.i++;run()};
   if(sess.bonusNow){sess.bonusNow=0;$('bsave').onclick=()=>{pop('Saved to Bonus games');$('bsave').closest('.bonuscard').remove()};$('bplay').onclick=()=>{sess.i++;persist();const keep=sess;chase(()=>{sess=keep;run()})}}
   hud();
@@ -1243,7 +1251,7 @@ function bossWin(box,nx){
 }
 function knockedOut(nx){
   sfx('ko');OB.ko();nx.remove();
-  $('fb').insertAdjacentHTML('beforeend',`<div class="ko" role="status"><b>Knocked out!</b><p>The words you learnt are saved. Ready for a rematch?</p><div class="row"><button class="go" id="kretry">Try again</button><button class="go" id="kend" style="background:var(--paper)">Finish run</button></div></div>`);
+  $('fb').insertAdjacentHTML('beforeend',`<div class="ko" role="status"><b>${sess.kind==='challenge'?'So close!':'Knocked out!'}</b><p>${sess.kind==='challenge'?'You nearly had it. Every word you learnt is saved, and the boss is still wobbling. One more go?':'The words you learnt are saved. Ready for a rematch?'}</p><div class="row"><button class="go" id="kretry">Try again</button><button class="go" id="kend" style="background:var(--paper)">Finish run</button></div></div>`);
   $('kretry').focus();
   const bid=sess.bid,fin=bid==='final';$('kend').textContent=fin?'Finish run':'Skip this boss';
   $('kretry').onclick=()=>{sess.boss=sess.bossMax;sess.hearts=3;sess.bossOn=1;sess.charge=0;OB.revive(sess.bossMax);
@@ -1285,7 +1293,7 @@ async function sharePodium(){const svg=podiumSVG(1200,1040),img=new Image();img.
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();a.remove();toastQ('Victory card saved')},'image/png')}
 function recap(){
   try{localStorage.removeItem(SK())}catch(e){}
-  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=85)S.lv=Math.min(5,S.lv+.5);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
+  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=90&&(S.lvHot||0)>=1){S.lv=Math.min(5,S.lv+1);S.lvHot=0}else if(accR>=85){S.lv=Math.min(5,S.lv+.5);S.lvHot=accR>=90?1:0}else{S.lvHot=0;if(accR>=80)S.lv=Math.min(5,S.lv+.25);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}}if(sess.kind==='challenge')PK.endRun(S,sess);if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
   const wr=sess.wrongs.map(n=>WF(n));
   main.innerHTML=`<div class="card"><span class="tag">Session complete</span><div class="podium">${podiumSVG()}</div><button class="go" id="pshare" style="background:var(--paper)">Share victory card</button><div class="word" style="font-size:clamp(30px,6vw,44px)">${acc>=90?'Obby cleared!':acc>=75?'Great run!':'Run complete!'}</div>
   ${tierUp?`<div class="tierup"><b>New world!</b> You've travelled to <b>${esc(world())}</b>. Your adventure continues there.</div>`:''}
@@ -1789,7 +1797,7 @@ function challenge(){
   if(!EDLIVE[ED||'psle']){pop('Coming soon');return}
   CW=W.filter(x=>(x[7]||[]).includes(EDTAG[ED||'psle']));
   if(!CW.length){pop('Exam Pack is loading, try again');return}
-  main.innerHTML=`<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">PSLE Kingdom</div><p>The PSLE Edition world. ${CW.length} words taken from real PSLE papers, exam-style runs, and the Exam King guarding the throne. Each run has 30 words. Every right answer pays <b>double coins</b>, and finishing earns the <b>Challenger</b> badge.</p><button class="go" id="cgo">Enter PSLE Kingdom</button><button class="go" id="h" style="background:var(--soft)">Back</button></div>`;
+  main.innerHTML=`<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">PSLE Kingdom</div><p>Exam realm. These are real PSLE words, the tough ones. Bobby's got your back.</p><p style="color:var(--mut);margin-top:-4px">30 words a run, double coins for every right answer, and the Exam King guarding the throne. Stuck? Tap <b>Hint</b>, or have another go when Bobby crosses one out.</p><button class="go" id="cgo">Enter PSLE Kingdom</button><button class="go" id="h" style="background:var(--soft)">Back</button></div>`;
   $('cgo').onclick=()=>start('challenge');$('h').onclick=home;
 }
 // ---------- Shop & Wardrobe: everything cosmetic, coins come only from playing ----------
