@@ -861,6 +861,7 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
 #nx.autonx{position:relative;overflow:hidden}#nx .anbar{position:absolute;left:0;bottom:0;height:4px;width:100%;background:currentColor;opacity:.35;transform-origin:left;animation:anfill 1.2s linear forwards}@keyframes anfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 #nx.nxpin{position:sticky;bottom:max(8px,env(safe-area-inset-bottom));z-index:6;box-shadow:0 6px 18px rgba(20,16,60,.25)}.bossnext{color:#c0392b;animation:bnp 1s ease-in-out infinite alternate}@keyframes bnp{to{opacity:.6}}
 .gdots{font-size:11px;letter-spacing:1px;opacity:.8}
+.nwr{white-space:nowrap}.q u{text-decoration-skip-ink:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 </style><link rel="stylesheet" href="/intro.css"></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span></div>
@@ -1112,7 +1113,7 @@ function look(x,k=3){ // look-alike words first, then same level; never a near-s
   return PK.safeL(x,W,k);
 }
 const gems=m=>`<span class="gems">${[1,2,3,4,5].map(i=>`<span class="gem ${m>=i?'on':''}"></span>`).join('')}</span>`;
-const sent=(x,u)=>esc(x[4]).replace('___',u?`<u><b>${esc(A(x))}</b></u>`:'<span class="blank">&nbsp;</span>');
+const sent=(x,u)=>esc(x[4]).replace(/(\S*)___(\S*)/,(m,p1,p2)=>`<span class="nwr">${p1}${u?`<u><b>${esc(A(x))}</b></u>`:'<span class="blank">&nbsp;</span>'}${p2}</span>`);
 function teachHTML(x){
   const c=x[5].map(byName).filter(Boolean);
   return `<div class="teach"><div class="sayrow"><b style="font-size:20px" class="saytap" data-say="${esc(x[0])}">${esc(x[0])}</b>${spk(x[0])}${sylHTML(x)}</div><p>means <b>${esc(x[2])}</b></p>${x[9]?`<p class="tip"><b>Spelling tip:</b> ${esc(x[9])}</p>`:''}<p>${sent(x,1)}</p><p><i>Goes with: ${esc(x[3])}</i></p>${c.length?`<div class="conf">Don't mix it up:<br>${c.map(y=>`<b>${esc(y[0])}</b> = ${esc(y[2])}`).join('<br>')}</div>`:''}</div>`;
