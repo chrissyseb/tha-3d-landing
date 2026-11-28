@@ -7,7 +7,7 @@
 <link rel="preload" href="/fonts/fredoka-latin-700.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/nunito-latin-800.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/atkinson-hyperlegible-latin-400.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/vo.css">
 <style>
-:root{--ink:#241B4B;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Fredoka','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+:root{--ink:#241B4B;--mut:#5d6585;--paper:#fff;--soft:#f2f5fb;--line:#dfe5f1;--sky:#3fb4e8;--sun:#ffc642;--ok:#2fbf71;--bad:#ef4f5f;--plum:#b15fd7;--r:18px;--sh:0 6px 0 var(--ink);--fd:'Rubik','Fredoka','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:linear-gradient(#3fb4e8,#8fd6f5 70%,#9dd946 70%);color:var(--ink);font:600 17px/1.5 var(--fb);min-height:100vh;overflow-x:clip}
 .wrap{max-width:720px;margin:0 auto;padding:16px max(4vw,14px) 110px}
@@ -231,7 +231,7 @@ function drawHeroes(W,H,t){
     rect(-10,-18,9,18,pa);rect(1,-18,9,18,pa);rect(-12,-40,24,22,sh);rect(-10,-58,20,18,'#ffcc4d');
     cx.fillStyle='#241B4B';cx.fillRect(-6,-52,3,4);cx.fillRect(3,-52,3,4);
     cx.restore();
-    cx.font='800 11px Fredoka,system-ui';cx.textAlign='center';cx.fillStyle=act?'#FFE45C':'#fff';cx.strokeStyle='#241B4B';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
+    cx.font='800 11px Rubik,Fredoka,system-ui';cx.textAlign='center';cx.fillStyle=act?'#FFE45C':'#fff';cx.strokeStyle='#241B4B';cx.lineWidth=3;cx.strokeText(p.nick,x,y+14);cx.fillText(p.nick,x,y+14);
   })
 }
 function heroPos(id){const ps=R.players.filter(p=>!p.left),k=Math.max(0,ps.findIndex(p=>p.pid===id));const r=cv.getBoundingClientRect();return [r.width*.1+k*r.width*.1+10,r.height*.8-40]}

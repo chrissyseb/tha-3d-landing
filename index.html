@@ -14,18 +14,18 @@
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="VocaBobby: a vocabulary adventure for every learner, from primary school to adult"><meta name="twitter:description" content="Learn English words by playing. Meanings, spelling and pronunciation with spaced review."><meta name="twitter:image" content="https://vocabobby.vercel.app/icons/og-hero.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":["EducationalApplication","SoftwareApplication"],"name":"VocaBobby","url":"https://vocabobby.vercel.app/","applicationCategory":"EducationalApplication","applicationSubCategory":"English vocabulary","operatingSystem":"Web browser","inLanguage":"en-GB","description":"An educational English vocabulary adventure for every learner, from primary school to adult. Word meanings, spelling and pronunciation with spaced review.","educationalLevel":["Primary school","Secondary school","Pre-university","Adult learners"],"educationalUse":["Vocabulary practice","Spelling practice","Revision"],"learningResourceType":"Educational game","teaches":"English vocabulary, word meanings, spelling and pronunciation","typicalAgeRange":"7-","audience":[{"@type":"EducationalAudience","educationalRole":"student"},{"@type":"EducationalAudience","educationalRole":"teacher"},{"@type":"EducationalAudience","educationalRole":"parent"}],"isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"SGD"},"publisher":{"@type":"EducationalOrganization","name":"Thinking Hack Education","address":{"@type":"PostalAddress","addressCountry":"SG"}},"image":"https://vocabobby.vercel.app/icons/og-image.png"}</script>
 <link rel="stylesheet" href="/vo.css">
-<link rel="preload" href="/icons/art/vb-hero.webp" as="image" type="image/webp" fetchpriority="high"><link rel="preload" href="/fonts/fredoka-latin-700.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/nunito-latin-800.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/atkinson-hyperlegible-latin-400.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="preload" href="/icons/art/vb-hero.webp" as="image" type="image/webp" fetchpriority="high"><link rel="preload" href="/fonts/rubik-latin-800.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/nunito-latin-800.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/atkinson-hyperlegible-latin-400.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/fonts/fonts.css">
 <style>
 /* VOICE: a polished kids' game with real PSLE teaching inside; confident, bright, never babyish
    IDEA: an obby in the sky; every right answer is a jump to the next floating block
    PICTURE: a layered voxel sky world behind everything, the player's blocky avatar standing on a platform
-   COLOUR/TYPE: Thinking Hack hexagon colours as flat fields on a deep ink frame; Fredoka for display, Nunito for text
+   COLOUR/TYPE: Thinking Hack hexagon colours as flat fields on a deep ink frame; Rubik,Fredoka for display, Nunito for text
    LAYOUT: brand bar, stat strip, one main card per screen, chunky 3D buttons */
 :root{color-scheme:light;
 --ink:#1b2140;--ink2:#2b3463;--mut:#5d6585;--paper:#ffffff;--soft:#f2f5fb;--line:#dfe5f1;
 --sky:#3fb4e8;--sky2:#8fd6f5;--lime:#9dd946;--sun:#ffc642;--orng:#fa895d;--pink:#ed598c;--plum:#b15fd7;--blue:#4aa4e6;--ok:#2fbf71;--bad:#ef4f5f;
 --r:18px;--sh:0 6px 0 var(--ink);--s1:8px;--s2:12px;--s3:16px;--s4:24px;--s5:32px;
---fd:'Fredoka','Avenir Next','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+--fd:'Rubik','Fredoka','Avenir Next','Segoe UI',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
 :root[data-theme=dark]{color-scheme:light}
 *{box-sizing:border-box;min-width:0}
 html{-webkit-text-size-adjust:100%}
@@ -312,9 +312,9 @@ body.playing .chase-top{margin:4px 0}body.playing .chase-word{font-size:18px;mar
 body.playing .ctl2{flex:none;margin-top:8px}body.playing .ctl2 .go{min-height:56px}
 @media(max-height:760px){body.playing #main>.card .q{font-size:16px}body.playing #main>.card .opt{min-height:44px;padding:8px 12px;font-size:15px}body.playing .obwrap,body.playing .obwrap canvas{max-height:26dvh}}
 
-/* ===== Brand v2: Bobby the fox, navy/indigo, gold actions, Fredoka + Nunito ===== */
+/* ===== Brand v2: Bobby the fox, navy/indigo, gold actions, Rubik,Fredoka + Nunito ===== */
 :root{--ink:#0F1230;--ink2:#1E1B4B;--sky:#1E1B4B;--sky2:#2E2A7A;--sun:#FFC857;--gold:#FFC857;--goldd:#C9922B;--ok:#10B981;--emer:#10B981;--navy:#171D35;
---fire:#FF6B4A;--water:#38BDF8;--zap:#FACC15;--leaf:#34D399;--fd:'Fredoka','Avenir Next','Segoe UI',system-ui,sans-serif;--fw:'Lilita One','Fredoka',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
+--fire:#FF6B4A;--water:#38BDF8;--zap:#FACC15;--leaf:#34D399;--fd:'Rubik','Fredoka','Avenir Next','Segoe UI',system-ui,sans-serif;--fw:'Lilita One','Rubik','Fredoka',system-ui,sans-serif;--fb:'Nunito','Segoe UI',system-ui,sans-serif}
 body{background:#171D35}
 .scene{background:#171D35}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 12% 18%,#fff9,transparent),radial-gradient(1.5px 1.5px at 32% 8%,#fff8,transparent),radial-gradient(2px 2px at 58% 22%,#ffc85799,transparent),radial-gradient(1.5px 1.5px at 78% 12%,#fff8,transparent),radial-gradient(1.5px 1.5px at 90% 30%,#38bdf888,transparent),radial-gradient(1.5px 1.5px at 6% 40%,#fff6,transparent)}
@@ -581,7 +581,7 @@ body.edgeglow::before{content:"";position:fixed;inset:0;z-index:240;pointer-even
 :root{--canvas:#F8F9FE;--sky2:#EEF6FF;--r-chip:10px;--r-input:14px;--r-btn:16px;--r-card:22px;--r-panel:28px;--r-pill:9999px;
 --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s6:48px;
 --e1:0 2px 6px rgba(80,70,170,.08);--e2:0 6px 18px rgba(80,70,170,.12);--e3:0 14px 34px rgba(80,70,170,.18);
---spring:cubic-bezier(.34,1.56,.64,1);--fdisp:'Fredoka','Nunito',system-ui,sans-serif;--fui:'Nunito','Segoe UI',system-ui,sans-serif;--fread:'Atkinson Hyperlegible','Nunito',system-ui,sans-serif}
+--spring:cubic-bezier(.34,1.56,.64,1);--fdisp:'Rubik','Fredoka','Nunito',system-ui,sans-serif;--fui:'Nunito','Segoe UI',system-ui,sans-serif;--fread:'Atkinson Hyperlegible','Nunito',system-ui,sans-serif}
 html body{background:var(--canvas)!important;color:var(--ink)}
 .scene{opacity:.55}
 h1,h2,h3,.word,.wn,.sht,.chamt,.bobn,.victory b,.tierup b,.hi{font-family:var(--fdisp)!important;font-weight:700!important;letter-spacing:-.01em}
@@ -659,7 +659,7 @@ button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid #7D82D
 <h2>How it helps you learn</h2>
 <ul><li>Meanings taught in a short example sentence, in British English</li><li>Spaced review: each word returns after hours, then days, then weeks</li><li>Spelling practice with hints for tricky letter patterns</li><li>Listen and say-it practice for pronunciation</li><li>Look-alike words (affect and effect, stationary and stationery) practised side by side</li></ul>
 <h2>For parents</h2>
-<p>A free parent dashboard shows a weekly summary for each child: words met, words learnt, tricky words and what to practise next, plus dinner-table questions using the week's words. Children play with a nickname and a 4-digit PIN only. There are no ads and no chat, so it is safe for young learners.</p>
+<p>A free parent dashboard shows a weekly summary for each child: words met, words learnt, tricky words and what to practise next, plus dinner-table questions using the week's words. Players use a nickname and a 4-digit PIN only. There are no ads and no chat, so it is safe for young learners.</p>
 <h2>For teachers and schools</h2>
 <p>VocaBobby can be used in class or for homework revision, and teachers can turn any word list into a playable world. <a href="/teachers">Information for teachers and school IT teams</a>, including how to allowlist the site.</p>
 </section></div>
@@ -836,7 +836,7 @@ sorry:'<circle cx="38" cy="53" r="4.5"/><circle cx="62" cy="53" r="4.5"/><path d
 cheer:'<path d="M38 46l2.4 5 5.4.6-4 3.6 1.2 5.3-5-2.8-5 2.8 1.2-5.3-4-3.6 5.4-.6zM62 46l2.4 5 5.4.6-4 3.6 1.2 5.3-5-2.8-5 2.8 1.2-5.3-4-3.6 5.4-.6z" fill="#FFE45C" stroke="#241B4B" stroke-width="2.5" stroke-linejoin="round"/>',
 sleep:'<path d="M32 54q6 5 12 0M56 54q6 5 12 0" fill="none" stroke="#241B4B" stroke-width="4" stroke-linecap="round"/>'}[m]||'';
 const mouth={idle:'<path d="M44 70q6 5 12 0" fill="none" stroke="#241B4B" stroke-width="3.5" stroke-linecap="round"/>',excited:'<path d="M42 67q8 14 16 0z" fill="#241B4B"/>',think:'<path d="M46 72h8" stroke="#241B4B" stroke-width="3.5" stroke-linecap="round"/>',sorry:'<path d="M44 72q6-4 12 0" fill="none" stroke="#241B4B" stroke-width="3.5" stroke-linecap="round"/>',cheer:'<path d="M40 66q10 16 20 0z" fill="#241B4B"/><path d="M45 71q5 4 10 0" fill="#FF8FA8"/>',sleep:'<ellipse cx="50" cy="71" rx="3" ry="2.5" fill="#241B4B"/>'}[m]||'';
-const extra=m==='sorry'?'<path d="M80 30q5 8 0 11q-5-3 0-11z" fill="#8FD0F6" stroke="#241B4B" stroke-width="2"/>':m==='sleep'?'<text x="74" y="26" font-family="Fredoka,sans-serif" font-weight="700" font-size="16" fill="#7D82DE">z</text><text x="84" y="16" font-family="Fredoka,sans-serif" font-weight="700" font-size="12" fill="#7D82DE">z</text>':m==='cheer'?'<path d="M10 20l4 4M90 18l-4 5M8 60l5-1" stroke="#7D82DE" stroke-width="3" stroke-linecap="round"/>':'';
+const extra=m==='sorry'?'<path d="M80 30q5 8 0 11q-5-3 0-11z" fill="#8FD0F6" stroke="#241B4B" stroke-width="2"/>':m==='sleep'?'<text x="74" y="26" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="16" fill="#7D82DE">z</text><text x="84" y="16" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="12" fill="#7D82DE">z</text>':m==='cheer'?'<path d="M10 20l4 4M90 18l-4 5M8 60l5-1" stroke="#7D82DE" stroke-width="3" stroke-linecap="round"/>':'';
 return `<svg class="bobf bob-${m}" width="${sz}" height="${sz}" viewBox="0 0 100 100" aria-hidden="true"><path d="M18 40L14 8l28 20M82 40l4-32-28 20" fill="#FF8A3D" stroke="#241B4B" stroke-width="3.5" stroke-linejoin="round"/><path d="M22 22l3 14 9-6zM78 22l-3 14-9-6z" fill="#FFF4E6"/><path d="M50 22c24 0 36 16 36 34 0 20-17 34-36 34S14 76 14 56c0-18 12-34 36-34z" fill="#FF8A3D" stroke="#241B4B" stroke-width="3.5"/><path d="M50 90c-14 0-24-8-26-20 8 4 17 2 26-6 9 8 18 10 26 6-2 12-12 20-26 20z" fill="#FFF4E6"/><ellipse cx="50" cy="63" rx="5" ry="3.5" fill="#241B4B"/><g fill="#241B4B">${eyes}</g>${mouth}${extra}</svg>`}
 function bobSay(m){const b=document.querySelector('#main .bobr');if(b){b.innerHTML=bobFace(m,52);if(!RMJ()){b.firstChild.animate([{transform:'scale(.8)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:260,easing:'cubic-bezier(.34,1.56,.64,1)'})}}}
 function cardFx(ok){const c=document.querySelector('#main>.card');if(!c||RMJ())return;c.animate(ok?[{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}]:[{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}],{duration:ok?240:300,easing:ok?'cubic-bezier(.34,1.56,.64,1)':'ease-out'})}
@@ -871,13 +871,13 @@ function teachHTML(x){
 const STR={
   play:'Play',ready:'Ready, hero?',firstGo:'Smash the word gates. A boss is waiting at the end!',gate:'Gate',
   bossIntro:'A word boss blocks the path!',hold:'Hold to charge',holdSub:'Keep holding, then let go to blast!',charging:'Charging…',release:'Let go!',
-  comboName:'Word Blast combo!',weak:'Bonk! Hold longer for a combo.',
+  comboName:'Word Blast combo!',weak:'Weak hit. Hold longer for a combo.',
   bobbyFree:'You freed Bobby!',bobbyJoin:'Bobby the fox joins your adventure. Master words and play on different days to help him grow.',
-  savePrompt:'Keep Bobby and your coins safe',saveSub:'Ask a grown-up to make a free account. You only need a nickname and a PIN.',saveBtn:'Save my progress',later:'Maybe later',onward:'Onward to Grass Plains!',
+  savePrompt:'Keep Bobby and your coins safe',saveSub:'Make a free account to keep your progress. All you need is a nickname and a PIN.',saveBtn:'Save my progress',later:'Maybe later',onward:'Onward to Grass Plains!',
   bobby:'Bobby',stages:['Kit','Scout','Hero','Legend'],tricks:['Tail wag','Happy hop','Spin','Backflip'],
   stageNext:(n,s)=>`${n} more to grow into ${s}`,stageTop:'Bobby is a Legend! Keep playing to show off his tricks.',tapTrick:'Tap Bobby for a trick',
   grew:s=>`Bobby grew into ${s}!`,newTrick:t=>`New trick: ${t}`,
-  chestTitle:d=>`Bobby's daily gift · day ${d}`,chestTap:'Tap to open',chestCoins:n=>`+${n} coins`,chestOk:'Awesome!',
+  chestTitle:d=>`Bobby's daily gift · day ${d}`,chestTap:'Tap to open',chestCoins:n=>`+${n} coins`,chestOk:'Collect',
   region:'Region',regionTick:'Your word lists, spelling and exam kingdoms follow this region.',regionMore:'More countries coming soon',regionSG:'Singapore edition',close:'Close',
   shatter:'Smash!',
   dedication:['For Carissa & Jaelon.','You wanted to play.','I wanted you to learn.','We both won.','','May the words you gather here','carry you on adventures far beyond this game.','','With love,','— Miss Christine','','PS: You called vocab boring. I\'m glad I took it personally.'],
@@ -890,11 +890,11 @@ const STR={
     eggInfo:'Egg info',buy:n=>`Buy a Common egg · ${n} coins`,needCoins:n=>`${n} more coins needed`,withYou:'with you',withYouNow:'With you on your adventure',takeIt:'Take on adventure',done:'Done',
     rar:['Common','Rare','Epic','Legendary','Supporter'],stages:['Hatchling','Explorer','Champion'],
     eggFound:r=>`You found a ${r} egg!`,src:{mastery:'For mastering words',boss:'For beating a boss',land:'For freeing a land',giant:'For beating King Kongo',daily:'Bobby\'s daily gift',side:'Side quest reward',team:'For your Team Up win',first:'The first rescued egg',shop:'Bought with coins',old:'From your old pets'},
-    hatching:'Hatching an egg',tapEgg:'Tap the egg!',skip:'Skip',newTitle:n=>`You rescued ${n}!`,dupTitle:n=>`${n} again!`,dupSub:'Your creature is thrilled to meet a friend. It grows a little, and you get 50 coins.',
+    hatching:'Hatching an egg',tapEgg:'Tap the egg!',skip:'Skip',newTitle:n=>`You rescued ${n}!`,dupTitle:n=>`${n} again!`,dupSub:'Duplicate: your creature levels up a little, and you get 50 coins.',
     nameIt:'Give it a name (optional)',badName:'Try letters and numbers only',hatchA:r=>`Hatch your ${r} egg`,notFound:r=>`Not found yet. ${r}.`,back:'Back',
-    evoStart:n=>`${n} is changing…`,evoDone:(n,f)=>`${n} became ${f}!`,evoSub:'All those words you mastered together paid off.',bobOutfit:'Bobby earned a new outfit for your adventure.',yay:'Amazing!',
+    evoStart:n=>`${n} is changing…`,evoDone:(n,f)=>`${n} became ${f}!`,evoSub:'All those words you mastered together paid off.',bobOutfit:'Bobby earned a new outfit for your adventure.',yay:'Let\'s go',
     formNow:f=>`Form: ${f}`,evoNext:(n,f)=>`Master about ${n} more word${n>1?'s':''} with it to become ${f}`,maxed:'Fully grown. A true champion!',bobOutfitNow:o=>`Outfit: ${o}`,bobNext:(n,o)=>`${n} more points to unlock ${o} (master words and play on different days)`,
-    feed:'Feed a word',rename:'Rename',full:n=>`${n} is full and happy. More snacks tomorrow!`,noWords:'Learn a word in a run first, then share it!',yum:(n,w)=>`${n} munched “${w}”. Yum!`,joined:n=>`${n} is coming with you!`,
+    feed:'Feed a word',rename:'Rename',full:n=>`${n} is fully charged. Come back tomorrow for more.`,noWords:'Learn a word in a run first, then share it!',yum:(n,w)=>`${n} absorbed “${w}”. Power up!`,joined:n=>`${n} is coming with you!`,
     infoTop:'Eggs are earned by playing and learning. You can never buy eggs with money, and the rarity comes from what you did to earn it.',
     how:['Every 10 words mastered, beating a boss, side quests, day 3 of Bobby\'s daily gift, or 600 coins','Every 25 words mastered, freeing a land, a Team Up win, a big side-quest score, or day 7 of the daily gift','Every 50 words mastered, or beating King Kongo','Every 150 words mastered, or beating King Kongo three times'],
     odds:(n,names)=>`Hatches one of ${n}: ${names.join(', ')}. One you have not found yet comes first; after that each is a 1 in ${n} chance.`,
@@ -1194,13 +1194,13 @@ function podiumSVG(w=600,h=520){const id=CRE.st().act,o=CRE.st().own[id],r=CRE.R
  const flair=r>=2?`<circle cx="410" cy="250" r="96" fill="${RC}" opacity=".22"/>`:'';
  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 600 520"><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient><linearGradient id="ps" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE45C"/><stop offset="1" stop-color="#F5B83A"/></linearGradient></defs>
  <rect width="600" height="520" rx="36" fill="url(#pg)"/>${rays}
- <text x="300" y="62" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="40" fill="#fff" stroke="#241B4B" stroke-width="7" paint-order="stroke">Victory!</text>
+ <text x="300" y="62" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="40" fill="#fff" stroke="#241B4B" stroke-width="7" paint-order="stroke">Victory!</text>
  <ellipse cx="300" cy="420" rx="230" ry="22" fill="#241B4B" opacity=".25"/><rect x="90" y="360" width="420" height="64" rx="14" fill="url(#ps)" stroke="#241B4B" stroke-width="6"/><rect x="90" y="360" width="420" height="14" rx="7" fill="#fff" opacity=".45"/>
- <text x="300" y="403" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="28" fill="#241B4B">1</text>${flair}
+ <text x="300" y="403" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="28" fill="#241B4B">1</text>${flair}
  ${fit(avatar(200),130,150,150,215)}${fit(cr,330,195,160,170)}
  <rect x="150" y="448" width="300" height="52" rx="26" fill="#fff" stroke="#241B4B" stroke-width="5"/>
- <text x="300" y="481" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="22" fill="#241B4B">${nk} &amp; ${cn}</text>
- <rect x="360" y="110" width="${30+rn.length*13}" height="34" rx="17" fill="${RC}" stroke="#241B4B" stroke-width="4"/><text x="${375+rn.length*6.5}" y="134" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="18" fill="#fff">${rn}</text></svg>`}
+ <text x="300" y="481" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="22" fill="#241B4B">${nk} &amp; ${cn}</text>
+ <rect x="360" y="110" width="${30+rn.length*13}" height="34" rx="17" fill="${RC}" stroke="#241B4B" stroke-width="4"/><text x="${375+rn.length*6.5}" y="134" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="18" fill="#fff">${rn}</text></svg>`}
 async function sharePodium(){const svg=podiumSVG(1200,1040),img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);await img.decode().catch(()=>{});
  const c=document.createElement('canvas');c.width=1200;c.height=1040;c.getContext('2d').drawImage(img,0,0);
  c.toBlob(async b=>{if(!b)return;const f=new File([b],'vocabobby-victory.png',{type:'image/png'});
@@ -1502,7 +1502,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(gp){if(gp.b){this.blk(sx,GY,40,14,P[4]);g.fillStyle='#1b2140';g.fillRect(sx+8,GY+3,3,8);g.fillRect(sx+28,GY+3,3,8)}continue}
    this.blk(sx,GY,40,16,P[2]);this.blk(sx,GY+14,40,H-GY-14,P[3])}
   // gates: posts + sign
-  for(const q of s.gaps){if(q.b)continue;const sx=q.x0-cam;this.blk(sx-14,GY-62,12,62,'#ffffff');this.blk(q.x1-cam+2,GY-62,12,62,'#ffffff');this.blk(sx-6,GY-92,q.x1-q.x0+12,26,P[4]);g.fillStyle='#1b2140';g.font='800 15px Fredoka,Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(s.gearRun?'GEAR CHEST':'WORD GATE',sx+(q.x1-q.x0)/2,GY-74)}
+  for(const q of s.gaps){if(q.b)continue;const sx=q.x0-cam;this.blk(sx-14,GY-62,12,62,'#ffffff');this.blk(q.x1-cam+2,GY-62,12,62,'#ffffff');this.blk(sx-6,GY-92,q.x1-q.x0+12,26,P[4]);g.fillStyle='#1b2140';g.font='800 15px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(s.gearRun?'GEAR CHEST':'WORD GATE',sx+(q.x1-q.x0)/2,GY-74)}
   // checkpoint flags
   for(const f of s.flags){const sx=f-cam-30;if(sx<-20||sx>W2)continue;g.fillStyle='#1b2140';g.fillRect(sx,GY-70,4,70);this.blk(sx+4,GY-70,30,20,'#ffffff');g.fillStyle='#1b2140';for(let i=0;i<3;i++)for(let j=0;j<2;j++)if((i+j)%2===0)g.fillRect(sx+6+i*9,GY-68+j*9,9,9)}
   // coins
@@ -1537,16 +1537,16 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   this.drawFX(s,GY,cam,RM,ax,ay);
   // fx
   for(const p of s.fx){if(p.ring){const r=(1-p.l/.5)*60;g.strokeStyle=p.c;g.lineWidth=4;g.globalAlpha=Math.max(0,p.l*2);g.beginPath();g.ellipse(p.x-cam,GY+p.y,r,r*.5,0,0,7);g.stroke();g.globalAlpha=1;continue}
-   if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Fredoka,Nunito,sans-serif':'800 14px Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}}
+   if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Rubik,Fredoka,Nunito,sans-serif':'800 14px Rubik,Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}}
   // HUD on canvas
-  g.textAlign='left';g.font='800 14px Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle='#241B4B';g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
-  if(s.msgT>0){g.textAlign='center';g.font='800 20px Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,64);g.fillStyle='#fff';g.fillText(s.msg,W2/2,62)}
+  g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle='#241B4B';g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
+  if(s.msgT>0){g.textAlign='center';g.font='800 20px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,64);g.fillStyle='#fff';g.fillText(s.msg,W2/2,62)}
   if(s.boss&&sess&&sess.bossOn!=null&&sess.hearts!=null){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
   if(s.flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.85,s.flash*4)+')';g.fillRect(-20,-20,W2+40,H+40)}
   g.restore();
-  if(s.en>0||s.boss){const e=s.en||0,col=window.CRE?SPECIAL[CRE.ELEM[CRE.st().act]||'fire'][1]:'#FF8A3D';g.fillStyle='rgba(255,255,255,.9)';g.fillRect(10,36,96,12);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,36,96,12);g.fillStyle=col;g.fillRect(12,38,92*e/5,8);if(e>=5){g.fillStyle='#fff';g.globalAlpha=.5+.5*Math.sin(s.t*8);g.fillRect(12,38,92,8);g.globalAlpha=1}g.fillStyle='#241B4B';g.font='800 9px Fredoka,sans-serif';g.textAlign='left';g.fillText(e>=5?'SPECIAL READY':'ENERGY',110,46)}
-  if(s.paused){g.fillStyle='rgba(36,27,75,.45)';g.fillRect(0,0,W2,H);g.fillStyle='#fff';g.textAlign='center';g.font='800 28px Fredoka,Nunito,sans-serif';g.fillText('Paused',W2/2,H/2)}
-  else if(s.mode==='run'&&s.t<4&&s.gates===0){g.textAlign='center';g.font='800 16px Fredoka,Nunito,sans-serif';g.fillStyle='rgba(255,255,255,.92)';g.fillRect(W2/2-150,96,300,30);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(W2/2-150,96,300,30);g.fillStyle='#1b2140';g.fillText('Tap or press Space to jump!',W2/2,117)}
+  if(s.en>0||s.boss){const e=s.en||0,col=window.CRE?SPECIAL[CRE.ELEM[CRE.st().act]||'fire'][1]:'#FF8A3D';g.fillStyle='rgba(255,255,255,.9)';g.fillRect(10,36,96,12);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,36,96,12);g.fillStyle=col;g.fillRect(12,38,92*e/5,8);if(e>=5){g.fillStyle='#fff';g.globalAlpha=.5+.5*Math.sin(s.t*8);g.fillRect(12,38,92,8);g.globalAlpha=1}g.fillStyle='#241B4B';g.font='800 9px Rubik,Fredoka,sans-serif';g.textAlign='left';g.fillText(e>=5?'SPECIAL READY':'ENERGY',110,46)}
+  if(s.paused){g.fillStyle='rgba(36,27,75,.45)';g.fillRect(0,0,W2,H);g.fillStyle='#fff';g.textAlign='center';g.font='800 28px Rubik,Fredoka,Nunito,sans-serif';g.fillText('Paused',W2/2,H/2)}
+  else if(s.mode==='run'&&s.t<4&&s.gates===0){g.textAlign='center';g.font='800 16px Rubik,Fredoka,Nunito,sans-serif';g.fillStyle='rgba(255,255,255,.92)';g.fillRect(W2/2-150,96,300,30);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(W2/2-150,96,300,30);g.fillStyle='#1b2140';g.fillText('Tap or press Space to jump!',W2/2,117)}
  }
 };
 
@@ -1576,7 +1576,7 @@ function chase(done){
   function wrap(s,maxW){g.font='700 12px Nunito,system-ui,sans-serif';const w=s.split(' '),L=[];let cur='';for(const p of w){const t=cur?cur+' '+p:p;if(g.measureText(t).width>maxW&&cur){L.push(cur);cur=p}else cur=t}if(cur)L.push(cur);return L.slice(0,4)}
   function blk(x,y,w,h,f){g.fillStyle=f;g.fillRect(x,y,w,h);g.strokeStyle='#241B4B';g.lineWidth=3;g.strokeRect(x+1.5,y+1.5,w-3,h-3)}
   function drawAv(x,y){const a=S.av;blk(x-13,y-38,26,22,'#ffcf5a');g.fillStyle='#241B4B';g.fillRect(x-8,y-31,4,5);g.fillRect(x+4,y-31,4,5);blk(x-15,y-17,30,20,flat(a.shirt));blk(x-14,y+2,13,14,flat(a.pants));blk(x+1,y+2,13,14,flat(a.pants))}
-  function drawThief(x,y){blk(x-15,y-38,30,24,'#E3E6F5');g.fillStyle='#241B4B';g.fillRect(x-15,y-30,30,8);g.fillStyle='#ffc642';g.fillRect(x-9,y-28,5,4);g.fillRect(x+4,y-28,5,4);blk(x-17,y-15,34,22,'#24194a');g.fillStyle='#ffc642';g.font='800 12px Fredoka,system-ui,sans-serif';g.textAlign='center';g.fillText('?',x,y+1);blk(x-14,y+6,12,12,'#241B4B');blk(x+2,y+6,12,12,'#241B4B')}
+  function drawThief(x,y){blk(x-15,y-38,30,24,'#E3E6F5');g.fillStyle='#241B4B';g.fillRect(x-15,y-30,30,8);g.fillStyle='#ffc642';g.fillRect(x-9,y-28,5,4);g.fillRect(x+4,y-28,5,4);blk(x-17,y-15,34,22,'#24194a');g.fillStyle='#ffc642';g.font='800 12px Rubik,Fredoka,system-ui,sans-serif';g.textAlign='center';g.fillText('?',x,y+1);blk(x-14,y+6,12,12,'#241B4B');blk(x+2,y+6,12,12,'#241B4B')}
   function end(caught){if(over)return;over=true;cancelAnimationFrame(raf);removeEventListener('keydown',key);document.removeEventListener('visibilitychange',vis);
     S.coins+=coins;const nb=coins>S.chaseBest;if(nb)S.chaseBest=coins;save();CRE.ev.side('chase',coins,nb);if(typeof syncScore==='function')syncScore();if(nb&&coins>0)confetti(150);beep(!caught);
     main.innerHTML=`<div class="card"><span class="tag">Shadow Chase</span><div class="word" style="font-size:clamp(28px,6vw,40px)">${caught?'The Word Thief caught you!':'You escaped!'}</div>
@@ -1610,7 +1610,7 @@ function chase(done){
     drawAv(px,PY);
     const ty=PY+30+thief*0.0+Math.max(0,(170-thief))*0;const tY=Math.min(Hd-10,PY+40+thief*0.55);drawThief(LX[lane]+(px-LX[lane]),tY);
     g.restore();
-    g.fillStyle='rgba(27,33,64,.85)';g.fillRect(0,0,Wd,26);g.fillStyle='#fff';g.font='800 13px Fredoka,system-ui,sans-serif';g.textAlign='left';g.fillText('Word Thief',8,18);
+    g.fillStyle='rgba(27,33,64,.85)';g.fillRect(0,0,Wd,26);g.fillStyle='#fff';g.font='800 13px Rubik,Fredoka,system-ui,sans-serif';g.textAlign='left';g.fillText('Word Thief',8,18);
     g.fillStyle='#E3E6F5';g.fillRect(96,8,250,11);g.fillStyle=thief<60?'#B15FD7':'#3FABE7';g.fillRect(96,8,250*Math.max(0,thief)/170,11);
     if(msgT>0){msgT-=dt;g.fillStyle='rgba(27,33,64,.88)';g.fillRect(10,Hd-44,Wd-20,32);g.fillStyle='#fff';g.font='700 13px Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(msg.length>52?msg.slice(0,50)+'…':msg,Wd/2,Hd-23)}
   }
@@ -1805,7 +1805,7 @@ function leaderboard(){
 }
 function applySup(){const me=window.VO&&window.VO.me;const t=me&&me.type==='kid'&&['any','10','20'].includes(me.sup)?me.sup:'';if(!t){if(S.sup){S.sup='';S.av.cape=false;save()}return}
   S.sup=t;S.av.cape=t!=='any';if(t==='20'&&!S.pets.includes(13)){S.pets.push(13)}
-  if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting VocaBobby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Yay!</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
+  if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting VocaBobby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Let's go</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
   save();hud()}
 if(window.VO_READY)window.VO_READY.then(applySup).catch(()=>{});
 window.VBH={S:()=>S,flat:v=>flat(v),save,main,home,myAvatar,worldmap,start,speed,sprint,chase,teamUp,shop,badges,book,leaderboard,howto,challenge,hud,pop,confetti,buzz,HAP,sfx,chime,shatter,ic,STR,PETS,BADGES,bobbyStage,bobbyGrowth,BOBBY_AT,VIBON,
