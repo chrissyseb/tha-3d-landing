@@ -1070,11 +1070,18 @@ function pop(t){const d=document.createElement('div');d.className='pop';d.textCo
 // ---------- helpers ----------
 const byName=n=>W.find(y=>A(y)===n||y[0]===n);
 // ---------- voice: pronunciation (Web Speech API, free, on-device) ----------
-const VOX={ok:typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',v:null};
-function pickVoice(){if(!VOX.ok)return null;const vs=speechSynthesis.getVoices()||[];return vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/en[-_]SG/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null}
-if(VOX.ok){try{VOX.v=pickVoice();speechSynthesis.onvoiceschanged=()=>{VOX.v=pickVoice()}}catch(e){}}
-function speak(t,slow){if(!VOX.ok||S.voice===false||!t)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(String(t));if(VOX.v)u.voice=VOX.v;u.lang=VOX.v?VOX.v.lang:'en-GB';u.rate=slow?.6:(S.vrate||.95);speechSynthesis.speak(u)}catch(e){}}
-const spk=t=>VOX.ok?`<button class="spk" type="button" data-say="${esc(t)}" aria-label="Hear it">${ic('spk',26)}</button><button class="spk" type="button" data-say="${esc(t)}" data-slow="1" aria-label="Hear it slowly">${ic('slow',26)}</button>`:'';
+const VOX={ok:typeof speechSynthesis!=='undefined'&&typeof SpeechSynthesisUtterance!=='undefined',v:null,k:null};
+// British English voice picker (Singapore follows British pronunciation). Deterministic ranking; never en-US if any other English voice exists.
+const GBV=[/Google UK English Female/i,/Google UK English Male/i,/Libby/i,/Sonia/i,/Ryan/i,/Maisie/i,/Thomas/i,/Hazel/i,/George/i,/Susan/i,/Daniel/i,/Kate/i,/Serena/i,/Arthur/i,/Martha/i,/Oliver/i];
+function vRank(v){const l=(v.lang||'').replace('_','-').toLowerCase(),n=v.name||'';let r=/^en-gb/.test(l)?0:/^en-(au|ie|nz)/.test(l)?2000:/^en-(sg|za|in)/.test(l)?3000:/^en-us/.test(l)?9000:/^en/.test(l)?5000:99999;
+  if(r===0||r===2000){const i=GBV.findIndex(x=>x.test(n));r+=i<0?100:i;if(/natural|online|neural|premium|enhanced/i.test(n))r-=50}if(v.localService===false&&r<2000)r+=1;return r}
+function pickVoice(){if(!VOX.ok)return null;const vs=(speechSynthesis.getVoices()||[]).filter(v=>/^en/i.test(v.lang||''));if(!vs.length)return null;
+  if(typeof S!=='undefined'&&S.vaccent==='any'){const d=vs.find(v=>v.default);return d||vs[0]}
+  const nonUS=vs.filter(v=>!/^en[-_]us/i.test(v.lang));const pool=nonUS.length?nonUS:vs;return pool.slice().sort((a,b)=>vRank(a)-vRank(b)||a.name.localeCompare(b.name))[0]}
+function setVoice(){const v=pickVoice();if(v){VOX.v=v;VOX.k=v.voiceURI||v.name;try{localStorage.setItem('vb-voice',VOX.k)}catch(e){}}}
+if(VOX.ok){try{setVoice();speechSynthesis.addEventListener?speechSynthesis.addEventListener('voiceschanged',setVoice):(speechSynthesis.onvoiceschanged=setVoice)}catch(e){}}
+window.VBVOICE={get accent(){return S.vaccent==='any'?'any':'gb'},toggle(){S.vaccent=S.vaccent==='any'?'gb':'any';save();setVoice()},name(){return VOX.v?VOX.v.name:''}};
+function speak(t,slow){if(!VOX.ok||S.voice===false||!t)return;try{speechSynthesis.cancel();if(!VOX.v)setVoice();const u=new SpeechSynthesisUtterance(String(t));if(VOX.v)u.voice=VOX.v;u.lang='en-GB';u.rate=slow?.6:(S.vrate||.95);speechSynthesis.speak(u)}catch(e){}}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-say]');if(!b)return;speak(b.dataset.say,!!b.dataset.slow)});
 const sylHTML=x=>x[8]&&x[8].includes('·')?`<span class="syl">${x[8].split(/(\s+)/).map(w=>w.split('·').map(p=>p!==p.toLowerCase()&&p.length>1&&p===p.toUpperCase()?`<b>${esc(p.toLowerCase())}</b>`:esc(p)).join('·')).join('')}</span>`:'';
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;

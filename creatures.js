@@ -181,10 +181,10 @@ function more(){const h=H();h.leave();const t=T(),s=S();
  <p class="wmk"><b>${t.mLearn}</b></p>${row('mrev','review',t.mRev,t.mRevS(h.dueN()))}${row('mfix','fix',t.mFix,t.mFixS)}${row('mbook','book',t.mBook,t.mBookS)}
  <p class="wmk"><b>${t.mMe}</b></p>${row('mbdg','medal',t.mBadges,t.mBadgesS((s.badges||[]).length,h.BADGES.length))}${row('mlb','trophy',t.mBoard,t.mBoardS)}
  <p class="wmk"><b>${t.mHelp}</b></p>${row('mstory','book',t.mStory,t.mStoryS)}${row('mhow','help',t.mHow,t.mHowS)}
- <p class="wmk"><b>${t.mSet}</b></p>${row('mvib','bolt',t.mVib(h.VIBON()),t.mVibS)}${row('mskin','star',t.mSkin(document.body.classList.contains('night')),t.mSkinS)}
+ <p class="wmk"><b>${t.mSet}</b></p>${row('mvib','bolt',t.mVib(h.VIBON()),t.mVibS)}${window.VBVOICE?row('mvoice','voice','Voice: '+(VBVOICE.accent==='gb'?'British (default)':'Device English'),VBVOICE.accent==='gb'?'Words read with UK pronunciation':'Uses your device\'s own English voice'):''}${row('mskin','star',t.mSkin(document.body.classList.contains('night')),t.mSkinS)}
  ${row('mtwin','star','Twin finish: '+(s.twin?'on':'off'),'Your creature\'s collar matches your outfit colour')}${row('mabout','help',t.mAbout,t.mAboutS)}${row('mredeem','star','Redeem a code','Got a code from Miss Christine?')}<a class="sec" href="/account.html"><span class="ico">${h.ic('lock')}</span><span class="lbl"><b>${t.mAcc}</b><small>${t.mAccS}</small></span></a></div></div>`;
  $('mrev').onclick=()=>h.start('rev');$('mfix').onclick=()=>h.start('fix');$('mbook').onclick=h.book;$('mbdg').onclick=h.badges;$('mlb').onclick=h.leaderboard;$('mstory').onclick=()=>story(more);$('mhow').onclick=h.howto;
- $('mvib').onclick=()=>{h.setVib(!h.VIBON());h.buzz(30);more()};$('mskin').onclick=()=>{h.toggleSkin();more()};$('mabout').onclick=about;$('mredeem').onclick=h.redeem;$('mtwin').onclick=()=>{s.twin=!s.twin;save();more()};
+ $('mvib').onclick=()=>{h.setVib(!h.VIBON());h.buzz(30);more()};$('mskin').onclick=()=>{h.toggleSkin();more()};if($('mvoice'))$('mvoice').onclick=()=>{VBVOICE.toggle();more()};$('mabout').onclick=about;$('mredeem').onclick=h.redeem;$('mtwin').onclick=()=>{s.twin=!s.twin;save();more()};
  nav('more');hint('more')}
 // ---------------- story intro (skippable, 3 cards) ----------------
 function story(after){const t=T(),cards=t.story;let i=0;const d=document.createElement('div');d.className='storyov';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',t.storyLabel);document.body.appendChild(d);

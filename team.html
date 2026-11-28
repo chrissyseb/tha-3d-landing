@@ -150,8 +150,8 @@ function setState(s){
   if(key!==lastRender){lastRender=key;render()}else tickTimer();
 }
 const SAY={ok:'speechSynthesis' in window&&typeof SpeechSynthesisUtterance!=='undefined',v:null,
-  pick(){const vs=speechSynthesis.getVoices();this.v=vs.find(v=>/en[-_]GB/i.test(v.lang))||vs.find(v=>/en[-_]SG/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null},
-  say(t,r){try{speechSynthesis.cancel();if(!this.v)this.pick();const u=new SpeechSynthesisUtterance(String(t));if(this.v){u.voice=this.v;u.lang=this.v.lang}else u.lang='en-GB';u.rate=r||1;speechSynthesis.speak(u)}catch(e){}}};
+  pick(){const vs=(speechSynthesis.getVoices()||[]).filter(v=>/^en/i.test(v.lang||'')),R=v=>{const l=(v.lang||'').replace('_','-').toLowerCase();let r=/^en-gb/.test(l)?0:/^en-(au|ie|nz)/.test(l)?2000:/^en-(sg|za|in)/.test(l)?3000:/^en-us/.test(l)?9000:5000;const i=[/Google UK English Female/i,/Google UK English Male/i,/Libby/i,/Sonia/i,/Ryan/i,/Daniel/i,/Kate/i,/Serena/i].findIndex(x=>x.test(v.name));return r+(i<0?100:i)};this.v=vs.slice().sort((a,b)=>R(a)-R(b)||a.name.localeCompare(b.name))[0]||null},
+  say(t,r){try{speechSynthesis.cancel();if(!this.v)this.pick();const u=new SpeechSynthesisUtterance(String(t));if(this.v)u.voice=this.v;u.lang='en-GB';u.rate=r||1;speechSynthesis.speak(u)}catch(e){}}};
 if(SAY.ok&&speechSynthesis.addEventListener)speechSynthesis.addEventListener('voiceschanged',()=>SAY.pick());
 function plist(){return `<div class="plist">${R.players.filter(p=>!p.left).map(p=>`<div class="pl ${p.pid===R.turn&&(R.phase==='question'||R.phase==='power')?'turn':''}">${esc(p.nick)}${p.sup?' 🏅':''}${p.pid===pid?' (you)':''}${p.pid===R.host?' ★':''}<small>${R.pack?'PSLE Kingdom':WN[p.world]}</small></div>`).join('')}</div>`}
 function feedHtml(){return `<ul class="feed" id="fd">${R.feed.slice().reverse().map(f=>`<li>${esc(f.t)}</li>`).join('')}</ul>${R.emotes.length?`<p style="margin:8px 0 0;font-weight:800">${R.emotes.slice(-3).map(e=>esc(e.nick)+': '+esc(e.e)).join(' · ')}</p>`:''}<div class="emotes">${EMO.map((e,i)=>`<button data-e="${i}" aria-label="Send ${esc(e)}">${esc(e)}</button>`).join('')}</div>`}
