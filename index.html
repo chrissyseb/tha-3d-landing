@@ -1076,7 +1076,7 @@ const STR={
   bossIntro:'A word boss blocks the path!',hold:'Hold to charge',holdSub:'Keep holding, then let go to blast!',charging:'Charging…',release:'Let go!',
   comboName:'Word Blast combo!',weak:'Weak hit. Hold longer for a combo.',
   bobbyFree:'You freed Bobby!',bobbyJoin:'Bobby the fox joins your adventure. Master words and play on different days to help him grow.',
-  savePrompt:'Keep Bobby and your coins safe',saveSub:'Make a free account to keep your progress. All you need is a nickname and a PIN.',saveBtn:'Save my progress',later:'Maybe later',onward:'Onward to Grass Plains!',
+  savePrompt:'Keep Bobby and your coins safe',gsave:'Save your progress',gsaveSub:'Sign in so Bobby, your coins and creatures follow you to any device.',saveSub:'Make a free account to keep your progress. Continue with Google, or use a nickname and a PIN.',saveBtn:'Save my progress',later:'Maybe later',onward:'Onward to Grass Plains!',
   bobby:'Bobby',stages:['Kit','Scout','Hero','Legend'],tricks:['Tail wag','Happy hop','Spin','Backflip'],
   stageNext:(n,s)=>`${n} more to grow into ${s}`,stageTop:'Bobby is a Legend. Keep playing to show off his tricks.',tapTrick:'Tap Bobby for a trick',
   grew:s=>`Bobby grew into ${s}!`,newTrick:t=>`New trick: ${t}`,
@@ -1170,6 +1170,7 @@ function chestReveal(day,amt){const d=document.createElement('div');d.className=
   $('chok').onclick=()=>d.remove()}
 // ---------- home ----------
 function due(){const n=Date.now();return W.filter(x=>{const s=st(x[0]);return s.seen&&s.m<5&&s.due<=n})}
+const gsaveX=()=>{try{return Date.now()-(+localStorage.getItem('vb_gsx')||0)<7*864e5}catch(e){return false}};
 function home(){
   sess=null;hud();
   const nNew=W.filter(x=>!st(x[0]).seen).length,nDue=due().length,nMiss=W.filter(x=>st(x[0]).miss>0).length;
@@ -1184,8 +1185,9 @@ function home(){
   <button class="sq" id="sprint"><span class="ico c5">${ic('book')}</span><b>Spelling Sprint</b><small>Best ${S.spBest||0}</small></button>
   <button class="sq" id="spd"><span class="ico c3">${ic('zap')}</span><b>Speed Run</b><small>Best ${S.best}</small></button>
   <button class="sq" id="team"><span class="ico c2">${ic('trophy')}</span><b>Team Up</b><small>Adventure with a friend</small></button></div></div>
+  ${!(window.VO&&VO.me)&&!gsaveX()?`<div class="card gsave" data-gwrap hidden><h3 class="gst">${STR.gsave}</h3><p class="gss">${STR.gsaveSub}</p><div id="gsbtn"></div><button class="gx" id="gsx" type="button">${STR.later}</button></div>`:''}
   <button class="card shoptile" id="hshop"><span class="sta">${avatar(54)}</span><span class="stx"><b>Shop &amp; Wardrobe</b><small>${esc(nextGoalTxt())}</small></span>${canBuyNew()?'<i class="tiledot" aria-label="New item you can buy"></i>':''}</button>`;
-  $('hshop').onclick=shop;
+  $('hshop').onclick=shop;if($('gsbtn')&&window.VO&&VO.google){VO.google($('gsbtn'));$('gsx').onclick=()=>{try{localStorage.setItem('vb_gsx',String(Date.now()))}catch(e){}$('gsx').closest('.gsave').remove()}}
   wireBobby();bobbyCheck();if($('go'))$('go').onclick=()=>start('learn');if($('hcr'))$('hcr').onclick=()=>CRE.detail(act);if($('eggc'))$('eggc').onclick=CRE.screen;
   $('spd').onclick=speed;$('sprint').onclick=sprint;$('bon').onclick=()=>{if(!S.bonus){pop(STR.chaseLocked);return}chase(home)};$('team').onclick=teamUp;daily();checkBadges();CRE.nav('home');if(!CRE.checkEvo(home))CRE.hint('home');
   if($('res'))$('res').onclick=()=>{sess=saved;sess.words=sess.words.map(n=>WF(n));sess.steps.forEach(s=>s.x=WF(s.n));run()};
@@ -1998,7 +2000,7 @@ function placement(){
   const reveal=()=>{
     PLRUN=0;document.body.classList.remove('arena');const est=plEst(H);S.lv=est;S.lad.t=0;S.lad.pr=0;if(!S.plDone){S.plDone=1;S.coins+=50}S.lad.placed=1;S.bobby=1;S.bobbyS=0;S.seenHow=1;if(!S.days.includes(today()))S.days.push(today());save();OB.victory&&OB.victory();sfx('win');confetti(160);
     card(`<span class="tag">${STR.bobbyFree}</span><div class="bobfree">${bobbySVG(0,150,'t-hop')}</div><div class="word" style="font-size:clamp(26px,6vw,38px)"><span class="hl hl-p">Bobby</span> is free!</div><p>${STR.bobbyJoin} +50 coins</p><button class="go" id="fly">${STR.onward}</button>`);
-    $('fly').onclick=()=>{OB.hide&&OB.hide();if(!S.cr||!S.cr.intro){CRE.ev.first();return CRE.story(()=>CRE.hatch(CRE.st().eggs.length-1,()=>$('fly').onclick()))}if(!(VO.me&&VO.me.type==='kid')){card(`<span class="tag">${STR.savePrompt}</span><div class="bobfree">${bobbySVG(0,110)}</div><p>${STR.saveSub}</p><a class="go" href="/account.html#parent" style="display:block;text-align:center;text-decoration:none">${STR.saveBtn}</a><button class="go" id="lt" style="background:var(--soft)">${STR.later}</button>`);$('lt').onclick=()=>worldmap(0)}else worldmap(0)};
+    $('fly').onclick=()=>{OB.hide&&OB.hide();if(!S.cr||!S.cr.intro){CRE.ev.first();return CRE.story(()=>CRE.hatch(CRE.st().eggs.length-1,()=>$('fly').onclick()))}if(!(VO.me&&VO.me.type==='kid')){card(`<span class="tag">${STR.savePrompt}</span><div class="bobfree">${bobbySVG(0,110)}</div><p>${STR.saveSub}</p><div data-gwrap hidden><div id="gsp"></div><p class="gor">or</p></div><a class="go" href="/account.html#parent" style="display:block;text-align:center;text-decoration:none">${STR.saveBtn}</a><button class="go" id="lt" style="background:var(--soft)">${STR.later}</button>`);$('lt').onclick=()=>worldmap(0);if(window.VO&&VO.google)VO.google($('gsp'))}else worldmap(0)};
   };
   const autoplay=/[?&]play=1/.test(location.search)||S.wantPlay;
   if(autoplay){S.wantPlay=0;gate()}

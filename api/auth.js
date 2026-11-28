@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     const s = getSession(req); if (!s) return send(res, 200, { user: null });
     const fam = await getJson(famPath(s.fid)); if (!fam) return send(res, 200, { user: null });
     if (s.t === 'k') { const c = fam.children.find(x => x.id === s.cid); if (!c) return send(res, 200, { user: null });
-      return send(res, 200, { user: { type: 'kid', childId: c.id, nick: c.nick, paid: paidFor(fam, c.id), code: fam.code, sup: supTier(fam) } }); }
+      return send(res, 200, { user: { type: 'kid', childId: c.id, nick: c.nick, paid: paidFor(fam, c.id), code: fam.code, sup: supTier(fam), google: !!c.g, solo: !!fam.google, hasPin: !!(c.pin && c.pin.hash) } }); }
     return send(res, 200, { user: { type: 'parent', email: fam.email, code: fam.code, paid: fam.paid || null, children: fam.children.map(c => ({ id: c.id, nick: c.nick, paid: paidFor(fam, c.id) })), sup: supTier(fam), wall: !!(fam.supporter && fam.supporter.wall) } });
   }
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });

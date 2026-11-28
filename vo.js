@@ -79,6 +79,7 @@
 
   // Account strip (guest / player / parent).
   function bar() {
+    if (document.body.hasAttribute('data-nobar')) return;
     const me = VO.me, d = document.createElement('div'); d.className = 'vo-bar';
     if (!me) d.innerHTML = `<span>Guest: progress saved on this device only.</span><a href="/account.html">Log in to save</a>`;
     else if (me.type === 'kid') d.innerHTML = `<span>Player: <b></b>${me.paid ? ' · PSLE Kingdom unlocked' : ''}</span><a href="#" id="vo-out">Log out</a>`;
@@ -89,6 +90,51 @@
     fit(); addEventListener('resize', fit, { passive: true });
     const o = d.querySelector('#vo-out'); if (o) o.onclick = async e => { e.preventDefault(); push(true); await api('/api/auth', { method: 'POST', body: JSON.stringify({ action: 'logout' }) }); location.reload(); };
   }
+
+  // "Continue with Google" (Google Identity Services). Hidden if the site has no Google client ID set.
+  let gcfg = null, gsi = null;
+  const cfg = () => gcfg || (gcfg = api('/api/config').then(r => (r.ok && r.j.googleClientId) || null));
+  const loadGsi = () => gsi || (gsi = new Promise((ok, no) => { if (window.google && google.accounts && google.accounts.id) return ok(); const sc = document.createElement('script'); sc.src = 'https://accounts.google.com/gsi/client'; sc.async = true; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); }));
+  const devId = () => { let d = LS.get('vo_dev'); if (!d || !/^[\w-]{8,64}$/.test(d)) { d = Array.from(crypto.getRandomValues(new Uint8Array(12)), x => x.toString(16).padStart(2, '0')).join(''); LS.set('vo_dev', d); } return d; };
+  async function gDone(r, msg) {
+    const guest = LS.get(K), owner = LS.get('vo_owner');
+    if (r.j.isNew && guest && !owner) { // first sign-in: bring this device's guest save along, once
+      let state = null; try { state = JSON.parse(guest) } catch { }
+      if (state) { const m = await api('/api/google', { method: 'POST', body: JSON.stringify({ action: 'merge', state, deviceId: devId() }) }); if (m.ok && m.j.state) { LS.set(K, JSON.stringify(m.j.state)); LS.set('vo_up', String(m.j.updated || Date.now())); } }
+    }
+    if (msg) msg.textContent = 'Signed in. Loading your progress…';
+    location.href = '/';
+  }
+  VO.google = async function (el, opt = {}) {
+    if (!el) return false;
+    const box = el.closest('[data-gwrap]') || el;
+    const id = await cfg().catch(() => null);
+    if (!id) { box.hidden = true; return false; }
+    try { await loadGsi(); } catch { box.hidden = true; return false; }
+    box.hidden = false;
+    const msg = document.createElement('p'); msg.className = 'vo-gmsg'; msg.setAttribute('role', 'status');
+    let cred = '';
+    const ask = async nick => {
+      msg.textContent = nick ? 'Creating your player…' : 'Signing in…';
+      const r = await api('/api/google', { method: 'POST', body: JSON.stringify({ action: 'signin', credential: cred, nick }) });
+      if (r.ok && r.j.needNick) return nickForm();
+      if (r.ok && r.j.ok) return gDone(r, msg);
+      msg.textContent = r.j.error || 'Google sign-in did not work. Please try again.';
+      if (nick) { const e = el.querySelector('.vo-gerr'); if (e) e.textContent = msg.textContent; }
+    };
+    const nickForm = () => {
+      el.innerHTML = `<form class="vo-gnick"><label for="vo-gn">Choose a player name</label><p class="vo-gsub">Use a nickname, not your real name. It shows on the Effort board.</p><input id="vo-gn" maxlength="14" autocomplete="off" autocapitalize="off" required pattern="[A-Za-z0-9]{2,14}" placeholder="e.g. StarFox7"><p class="vo-gerr" role="alert"></p><button class="go">Start playing</button></form>`;
+      const f = el.querySelector('form'); f.querySelector('input').focus();
+      f.onsubmit = e => { e.preventDefault(); const v = f.querySelector('input').value.trim(); if (!/^[A-Za-z0-9]{2,14}$/.test(v)) { f.querySelector('.vo-gerr').textContent = '2 to 14 letters or numbers, no spaces.'; return; } ask(v); };
+    };
+    google.accounts.id.initialize({ client_id: id, callback: r => { cred = r && r.credential || ''; if (cred) ask(''); }, ux_mode: 'popup', auto_select: false, itp_support: true, context: 'signin' });
+    const night = document.documentElement.classList.contains('night') || document.body.classList.contains('night');
+    el.innerHTML = ''; const holder = document.createElement('div'); holder.className = 'vo-gbtn'; el.appendChild(holder); el.appendChild(msg);
+    google.accounts.id.renderButton(holder, { type: 'standard', theme: night ? 'filled_black' : 'outline', size: 'large', text: 'continue_with', shape: 'pill', logo_alignment: 'left', width: Math.min(320, Math.max(200, el.clientWidth || 280)) });
+    if (opt.label) holder.setAttribute('aria-label', opt.label);
+    return true;
+  };
+  window.VO_READY.then(() => { document.querySelectorAll('[data-gbtn]').forEach(el => VO.google(el)); });
 
   // Install button (PWA).
   let deferred = null;

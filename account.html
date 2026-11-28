@@ -25,8 +25,9 @@ button.sec,.btn.sec{background:#fff}button:active{transform:translateY(3px);box-
 footer{text-align:center;color:var(--ink);font-weight:800;font-size:13px;margin-top:28px}footer a{color:var(--ink)}
 .ok{color:#178a3e}.wrep{margin-top:12px;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px}.wrh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}.wrep h4{margin:0;font:800 19px Rubik,Fredoka,sans-serif}.wrep h5{margin:12px 0 4px;font:800 16px Rubik,Fredoka,sans-serif}.wl{margin:0;padding-left:20px}.wl li{margin:3px 0}
 @media print{body.printing{background:#fff}body.printing .wrap>*:not(#app),body.printing #app>.card:not(:has(.printme)),body.printing .kid>*:not(.printme):not(h3),body.printing .kid h3 .pill,body.printing .wrep:not(.printme),body.printing [data-print]{display:none!important}body.printing #app>.card{border:0;box-shadow:none}body.printing .printme{border:0}body.printing .kid{border:0;background:#fff}}
-</style><title>Account | VocaBobby</title><link rel="stylesheet" href="/vb-light.css"><script src="/skin.js"></script></head><body><div class="wrap"><a class="brand" href="/" style="background:none;border:0;box-shadow:none;padding:0" aria-label="VocaBobby home"><img src="/icons/vo-icon.svg" alt="" width="44" height="44"><img class="wmsvg" src="/icons/wordmark-v6.svg" alt="VocaBobby" width="150" height="38"></a>
+</style><title>Account | VocaBobby</title><link rel="stylesheet" href="/vb-light.css"><script src="/skin.js"></script><link rel="stylesheet" href="/vo.css"></head><body data-nobar><div class="wrap"><a class="brand" href="/" style="background:none;border:0;box-shadow:none;padding:0" aria-label="VocaBobby home"><img src="/icons/vo-icon.svg" alt="" width="44" height="44"><img class="wmsvg" src="/icons/wordmark-v6.svg" alt="VocaBobby" width="150" height="38"></a>
 <div id="app"><div class="card"><p>Loading…</p></div></div><footer class="thf"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span><span class="cpy">© 2026 Thinking Hack Education · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · WhatsApp +65 9003 0002</span></footer></div>
+<script src="/vo.js"></script>
 <script>{
 const $=s=>document.querySelector(s),app=$('#app');
 const api=(p,o={})=>fetch(p,{...o,credentials:'same-origin',headers:{'x-vo':'1','Content-Type':'application/json'}}).then(async r=>({ok:r.ok,status:r.status,j:await r.json().catch(()=>({}))})).catch(()=>({ok:false,j:{error:'No connection. Try again.'}}));
@@ -34,8 +35,10 @@ const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const q=new URLSearchParams(location.search);
 async function boot(){const me=(await api('/api/auth')).j.user;if(!me)return loggedOut();if(me.type==='kid')return kidView(me);return dash()}
 function loggedOut(tab=location.hash==='#parent'||location.hash==='#unlock'?'parent':'kid'){
-  app.innerHTML=`<div class="card"><h1>Log in to VocaBobby</h1><p class="note">Players log in with their family code, player name and 4-digit PIN. Parents set this up once.</p>
+  app.innerHTML=`<div class="card"><h1>Log in to VocaBobby</h1><p class="note">Players can continue with Google, or log in with their family code, player name and 4-digit PIN.</p>
+  <div data-gwrap hidden style="margin:10px 0 6px"><div id="gb"></div><p class="note" style="text-align:center;margin:2px 0 0">Players: Google keeps only an anonymous ID with us. Under 13? Use a parent-supervised (Family Link) Google account.</p><p class="gor">or</p></div>
   <div class="tabs" role="tablist"><button role="tab" aria-selected="${tab==='kid'}" id="tk">I'm a player</button><button role="tab" aria-selected="${tab!=='kid'}" id="tp">I'm a parent</button></div><div id="pane"></div></div>`;
+  if(window.VO&&VO.google)VO.google($('#gb'));
   $('#tk').onclick=()=>loggedOut('kid');$('#tp').onclick=()=>loggedOut('parent');
   const pane=$('#pane');
   if(tab==='kid'){pane.innerHTML=`<form id="f"><label for="c">Family code</label><input id="c" autocomplete="off" autocapitalize="characters" maxlength="6" required><label for="n">Player name</label><input id="n" autocomplete="username" maxlength="14" required><label for="p">PIN</label><input id="p" type="password" inputmode="numeric" pattern="\\d{4}" maxlength="4" autocomplete="current-password" required><p class="err" id="e"></p><button>Play</button></form>`;
@@ -49,7 +52,12 @@ function loggedOut(tab=location.hash==='#parent'||location.hash==='#unlock'?'par
   $('#si').onclick=()=>{$('#si').setAttribute('aria-selected','true');$('#su').setAttribute('aria-selected','false');login()};$('#su').onclick=()=>{$('#su').setAttribute('aria-selected','true');$('#si').setAttribute('aria-selected','false');signup()};
   login();
 }
-function kidView(me){app.innerHTML=`<div class="card"><h1>Hi <span id="nm"></span>!</h1><p>You're logged in. Your progress saves to your account.</p><a class="btn" href="/">Play VocaBobby</a> <button class="sec" id="lo">Log out</button></div>`;$('#nm').textContent=me.nick;$('#lo').onclick=out}
+function kidView(me){app.innerHTML=`<div class="card"><h1>Hi <span id="nm"></span>!</h1><p>You're logged in${me.google?' with Google':''}. Your progress saves to your account.</p><a class="btn" href="/">Play VocaBobby</a> <button class="sec" id="lo">Log out</button></div>
+  ${me.google?'':`<div class="card" data-gwrap hidden><h2>Add Google sign-in</h2><p class="note">Link a Google account so you can sign in with one tap on any device. Your nickname and PIN still work.</p><div id="gb"></div></div>`}
+  ${me.solo?`<div class="card"><h2>Backup login</h2><p class="note">If Google is not available, log in with your family code <span class="code" id="kc"></span>, your player name and a 4-digit PIN.</p><form id="pf"><label for="np">${me.hasPin?'Change PIN':'Set a PIN'}</label><input id="np" type="password" inputmode="numeric" pattern="\\d{4}" maxlength="4" autocomplete="new-password" required><p class="err" id="pe"></p><button>Save PIN</button></form></div>`:''}`;
+  $('#nm').textContent=me.nick;$('#lo').onclick=out;if($('#kc'))$('#kc').textContent=me.code;
+  if($('#gb')&&window.VO&&VO.google)VO.google($('#gb'));
+  if($('#pf'))$('#pf').onsubmit=async e=>{e.preventDefault();const r=await api('/api/google',{method:'POST',body:JSON.stringify({action:'setPin',pin:$('#np').value})});$('#pe').className=r.ok?'err ok':'err';$('#pe').textContent=r.ok?'PIN saved.':(r.j.error||'Try again.')}}
 async function out(){await api('/api/auth',{method:'POST',body:JSON.stringify({action:'logout'})});loggedOut()}
 async function dash(){
   const r=await api('/api/family');if(!r.ok)return loggedOut('parent');const f=r.j;const paid=f.paid&&f.paid.until>Date.now();
