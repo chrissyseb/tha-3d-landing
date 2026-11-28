@@ -641,9 +641,30 @@ button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid #7D82D
 .mapart{position:relative;margin:10px -4px 4px;border-radius:18px;overflow:hidden;aspect-ratio:600/260;background:linear-gradient(#7fc8f2,#e6e3fa);-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
 .mapart img{display:block;width:100%;height:100%;object-fit:cover}
 @media (prefers-reduced-motion:reduce){.spart{animation:none}}
+
+/* ===== Universal premium pass: cleaner, all-ages game look (ink stage, neutral surfaces, tighter corners, calmer motion) ===== */
+.card{border-radius:16px!important;box-shadow:0 2px 0 #241B4B,0 14px 30px -12px rgba(10,6,30,.55)!important}
+.sheetc{border-radius:18px!important}
+.big,.go,.sq,.dexc,.eggchip{border-radius:12px!important}
+.hi{letter-spacing:-.01em}
+/* neutral surfaces replace pastel blocks */
+.eggbox{background:#F4F5F9!important;border:1px solid #E1E3EC!important;border-radius:12px!important}
+.dexc.sil{border:1px solid #E1E3EC!important;border-style:solid!important;background:#F4F5F9!important}
+.dexc.act{background:#FFFBE0!important;box-shadow:inset 0 0 0 2px #FFE45C}
+.dexc.r1:not(.sil),.dexc.r2:not(.sil),.dexc.r3:not(.sil){box-shadow:none}
+.dexc.r1:not(.sil){border-bottom:4px solid #3FABE7}.dexc.r2:not(.sil){border-bottom:4px solid #B15FD7}.dexc.r3:not(.sil){border-bottom:4px solid #FFE45C}
+.sq .ico{background:#F1F2F7!important;border-radius:10px}
+.tag{border-radius:8px!important;letter-spacing:.04em;text-transform:uppercase;font-size:11px!important}
+.homec .hstage{background:radial-gradient(closest-side,rgba(125,130,222,.14),transparent)!important}
+.tbar{border-radius:10px!important}.tbar .nt{border-radius:6px!important}
+.bobcard,.avcr span,.eq span{border-radius:12px!important}
+.hearts{display:none}
+/* calmer idle motion: no constant bouncing, keep the reward moments */
+.idle{animation-duration:4.5s!important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
-<img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Bobby is warming up…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Bobby is warming up…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxs" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask><linearGradient id="gthxs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient></defs><g mask="url(#thxs)"><rect x="0" y="0" width="100" height="100" fill="url(#gthxs)"/></g></svg><span>by Thinking Hack Education</span></span></div>
+<img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxs" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask><linearGradient id="gthxs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient></defs><g mask="url(#thxs)"><rect x="0" y="0" width="100" height="100" fill="url(#gthxs)"/></g></svg><span>by Thinking Hack Education</span></span></div>
 <canvas id="fx"></canvas>
 <div class="scene" aria-hidden="true"><svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMax slice"><rect width="1400" height="900" fill="#CDEBFB"/><rect y="520" width="1400" height="380" fill="#B6E1F8"/><rect y="700" width="1400" height="200" fill="#9DD5F3"/><g transform="translate(60 30) scale(1.1)" fill="#ffffff" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(980 20) scale(1.4)" fill="#ffffff" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(560 60) scale(0.8)" fill="#ffffff" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(1180 100) scale(0.9)" fill="#ffffff" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(250 120) scale(0.7)" fill="#ffffff" opacity=".14"><rect x="0" y="20" width="120" height="30" rx="4"/><rect x="20" y="4" width="50" height="30" rx="4"/><rect x="55" y="0" width="45" height="30" rx="4"/></g><g transform="translate(40 786)"><rect width="150" height="22" fill="#FFFFFF"/><rect y="22" width="150" height="30" fill="#D9E6FA"/><rect y="22" width="150" height="6" fill="#0000001f"/><rect width="150" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(260 760)"><rect width="110" height="22" fill="#FFE45C"/><rect y="22" width="110" height="30" fill="#F0D36A"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(430 803)"><rect width="170" height="22" fill="#FFF0A8"/><rect y="22" width="170" height="30" fill="#F3D98A"/><rect y="22" width="170" height="6" fill="#0000001f"/><rect width="170" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(690 773)"><rect width="120" height="22" fill="#E4DAFA"/><rect y="22" width="120" height="30" fill="#C7B9EE"/><rect y="22" width="120" height="6" fill="#0000001f"/><rect width="120" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(880 806)"><rect width="160" height="22" fill="#D7C5F3"/><rect y="22" width="160" height="30" fill="#B9A6EC"/><rect y="22" width="160" height="6" fill="#0000001f"/><rect width="160" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(1100 766)"><rect width="130" height="22" fill="#A9D4F5"/><rect y="22" width="130" height="30" fill="#7FB8EA"/><rect y="22" width="130" height="6" fill="#0000001f"/><rect width="130" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(1270 800)"><rect width="110" height="22" fill="#FFFFFF"/><rect y="22" width="110" height="30" fill="#D9E6FA"/><rect y="22" width="110" height="6" fill="#0000001f"/><rect width="110" height="52" fill="none" stroke="#241B4B" stroke-width="4"/></g><g transform="translate(1290 746)"><rect x="8" y="0" width="6" height="64" fill="#241B4B"/><rect x="14" y="2" width="46" height="30" fill="#fff" stroke="#241B4B" stroke-width="4"/><rect x="14" y="2" width="15" height="15" fill="#241B4B"/><rect x="44" y="2" width="16" height="15" fill="#241B4B"/><rect x="29" y="17" width="15" height="15" fill="#241B4B"/></g><rect y="860" width="1400" height="40" fill="#FFFFFF"/><rect y="856" width="1400" height="6" fill="#241B4B"/></svg></div>
 <div class="wrap">
@@ -869,13 +890,13 @@ function teachHTML(x){
 }
 // ---------- central UI strings (new text only; for future translation) ----------
 const STR={
-  play:'Play',ready:'Ready, hero?',firstGo:'Smash the word gates. A boss is waiting at the end!',gate:'Gate',
+  play:'Play',ready:'Ready?',firstGo:'Break through the word gates. A boss waits at the end.',gate:'Gate',
   bossIntro:'A word boss blocks the path!',hold:'Hold to charge',holdSub:'Keep holding, then let go to blast!',charging:'Charging…',release:'Let go!',
   comboName:'Word Blast combo!',weak:'Weak hit. Hold longer for a combo.',
   bobbyFree:'You freed Bobby!',bobbyJoin:'Bobby the fox joins your adventure. Master words and play on different days to help him grow.',
   savePrompt:'Keep Bobby and your coins safe',saveSub:'Make a free account to keep your progress. All you need is a nickname and a PIN.',saveBtn:'Save my progress',later:'Maybe later',onward:'Onward to Grass Plains!',
   bobby:'Bobby',stages:['Kit','Scout','Hero','Legend'],tricks:['Tail wag','Happy hop','Spin','Backflip'],
-  stageNext:(n,s)=>`${n} more to grow into ${s}`,stageTop:'Bobby is a Legend! Keep playing to show off his tricks.',tapTrick:'Tap Bobby for a trick',
+  stageNext:(n,s)=>`${n} more to grow into ${s}`,stageTop:'Bobby is a Legend. Keep playing to show off his tricks.',tapTrick:'Tap Bobby for a trick',
   grew:s=>`Bobby grew into ${s}!`,newTrick:t=>`New trick: ${t}`,
   chestTitle:d=>`Bobby's daily gift · day ${d}`,chestTap:'Tap to open',chestCoins:n=>`+${n} coins`,chestOk:'Collect',
   region:'Region',regionTick:'Your word lists, spelling and exam kingdoms follow this region.',regionMore:'More countries coming soon',regionSG:'Singapore edition',close:'Close',
@@ -890,10 +911,10 @@ const STR={
     eggInfo:'Egg info',buy:n=>`Buy a Common egg · ${n} coins`,needCoins:n=>`${n} more coins needed`,withYou:'with you',withYouNow:'With you on your adventure',takeIt:'Take on adventure',done:'Done',
     rar:['Common','Rare','Epic','Legendary','Supporter'],stages:['Hatchling','Explorer','Champion'],
     eggFound:r=>`You found a ${r} egg!`,src:{mastery:'For mastering words',boss:'For beating a boss',land:'For freeing a land',giant:'For beating King Kongo',daily:'Bobby\'s daily gift',side:'Side quest reward',team:'For your Team Up win',first:'The first rescued egg',shop:'Bought with coins',old:'From your old pets'},
-    hatching:'Hatching an egg',tapEgg:'Tap the egg!',skip:'Skip',newTitle:n=>`You rescued ${n}!`,dupTitle:n=>`${n} again!`,dupSub:'Duplicate: your creature levels up a little, and you get 50 coins.',
+    hatching:'Hatching an egg',tapEgg:'Tap the egg!',skip:'Skip',newTitle:n=>`You rescued ${n}!`,dupTitle:n=>`${n} again!`,dupSub:'Duplicate: your creature grows a little stronger, and you get 50 coins.',
     nameIt:'Give it a name (optional)',badName:'Try letters and numbers only',hatchA:r=>`Hatch your ${r} egg`,notFound:r=>`Not found yet. ${r}.`,back:'Back',
     evoStart:n=>`${n} is changing…`,evoDone:(n,f)=>`${n} became ${f}!`,evoSub:'All those words you mastered together paid off.',bobOutfit:'Bobby earned a new outfit for your adventure.',yay:'Let\'s go',
-    formNow:f=>`Form: ${f}`,evoNext:(n,f)=>`Master about ${n} more word${n>1?'s':''} with it to become ${f}`,maxed:'Fully grown. A true champion!',bobOutfitNow:o=>`Outfit: ${o}`,bobNext:(n,o)=>`${n} more points to unlock ${o} (master words and play on different days)`,
+    formNow:f=>`Form: ${f}`,evoNext:(n,f)=>`Master about ${n} more word${n>1?'s':''} with it to become ${f}`,maxed:'Fully grown. A true champion.',bobOutfitNow:o=>`Outfit: ${o}`,bobNext:(n,o)=>`${n} more points to unlock ${o} (master words and play on different days)`,
     feed:'Feed a word',rename:'Rename',full:n=>`${n} is fully charged. Come back tomorrow for more.`,noWords:'Learn a word in a run first, then share it!',yum:(n,w)=>`${n} absorbed “${w}”. Power up!`,joined:n=>`${n} is coming with you!`,
     infoTop:'Eggs are earned by playing and learning. You can never buy eggs with money, and the rarity comes from what you did to earn it.',
     how:['Every 10 words mastered, beating a boss, side quests, day 3 of Bobby\'s daily gift, or 600 coins','Every 25 words mastered, freeing a land, a Team Up win, a big side-quest score, or day 7 of the daily gift','Every 50 words mastered, or beating King Kongo','Every 150 words mastered, or beating King Kongo three times'],
@@ -905,11 +926,11 @@ const STR={
     mLearn:'Practise',mRev:'Review words',mRevS:n=>`${n} words are ready for a quick review`,mFix:'Fix mistakes',mFixS:'Words that tripped you up',mBook:'Word book',mBookS:'Every word you have met',
     mMe:'Me',mBadges:'Badges',mBadgesS:(a,b)=>`${a} of ${b}`,mBoard:'Effort board',mBoardS:'Points for practice this week',
     mHelp:'Help',mStory:'The story so far',mStoryS:'How the Word Thief scattered the words',mHow:'How to play',mHowS:'Rules and tips',
-    mSet:'Settings',mVib:on=>`Vibration: ${on?'on':'off'}`,mVibS:'Phone buzzes on wins',mSkin:n=>n?'Day look':'Night look',mSkinS:'Change the colours',mAbout:'About and credits',mAboutS:'Who VocaBobby is for',mAcc:'Save progress',mAccS:'Grown-ups: account and PIN',
+    mSet:'Settings',mVib:on=>`Vibration: ${on?'on':'off'}`,mVibS:'Phone buzzes on wins',mSkin:n=>n?'Day look':'Night look',mSkinS:'Change the colours',mAbout:'About and credits',mAboutS:'Who VocaBobby is for',mAcc:'Save progress',mAccS:'Account and PIN',
     credits:'VocaBobby is made by Miss Christine at Thinking Hack Education, Singapore.',showDedi:'Show the dedication page',dediLabel:'Dedication',
-    storyLabel:'The story',skipStory:'Skip',next:'Next',letsGo:'Hatch my egg!',gateWord:'brave',
+    storyLabel:'The story',skipStory:'Skip',next:'Next',letsGo:'Hatch my egg',gateWord:'brave',
     story:[['The Word Thief struck!','King Kongo, the Word Thief, scattered the words of the Lexi Lands. The frightened creatures hid inside eggs.'],['Win the words back','Run each land with Bobby. Every gate is a word: answer it to win it back. Beat the boss at the end to free the land.'],['Hatch the creatures','Words you win back bring eggs. Hatch the creatures, help them grow and take them on your adventure. Your first rescued egg is ready!']],
-    hints:{home:'Tap Continue adventure and we\'ll run the next land together!',map:'This is the Lexi Lands. Free each land from the Word Thief!',creatures:'Rescued creatures live here. Find them all!',eggs:'Tap an egg to hatch it!',avatar:'This is you! Change your look with coins.',more:'Practice, settings and help live here.',side:'Side quests are quick games that can drop eggs.'},tapClose:'Tap to close'}
+    hints:{home:'Tap Continue adventure to run the next land.',map:'The Lexi Lands. Free each one from the Word Thief.',creatures:'Your rescued creatures live here. Collect them all.',eggs:'Tap an egg to hatch it.',avatar:'Your look. Spend coins to change it.',more:'Practice, settings and help live here.',side:'Side quests are quick games that can drop eggs.'},tapClose:'Tap to close'}
 };
 // ---------- regions (content setting only, never a child's nationality) ----------
 const FLAG_SG=sz=>`<svg class="flag" width="${sz*1.5}" height="${sz}" viewBox="0 0 36 24" role="img" aria-label="Singapore flag"><rect width="36" height="24" fill="#fff"/><rect width="36" height="12" fill="#EF3340"/><circle cx="8.6" cy="6" r="4.2" fill="#fff"/><circle cx="10.2" cy="6" r="4.2" fill="#EF3340"/>${[[13.2,3.4],[15.5,5.1],[14.6,7.8],[11.8,7.8],[10.9,5.1]].map(([x,y])=>`<path transform="translate(${x} ${y}) scale(.75)" d="M0-1 .225-.309.951-.309.363.118.588.809 0 .382-.588.809-.363.118-.951-.309-.225-.309Z" fill="#fff"/>`).join('')}<rect width="36" height="24" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1"/></svg>`;
@@ -973,7 +994,7 @@ function home(){
   let saved=null;try{saved=JSON.parse(localStorage.getItem(SK()))}catch(e){}
   if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();CRE.init();const crs=CRE.st(),ne=crs.eggs.length,act=crs.act;
   main.innerHTML=`<div class="card homec"><div class="hstage"><button class="bobstage" id="bob" aria-label="${STR.bobby}. ${STR.tapTrick}">${bobbySVG(bobbyStage(),150,'idle')}</button>${act!=='bobby'?`<button class="hcr" id="hcr" aria-label="${esc(CRE.nick(act))}">${CRA.svg(act,CRE.stageOf(act,crs.own[act]),96,{cls:'idle'})}</button>`:''}</div>
-  <p class="hi">${S.nick?'Hi, '+esc(S.nick)+'!':'Hi, hero!'}</p><span class="world">${ic('gem',16)}${esc(wn)}</span>${regionBadge()}${tierBar()}
+  <p class="hi">${S.nick?'Welcome back, '+esc(S.nick):'Welcome back'}</p><span class="world">${ic('gem',16)}${esc(wn)}</span>${regionBadge()}${tierBar()}
   ${saved&&saved.i<saved.steps.length?`<button class="big" id="res">${ic('play',30)}${STR.continueRun(saved.i,saved.steps.length)}</button>`:`<button class="big" id="go">${ic('play',30)}${STR.continueAdv}</button>`}
   ${ne?`<button class="eggchip" id="eggc">${CRA.egg(crs.eggs[0].r,30,{noGlow:1})}<b>${STR.eggsReady(ne)}</b></button>`:''}</div>
   <div class="card sideq"><p class="wmk"><b>${STR.sideQuests}</b> <small>${STR.sideSub}</small></p><div class="sqg">
@@ -1775,8 +1796,8 @@ async function syncScore(){
   LB.busy=false;if(LB.pending){LB.pending=false;syncScore()}
 }
 function askNick(then){
-  main.innerHTML=`<div class="card"><span class="tag">Join the leaderboard</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Pick your player name</div>
-  <p>Your classmates will see this name. Use 2 to 14 letters or numbers, no spaces. Don’t use your full real name.</p>
+  main.innerHTML=`<div class="card"><span class="tag">Effort board</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Pick your player name</div>
+  <p>Other players will see this name. Use 2 to 14 letters or numbers, no spaces. Don’t use your full real name.</p>
   <form id="nf"><input class="inp" id="nn" maxlength="14" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Player name" value="${esc(S.nick||'')}"><p id="ne" style="color:var(--bad,#d43b3b);font-weight:800;min-height:1.4em;margin:8px 0 0"></p><button class="go">Save name</button></form>
   <button class="go" id="h" style="background:var(--soft)">Back</button></div>`;
   $('nn').focus();$('h').onclick=home;
