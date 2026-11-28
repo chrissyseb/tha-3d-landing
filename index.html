@@ -858,6 +858,9 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
   body.playing .wrap{grid-template-rows:auto auto!important;align-items:start}
   body.playing .obwrap{position:sticky!important;top:8px}
 }
+#nx.autonx{position:relative;overflow:hidden}#nx .anbar{position:absolute;left:0;bottom:0;height:4px;width:100%;background:currentColor;opacity:.35;transform-origin:left;animation:anfill 1.2s linear forwards}@keyframes anfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+#nx.nxpin{position:sticky;bottom:max(8px,env(safe-area-inset-bottom));z-index:6;box-shadow:0 6px 18px rgba(20,16,60,.25)}.bossnext{color:#c0392b;animation:bnp 1s ease-in-out infinite alternate}@keyframes bnp{to{opacity:.6}}
+.gdots{font-size:11px;letter-spacing:1px;opacity:.8}
 </style><link rel="stylesheet" href="/intro.css"></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span></div>
@@ -1253,10 +1256,8 @@ function start(kind,arg){
   const steps=[];
   for(let i=0;i<pick.length;i+=5){
     const g=pick.slice(i,i+5);
-    g.forEach(x=>{if(!st(x[0]).seen)steps.push({t:'intro',n:x[0]})});
-    if(g.length>=3)steps.push({t:'match',ns:g.map(x=>x[0])});
-    g.forEach(x=>steps.push({t:st(x[0]).seen?QT[Math.random()*QT.length|0]:'blank',n:x[0]}));
-    g.forEach((x,k)=>steps.push({t:k%2?'spellit':shuf(['meaning','under','reverse'])[0],n:x[0]}));
+    // one gate = one word = one answered question (new words get their intro card first); spelling and other formats return via spaced review
+    g.forEach(x=>{const sn=st(x[0]).seen;if(!sn)steps.push({t:'intro',n:x[0]});steps.push({t:sn?QT[Math.random()*QT.length|0]:shuf(['blank','meaning','under'])[0],n:x[0]})});
     // mini boss after every 10 words (gate 10, 20, 30, 40)
     if((i+5)%10===0&&i+5<pick.length){const ten=pick.slice(Math.max(0,i-5),i+5);shuf(ten).slice(0,8).forEach(x=>steps.push({t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],boss:1,bid:'m'+(i+5)}))}
   }
@@ -1279,7 +1280,7 @@ const stageN=g=>Math.max(1,Math.ceil(g/10)),stages=n=>Math.max(1,Math.ceil(n/10)
 function progHTML(){if(!sess||!sess.words)return '';const N=sess.words.length,g=Math.min(N,sess.gate||0),pc=v=>(v/N*100).toFixed(2)+'%';let mk='';
   for(let k=10;k<N;k+=10)mk+=`<i class="pm boss${g>=k&&!(sess.bossOn&&sess.bid==='m'+k)?' done':''}" style="left:${pc(k)}" title="Boss at gate ${k}">${ic('zap',14)}</i>`;
   mk+=`<i class="pm crown${sess.beatFinal?' done':''}" style="left:100%" title="King Kongo at gate ${N}">♛</i>`;
-  return `<div class="prog" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="${N}" aria-valuenow="${g}" aria-valuetext="Gate ${g} of ${N}, stage ${stageN(Math.max(1,g))} of ${stages(N)}"><span class="pgt"><span>Gate <b>${g}</b> / ${N}</span><small>Stage ${stageN(Math.max(1,g))} of ${stages(N)}</small></span><span class="ptrack"><span class="pfill" style="width:${pc(g)}"></span>${mk}<span class="pav" style="left:${pc(g)}">${avatar(26)}</span></span></div>`}
+  return `<div class="prog" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="${N}" aria-valuenow="${g}" aria-valuetext="Gate ${g} of ${N}, stage ${stageN(Math.max(1,g))} of ${stages(N)}">${(()=>{const st0=(stageN(Math.max(1,g))-1)*10,sz=Math.min(10,N-st0),gi=Math.max(0,g-st0),cur=sess.steps[sess.i],bn=(cur&&cur.boss)||gi>=sz-1;const dots=(()=>{if(!cur||cur.boss||cur.rv)return '';const nm=cur.n;const L=sess.steps.filter(z=>z.n===nm&&!z.boss&&!z.rv);if(L.length<2)return '';const k=L.indexOf(cur);return ' <span class="gdots" aria-label="step '+(k+1)+' of '+L.length+'">'+L.map((z,j)=>j<k?'●':j===k?'◉':'○').join('')+'</span>'})();return `<span class="pgt"><span>Gate <b>${gi}</b>${dots} of ${sz} · ${st0+sz>=N?'King Kongo':'Boss'} at ${sz}</span><small>${bn?'<b class="bossnext">⚠️ Boss next!</b> · ':''}Stage ${stageN(Math.max(1,g))} of ${stages(N)}</small></span>`})()}<span class="ptrack"><span class="pfill" style="width:${pc(g)}"></span>${mk}<span class="pav" style="left:${pc(g)}">${avatar(26)}</span></span></div>`}
 function persist(){if(sess&&sess.kind==='quest')return;try{localStorage.setItem(SK(),JSON.stringify({...sess,words:sess.words.map(x=>x[0]),steps:sess.steps.map(({x,...r})=>r)}))}catch(e){}}
 // Guarantee: every mini boss (gates 10/20/30/40) and the final boss happen once per run, whatever path the run took
 // (Save & stop / Continue, reload mid-run, done-skips, re-inserted steps). A boss is "owed" when the run has moved past its
@@ -1298,13 +1299,16 @@ function run(){
   {const g=Math.max(sess.gate||0,gateOf(sess.steps[sess.i]));const N=sess.words.length;sess.cheer=sess.cheer||{};const half=Math.floor((Math.ceil(g/10)-1)*10+Math.min(10,N-(Math.ceil(g/10)-1)*10)/2);if(sess.gate!=null&&g>=half&&(sess.gate||0)<half&&!sess.cheer[half]&&half<N){sess.cheer[half]=1;setTimeout(()=>{pop('Halfway through stage '+stageN(g)+'!');try{beep(1)}catch(e){}},400)}sess.gate=g}
   hud();persist();
   if(sess.bossOn&&sess.boss>0&&sess.hearts>0){const s0=sess.steps[sess.i];if(!s0||s0.bid!==sess.bid)addBossStep()}
+  // review cap: at most 3 non-advancing review steps in a row; the rest go to spaced review (word stays due)
+  while(sess.i<sess.steps.length&&sess.steps[sess.i].rv&&!sess.steps[sess.i].boss&&(sess.rvRun||0)>=3&&sess.rvAt!==sess.i){const z=sess.steps[sess.i];(sess.done||(sess.done={}))[z.u]=1;const ws=st(z.n);if(ws){ws.due=0}sess.i++}
   if(sess.i>=sess.steps.length)return recap();
+  {const z=sess.steps[sess.i];if(sess.rvAt!==sess.i){sess.rvAt=sess.i;if(z.rv&&!z.boss){sess.rvRun=(sess.rvRun||0)+1;z.rvk=sess.rvRun}else if(z.t!=='intro'||!z.rv)sess.rvRun=0}}
   const s=sess.steps[sess.i],x=s.x,pct=Math.round(sess.i/sess.steps.length*100);
   cur_boss=!!s.boss;if(s.gold==null)s.gold=s.t!=='intro'&&s.t!=='match'&&Math.random()<.07;s_gold=s.gold;
   if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;if(!sess.bossHint){sess.bossHint=1;setTimeout(()=>{if(sess)bobHint('Wrong answers let the boss strike back. Protect your hearts!')},400)}sess.bossMax=sess.boss=sess.giant?100:sess.kind==='challenge'?(s.bid==='final'?45:35):50;sess.hearts=sess.hMax=HMAX();sess.swH=0;sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
   OB.ensure(sess.w!=null?sess.w:tier());if(cur_boss&&s.arr&&OB.st&&(!OB.st.boss||(OB.st.boss.dead&&sess.boss>0))&&sess.bossOn&&sess.boss>0){OB.st.boss={x:OB.st.ax+160,hp:sess.boss,max:sess.bossMax||sess.boss,shake:0,hurt:0,dead:false,deadT:0,lean:0,giant:!!sess.giant};OB.st.mode='idle'}
   const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
-  const head=(label,lvl)=>`<div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace(s.t==='intro'?'idle':'think',52)}</span><span class="tag ${s.t==='intro'?'new':''}">${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
+  const head=(label,lvl)=>`<div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace(s.t==='intro'?'idle':'think',52)}</span><span class="tag ${s.t==='intro'?'new':''}">${s.rvk&&!s.boss?'Review · '+s.rvk+' of 3 · ':''}${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
   if(s.t!=='intro'&&s.t!=='match'&&!s.arr){
     main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace('think',52)}</span><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?(s.giant&&sess.kind!=='challenge'?'<b>A GIANT approaches!</b> King Kongo blocks the finish line. Answer right, then attack. Hold your charge for combos! You have 3 hearts.':'Boss battle! The '+esc(CB().n)+' blocks the path. Answer right, then pick a power to attack. You have 3 hearts.'):'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
     {const wd=s.n||(s.x&&s.x[0]);const cw=sess.cw||(sess.cw={});if(OB.st&&wd&&cw[wd])OB.st.noCoins=1;if(wd)cw[wd]=1}
@@ -1393,11 +1397,13 @@ function result(ok,x,extra='',fl={}){
     window.__pm=sess.combo;if(!cur_boss)gateHit(g);else{beep(1);if(g)pop('+'+g)}juice(sess.combo,g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0&&!(sess.paid&&sess.paid['b'+su.u])){(sess.paid||(sess.paid={}))['b'+su.u]=1;S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;window.__pm=0;buzz(HAP.bad);bobSay('sorry');cardFx(0);w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);wrongFx();
     // it comes back 3 questions later in a different form
-    sess.steps.splice(Math.min(sess.i+(cs.pk&&!cur_boss?9:4),sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:cs.pk?shuf(['under','blank','lookalike'])[0]:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,pk:cs.pk})}
+    sess.steps.splice(Math.min(sess.i+(cs.pk&&!cur_boss?9:4),sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:cs.pk?shuf(['under','blank','lookalike'])[0]:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,pk:cs.pk,rv:1})}
   if(cur_boss&&sess.bonusNow){sess.bonusNow=0;setTimeout(()=>pop('Streak bonus saved for later!'),900)}
   if(!S.days.includes(today()))S.days.push(today());save();persist();bobbyCheck();
   $('fb').innerHTML=`<p class="fbh" style="font:800 24px var(--fd);margin:16px 0 0;display:flex;align-items:center;gap:8px;color:${ok?'#2F7FBF':'var(--ink)'}">${bobFace(ok?'excited':'sorry',44)}${ok?(fl.assist?shuf(['Got there!','Worked it out!','That\'s the one.'])[0]:shuf(['Brilliant!','Spot on!','Nailed it!','Yes!','Sharp!'])[0]):'Nearly! Bobby will help you learn this one:'}</p>${extra}${ok?`<p style="margin:6px 0 0"><b>${esc(x[0])}</b> = ${esc(x[2])} ${gems(w.m)}</p>`:teachHTML(x)}${sess.bonusNow?`<div class="bonuscard"><b>Streak bonus unlocked!</b><br>${sess.combo} right in a row. You earned a round of Shadow Chase.<div class="row"><button class="go" id="bplay" style="margin:0">Play now</button><button class="go" id="bsave" style="margin:0;background:var(--paper)">Save for later</button></div></div>`:''}<button class="go" id="nx">Next</button>`;
-  $('nx').focus();$('nx').onclick=()=>{sess.i++;run()};
+  {const nxe=$('nx'),hadB=!!sess.bonusNow;let gone=0;const adv=()=>{if(gone||!nxe.isConnected||!sess)return;gone=1;sess.i++;run()};nxe.onclick=adv;
+    if(ok&&!cur_boss&&!hadB){nxe.classList.add('autonx');nxe.innerHTML='Next <span class="anbar" aria-hidden="true"></span>';const tm=setTimeout(adv,1200);const c=main.querySelector('.card');if(c)c.addEventListener('click',e=>{if(!e.target.closest('button:not(#nx),a,input,.spk'))adv()},{once:true});}
+    else{nxe.classList.add('nxpin');try{nxe.focus({preventScroll:true});setTimeout(()=>nxe.isConnected&&nxe.scrollIntoView({block:'nearest',behavior:'smooth'}),60)}catch(e){}}}
   if(sess.bonusNow){sess.bonusNow=0;$('bsave').onclick=()=>{pop('Saved to Bonus games');$('bsave').closest('.bonuscard').remove()};$('bplay').onclick=()=>{sess.i++;persist();const keep=sess;chase(()=>{sess=keep;run()})}}
   hud();
   if(cur_boss)bossTurn(ok);
