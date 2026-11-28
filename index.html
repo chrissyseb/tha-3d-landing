@@ -157,6 +157,16 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .match .opt{min-height:60px;font-size:15px;padding:10px 12px}
 .match .opt.sel{background:var(--sun)}
 .match .opt.done{visibility:hidden}
+.coinp{cursor:pointer;font:inherit;color:inherit}
+.bnav [data-nav=av].newdot{background-image:radial-gradient(circle at calc(50% + 13px) 9px,#ff4b6e 0 5px,#fff 5.5px 7px,transparent 7.5px)}
+.shoptile{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;position:relative;font:inherit;color:inherit}
+.shoptile .stx{display:grid;gap:2px}.shoptile b{font:800 18px var(--fd)}.shoptile small{color:var(--mut)}
+.tiledot{position:absolute;top:12px;right:12px;width:12px;height:12px;border-radius:50%;background:#ff4b6e;border:2px solid #fff}
+.shead{display:flex;gap:14px;align-items:center;margin:12px 0}.ssub{color:var(--mut);font-size:13px}
+.ngoal{background:var(--soft);border:2px solid var(--ink);border-radius:12px;padding:10px 12px;margin:8px 0 12px}.ngt{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ngbar{height:10px;border-radius:6px;background:#e5e7f2;margin-top:8px;overflow:hidden}.ngbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd23f,#f5b83a)}
+.stabs{display:flex;gap:6px;overflow-x:auto;margin:6px 0 12px;padding-bottom:2px}.stabs button{flex:0 0 auto;border:2px solid var(--ink);border-radius:999px;background:#fff;padding:7px 12px;font:800 13px var(--fb);color:var(--ink);cursor:pointer}.stabs button.on{background:#ffd23f}
+.shh{display:block;font:800 16px var(--fd);margin:12px 0 6px}.item.dim{opacity:.6}.pbgs{display:block;width:64px;height:44px;border-radius:10px;border:2px solid var(--ink);margin:0 auto 4px}
 /* grids: shop, pets, badges */
 .shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:var(--s2)}
 .item{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--soft);border:3px solid var(--ink);border-radius:16px;padding:12px 8px;text-align:center;box-shadow:0 4px 0 var(--ink);font:700 14px/1.3 var(--fb);min-height:0}
@@ -734,12 +744,14 @@ function myAvatar(){
   sess=null;hud();CRE.init();const fox=false,pn='',CS=CRE.st(),crl=CRE.shareList();
   const fin=v=>/^f:/.test(v)?String(v).replace(/^f:/,'').replace(/#.*/,'').replace(/^./,c=>c.toUpperCase())+' finish':'';
   const eq=Object.entries(S.av||{}).filter(([k,v])=>typeof v==='string'&&v&&v!=='none').map(([k,v])=>`<span>${/^#/.test(v)?`<i style="background:${esc(v)}"></i>`:/^f:/.test(v)?'<i style="background:linear-gradient(135deg,#ffd23f,#ff7ac6,#4cb8ff)"></i>':''}${esc(k[0].toUpperCase()+k.slice(1))}${/^f:/.test(v)?' · '+esc(fin(v)):/^#/.test(v)?'':' · '+esc(v)}</span>`).join('');
+  const geq=Object.entries(S.gear||{}).map(([p,t])=>`<span><i style="background:${gearCol(p,t,0)}"></i>${esc((GEARP.find(z=>z[0]===p)||[,p])[1])}${t!=='starter'?' · '+esc(GFIN[t]?GFIN[t][0]:t):''}</span>`).join('')+Object.entries(S.acc||{}).map(([k,v])=>{const it=ACC.find(x=>x[0]===k&&x[1]===v);return it?`<span>🐾 ${esc(it[2])}</span>`:''}).join('');
   const bd=BADGES.filter(b=>(S.badges||[]).includes(b[0])).map(b=>`<span>🏅 ${esc(b[0])}</span>`).join('');
-  main.innerHTML=`<div class="card show"><span class="tag">My Avatar</span><div class="big">${fox?'<div class="hearts">'+[0,1,2,3,4].map(k=>`<i style="left:${52+k*7}%;animation-delay:${k*.5}s">${k%2?'✨':'💗'}</i>`).join('')+'</div>':''}<span class="a">${avatar(130)}</span><span class="p">${CS.act==='bobby'?bobbySVG(bobbyStage(),110):CRA.svg(CS.act,CRE.stageOf(CS.act,CS.own[CS.act]),110)}</span></div>
+  main.innerHTML=`<div class="card show"><span class="tag">My Avatar</span><div class="big">${fox?'<div class="hearts">'+[0,1,2,3,4].map(k=>`<i style="left:${52+k*7}%;animation-delay:${k*.5}s">${k%2?'✨':'💗'}</i>`).join('')+'</div>':''}<span class="a">${avatar(130)}</span><span class="p">${CS.act==='bobby'?bobbySVG(bobbyStage(),110):CRA.svg(CS.act,CRE.stageOf(CS.act,CS.own[CS.act]),110)}${accOverlay()}</span></div>
+  <button class="go" id="chg0">👕 Wardrobe &amp; Shop</button>
   <div class="word" style="font-size:clamp(28px,7vw,40px)">${esc(S.nick||'Hero')}</div><span class="pname">${esc(CRE.nick(CS.act))} · ${CRE.count()} of ${CRE.total()} creatures</span><div class="avcr">${crl.map(id=>`<span>${id==='bobby'?BOB.face('happy',44):CRA.svg(id,CRE.stageOf(id,CS.own[id]),48)}</span>`).join('')}</div>
-  ${eq?`<p class="wmk"><b>Looking good in</b></p><div class="eq">${eq}</div>`:''}${bd?`<p class="wmk"><b>Badges</b></p><div class="eq">${bd}</div>`:''}
+  ${eq||geq?`<p class="wmk"><b>Looking good in</b></p><div class="eq">${eq}${geq}</div>`:''}${bd?`<p class="wmk"><b>Badges</b></p><div class="eq">${bd}</div>`:''}
   <button class="go" id="chg">Change look</button><button class="go" id="shr" style="background:#7be0c3">Share my avatar</button></div>`;
-  $('chg').onclick=shop;$('shr').onclick=shareCard;CRE.nav('av');CRE.hint('avatar');
+  $('chg').onclick=shop;$('chg0').onclick=shop;$('shr').onclick=shareCard;CRE.nav('av');CRE.hint('avatar');
 }
 async function shareCard(){
   const fit=(m,x,y,w,h)=>m.replace(/<svg([^>]*)>/,(t,at)=>'<svg'+at.replace(/\s(width|height|x|y|class|style)="[^"]*"/g,'')+` x="${x}" y="${y}" width="${w}" height="${h}">`),av=fit(avatar(200),110,250,200,310),CS=CRE.st(),pt=CRE.shareList().map((id,i)=>fit(id==='bobby'?BOB.full({stage:bobbyStage(),size:120}).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '):CRA.svg(id,CRE.stageOf(id,CS.own[id]),120).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '),i?60+(i-1)*150:320,i?600:330,i?130:170,i?130:220)).join('');
@@ -814,7 +826,7 @@ function finDefs(v,id){if(!v||v[0]==='#')return['',v];const RM=matchMedia('(pref
  if(v==='f:rainbow')return[`<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ef4f5f"/><stop offset=".25" stop-color="#ffc642"/><stop offset=".5" stop-color="#2fbf71"/><stop offset=".75" stop-color="#4aa4e6"/><stop offset="1" stop-color="#b15fd7"/>${RM?'':'<animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;-1 0" dur="4s" repeatCount="indefinite"/>'}</linearGradient>`,`url(#${id})`];
  if(v.startsWith('f:neon')){const c=v.slice(6);return[`<filter id="${id}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`,c,id]}
  return['','#2f80ed']}
-function avatar(sz,a=S.av){const k='#1b2140',sk='#ffcf5a',sd='#e9b23f',hats={none:'',
+function avatar(sz,a=S.av,G=S.gear||{}){const k='#1b2140',sk='#ffcf5a',sd='#e9b23f',hats={none:'',
 cap:`<rect x="8" y="0" width="24" height="7" fill="#ef4f5f" stroke="${k}" stroke-width="2"/><rect x="26" y="5" width="11" height="3.5" fill="#c93a4a" stroke="${k}" stroke-width="2"/>`,
 beanie:`<rect x="8" y="-1" width="24" height="9" fill="#fa895d" stroke="${k}" stroke-width="2"/><rect x="8" y="5" width="24" height="3" fill="#d8704a"/><rect x="17" y="-6" width="6" height="5" fill="#fff" stroke="${k}" stroke-width="2"/>`,
 phones:`<rect x="10" y="-1" width="20" height="3.5" fill="${k}"/><rect x="5" y="6" width="6" height="11" rx="1" fill="#ed598c" stroke="${k}" stroke-width="2"/><rect x="29" y="6" width="6" height="11" rx="1" fill="#ed598c" stroke="${k}" stroke-width="2"/>`,
@@ -822,7 +834,8 @@ tophat:`<rect x="12" y="-12" width="16" height="15" fill="${k}"/><rect x="12" y=
 horns:`<polygon points="10,3 12,-7 17,3" fill="#ef4f5f" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><polygon points="23,3 28,-7 30,3" fill="#ef4f5f" stroke="${k}" stroke-width="2" stroke-linejoin="round"/>`,
 crown:`<polygon points="8,4 8,-6 14,0 20,-8 26,0 32,-6 32,4" fill="#ffc642" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><rect x="18.5" y="-2" width="3" height="3" fill="#ed598c"/>`};
 const n=++AVN,fs=finDefs(a.shirt,'fs'+n),fp=finDefs(a.pants,'fp'+n),SF=fs[1],PF=fp[1],sfl=fs[2]?` filter="url(#${fs[2]})"`:'',pfl=fp[2]?` filter="url(#${fp[2]})"`:'',stars=a.shirt==='f:galaxy'?'<g fill="#fff"><rect x="12" y="27" width="1.6" height="1.6"/><rect x="24" y="31" width="1.4" height="1.4"/><rect x="18" y="35" width="1.2" height="1.2"/><rect x="28" y="26" width="1.2" height="1.2"/></g>':'',pstars=a.pants==='f:galaxy'?'<g fill="#fff"><rect x="12" y="48" width="1.4" height="1.4"/><rect x="25" y="51" width="1.4" height="1.4"/></g>':'';
-return `<svg class="av" width="${sz}" height="${sz*1.55}" viewBox="0 -10 40 72" aria-hidden="true"><defs>${fs[0]}${fp[0]}</defs>${a.cape?`<path d="M7 24 L33 24 L37 61 L3 61 Z" fill="#ffc642" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><path d="M12 26 L28 26 L31 58 L9 58 Z" fill="#ffd96b"/>`:''}
+const gc=pp=>gearFill(pp,G[pp],n),gs=`stroke="${k}" stroke-width="2"`,gd=gearDefs(G,n),gr=gearOver(G,gc,gs);
+return `<svg class="av" width="${sz}" height="${sz*1.55}" viewBox="0 -10 40 72" aria-hidden="true"><defs>${fs[0]}${fp[0]}${gd}</defs>${G.cape?`<path d="M6 23 L34 23 L38 62 L2 62 Z" fill="${gc('cape')}" ${gs} stroke-linejoin="round"/>`:''}${G.backpack?`<rect x="30" y="24" width="8" height="15" rx="2" fill="${gc('backpack')}" ${gs}/>`:''}${a.cape?`<path d="M7 24 L33 24 L37 61 L3 61 Z" fill="#ffc642" stroke="${k}" stroke-width="2" stroke-linejoin="round"/><path d="M12 26 L28 26 L31 58 L9 58 Z" fill="#ffd96b"/>`:''}
 <rect x="9" y="3" width="22" height="20" rx="2" fill="${sk}" stroke="${k}" stroke-width="2.4"/><rect x="9" y="18" width="22" height="5" fill="${sd}"/>
 <rect x="14" y="9" width="3.5" height="5" rx="1" fill="${k}"/><rect x="22.5" y="9" width="3.5" height="5" rx="1" fill="${k}"/><rect x="15" y="10" width="1.4" height="1.6" fill="#fff"/><rect x="23.5" y="10" width="1.4" height="1.6" fill="#fff"/>
 <path d="M15.5 16.5q4.5 3.2 9 0" stroke="${k}" stroke-width="2" fill="none" stroke-linecap="round"/>${hats[a.hat]||''}
@@ -830,7 +843,23 @@ return `<svg class="av" width="${sz}" height="${sz*1.55}" viewBox="0 -10 40 72" 
 <rect x="0.5" y="24" width="6.5" height="17" rx="1.5" fill="${SF}" stroke="${k}" stroke-width="2.4"${sfl}/><rect x="33" y="24" width="6.5" height="17" rx="1.5" fill="${SF}" stroke="${k}" stroke-width="2.4"${sfl}/>
 <rect x="1.5" y="37" width="5" height="5" fill="${sk}"/><rect x="33.5" y="37" width="5" height="5" fill="${sk}"/>
 <rect x="8" y="43" width="11.5" height="17" rx="1.5" fill="${PF}" stroke="${k}" stroke-width="2.4"${pfl}/><rect x="20.5" y="43" width="11.5" height="17" rx="1.5" fill="${PF}" stroke="${k}" stroke-width="2.4"${pfl}/>
-<rect x="8" y="56" width="11.5" height="4" fill="#00000033"/><rect x="20.5" y="56" width="11.5" height="4" fill="#00000033"/>${stars}${pstars}</svg>`}
+<rect x="8" y="56" width="11.5" height="4" fill="#00000033"/><rect x="20.5" y="56" width="11.5" height="4" fill="#00000033"/>${stars}${pstars}${gr}</svg>`}
+// ---------- armour / wardrobe gear (cosmetic, earned with coins or at gates) ----------
+const GEARC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'};
+const GFIN={starter:['Classic',0],silver:['Silver',900],gold:['Gold',1800],rainbow:['Rainbow',3500]};
+function gearFill(p,t,n){if(!t)return null;if(t==='gold')return 'url(#gg'+n+')';if(t==='silver')return 'url(#gs'+n+')';if(t==='rainbow')return 'url(#gr'+n+')';return GEARC[p]||'#ccc'}
+function gearCol(p,t,tm){if(t==='gold')return '#f5b83a';if(t==='silver')return '#c9d3df';if(t==='rainbow')return `hsl(${((tm||0)*120)%360},90%,60%)`;return GEARC[p]}
+function gearDefs(G,n){const v=Object.values(G||{});let d='';if(v.includes('gold'))d+=`<linearGradient id="gg${n}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#f5b83a"/><stop offset="1" stop-color="#c98a1b"/></linearGradient>`;if(v.includes('silver'))d+=`<linearGradient id="gs${n}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#c9d3df"/><stop offset="1" stop-color="#8a97a8"/></linearGradient>`;if(v.includes('rainbow'))d+=`<linearGradient id="gr${n}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff4b4b"/><stop offset=".25" stop-color="#ffd23f"/><stop offset=".5" stop-color="#36c95f"/><stop offset=".75" stop-color="#2f80ed"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>`;return d}
+function gearOver(G,c,s){if(!G)return '';let o='';
+ if(G.scarf)o+=`<rect x="8" y="21" width="24" height="5" rx="1.5" fill="${c('scarf')}" ${s}/><rect x="25" y="24" width="4" height="9" fill="${c('scarf')}" ${s}/>`;
+ if(G.belt)o+=`<rect x="7" y="38" width="26" height="5" fill="${c('belt')}" ${s}/><rect x="17.5" y="38.5" width="5" height="4" fill="#ffe45c" ${s}/>`;
+ if(G.gloves)o+=`<rect x="0" y="35" width="7.5" height="7.5" rx="1.5" fill="${c('gloves')}" ${s}/><rect x="32.5" y="35" width="7.5" height="7.5" rx="1.5" fill="${c('gloves')}" ${s}/>`;
+ if(G.boots)o+=`<rect x="7" y="53" width="13" height="8" rx="1.5" fill="${c('boots')}" ${s}/><rect x="20" y="53" width="13" height="8" rx="1.5" fill="${c('boots')}" ${s}/>`;
+ if(G.goggles)o+=`<rect x="11" y="8" width="18" height="7" rx="3" fill="${c('goggles')}" ${s}/><rect x="13.5" y="9.5" width="5" height="4" rx="1.5" fill="#8fe3ff"/><rect x="21.5" y="9.5" width="5" height="4" rx="1.5" fill="#8fe3ff"/>`;
+ if(G.helmet)o+=`<path d="M7 7 Q7 -4 20 -4 Q33 -4 33 7 Z" fill="${c('helmet')}" ${s} stroke-linejoin="round"/><rect x="18" y="-6" width="4" height="4" fill="#fff" ${s}/>`;
+ if(G.shield)o+=`<path d="M-1 27 L8 27 L8 36 Q3.5 42 -1 36 Z" fill="${c('shield')}" ${s} stroke-linejoin="round"/>`;
+ if(G.trail)o+=`<g fill="${c('trail')}" opacity=".85"><rect x="1" y="58" width="3" height="3"/><rect x="35" y="50" width="2.5" height="2.5"/><rect x="2" y="47" width="2" height="2"/></g>`;
+ return o}
 const level=()=>LV.filter(l=>S.pts>=l[0]).pop();
 const nextLv=()=>LV.find(l=>l[0]>S.pts);
 const today=()=>new Date().toDateString();
@@ -838,8 +867,8 @@ function streak(){let n=0,d=new Date();while(S.days.includes(d.toDateString())){
 function hud(){document.body.classList.toggle('playing',!!sess);
   if(!sess&&!PLRUN&&typeof OB!=='undefined')OB.hide();
   const mast=W.filter(x=>st(x[0]).m>=5).length,nl=nextLv();
-  $('hud').innerHTML=`<span class="pill" title="Coins">${ic('coin')}<b>${S.coins}</b></span><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="${STR.wordsLearnt}" aria-label="${STR.wordsLearnt}: ${mast}">${ic('book')}<b>${mast}</b></span>`}${S.sup==='20'?'<span class="ea" title="Thank you for supporting Miss Christine">Early access</span>':''}<span class="sp"></span>${sess?`${sess.kind==='challenge'?'<span class="pill edp">PSLE Edition</span>':''}<button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${ic(S.voice===false?'voiceoff':'voice')}</button>`:''}`;
-  $('snd').onclick=()=>{mute=!mute;hud()};if($('vox'))$('vox').onclick=()=>{S.voice=S.voice===false;save();pop(S.voice?'Word voice on':'Word voice off');hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
+  $('hud').innerHTML=`<button type="button" class="pill coinp" id="coinp" title="Coins: open the Shop" aria-label="${S.coins} coins. Open the Shop">${ic('coin')}<b>${S.coins}</b></button><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="${STR.wordsLearnt}" aria-label="${STR.wordsLearnt}: ${mast}">${ic('book')}<b>${mast}</b></span>`}${S.sup==='20'?'<span class="ea" title="Thank you for supporting Miss Christine">Early access</span>':''}<span class="sp"></span>${sess?`${sess.kind==='challenge'?'<span class="pill edp">PSLE Edition</span>':''}<button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${ic(S.voice===false?'voiceoff':'voice')}</button>`:''}`;
+  if($('coinp'))$('coinp').onclick=()=>{if(sess||PLRUN)return;shop()};wardDot();$('snd').onclick=()=>{mute=!mute;hud()};if($('vox'))$('vox').onclick=()=>{S.voice=S.voice===false;save();pop(S.voice?'Word voice on':'Word voice off');hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
 }
 // ---------- sound + fx ----------
 let ac;const BOSSES=[{n:'Bramble Brute',b:'#4f9a3a',d:'#2f5e24',e:'#ffd23f',weak:'fire',atk:'slam'},{n:'Sand Sphinx',b:'#d9a54a',d:'#9c6a26',e:'#3fb2f5',weak:'water',atk:'blast'},{n:'Jungle Titan',b:'#2f8f6a',d:'#1d5c44',e:'#ffe14a',weak:'zap',atk:'slam'},{n:'Lava Golem',b:'#7a2b1f',d:'#45150c',e:'#ffb020',weak:'water',atk:'blast'},{n:'Ice Kraken',b:'#7fc9ec',d:'#3f86b4',e:'#ffffff',weak:'fire',atk:'shard'},{n:'Space Overlord',b:'#5a45c2',d:'#2a1d6b',e:'#ff5d8f',weak:'zap',atk:'laser'},{n:'Exam King',b:'#5b2c8f',d:'#2e1452',e:'#ffd23f',weak:'water',atk:'laser'}];
@@ -1024,7 +1053,9 @@ function home(){
   <button class="sq" id="bon" ${S.bonus?'':'aria-disabled="true"'}><span class="ico c4">${ic('bolt')}</span><b>Shadow Chase</b><small>${S.bonus?S.bonus+' ready':STR.chaseLocked}</small></button>
   <button class="sq" id="sprint"><span class="ico c5">${ic('book')}</span><b>Spelling Sprint</b><small>Best ${S.spBest||0}</small></button>
   <button class="sq" id="spd"><span class="ico c3">${ic('zap')}</span><b>Speed Run</b><small>Best ${S.best}</small></button>
-  <button class="sq" id="team"><span class="ico c2">${ic('trophy')}</span><b>Team Up</b><small>Adventure with a friend</small></button></div></div>`;
+  <button class="sq" id="team"><span class="ico c2">${ic('trophy')}</span><b>Team Up</b><small>Adventure with a friend</small></button></div></div>
+  <button class="card shoptile" id="hshop"><span class="sta">${avatar(54)}</span><span class="stx"><b>Shop &amp; Wardrobe</b><small>${esc(nextGoalTxt())}</small></span>${canBuyNew()?'<i class="tiledot" aria-label="New item you can buy"></i>':''}</button>`;
+  $('hshop').onclick=shop;
   wireBobby();bobbyCheck();if($('go'))$('go').onclick=()=>start('learn');if($('hcr'))$('hcr').onclick=()=>CRE.detail(act);if($('eggc'))$('eggc').onclick=CRE.screen;
   $('spd').onclick=speed;$('sprint').onclick=sprint;$('bon').onclick=()=>{if(!S.bonus){pop(STR.chaseLocked);return}chase(home)};$('team').onclick=teamUp;daily();checkBadges();CRE.nav('home');if(!CRE.checkEvo(home))CRE.hint('home');
   if($('res'))$('res').onclick=()=>{sess=saved;sess.words=sess.words.map(n=>WF(n));sess.steps.forEach(s=>s.x=WF(s.n));run()};
@@ -1231,17 +1262,19 @@ function matchGame(s,top){
     else{beep(0);miss++;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),400)}});
 }
 // ---------- Duo victory podium: avatar + active creature, shareable card (nickname only) ----------
+const PBG=[['sky','Sky burst',0,['#3FABE7','#7D82DE','#B15FD7']],['sunset','Sunset',400,['#ff9a5a','#ff5d8f','#8b5cf6']],['ocean','Ocean',600,['#1fd1c1','#2f80ed','#1b2a8c']],['forest','Forest',800,['#9dd946','#36c95f','#1f7a4a']],['candy','Candy',1200,['#ffd1ec','#ff7ac6','#b8a4ff']],['galaxy','Galaxy',3000,['#3a1c71','#241B4B','#0b0d2a']],['gold','Golden hall',6000,['#fff3a8','#f5b83a','#c98a1b']]];
+function podBg(){const b=PBG.find(x=>x[0]===S.pbg)||PBG[0],c=b[3];return `<linearGradient id="pgb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".5" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></linearGradient><rect width="600" height="520" rx="36" fill="url(#pgb)"/>${b[0]==='galaxy'?'<g fill="#fff" opacity=".8"><circle cx="80" cy="120" r="3"/><circle cx="520" cy="90" r="2.5"/><circle cx="470" cy="300" r="2"/><circle cx="130" cy="330" r="2.5"/><circle cx="300" cy="110" r="2"/></g>':''}`}
 function podiumSVG(w=600,h=520){const id=CRE.st().act,o=CRE.st().own[id],r=CRE.R(id),RC=['#5F6B80','#1F78B4','#8A3FB8','#F5B83A','#F59E2A'][r]||'#1F78B4',RT=r>=3?'#241B4B':'#fff',rn=STR.cr.rar[r]||'',nk=String(S.nick||'Player').replace(/[&<>"']/g,''),cn=String(CRE.nick(id)).replace(/[&<>"']/g,'');
  const fit=(m,x,y,ww,hh)=>m.replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" ').replace(/<svg([^>]*)>/,(t,at)=>'<svg'+at.replace(/\s(width|height|x|y|class|style)="[^"]*"/g,'')+` x="${x}" y="${y}" width="${ww}" height="${hh}">`);
  const cr=id==='bobby'?BOB.full({stage:bobbyStage(),size:120,expr:'cheer',cheer:1}):CRA.svg(id,CRE.stageOf(id,o),120);
  const rays=Array.from({length:12},(_,i)=>`<path d="M300 250 L${300+Math.cos(i*.5236)*420} ${250+Math.sin(i*.5236)*420} L${300+Math.cos(i*.5236+.18)*420} ${250+Math.sin(i*.5236+.18)*420}Z" fill="#fff" opacity=".13"/>`).join('');
  const flair=r>=2?`<circle cx="410" cy="250" r="96" fill="${RC}" opacity=".22"/>`:'';
  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 600 520"><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient><linearGradient id="ps" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE45C"/><stop offset="1" stop-color="#F5B83A"/></linearGradient></defs>
- <rect width="600" height="520" rx="36" fill="url(#pg)"/>${rays}
+ ${podBg()}${rays}
  <text x="300" y="62" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="40" fill="#fff" stroke="#241B4B" stroke-width="7" paint-order="stroke">Victory!</text>
  <ellipse cx="300" cy="420" rx="230" ry="22" fill="#241B4B" opacity=".25"/><rect x="90" y="360" width="420" height="64" rx="14" fill="url(#ps)" stroke="#241B4B" stroke-width="6"/><rect x="90" y="360" width="420" height="14" rx="7" fill="#fff" opacity=".45"/>
  <text x="300" y="403" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="28" fill="#241B4B">1</text>${flair}
- ${fit(avatar(200),130,150,150,215)}${fit(cr,330,195,160,170)}
+ ${fit(avatar(200),130,150,150,215)}${fit(cr,330,195,160,170)}${accSVG(330,195,160,170)}
  <rect x="150" y="448" width="300" height="52" rx="26" fill="#fff" stroke="#241B4B" stroke-width="5"/>
  <text x="300" y="481" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="22" fill="#241B4B">${nk} &amp; ${cn}</text>
  <rect x="360" y="110" width="${30+rn.length*13}" height="34" rx="17" fill="${RC}" stroke="#241B4B" stroke-width="4"/><text x="${375+rn.length*6.5}" y="134" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="18" fill="${RT}">${rn}</text></svg>`}
@@ -1564,7 +1597,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   {const cr=s.crouch>0?1-s.crouch/.07:0,ld=s.land>0?s.land/.18:0,air=!s.ground&&!RM?Math.max(-1,Math.min(1,-s.vy/540)):0,sq=RM?0:Math.sin(cr*Math.PI/2)*.22+Math.sin(ld*Math.PI)*.2-air*.1;
    g.save();g.translate(ax,ay-(s.mount>0?34:0));g.scale(1+sq*.6,1-sq);if(run)g.rotate(.09);if(run)g.translate(0,-Math.abs(Math.sin(s.t*16))*1.5);g.translate(-ax,-ay)}
   this.blk(ax-13,ay-58,26,22,'#ffcf5a');g.fillStyle='#1b2140';g.fillRect(ax-7,ay-51,4,5);g.fillRect(ax+4,ay-51,4,5);
-  {const G=S.gear||{},GC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'},C=k=>G[k]?GC[k]:null;let c;
+  {const G=S.gear||{},GC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'},C=k=>G[k]?gearCol(k,G[k],s.t):null;let c;
   if((c=C('cape')))this.blk(ax-23,ay-37,8,30,c);
   if((c=C('trail'))&&run)for(let i=1;i<5;i++){g.globalAlpha=.5-i*.1;g.fillStyle=c;g.fillRect(ax-20-i*11,ay-30+Math.sin(s.t*10+i)*4,8,8)}g.globalAlpha=1;
   this.blk(ax-15,ay-37,30,20,flat(a.shirt));this.blk(ax-14+leg,ay-18,13,18,flat(a.pants));this.blk(ax+1-leg,ay-18,13,18,flat(a.pants));
@@ -1759,18 +1792,67 @@ function challenge(){
   main.innerHTML=`<div class="card"><span class="tag">PSLE Edition</span><div class="word" style="font-size:clamp(28px,6vw,40px)">PSLE Kingdom</div><p>The PSLE Edition world. ${CW.length} words taken from real PSLE papers, exam-style runs, and the Exam King guarding the throne. Each run has 30 words. Every right answer pays <b>double coins</b>, and finishing earns the <b>Challenger</b> badge.</p><button class="go" id="cgo">Enter PSLE Kingdom</button><button class="go" id="h" style="background:var(--soft)">Back</button></div>`;
   $('cgo').onclick=()=>start('challenge');$('h').onclick=home;
 }
+// ---------- Shop & Wardrobe: everything cosmetic, coins come only from playing ----------
+const GEARPRICE={boots:200,gloves:200,belt:250,scarf:300,goggles:400,helmet:500,backpack:500,shield:700,cape:900,trail:1200};
+const ACC=[['collar','#ef4f5f','Red collar',150],['collar','#2f80ed','Blue collar',150],['collar','#ffd23f','Gold collar',2500],['scarf','#3ddc84','Green scarf',300],['scarf','#ff7ac6','Pink scarf',300],['scarf','rainbow','Rainbow scarf',3000],['hat','party','Party hat',400],['hat','bow','Bow',450],['hat','crown','Mini crown',5000]];
+function accFill(c){return c==='rainbow'?'url(#accr)':c}
+function accShapes(A,x,y,w,h){A=A||{};const k='#241B4B',cx=x+w/2;let o=A.scarf==='rainbow'?'<defs><linearGradient id="accr" x1="0" x2="1"><stop offset="0" stop-color="#ff4b4b"/><stop offset=".33" stop-color="#ffd23f"/><stop offset=".66" stop-color="#36c95f"/><stop offset="1" stop-color="#2f80ed"/></linearGradient></defs>':'';
+ if(A.collar)o+=`<rect x="${cx-w*.17}" y="${y+h*.6}" width="${w*.34}" height="${h*.06}" rx="${h*.03}" fill="${A.collar}" stroke="${k}" stroke-width="${w*.015}"/><circle cx="${cx}" cy="${y+h*.69}" r="${w*.035}" fill="#FFE45C" stroke="${k}" stroke-width="${w*.012}"/>`;
+ if(A.scarf)o+=`<rect x="${cx-w*.2}" y="${y+h*.56}" width="${w*.4}" height="${h*.08}" rx="${h*.04}" fill="${accFill(A.scarf)}" stroke="${k}" stroke-width="${w*.015}"/><rect x="${cx+w*.08}" y="${y+h*.6}" width="${w*.08}" height="${h*.14}" fill="${accFill(A.scarf)}" stroke="${k}" stroke-width="${w*.015}"/>`;
+ if(A.hat==='party')o+=`<polygon points="${cx-w*.1},${y+h*.12} ${cx+w*.1},${y+h*.12} ${cx},${y-h*.08}" fill="#ff5d8f" stroke="${k}" stroke-width="${w*.015}" stroke-linejoin="round"/><circle cx="${cx}" cy="${y-h*.08}" r="${w*.03}" fill="#FFE45C"/>`;
+ if(A.hat==='bow')o+=`<path d="M${cx} ${y+h*.06} l-${w*.12} -${h*.06} v${h*.12} z M${cx} ${y+h*.06} l${w*.12} -${h*.06} v${h*.12} z" fill="#ff7ac6" stroke="${k}" stroke-width="${w*.015}" stroke-linejoin="round"/>`;
+ if(A.hat==='crown')o+=`<polygon points="${cx-w*.12},${y+h*.1} ${cx-w*.12},${y-h*.02} ${cx-w*.05},${y+h*.04} ${cx},${y-h*.05} ${cx+w*.05},${y+h*.04} ${cx+w*.12},${y-h*.02} ${cx+w*.12},${y+h*.1}" fill="#ffc642" stroke="${k}" stroke-width="${w*.015}" stroke-linejoin="round"/>`;
+ return o}
+function accSVG(x,y,w,h,A=S.acc){return accShapes(A,x,y,w,h)}
+function accOverlay(A=S.acc,sz=110){if(!A||!Object.keys(A).length)return '';return `<svg class="accov" viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;overflow:visible">${accShapes(A,0,0,100,100)}</svg>`}
+// one catalogue of everything coins can buy, for goals and the "new item" dot
+function shopCatalog(){const L=[];
+ SHOP.forEach(it=>L.push({n:it[2],c:it[3],own:S.av.own.includes(it[1])}));
+ GEARP.forEach(([p,n])=>Object.entries(GFIN).forEach(([t,[fn,fc]])=>L.push({n:(t==='starter'?'':fn+' ')+n,c:t==='starter'?GEARPRICE[p]:GEARPRICE[p]+fc,own:(S.gearOwn||[]).includes(p+'|'+t)})));
+ ACC.forEach(a=>L.push({n:a[2],c:a[3],own:(S.accOwn||[]).includes(a[0]+'|'+a[1])}));
+ PBG.forEach(b=>L.push({n:b[1]+' podium',c:b[2],own:!b[2]||(S.pbgOwn||[]).includes(b[0])}));
+ return L.filter(x=>x.c>0)}
+function canBuyNew(){return shopCatalog().some(x=>!x.own&&x.c<=S.coins)}
+function nextGoal(){const L=shopCatalog().filter(x=>!x.own&&x.c>S.coins).sort((a,b)=>a.c-b.c);return L[0]||null}
+function nextGoalTxt(){if(canBuyNew())return 'You can buy something new!';const g=nextGoal();return g?`Next: ${g.n}, ${g.c-S.coins} coins to go`:'You own everything!'}
+function wardDot(){const b=document.querySelector('#bnav [data-nav=av]');if(b)b.classList.toggle('newdot',canBuyNew())}
+let SHOPTAB='outfit';
 function shop(){
-  hud();
-  main.innerHTML=`<div class="card"><span class="tag">Avatar shop</span><div style="display:flex;gap:16px;align-items:center;margin:12px 0">${avatar(60)}<p style="margin:0">You have <b>${S.coins}</b> coins. Earn more by answering right: combos pay up to 50 a question.</p></div>
-  ${(S.gearOwn||[]).length?`<b style="font:800 18px var(--fd)">${STR.armour}</b><div class="shop" style="margin-bottom:12px">${S.gearOwn.map(id=>{const [p,t]=id.split('|'),on=(S.gear||{})[p]===t,n=(GEARP.find(z=>z[0]===p)||[,p])[1];return `<button class="item gear ${on?'on':''}" data-g="${esc(id)}">✨ ${esc(n)}<small>${on?'Wearing':'Wear'}</small></button>`}).join('')}</div>`:''}<div class="shop">${SHOP.map((it,i)=>{const own=S.av.own.includes(it[1]),on=S.av[it[0]]===it[1];const prev={...S.av,[it[0]]:it[1]};
-  return `<button class="item ${on?'on':''}" data-i="${i}">${avatar(44,prev)}<b>${esc(it[2])}</b><br><small>${on?'Wearing':own?'Tap to wear':it[3]+' coins'}</small></button>`}).join('')}</div>
-  <div id="cust"></div><button class="go" id="h">Back</button></div>`;
-  custUI();
+  sess=null;hud();S.gear=S.gear||{};S.gearOwn=S.gearOwn||[];S.acc=S.acc||{};S.accOwn=S.accOwn||[];S.pbgOwn=S.pbgOwn||[];
+  const g=nextGoal(),aff=shopCatalog().filter(x=>!x.own&&x.c<=S.coins).length;
+  const goal=g?`<div class="ngoal"><div class="ngt"><b>Next goal: ${esc(g.n)}</b><small>${g.c-S.coins} coins to go</small></div><div class="ngbar"><i style="width:${Math.min(100,Math.round(S.coins/g.c*100))}%"></i></div></div>`:'';
+  const tabs=[['outfit','Outfit'],['armour','Armour'],['colours','Colours'],['pet','Creature'],['podium','Podium']];
+  const coinsTx=n=>n<=S.coins?n+' coins':`${n} coins · ${n-S.coins} to go`;
+  let body='';
+  if(SHOPTAB==='outfit')body=`<div class="shop">${SHOP.map((it,i)=>{const own=S.av.own.includes(it[1]),on=S.av[it[0]]===it[1];const prev={...S.av,[it[0]]:it[1]};
+    return `<button class="item ${on?'on':''} ${!own&&it[3]>S.coins?'dim':''}" data-i="${i}">${avatar(44,prev)}<b>${esc(it[2])}</b><small>${on?'Wearing':own?'Tap to wear':coinsTx(it[3])}</small></button>`}).join('')}</div>`;
+  else if(SHOPTAB==='armour')body=`<p class="ssub">Earn starter armour at the gates in your first run, or buy any piece. Then upgrade it to Silver, Gold or Rainbow.</p>${GEARP.map(([p,n])=>`<b class="shh">${esc(n)}</b><div class="shop">${Object.entries(GFIN).map(([t,[fn,fc]])=>{const id=p+'|'+t,own=S.gearOwn.includes(id),on=S.gear[p]===t,c=GEARPRICE[p]+(t==='starter'?0:fc);
+    return `<button class="item gear ${on?'on':''} ${!own&&c>S.coins?'dim':''}" data-g="${esc(id)}" data-c="${c}">${avatar(40,S.av,{[p]:t})}<b>${esc(fn)}</b><small>${on?'Wearing · tap to take off':own?'Tap to wear':coinsTx(c)}</small></button>`}).join('')}</div>`).join('')}`;
+  else if(SHOPTAB==='colours')body=`<div id="cust"></div>`;
+  else if(SHOPTAB==='pet'){const CS=CRE.st(),act=CS.act,base=act==='bobby'?bobbySVG(bobbyStage(),64):CRA.svg(act,CRE.stageOf(act,CS.own[act]),64);
+    body=`<p class="ssub">Accessories for ${esc(CRE.nick(act))} and every creature you own.</p><div class="shop">${ACC.map((a,i)=>{const id=a[0]+'|'+a[1],own=S.accOwn.includes(id),on=S.acc[a[0]]===a[1];
+    return `<button class="item ${on?'on':''} ${!own&&a[3]>S.coins?'dim':''}" data-a="${i}"><span style="position:relative;display:block;width:64px;height:64px;margin:0 auto">${base}${accOverlay({[a[0]]:a[1]},64)}</span><b>${esc(a[2])}</b><small>${on?'Wearing · tap to take off':own?'Tap to wear':coinsTx(a[3])}</small></button>`}).join('')}</div>
+    <button class="go soft" id="eggs">🥚 Creature eggs (${600} coins each)</button>`}
+  else body=`<p class="ssub">The background behind your victory podium and share card.</p><div class="shop">${PBG.map((b,i)=>{const own=!b[2]||S.pbgOwn.includes(b[0]),on=(S.pbg||'sky')===b[0];
+    return `<button class="item ${on?'on':''} ${!own&&b[2]>S.coins?'dim':''}" data-b="${i}"><span class="pbgs" style="background:linear-gradient(135deg,${b[3].join(',')})"></span><b>${esc(b[1])}</b><small>${on?'Using':own?'Tap to use':coinsTx(b[2])}</small></button>`}).join('')}</div>`;
+  main.innerHTML=`<div class="card"><span class="tag">Shop &amp; Wardrobe</span><div class="shead">${avatar(70)}<div><p style="margin:0"><b class="scoins">${ic('coin')} ${S.coins}</b> coins${aff?` · <b>${aff}</b> new item${aff>1?'s':''} you can buy`:''}</p><small class="ssub">Coins come only from playing: right answers, combos, bosses. No real money, no random paid draws.</small></div></div>${goal}
+  <div class="stabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${SHOPTAB===k}" class="${SHOPTAB===k?'on':''}" data-t="${k}">${l}</button>`).join('')}</div>${body}
+  <button class="go" id="h">Back to My Avatar</button></div>`;
+  if(SHOPTAB==='colours')custUI();
+  const no=b=>b.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'none'}],250);
+  const pay=(c,b)=>{if(S.coins<c){no(b);pop(`${c-S.coins} more coins to go`);return false}S.coins-=c;confetti(60);beep(1);return true};
+  main.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{SHOPTAB=b.dataset.t;shop()});
   main.querySelectorAll('.item[data-i]').forEach(b=>b.onclick=()=>{const it=SHOP[b.dataset.i];
-    if(!S.av.own.includes(it[1])){if(S.coins<it[3]){b.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'none'}],250);return}S.coins-=it[3];S.av.own.push(it[1]);confetti(60);beep(1)}
+    if(!S.av.own.includes(it[1])){if(!pay(it[3],b))return;S.av.own.push(it[1])}
     S.av[it[0]]=it[1];save();shop()});
-  main.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{const [p]=b.dataset.g.split('|');S.gear=S.gear||{};if(S.gear[p])delete S.gear[p];else S.gear[p]='starter';save();shop()});
-  $('h').onclick=home;
+  main.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{const id=b.dataset.g,[p,t]=id.split('|');
+    if(!S.gearOwn.includes(id)){if(!pay(+b.dataset.c,b))return;S.gearOwn.push(id);S.gear[p]=t}else if(S.gear[p]===t)delete S.gear[p];else S.gear[p]=t;save();shop()});
+  main.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const a=ACC[b.dataset.a],id=a[0]+'|'+a[1];
+    if(!S.accOwn.includes(id)){if(!pay(a[3],b))return;S.accOwn.push(id);S.acc[a[0]]=a[1]}else if(S.acc[a[0]]===a[1])delete S.acc[a[0]];else S.acc[a[0]]=a[1];save();shop()});
+  main.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const x=PBG[b.dataset.b];
+    if(x[2]&&!S.pbgOwn.includes(x[0])){if(!pay(x[2],b))return;S.pbgOwn.push(x[0])}S.pbg=x[0];save();shop()});
+  if($('eggs'))$('eggs').onclick=CRE.screen;
+  $('h').onclick=myAvatar;CRE.nav('av');
 }
 function book(){
   hud();
@@ -1852,7 +1934,7 @@ function applySup(){const me=window.VO&&window.VO.me;const t=me&&me.type==='kid'
   if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting VocaBobby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Let's go</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
   save();hud()}
 if(window.VO_READY)window.VO_READY.then(applySup).catch(()=>{});
-window.VBH={S:()=>S,flat:v=>flat(v),save,main,home,myAvatar,worldmap,start,speed,sprint,chase,teamUp,shop,badges,book,leaderboard,howto,challenge,hud,pop,confetti,buzz,HAP,sfx,chime,shatter,ic,STR,PETS,BADGES,bobbyStage,bobbyGrowth,BOBBY_AT,VIBON,
+window.VBH={wardDot:()=>wardDot(),S:()=>S,flat:v=>flat(v),save,main,home,myAvatar,worldmap,start,speed,sprint,chase,teamUp,shop,badges,book,leaderboard,howto,challenge,hud,pop,confetti,buzz,HAP,sfx,chime,shatter,ic,STR,PETS,BADGES,bobbyStage,bobbyGrowth,BOBBY_AT,VIBON,
  setVib:v=>{try{localStorage.setItem('vb_vib',v?'1':'0')}catch(e){}},toggleSkin:()=>{S.skin=document.body.classList.contains('night')?'day':'night';save();applySkin()},dueN:()=>due().length,leave:()=>{sess=null;hud();const b=document.getElementById('bhint');if(b)b.remove()}};
 const FIRST=(()=>{try{return !localStorage.getItem('vb_ded')&&!localStorage.getItem(K+'_seen')&&!(S.lad&&S.lad.placed)}catch(e){return false}})();
 applySkin();setTitle();fetch(EDF[ED]).then(r=>r.json()).then(d=>{W=d;addAuto();splashOut();CRE.init();if(FIRST){try{localStorage.setItem('vb_ded','1')}catch(e){}setTimeout(()=>CRE.dedication(),420)}const qp=new URLSearchParams(location.search).get('quest');if(qp&&ED&&S.lad&&S.lad.placed){history.replaceState(null,'',location.pathname);joinQuest(qp)}else if(location.hash==='#quests'&&ED&&S.lad&&S.lad.placed){history.replaceState(null,'',location.pathname);worldmap()}else home();lbInit()}).catch(()=>{splashOut();main.innerHTML='<div class="card"><p class="q">Could not load the word list. Please refresh.</p></div>'});

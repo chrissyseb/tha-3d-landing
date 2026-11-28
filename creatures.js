@@ -144,6 +144,14 @@ function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];
  if(id==='bobby'){const ex=re&&re.k==='bad'?'sorry':re?'excited':SP.k?'excited':'happy',pose=re&&re.k!=='bad'?'hop':running&&!rm?(Math.sin(t*14)>0?'runA':'runB'):'stand';
   const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,-17,-25,33,47)}
  else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,-25,-26,50,50)}
+ // Shop accessories (collar, scarf, hat) bought with coins
+ {const A=S().acc||{},k='#241B4B',ny=id==='bobby'?-4:4,hy=id==='bobby'?-27:-26;g.strokeStyle=k;g.lineWidth=1.5;
+  const rb=c=>c==='rainbow'?`hsl(${(t*120)%360},90%,60%)`:c;
+  if(A.collar){g.fillStyle=A.collar;g.beginPath();g.roundRect?g.roundRect(-11,ny,22,5,2.5):g.rect(-11,ny,22,5);g.fill();g.stroke();g.fillStyle='#FFE45C';g.beginPath();g.arc(0,ny+6,2.6,0,7);g.fill();g.stroke()}
+  if(A.scarf){g.fillStyle=rb(A.scarf);g.beginPath();g.roundRect?g.roundRect(-12,ny-2,24,6,3):g.rect(-12,ny-2,24,6);g.fill();g.stroke();g.fillRect(4,ny+3,5,8);g.strokeRect(4,ny+3,5,8)}
+  if(A.hat==='party'){g.fillStyle='#ff5d8f';g.beginPath();g.moveTo(-6,hy+6);g.lineTo(6,hy+6);g.lineTo(0,hy-8);g.closePath();g.fill();g.stroke()}
+  if(A.hat==='bow'){g.fillStyle='#ff7ac6';g.beginPath();g.moveTo(0,hy+3);g.lineTo(-7,hy-1);g.lineTo(-7,hy+7);g.closePath();g.moveTo(0,hy+3);g.lineTo(7,hy-1);g.lineTo(7,hy+7);g.closePath();g.fill();g.stroke()}
+  if(A.hat==='crown'){g.fillStyle='#ffc642';g.beginPath();g.moveTo(-7,hy+5);g.lineTo(-7,hy-3);g.lineTo(-3,hy+1);g.lineTo(0,hy-5);g.lineTo(3,hy+1);g.lineTo(7,hy-3);g.lineTo(7,hy+5);g.closePath();g.fill();g.stroke()}}
  // Twin finish (optional, More > Settings): collar in the avatar's shirt/armour colour
  if(S().twin){const col=H().flat(S().av&&S().av.shirt)||'#2f80ed',ny=id==='bobby'?-4:4;g.fillStyle=col;g.strokeStyle='#241B4B';g.lineWidth=1.5;g.beginPath();g.roundRect?g.roundRect(-11,ny,22,5,2.5):g.rect(-11,ny,22,5);g.fill();g.stroke();g.fillStyle='#FFE45C';g.beginPath();g.arc(0,ny+6,2.6,0,7);g.fill();g.stroke()}
  g.restore();if(mt){g.restore();if(!rm&&Math.random()<.5)s.fx.push({x:s.ax-10,y:-6,vx:-60-Math.random()*60,vy:-40,l:.5,c:['#FFE45C','#fff','#FFB23F'][Math.random()*3|0]})}
@@ -163,7 +171,7 @@ const NI={home:'<path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/>',map:'<path d="M3 6l6-
 function navHTML(){const t=T(),c=st();return `<nav class="bnav" id="bnav" aria-label="${t.navLabel}">${[['home',t.nav[0]],['map',t.nav[1]],['cr',t.nav[2]],['av',t.nav[3]],['more',t.nav[4]]].map(([k,l])=>`<button data-nav="${k}" type="button"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">${NI[k]}</svg><span>${l}</span>${k==='cr'&&c.eggs.length?`<i class="nbadge" aria-label="${c.eggs.length}">${c.eggs.length}</i>`:''}</button>`).join('')}</nav>`}
 function updateNav(){const n=$('bnav');if(!n)return;const cur=n.dataset.cur;n.outerHTML=navHTML();wireNav();nav(cur)}
 function wireNav(){const n=$('bnav');n.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{const k=b.dataset.nav,h=H();H().buzz(10);({home:h.home,map:h.worldmap,cr:screen,av:h.myAvatar,more})[k]()})}
-function nav(k){let n=$('bnav');if(!n){document.body.insertAdjacentHTML('beforeend',navHTML());wireNav();n=$('bnav')}n.dataset.cur=k||'';n.querySelectorAll('[data-nav]').forEach(b=>{const on=b.dataset.nav===k;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});document.body.classList.add('hasnav')}
+function nav(k){let n=$('bnav');if(!n){document.body.insertAdjacentHTML('beforeend',navHTML());wireNav();n=$('bnav')}n.dataset.cur=k||'';n.querySelectorAll('[data-nav]').forEach(b=>{const on=b.dataset.nav===k;b.classList.toggle('on',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});document.body.classList.add('hasnav');if(window.VBH&&VBH.wardDot)VBH.wardDot()}
 // ---------------- More ----------------
 function more(){const h=H();h.leave();const t=T(),s=S();
  const row=(id,ico,b,sm)=>`<button class="sec" id="${id}"><span class="ico">${h.ic(ico)}</span><span class="lbl"><b>${b}</b><small>${sm}</small></span></button>`;
