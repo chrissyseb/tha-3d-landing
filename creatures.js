@@ -9,7 +9,7 @@ const today=()=>new Date().toDateString();
 const LIST=[['bobby',0,0],['hootle',0,1],['inkoo',0,1],['snailbet',0,1],['crab',0,1],['lexi',1,1],['pagewing',1,1],['echobat',1,1],['glyphin',2,1],['syntaxolotl',2,1],['lexicorn',3,1],['rex',3,1],['phoenix',4,0]];
 const R=id=>(LIST.find(x=>x[0]===id)||[id,0])[1];
 const RCOL=['#3FABE7','#3FABE7','#B15FD7','#FFB23F','#FF8A3D'];
-const EVO=[0,12,36],EGG_PRICE=6000,EGGP=[6000,60000,145000,350000],FEEDS=5;
+const EVO=[0,12,36],EGG_PRICE=1500,EGGP=[1500,12000,35000,90000],FEEDS=5;
 const name=id=>(T().names[id]||[id])[0];
 function st(){const s=S();if(!s.cr)s.cr={eggs:[],own:{},act:'bobby',log:{},hints:{}};const c=s.cr;c.eggs=c.eggs||[];c.own=c.own||{};c.log=c.log||{};c.hints=c.hints||{};if(!c.own.bobby)c.own.bobby={nick:'',xp:0,got:Date.now()};if(!c.act||!c.own[c.act])c.act='bobby';return c}
 const save=()=>H().save();
@@ -25,7 +25,7 @@ function init(){const s=S(),c=st();
 }
 function mastered(){const s=S();let m=0;for(const k in s.w){const v=s.w[k];if(v&&(v.m||0)>=2&&v.sp)m++}return m}
 // ---------------- eggs: earned by learning ----------------
-function give(r,src,quiet){const c=st();c.eggs.push({r,src,t:Date.now()});save();
+function give(r,src,quiet){const c=st();if(src==='shop'){const k=c.log.bought=(c.log.bought||[0,0,0,0]).slice(0,4);k[r]=(k[r]||0)+1}c.eggs.push({r,src,t:Date.now()+Math.random()});save();
  if(!quiet){const t=T();toast(`${CRA.egg(r,34,{noGlow:1})}<span><b>${t.eggFound(t.rar[r])}</b><small>${esc(t.src[src]||'')}</small></span>`,r)}
  updateNav()}
 function toast(html,r){const d=document.createElement('div');d.className='crtoast r'+(r||0);d.setAttribute('role','status');d.innerHTML=html;document.body.appendChild(d);
@@ -37,8 +37,10 @@ const ev={
   if(step>last&&step>0){c.log.mast=step;const r=step%150===0?3:step%50===0?2:step%25===0?1:0;if(step%10===0||r)give(r,'mastery')}
   save()},
  boss(o){const c=st(),s=S();o=o||{};
-  if(o.giant){const g=(c.log.giantE||0)+1;c.log.giantE=g;give(g%3===0?3:2,'giant')}
-  else if(o.final)give(1,'land');else give(0,'boss')},
+  // every boss drops a Common egg; King Kongo also drops a Rare egg on his first defeat each week; freeing a land still gives a Rare
+  give(0,'boss');
+  if(o.giant){const wk=weekKey();if(c.log.kongoW!==wk){c.log.kongoW=wk;setTimeout(()=>give(1,'giant'),900)}}
+  else if(o.final)setTimeout(()=>give(1,'land'),900)},
  first(){give(1,'first',1)},
  daily(n){const c=st();const wk=weekKey();if(n===3&&c.log.d3!==wk){c.log.d3=wk;give(0,'daily')}if(n>=7&&c.log.d7!==wk){c.log.d7=wk;give(1,'daily')}},
  side(game,score,best){const c=st(),th={chase:40,sprint:5,speed:8}[game]||5;if(score<th)return;const k='sq_'+game;if(c.log[k]===today())return;c.log[k]=today();give(best&&score>=th*2?1:0,'side')}

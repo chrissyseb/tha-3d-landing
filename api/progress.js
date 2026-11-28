@@ -1,3 +1,4 @@
+import { checkEggSpend } from './_prices.js';
 import { body, send, csrfOk, getSession, getJson, putJson, progPath } from './_lib.js';
 export default async function handler(req, res) {
   if (!csrfOk(req)) return send(res, 403, { error: 'Bad request' });
@@ -14,6 +15,9 @@ export default async function handler(req, res) {
     const prev = Number(cur.state.coins) || 0, secs = Math.max(0, (updated - (Number(cur.updated) || 0)) / 1000);
     const max = prev + Math.round(secs * 25) + 1200;
     if (b.state.coins > max) b.state.coins = max;
+    // Egg purchases must be paid for at the real price: a tampered client price is rejected
+    const chk = checkEggSpend(cur.state, b.state, max);
+    if (!chk.ok) return send(res, 400, { error: chk.error });
   }
   await putJson(progPath(s.cid), { state: b.state, updated });
   return send(res, 200, { ok: true, updated });
