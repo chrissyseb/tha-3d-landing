@@ -76,7 +76,7 @@ body.playing #pn .opts{margin-top:auto;gap:8px}body.playing #pn .opts button{min
 body.playing #pn .q{margin:4px 0 8px;font-size:17px}body.playing #pn .q b{font-size:24px}body.playing .turnline{font-size:19px;margin:0 0 6px}
 body.playing #pn~.card{display:none}
 @media(max-height:760px){body.playing #arena{height:20dvh}body.playing #pn .opts button{min-height:44px;font-size:15px;padding:8px 12px}}
-</style><link rel="stylesheet" href="/vb-light.css"></head><body>
+</style><link rel="stylesheet" href="/vb-light.css"><script src="/skin.js"></script></head><body>
 <div class="wrap">
 <div class="top"><a href="/">← Back to VocaBobby</a><span class="tag">Team Up</span></div>
 <div id="main"><div class="card"><p>Loading Team Up…</p></div></div>
@@ -116,7 +116,7 @@ function lobbyPick(){
   <label class="chk"><input type="checkbox" id="gi"> Giant raid (King Kongo, double health)</label>
   ${paid?'<label class="chk"><input type="checkbox" id="pk"> Battle in PSLE Kingdom</label>':''}
   <div class="row" style="margin-top:12px"><button id="host">Host a room</button><button class="alt" id="jn">Join a room</button></div><p class="err" id="er"></p></div>`;
-  $('host').onclick=async()=>{const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'create',nick:kid?'':$('nk').value.trim(),world:myWorld(),lv:myLv(),av:S.av,pet:S.pet,giant:$('gi').checked,pack:!!($('pk')&&$('pk').checked)})});enter(r)};
+  $('host').onclick=async()=>{const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'create',nick:kid?'':$('nk').value.trim(),world:myWorld(),lv:myLv(),av:S.av,pet:S.pet,arm:Object.keys(S.gear||{}).length,giant:$('gi').checked,pack:!!($('pk')&&$('pk').checked)})});enter(r)};
   $('jn').onclick=()=>joinScreen();
 }
 function joinScreen(){
@@ -126,7 +126,7 @@ function joinScreen(){
   ${kid?'':`<label for="nk">Your nickname</label><input id="nk" maxlength="14" autocomplete="off" value="${esc(nickDefault())}">`}
   <button style="margin-top:14px">Join</button></form><button class="alt" id="bk" style="margin-top:10px">Back</button><p class="err" id="er"></p></div>`;
   $('cd').focus();$('bk').onclick=lobbyPick;
-  $('jf').onsubmit=async e=>{e.preventDefault();const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'join',code:$('cd').value.trim().toUpperCase(),nick:kid?'':$('nk').value.trim(),world:myWorld(),lv:myLv(),av:S.av,pet:S.pet})});enter(r)};
+  $('jf').onsubmit=async e=>{e.preventDefault();const r=await api('/api/room',{method:'POST',body:JSON.stringify({action:'join',code:$('cd').value.trim().toUpperCase(),nick:kid?'':$('nk').value.trim(),world:myWorld(),lv:myLv(),av:S.av,pet:S.pet,arm:Object.keys(S.gear||{}).length})});enter(r)};
 }
 function enter(r){
   if(!r.ok){$('er').textContent=r.j.error||'Could not do that. Try again.';return}

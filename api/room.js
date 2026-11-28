@@ -83,7 +83,9 @@ function setupBattle(room) {
   const np = room.players.filter(p => !p.left).length;
   const bi = room.pack ? 6 : (room.giant ? 7 : room.world);
   room.boss = { i: bi, name: BOSSES[bi][0], weak: BOSSES[bi][1], max: 50 * np * (room.giant ? 2 : 1) };
-  room.boss.hp = room.boss.max; room.hearts = room.maxHearts = 3 + Math.max(0, np - 1);
+  room.boss.hp = room.boss.max; // armour bonus: best-armoured player's bonus (3+ pieces +1, 6+ +2, all 10 +3); finishes are cosmetic
+  const armB = Math.max(0, ...room.players.filter(p => !p.left).map(p => (p.arm >= 10 ? 3 : p.arm >= 6 ? 2 : p.arm >= 3 ? 1 : 0)));
+  room.hearts = room.maxHearts = 3 + Math.max(0, np - 1) + armB;
   room.combo = null; room.n = (room.n || 0) + 1; room.turn = room.players.find(p => !p.left).pid;
   makeQuestion(room, room.players.find(p => p.pid === room.turn));
   feed(room, `${room.boss.name} appears! ${room.boss.max} HP. Weak to ${room.boss.weak === 'zap' ? 'Electric' : room.boss.weak[0].toUpperCase() + room.boss.weak.slice(1)}.`);
@@ -130,7 +132,7 @@ export default async function handler(req, res) {
     const kid = await sessionKid(req);
     const nick = kid ? kid.nick : String(b.nick || '').trim();
     if (!kid && !nickOk(nick)) return send(res, 400, { error: 'Pick a nickname: 2–14 letters or numbers, nothing rude.' });
-    const player = { pid: pub(), tok: tok(), nick, world: worldOf(b.world), lv: worldOf(b.lv ?? b.world), av: cleanAv(b.av), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1, cid: kid?.cid || null, sup: kid?.sup || '' };
+    const player = { pid: pub(), tok: tok(), nick, world: worldOf(b.world), lv: worldOf(b.lv ?? b.world), av: cleanAv(b.av), pet: Number.isInteger(b.pet) ? Math.max(-1, Math.min(40, b.pet)) : -1, cid: kid?.cid || null, sup: kid?.sup || '', arm: Number.isInteger(b.arm) ? Math.max(0, Math.min(10, b.arm)) : 0 };
     if (act === 'create') {
       const pack = !!b.pack && !!kid?.paid;
       if (b.pack && !pack) return send(res, 402, { error: 'PSLE Kingdom rooms need the PSLE Edition. Host a free world instead.' });
