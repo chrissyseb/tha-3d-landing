@@ -46,22 +46,22 @@ h1{background:none!important;display:block}
 .pl.turn{background:#fff!important;box-shadow:inset 0 0 0 2px #F5B83A}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 /* Night mode for secondary pages (html.night set by /skin.js) */
-html.night{color-scheme:dark;--ink:#EEF3FF;--mut:#B8C7E0;--soft:#16223F;--line:#26385E}
-html.night body{background:radial-gradient(120% 70% at 50% 0%,#0E1E44,#0B1530 55%,#05070F) fixed!important;color:var(--ink)}
-html.night .card,html.night .pl,html.night table,html.night .stats>*,html.night .top a,html.night button.sec,html.night .btn.sec,html.night .btn.alt,html.night button.alt,html.night .alt,html.night .tabs button,html.night .chip,html.night .linkbtn,html.night input,html.night textarea,html.night select,html.night .pill,html.night .pill.free{background:#111A33!important;color:var(--ink)!important;border-color:#4A6FA5!important}
+html.night{color-scheme:dark;--ink:#EDE6D6;--mut:#A9B0BC;--soft:#1A1E26;--line:#262B34}
+html.night body{background:linear-gradient(#07090D 70%,#0A1226) fixed!important;color:var(--ink)}
+html.night .card,html.night .pl,html.night table,html.night .stats>*,html.night .top a,html.night button.sec,html.night .btn.sec,html.night .btn.alt,html.night button.alt,html.night .alt,html.night .tabs button,html.night .chip,html.night .linkbtn,html.night input,html.night textarea,html.night select,html.night .pill,html.night .pill.free{background:#12151B!important;color:var(--ink)!important;border-color:#3A414E!important}
 html.night .card{box-shadow:0 4px 0 #02030A!important}
-html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec),html.night .tag,html.night .code,html.night .tabs button[aria-selected=true],html.night .tabs button.on,html.night .chip.on{color:#0B1530!important}
+html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec),html.night .tag,html.night .code,html.night .tabs button[aria-selected=true],html.night .tabs button.on,html.night .chip.on{color:#07090D!important}
 html.night .tabs button[aria-selected=true],html.night .tabs button.on,html.night .chip.on{background:#FFE45C!important}
-html.night .hl,html.night .brand b span{color:#0B1530!important}html.night .brand b{color:var(--ink)!important}
-html.night h1{background:linear-gradient(transparent 64%,#1F3A6E 64%)}
+html.night .hl,html.night .brand b span{color:#07090D!important}html.night .brand b{color:var(--ink)!important}
+html.night h1{background:linear-gradient(transparent 64%,#1A1E26 64%)}
 html.night .ok{color:#6EE7B7!important}html.night .err{color:#FF9AA8!important}html.night a{color:#9FD3F5}html.night footer,html.night footer a{color:var(--ink)!important}
 html.night .pl.turn{background:#3A3410!important}
-html.night td,html.night th{color:var(--ink);border-color:#26385E}
-html.night .tabs button[aria-selected=false]:not(.sec):not(.alt):not(.chip):not(.linkbtn){background:#111A33!important;color:var(--ink)!important}
-html.night .hl,html.night h1 .hl{color:#0B1530!important}
+html.night td,html.night th{color:var(--ink);border-color:#262B34}
+html.night .tabs button[aria-selected=false]:not(.sec):not(.alt):not(.chip):not(.linkbtn){background:#12151B!important;color:var(--ink)!important}
+html.night .hl,html.night h1 .hl{color:#07090D!important}
 html.night .brand{background:#F3F2FF!important;border-radius:16px!important;padding:6px 12px!important;display:inline-block}
 
 .thlock{display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1}.thlock .thby{font:600 12px/1 inherit;opacity:.7;letter-spacing:.04em;text-transform:lowercase;margin-right:2px}.thlock .thm{height:30px;width:30px;flex:none}.thlock .thw{height:86px;width:auto;flex:none;margin:-28px -10px -28px -100px;pointer-events:none}.thf{display:flex;flex-direction:column;align-items:center;gap:6px}.thf .cpy,footer .cpy,.foot .cpy{display:block;font-size:11px;font-weight:600;opacity:.75;line-height:1.5;margin-top:4px}.night .thw,html.night .thw{filter:brightness(0) invert(1)}
-html.night .tabs button,html.night button.sec,html.night .btn,html.night button{box-shadow:0 3px 0 #0A1630!important;border-color:#4A6FA5!important}
+html.night .tabs button,html.night button.sec,html.night .btn,html.night button{box-shadow:0 3px 0 #0A1630!important;border-color:#3A414E!important}
 html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec){background:linear-gradient(120deg,#5CC8F0,#3F8CF0)!important}
 html.night .card:first-of-type{border-top-color:#3F8CF0}
