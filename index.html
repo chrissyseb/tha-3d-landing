@@ -1022,8 +1022,9 @@ const COMBOS={'fire+water':['Steam Burst','#b48cff'],'fire+zap':['Plasma Blast',
 const comboOf=(a,b)=>{if(a==='star'||b==='star')return['Super Nova','#ffe14a'];return COMBOS[[a,b].sort().join('+')]||['Combo','#ffffff']};
 const ELN={fire:'Fire',water:'Water',zap:'Electric',star:'Star'};
 const BUB={fire:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c3 9 13 13 13 25a13 13 0 0 1-26 0c0-7 4-10 6-15 1 4 3 6 5 6-1-6 0-11 2-16z" fill="#fff3c4" stroke="#7a1d05" stroke-width="3" stroke-linejoin="round"/><path d="M24 24c2 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3z" fill="#ff7a1f"/></svg>',water:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5C18 16 10 22 10 31a14 14 0 0 0 28 0c0-9-8-15-14-26z" fill="#e6f8ff" stroke="#0b3f86" stroke-width="3" stroke-linejoin="round"/><path d="M17 31a7 7 0 0 0 7 7" stroke="#3fb2f5" stroke-width="4" fill="none" stroke-linecap="round"/></svg>',zap:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M28 3 10 27h12l-4 18 20-26H26z" fill="#fffbe0" stroke="#6b3d00" stroke-width="3" stroke-linejoin="round"/></svg>',star:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3l6 13 14 2-10 10 3 14-13-7-13 7 3-14L4 18l14-2z" fill="#fff" stroke="#1b2140" stroke-width="3" stroke-linejoin="round"/></svg>'};
-const ARMN=()=>Object.keys(S.gear||{}).filter(k=>GEARP.some(z=>z[0]===k)).length,ARMB=(n=ARMN())=>n>=10?3:n>=6?2:n>=3?1:0,HMAX=()=>3+ARMB();
+const ARMN=()=>Object.entries(S.gear||{}).filter(([k,v])=>v&&GEARP.some(z=>z[0]===k)&&(S.gearOwn||[]).includes(k+'|'+v)).length,ARMB=(n=ARMN())=>n>=10?3:n>=6?2:n>=3?1:0,HMAX=()=>3+ARMB();
 const ARMH=on=>`<svg viewBox="0 0 24 24" class="armh ${on?'':'lost'}" aria-hidden="true"><path d="M12 2.5 20 5.5v6c0 5-3.6 8.6-8 10-4.4-1.4-8-5-8-10v-6z" fill="none" stroke="#7D82DE" stroke-width="2"/><path d="M12 18 6.8 12.8A3.2 3.2 0 0 1 12 9a3.2 3.2 0 0 1 5.2 3.8z" fill="#ff4b6e"/></svg>`;
+const GHEART=on=>`<svg viewBox="0 0 24 24" class="gheart ${on?'':'lost'}" aria-hidden="true"><title>Second wind: Bobby gives you one more try!</title><path d="M12 21 3.5 12.5A5 5 0 0 1 12 6a5 5 0 0 1 8.5 6.5z" fill="#ffc642" stroke="#b7791f" stroke-width="2" stroke-linejoin="round"/></svg>`;
 const HEART=on=>`<svg viewBox="0 0 24 24" class="${on?'':'lost'}" aria-hidden="true"><path d="M12 21 3.5 12.5A5 5 0 0 1 12 6a5 5 0 0 1 8.5 6.5z" fill="#ff4b6e" stroke="#fff" stroke-width="2"/></svg>`;
 function sfx(k){if(mute)return;try{ac=ac||new AudioContext();const t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);
  const P={fire:['sawtooth',300,110,.38],water:['sine',620,170,.32],zap:['square',1400,180,.26],star:['triangle',500,1600,.5],hit:['square',170,55,.22],attack:['sawtooth',240,70,.5],ouch:['triangle',420,140,.32],win:['triangle',523,1046,.8],ko:['sawtooth',300,60,.9]}[k]||['sine',440,220,.2];
@@ -1265,11 +1266,12 @@ function run(){
   if(sess.i>=sess.steps.length)return recap();
   const s=sess.steps[sess.i],x=s.x,pct=Math.round(sess.i/sess.steps.length*100);
   cur_boss=!!s.boss;if(s.gold==null)s.gold=s.t!=='intro'&&s.t!=='match'&&Math.random()<.07;s_gold=s.gold;
-  if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;if(!sess.bossHint){sess.bossHint=1;setTimeout(()=>{if(sess)bobHint('Wrong answers let the boss strike back. Protect your hearts!')},400)}sess.bossMax=sess.boss=sess.giant?100:sess.kind==='challenge'?(s.bid==='final'?45:35):50;sess.hearts=sess.hMax=HMAX();sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
+  if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;if(!sess.bossHint){sess.bossHint=1;setTimeout(()=>{if(sess)bobHint('Wrong answers let the boss strike back. Protect your hearts!')},400)}sess.bossMax=sess.boss=sess.giant?100:sess.kind==='challenge'?(s.bid==='final'?45:35):50;sess.hearts=sess.hMax=HMAX();sess.swH=0;sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
   OB.ensure(sess.w!=null?sess.w:tier());const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
   const head=(label,lvl)=>`<div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace(s.t==='intro'?'idle':'think',52)}</span><span class="tag ${s.t==='intro'?'new':''}">${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
   if(s.t!=='intro'&&s.t!=='match'&&!s.arr){
     main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace('think',52)}</span><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?(s.giant&&sess.kind!=='challenge'?'<b>A GIANT approaches!</b> King Kongo blocks the finish line. Answer right, then attack. Hold your charge for combos! You have 3 hearts.':'Boss battle! The '+esc(CB().n)+' blocks the path. Answer right, then pick a power to attack. You have 3 hearts.'):'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
+    {const wd=s.n||(s.x&&s.x[0]);const cw=sess.cw||(sess.cw={});if(OB.st&&wd&&cw[wd])OB.st.noCoins=1;if(wd)cw[wd]=1}
     OB.segment(()=>{if(sess&&sess.steps[sess.i]===s){s.arr=1;run()}},s.boss?{hp:sess.boss,max:sess.bossMax,giant:!!s.giant}:null);
     if(s.giant&&!sess.giantIntro){sess.giantIntro=1;OB.say('A GIANT approaches!');if(OB.st&&!OB.RM())OB.st.shakeT=1.4;sfx('attack')}return;
   }
@@ -1346,8 +1348,9 @@ function sprint(){setTimeout(()=>document.body.classList.add('playing'),0);
 function result(ok,x,extra='',fl={}){
   const w=st(x[0]);const cs=sess.steps[sess.i]||{};
   const su=cs,noPay=su.nopay||(cur_boss&&sess.ko&&sess.ko[sess.bid]);(sess.done||(sess.done={}))[su.u]=1;
-  if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.sw=0;setTimeout(()=>{pop('Second wind! +1 heart');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
-  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);if(sess.combo>=3&&typeof OB!=='undefined'&&OB.st){if(!(OB.st.magnet>0))OB.say('Coin magnet!');OB.st.magnet=4}let g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));g=(!noPay&&!(sess.paid&&sess.paid['q'+su.u])&&wordPay(x[0]))?earn('q'+su.u,g):0;sess.pts+=g;S.pts+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
+  if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.swH=1;sess.sw=0;setTimeout(()=>{pop('Second wind! Bobby gives you one more try');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
+  if(typeof OB!=='undefined'){if(ok){const n=Math.min(OB.bank(),4);const v=(n&&!noPay&&wordPay('c:'+x[0]))?earn('pk:'+x[0],n*2,1):0;if(v){sess.pts+=v;setTimeout(()=>pop('+'+v+' course coins banked'),600)}}else OB.drop()}
+  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);if(sess.combo>=3&&typeof OB!=='undefined'&&OB.st){if(!(OB.st.magnet>0))OB.say('Coin magnet!');OB.st.magnet=4;OB.st.magMax=4}let g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));g=(!noPay&&!(sess.paid&&sess.paid['q'+su.u])&&wordPay(x[0]))?earn('q'+su.u,g):0;sess.pts+=g;S.pts+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
     if(!fl.assist&&w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0&&!fl.assist)w.miss--;if(!fl.assist&&isMastered(w)&&!w.ms){w.ms=Date.now();CRE.ev.mastered(x[0])}
     window.__pm=sess.combo;if(!cur_boss)gateHit(g);else{beep(1);if(g)pop('+'+g)}juice(sess.combo,g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0&&!(sess.paid&&sess.paid['b'+su.u])){(sess.paid||(sess.paid={}))['b'+su.u]=1;S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;window.__pm=0;buzz(HAP.bad);bobSay('sorry');cardFx(0);w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);wrongFx();
@@ -1361,7 +1364,8 @@ function result(ok,x,extra='',fl={}){
   hud();
   if(cur_boss)bossTurn(ok);
 }
-function bossBarHTML(){const B=CB(),h=sess.hearts==null?(sess.hMax||3):sess.hearts,c=sess.charge||0;return `<span class="tag new">${esc(B.n)}</span>${c?`<span class="charge" aria-label="${c} charge stored">${ic('zap',18).repeat(c)}</span>`:''}<button class="tipq" id="tipq" type="button" aria-label="Power tips">?</button><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${Array.from({length:sess.hMax||3},(_,i)=>i<3?HEART(i<h):ARMH(i<h)).join('')}</span>`}
+function bossBarHTML(){const B=CB(),h=sess.hearts==null?(sess.hMax||3):sess.hearts,c=sess.charge||0;return `<span class="tag new">${esc(B.n)}</span>${c?`<span class="charge" aria-label="${c} charge stored">${ic('zap',18).repeat(c)}</span>`:''}<button class="tipq" id="tipq" type="button" aria-label="Power tips">?</button><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${Array.from({length:sess.hMax||3},(_,i)=>i<3?((sess.swH&&i===h-1)?GHEART(true):HEART(i<h)):ARMH(i<h)).join('')}</span>${heartNote()}`}
+function heartNote(){let m='';if((sess.hMax||3)>3&&!S.seenArmH){S.seenArmH=1;save();m='Shield hearts come from the armour you are wearing ('+ARMN()+' pieces). Take armour off in the Wardrobe and they go.'}else if(sess.swH&&!S.seenSwH){S.seenSwH=1;save();m='Golden heart = Second wind: Bobby gives you one more try!'}return m?`<small class="hnote" role="status" style="display:block;font-weight:700;margin-top:4px">${esc(m)}</small>`:''}
 function heartShatter(){const hs=document.querySelectorAll('#bossbar .hearts svg');const h=hs[Math.max(0,sess.hearts)];if(!h)return;const r=h.getBoundingClientRect(),d=document.createElement('div');d.className='hshat';d.setAttribute('aria-hidden','true');d.style.left=(r.left+r.width/2)+'px';d.style.top=(r.top+r.height/2)+'px';d.innerHTML='<i></i><i></i><b>-1 ❤</b>';document.body.appendChild(d);h.classList.add('lost');setTimeout(()=>d.remove(),1100);if(RMJ()){const bb=$('bossbar');if(bb){bb.classList.add('hflash');setTimeout(()=>bb.classList.remove('hflash'),350)}}}
 function updBossBar(){const b=$('bossbar');if(b&&sess){b.innerHTML=bossBarHTML();wireTips()}}
 function tipsHTML(){const B=CB(),w=ELN[B.weak];return `<div class="tips" id="tips" role="dialog" aria-label="Power tips"><b>Power tips</b>
@@ -1401,7 +1405,7 @@ function bossTurn(ok){
     });
   }else{
     if(sess.charge){sess.charge=0;setTimeout(()=>pop('Charge lost!'),300)}
-    sess.hearts=Math.max(0,(sess.hearts==null?(sess.hMax||3):sess.hearts)-1);persist();sfx('attack');
+    sess.hearts=Math.max(0,(sess.hearts==null?(sess.hMax||3):sess.hearts)-1);sess.swH=0;persist();sfx('attack');
     OB.bossAttack(()=>{if(!sess)return;updBossBar();if(sess.hearts<=0)knockedOut(nx);else{nx.hidden=false}},false,()=>{if(!sess)return;sfx('ouch');buzz(HAP.hurt);heartShatter()});
   }
 }
@@ -1430,7 +1434,7 @@ function knockedOut(nx){
   $('fb').insertAdjacentHTML('beforeend',`<div class="ko" role="status"><b>${sess.kind==='challenge'?'So close!':'Knocked out!'}</b><p>${sess.kind==='challenge'?'You nearly had it. Every word you learnt is saved, and the boss is still wobbling. One more go?':'The words you learnt are saved. Rematch answers are practice, so they don\'t earn coins, but beating the boss still does.'}</p><div class="row"><button class="go" id="kretry">Try again</button><button class="go" id="kend" style="background:var(--paper)">Finish run</button></div></div>`);
   $('kretry').focus();
   const bid=sess.bid,fin=bid==='final';$('kend').textContent=fin?'Finish run':'Skip this boss';
-  $('kretry').onclick=()=>{(sess.ko||(sess.ko={}))[bid]=1;sess.boss=sess.bossMax;sess.hearts=sess.hMax=HMAX();sess.bossOn=1;sess.charge=0;OB.revive(sess.bossMax);
+  $('kretry').onclick=()=>{(sess.ko||(sess.ko={}))[bid]=1;sess.boss=sess.bossMax;sess.hearts=sess.hMax=HMAX();sess.swH=0;sess.bossOn=1;sess.charge=0;OB.revive(sess.bossMax);
     const before=sess.steps.slice(0,sess.i+1),later=sess.steps.slice(sess.i+1).filter(z=>z.bid!==bid),fresh=[];
     shuf(sess.words).slice(0,8).forEach(w=>fresh.push({t:shuf(['under','lookalike','meaning','reverse'])[0],n:w[0],x:w,boss:1,arr:1,nopay:1,bid,giant:sess.giant}));
     sess.steps=[...before,...fresh,...later];sess.i++;run()};
@@ -1580,14 +1584,17 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  pause(){const s=this.st;if(!s)return;s.paused=!s.paused;this.el.querySelector('.obp').textContent=s.paused?'▶':'II';this.el.querySelector('.obp').setAttribute('aria-label',s.paused?'Resume':'Pause');this.last=performance.now()},
  jump(){const s=this.st;if(!s||s.paused||s.mode!=='run'||!s.ground||s.crouch>0)return;if(this.RM()){s.vy=-470;s.ground=false;return}s.crouch=.07},
  say(m){if(this.st){this.st.msg=m;this.st.msgT=1.4}},
+ // course coins are held in a pending pouch: they bank only on the next correct answer, a wrong answer drops them
+ bank(){const s=this.st;if(!s)return 0;const n=s.pouch||0;s.pouch=0;return n},
+ drop(){const s=this.st;if(!s)return;const n=s.pouch||0;s.pouch=0;if(!n)return;this.say('Oops \u2014 coins dropped!');if(!this.RM())for(let i=0;i<Math.min(n*3,14);i++)s.fx.push({x:s.ax,y:-50,vx:(Math.random()-.5)*260,vy:-140-Math.random()*140,l:.8,coin:1})},
  // run to the next gate, then call cb
  segment(cb,boss){const s=this.st;if(!s)return cb();
   if(s.mode==='leap'||s.mode==='fall'||s.mode==='knock'){s.after=()=>this.segment(cb,boss);return}
   const L=this.RM()?230:400,start=s.ax,edge=start+L;
   s.coins=s.coins.filter(c=>c.x>s.ax-400);s.crates=s.crates.filter(c=>c.x>s.ax-400);
   // coins sit on the real jump arc (vy 540, g 1500, run 220 px/s), so one well-timed tap collects the row
-  const arc=(x0,v,n,sp)=>{for(let i=0;i<n;i++){const t=(i+.5)/n*(2*v/1500)*.92,h=v*t-750*t*t;s.coins.push({x:x0+sp*t,y:Math.max(8,h+12),got:false})}};
-  const cx0=start+170+Math.random()*120;s.ease=(s.gates%10===0)?2.4:0;
+  const arc0=(x0,v,n,sp)=>{for(let i=0;i<n;i++){const t=(i+.5)/n*(2*v/1500)*.92,h=v*t-750*t*t;s.coins.push({x:x0+sp*t,y:Math.max(8,h+12),got:false})}};
+  const cx0=start+170+Math.random()*120;s.ease=(s.gates%10===0)?2.4:0;const nc=s.noCoins;s.noCoins=0;const arc=nc?()=>{}:arc0;
   if(!this.RM()&&L>300){s.crates.push({x:cx0,w:30,h:30,hit:false});arc(cx0+15-.36*220,540,4,220)}
   else arc(start+70,470,3,190);
   s.pads=(s.pads||[]).filter(p=>p.x>s.ax-400);
@@ -1634,8 +1641,10 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(s.mode==='run'){
    if(s.ease>0)s.ease-=dt;if(s.stun>0)s.stun-=dt;else s.ax+=(RM?190:220)*(s.ease>0?.75:1)*dt;
    if(s.pads&&s.ground&&!s.crouch)for(const p of s.pads)if(!p.used&&Math.abs(p.x-s.ax)<14){p.used=true;s.vy=-640;s.ground=false;p.t=.3;sfx&&sfx('jump');if(!RM)this.say('Boing!')}
-   if(s.magnet>0){s.magnet-=dt;for(const c of s.coins){if(c.got)continue;const dx=c.x-s.ax;if(dx>-30&&dx<190){c.x-=Math.min(dx+5,(260+(190-dx)*2)*dt)*Math.sign(dx+5);c.y+=((-s.ay+20)-c.y)*Math.min(1,dt*5)}}}
-   for(const c of s.coins)if(!c.got&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;{const z=sess&&sess.steps[sess.i];const v=z?(z.nopay?0:earn('pk'+z.u,2,4)):(!S.lad.placed&&(S.plC||0)<60?(S.plC=(S.plC||0)+2,S.coins+=2,2):0);if(sess)sess.pts+=v;if(!v){beep(1);continue}}beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
+   if(s.magnet>0){s.magnet-=dt;if(s.magnet<=0){s.magnet=0;this.say('Magnet wore off');if(!RM)s.fx.push({x:s.ax,y:-72,vx:0,vy:-40,l:1,c:'#1b2140',txt:'Magnet wore off'})}
+    // nudge, not a vacuum: ~2 tiles ahead / 1 behind, and only coins within ~1 tile of the avatar's reach band, so coins overhead still need a jump
+    const cy=-s.ay+20;for(const c of s.coins){if(c.got)continue;const dx=c.x-s.ax,dy=c.y-cy;if(dx>-32&&dx<64&&Math.abs(dy)<30){c.x-=Math.min(Math.abs(dx),(90+(64-Math.abs(dx))*1.2)*dt)*Math.sign(dx);c.y-=dy*Math.min(1,dt*2.5)}}}
+   for(const c of s.coins)if(!c.got&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;s.pouch=(s.pouch||0)+1;beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
    for(const k of s.crates)if(!k.hit&&s.ax>k.x-14&&s.ax<k.x+k.w+6&&s.ay>-k.h+2){k.hit=true;s.stun=.35;this.say('Oops! Jump the crates')}
    if(s.ax>=s.target){s.ax=s.target;s.mode='idle';const cb=s.cb;s.cb=null;hud();if(cb)cb()}
   }else if(s.mode==='leap'){s.anim+=dt/(RM?.35:.75);const k=Math.min(1,s.anim);s.ax=s.leapFrom+(s.leapTo-s.leapFrom)*k;s.ay=-Math.sin(k*Math.PI)*(RM?30:80);if(k>=1){s.ay=0;s.mode='idle';if(!RM)s.land=.18;const a=s.after;s.after=null;if(a)a()}}
@@ -1850,6 +1859,8 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Rubik,Fredoka,Nunito,sans-serif':'800 14px Rubik,Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}if(p.glow)g.restore();g.globalAlpha=1}
   // HUD on canvas
   g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
+  if(s.pouch>0){g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';const px=s.magnet>0?52:14,py=44;g.fillStyle='rgba(255,255,255,.94)';g.fillRect(px,py,118,24);g.strokeStyle='#1b2140';g.lineWidth=2;g.strokeRect(px,py,118,24);g.fillStyle='#ffc642';g.beginPath();g.arc(px+13,py+12,7,0,7);g.fill();g.stroke();g.fillStyle='#1b2140';g.fillText('+'+s.pouch*2+' pending',px+25,py+17)}
+  if(s.magnet>0){const mx=28,my=56,f=Math.max(0,Math.min(1,s.magnet/(s.magMax||4))),fl=s.magnet<2&&!RM&&Math.sin(s.t*18)<0;g.globalAlpha=fl?.35:1;g.fillStyle='rgba(255,255,255,.94)';g.beginPath();g.arc(mx,my,15,0,7);g.fill();g.strokeStyle='rgba(27,33,64,.25)';g.lineWidth=4;g.beginPath();g.arc(mx,my,15,0,7);g.stroke();g.strokeStyle=s.magnet<2?'#ff4b6e':'#ffb020';g.beginPath();g.arc(mx,my,15,-Math.PI/2,-Math.PI/2+f*Math.PI*2);g.stroke();g.lineCap='butt';g.strokeStyle='#e0344f';g.lineWidth=5;g.beginPath();g.arc(mx,my-1,5,Math.PI,0,true);g.stroke();g.strokeStyle='#cfd6e6';g.beginPath();g.moveTo(mx-5,my-1);g.lineTo(mx-5,my-7);g.moveTo(mx+5,my-1);g.lineTo(mx+5,my-7);g.stroke();g.globalAlpha=1}
   if(s.msgT>0){g.textAlign='center';g.font='800 20px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,82);g.fillStyle='#fff';g.fillText(s.msg,W2/2,80)}
   if(false){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
   if(s.flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.85,s.flash*4)+')';g.fillRect(-20,-20,W2+40,H+40)}
@@ -1982,7 +1993,7 @@ function placement(){
   const used=new Set(),H=[];let lvl=2,last=null,i=0;const N=5;
   const pick=l=>{const c=shuf((PLC[LVL[l]]||[]).filter(w=>!used.has(w)&&WF(w)));const w=c[0];used.add(w);return WF(w)};
   const card=h=>{main.innerHTML=`<div class="card runcard">${h}</div>`};
-  const give=(k,ok)=>{const [p,n]=GEARP[k],id=p+'|starter';if(!S.gearOwn.includes(id))S.gearOwn.push(id);S.gear[p]='starter';if(ok&&!S.lad.placed&&(S.plC||0)<60){S.plC=(S.plC||0)+5;S.coins+=5}save();return n};
+  const give=(k,ok)=>{const [p,n]=GEARP[k],id=p+'|starter';if(!ok)return n;if(!S.gearOwn.includes(id))S.gearOwn.push(id);S.gear[p]='starter';if(ok&&!S.lad.placed&&(S.plC||0)<60){S.plC=(S.plC||0)+5;S.coins+=5}save();return n};
   const gate=()=>{PLRUN=1;if(i>=N)return boss();
     card(`<div class="cardhead"><span class="tag">${STR.gate} ${i+1}/${N}</span></div><p class="q" style="margin:8px 0 0">Tap <b>Jump</b> or press <b>Space</b> to grab coins!</p>`);
     OB.ensure(0);if(OB.st)OB.st.gearRun=1;OB.segment(()=>ask());};
@@ -1993,7 +2004,7 @@ function placement(){
     if(S.autoRead!==false)setTimeout(()=>speak(x[0]),250);
     main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
       const ok=opts[b.dataset.k]===x[2];H.push([lvl,ok]);last=ok;
-      const got=give(i,ok);if(ok){gateHit(5);OB.leap()}else{sfx('pop');wrongFx();OB.fall()}i++;
+      const got=give(i,ok);if(ok){const n=OB.bank();if(n&&!S.lad.placed&&(S.plC||0)<60){const v=Math.min(n*2,60-(S.plC||0));S.plC=(S.plC||0)+v;S.coins+=v}gateHit(5);OB.leap()}else{sfx('pop');wrongFx();OB.drop();OB.fall()}i++;
       const w=st(x[0]);if(!w.f)w.f=Date.now();w.seen=(w.seen||0)+1;if(!ok){w.miss=(w.miss||0)+1}save();
       card(`<div class="victory" role="status"><b>${ok?esc(STR.armourGot(got))+' +5 coins':'Not quite!'}</b>${ok?'':'<br><b>'+esc(x[0])+'</b> means “'+esc(x[2])+'”'}</div><button class="go" id="nx">Keep running</button>`);
       lvl=ok?Math.min(5,lvl+1):Math.max(0,lvl-1);$('nx').onclick=gate;$('nx').focus();
