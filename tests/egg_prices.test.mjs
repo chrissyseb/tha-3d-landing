@@ -49,6 +49,12 @@ test('earned eggs and hatching need no coins', () => {
   const prev = st(500, [1, 0, 0, 0], [{ r: 0, src: 'shop', t: 1 }]);
   assert.equal(checkEggSpend(prev, st(600, [1, 0, 0, 0], [{ r: 1, src: 'giant', t: 2 }, { r: 0, src: 'boss', t: 3 }]), 1700).ok, true);
 });
-test('King Kongo: Common every time, Rare once per week', () => {
-  assert.match(cre, /give\(0,'boss'\);\s*if\(o\.giant\)\{const wk=weekKey\(\);if\(c\.log\.kongoW!==wk\)/);
+test('King Kongo: Common + Epic (Legendary every 3rd) every win, Rare once per week', () => {
+  assert.match(cre, /give\(0,'boss'\);\s*if\(o\.giant\)\{const g=\(c\.log\.giantE\|\|0\)\+1;c\.log\.giantE=g;setTimeout\(\(\)=>give\(g%3===0\?3:2,'giant'\)/);
+  assert.match(cre, /c\.log\.kongoW!==wk/);
+});
+test('server allows Kongo earned eggs (Common, Rare, Epic, Legendary) with no coin cost', () => {
+  const prev = st(500, [0, 0, 0, 0], []);
+  const next = st(500, [0, 0, 0, 0], [{ r: 0, src: 'boss', t: 1 }, { r: 2, src: 'giant', t: 2 }, { r: 3, src: 'giant', t: 3 }, { r: 1, src: 'giant', t: 4 }]);
+  assert.equal(checkEggSpend(prev, next, 1700).ok, true);
 });

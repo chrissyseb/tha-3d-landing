@@ -37,9 +37,9 @@ const ev={
   if(step>last&&step>0){c.log.mast=step;const r=step%150===0?3:step%50===0?2:step%25===0?1:0;if(step%10===0||r)give(r,'mastery')}
   save()},
  boss(o){const c=st(),s=S();o=o||{};
-  // every boss drops a Common egg; King Kongo also drops a Rare egg on his first defeat each week; freeing a land still gives a Rare
+  // every boss drops a Common egg; King Kongo also drops an Epic egg (Legendary every third win) plus a Rare egg on his first defeat each week; freeing a land still gives a Rare
   give(0,'boss');
-  if(o.giant){const wk=weekKey();if(c.log.kongoW!==wk){c.log.kongoW=wk;setTimeout(()=>give(1,'giant'),900)}}
+  if(o.giant){const g=(c.log.giantE||0)+1;c.log.giantE=g;setTimeout(()=>give(g%3===0?3:2,'giant'),900);const wk=weekKey();if(c.log.kongoW!==wk){c.log.kongoW=wk;setTimeout(()=>give(1,'giant'),1800)}}
   else if(o.final)setTimeout(()=>give(1,'land'),900)},
  first(){give(1,'first',1)},
  daily(n){const c=st();const wk=weekKey();if(n===3&&c.log.d3!==wk){c.log.d3=wk;give(0,'daily')}if(n>=7&&c.log.d7!==wk){c.log.d7=wk;give(1,'daily')}},
