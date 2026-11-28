@@ -1,4 +1,5 @@
 import { timingSafeEqual, createHash } from 'node:crypto';
+import { newCode, codeHash, bhPath } from './redeem.js';
 import { body, send, rateOk, getJson, putJson, famPath, codePath, safe } from './_lib.js';
 // Admin unlock for PayNow payments. Protected by ADMIN_KEY (Vercel env only).
 function keyOk(req) {
@@ -24,6 +25,11 @@ export default async function handler(req, res) {
   }
   if (req.method !== 'POST') return send(res, 405, { error: 'Method not allowed' });
   const b0 = await body(req);
+  if (b0.action === 'bhGen') { // Bug Hunter codes: plaintext is shown once, only the hash is stored
+    const n = Math.max(1, Math.min(50, Number(b0.n) || 5)), out = [];
+    for (let i = 0; i < n; i++) { const c = newCode(); await putJson(bhPath(codeHash(c)), { src: 'admin', created: Date.now(), note: String(b0.note || '').slice(0, 60) }); out.push(c); }
+    return send(res, 200, { codes: out });
+  }
   if (b0.action === 'removeAuto') {
     const a = (await getJson('bank/auto.json')) || { words: [], removed: [] }, w = String(b0.w || '');
     a.words = a.words.filter(x => x.e[0] !== w); if (!a.removed.includes(w)) a.removed.push(w); await putJson('bank/auto.json', a);

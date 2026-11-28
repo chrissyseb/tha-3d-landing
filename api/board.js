@@ -15,6 +15,7 @@ export default async function handler(req, res) {
   const row = { id: kid.id, nick: kid.nick, world: Math.min(5, n(b.world)), cr: typeof b.cr === 'string' && /^[a-z0-9_-]{2,24}$/i.test(b.cr) ? b.cr : 'bobby', crs: Number.isInteger(b.crs) ? Math.max(0, Math.min(2, b.crs)) : 0,
     av: { shirt: col(b.av && b.av.shirt, '#2f80ed'), pants: col(b.av && b.av.pants, '#2b2b2b'), hat: String((b.av && b.av.hat) || 'none').replace(/[^\w-]/g, '').slice(0, 20) },
     xp: n(e.xp), weekXp: n(e.weekXp), wk: String(e.wk || '').replace(/[^\w-]/g, '').slice(0, 12), speedBest: n(e.speedBest), mastered: n(e.mastered), updated: Date.now() };
+  const bh = await getJson(`badges/${kid.id}.json`); if (bh && bh.bh) row.bh = true;
   const tier = supTier(fam); row.sup = tier; row.av.cape = tier === '10' || tier === '20';
   row.psle = { xp: row.xp, weekXp: row.weekXp, wk: row.wk, speedBest: row.speedBest, mastered: row.mastered };
   await putJson(boardPath(kid.id), row); cache.t = 0;

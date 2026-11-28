@@ -1,13 +1,24 @@
-# Magnet regression: serve repo on :8123 (python3 -m http.server 8123), then python3 tests/magnet_test.py
+# Magnet regression: run: python3 tests/magnet_test.py
 import json
 from playwright.sync_api import sync_playwright
+import os,mimetypes
+from urllib.parse import urlparse
+ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def serve(rt,patch=None):
+    # serves the repo straight from disk (no local server needed); index.html optionally patched
+    path=urlparse(rt.request.url).path;f=os.path.join(ROOT,path.lstrip('/') or 'index.html')
+    if not os.path.isfile(f):return rt.fulfill(status=404,body='{}',content_type='application/json')
+    body=open(f,'rb').read()
+    if patch and f.endswith('index.html'):body=patch(body.decode()).encode()
+    rt.fulfill(status=200,body=body,content_type=mimetypes.guess_type(f)[0] or 'application/octet-stream')
+
 seed={'lad':{'placed':1,'t':0,'pr':0},'plDone':1,'mig2':1,'seenHow':1,'nick':'Tester','coins':0,'cr':{'intro':1}}
 with sync_playwright() as p:
     b=p.chromium.launch(executable_path='/usr/bin/google-chrome');pg=b.new_context(service_workers='block').new_page()
     pg.add_init_script("localStorage.clear();localStorage.setItem('p6vq3',%s);localStorage.setItem('vq_ed','psle')"%json.dumps(json.dumps(seed)))
     def route(rt):
-        r=rt.fetch();rt.fulfill(response=r,body=r.text().replace("<script>VO_READY.then(()=>{","<script>VO_READY.then(()=>{window.__t=f=>eval(f);",1))
-    pg.route(lambda u:u.endswith(':8123/') or u.endswith('/index.html'),route)
+        serve(rt,lambda s:s.replace("<script>VO_READY.then(()=>{","<script>VO_READY.then(()=>{window.__t=f=>eval(f);",1))
+    pg.route('http://localhost:8123/**',route)
     errs=[];pg.on('pageerror',lambda e:errs.append(str(e)))
     pg.goto('http://localhost:8123/');pg.wait_for_timeout(1500)
     r=pg.evaluate("src=>window.__t('('+src+')()')","""async()=>{const sl=ms=>new Promise(r=>setTimeout(r,ms));document.querySelectorAll('.sheet,.chestsheet').forEach(e=>e.remove());

@@ -1,4 +1,4 @@
-const C = 'vb-v41';
+const C = 'vb-v42';
 const SHELL = ['/', '/index.html', '/vo.js', '/psle.js', '/vo.css', '/vb-light.css', '/intro.js', '/intro.css', '/skin.js', '/creatures.css', '/bobby.js', '/creatures-art.js', '/creatures.js', '/fonts/fonts.css', '/fonts/rubik-latin-800.woff2', '/fonts/rubik-latin-700.woff2', '/fonts/nunito-latin-800.woff2', '/fonts/atkinson-hyperlegible-latin-400.woff2', '/icons/wordmark-v6-sticker.svg', '/icons/wordmark-v6-sticker-night.svg', '/icons/fox-night.svg', '/icons/th-logo.svg', '/icons/th-wordmark.svg', '/icons/art/vb-hero.webp', '/icons/art/lexi-map.svg', '/icons/art/hatch-meadow.svg', '/icons/art/hatch-island.svg', '/icons/art/kongo-arena.svg', '/team.html', '/lists.html', '/words.json', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k)))).then(() => self.clients.claim())); });

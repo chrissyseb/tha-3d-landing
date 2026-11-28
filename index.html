@@ -164,6 +164,7 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .match .opt.sel{background:var(--sun)}
 .match .opt.done{visibility:hidden}
 .coinp{cursor:pointer;font:inherit;color:inherit}
+.pendc{margin-left:6px;font:800 12px var(--fd);background:#fff3c4;color:#5a3d00;border:2px solid currentColor;border-radius:8px;padding:0 5px}
 .bnav [data-nav=av].newdot{background-image:radial-gradient(circle at calc(50% + 13px) 9px,#ff4b6e 0 5px,#fff 5.5px 7px,transparent 7.5px)}
 .shoptile{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;position:relative;font:inherit;color:inherit}
 .shoptile .stx{display:grid;gap:2px}.shoptile b{font:800 18px var(--fd)}.shoptile small{color:var(--mut)}
@@ -893,7 +894,7 @@ function myAvatar(){
   const bd=BADGES.filter(b=>(S.badges||[]).includes(b[0])).map(b=>`<span>🏅 ${esc(b[0])}</span>`).join('');
   main.innerHTML=`<div class="card show"><span class="tag">My Avatar</span><div class="big">${fox?'<div class="hearts">'+[0,1,2,3,4].map(k=>`<i style="left:${52+k*7}%;animation-delay:${k*.5}s">${k%2?'✨':'💗'}</i>`).join('')+'</div>':''}<span class="a">${avatar(130)}</span><span class="p">${CS.act==='bobby'?bobbySVG(bobbyStage(),110):CRA.svg(CS.act,CRE.stageOf(CS.act,CS.own[CS.act]),110)}${accOverlay()}</span></div>
   <button class="go" id="chg0">👕 Wardrobe &amp; Shop</button>
-  <div class="word" style="font-size:clamp(28px,7vw,40px)">${esc(S.nick||'Hero')}</div><span class="pname">${esc(CRE.nick(CS.act))} · ${CRE.count()} of ${CRE.total()} creatures</span><div class="avcr">${crl.map(id=>`<span>${id==='bobby'?BOB.face('happy',44):CRA.svg(id,CRE.stageOf(id,CS.own[id]),48)}</span>`).join('')}</div>
+  <div class="word" style="font-size:clamp(28px,7vw,40px)">${esc(S.nick||'Hero')}${S.bh?' <span class="bhbadge" title="Bug Hunter: helped make VocaBobby better" style="font:800 13px var(--fd);background:#3ddc84;color:#0b2a17;border:2px solid #1b2140;border-radius:10px;padding:2px 8px;vertical-align:middle">Bug Hunter</span>':''}</div><span class="pname">${esc(CRE.nick(CS.act))} · ${CRE.count()} of ${CRE.total()} creatures</span><div class="avcr">${crl.map(id=>`<span>${id==='bobby'?BOB.face('happy',44):CRA.svg(id,CRE.stageOf(id,CS.own[id]),48)}</span>`).join('')}</div>
   ${eq||geq?`<p class="wmk"><b>Looking good in</b></p><div class="eq">${eq}${geq}</div>`:''}${armNote()}${bd?`<p class="wmk"><b>Badges</b></p><div class="eq">${bd}</div>`:''}
   <button class="go" id="chg">Change look</button><button class="go" id="shr" style="background:#7be0c3">Share my avatar</button></div>`;
   $('chg').onclick=shop;$('chg0').onclick=shop;$('shr').onclick=shareCard;CRE.nav('av');CRE.hint('avatar');
@@ -971,7 +972,7 @@ function finDefs(v,id){if(!v||v[0]==='#')return['',v];const RM=matchMedia('(pref
  if(v==='f:rainbow')return[`<linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ef4f5f"/><stop offset=".25" stop-color="#ffc642"/><stop offset=".5" stop-color="#2fbf71"/><stop offset=".75" stop-color="#4aa4e6"/><stop offset="1" stop-color="#b15fd7"/>${RM?'':'<animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;-1 0" dur="4s" repeatCount="indefinite"/>'}</linearGradient>`,`url(#${id})`];
  if(v.startsWith('f:neon')){const c=v.slice(6);return[`<filter id="${id}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`,c,id]}
  return['','#2f80ed']}
-function avatar(sz,a=S.av,G=S.gear||{}){const k='#1b2140',sk='#ffcf5a',sd='#e9b23f',hats={none:'',
+function avatar(sz,a=S.av,G=S.gear||{}){const k='#1b2140',sk='#ffcf5a',sd='#e9b23f',hats={none:'',bughunter:`<path d="M14 2 Q11 -6 7 -7 M26 2 Q29 -6 33 -7" stroke="${k}" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="7" cy="-7" r="2.4" fill="#3ddc84" stroke="${k}" stroke-width="1.5"/><circle cx="33" cy="-7" r="2.4" fill="#3ddc84" stroke="${k}" stroke-width="1.5"/><rect x="6" y="8" width="28" height="3" fill="#5a3d1e"/><circle cx="14.5" cy="10.5" r="5" fill="#8ff0c8" stroke="${k}" stroke-width="2.2"/><circle cx="25.5" cy="10.5" r="5" fill="#8ff0c8" stroke="${k}" stroke-width="2.2"/><rect x="12.5" y="8" width="2" height="2" fill="#fff"/><rect x="23.5" y="8" width="2" height="2" fill="#fff"/>`,
 cap:`<rect x="8" y="0" width="24" height="7" fill="#ef4f5f" stroke="${k}" stroke-width="2"/><rect x="26" y="5" width="11" height="3.5" fill="#c93a4a" stroke="${k}" stroke-width="2"/>`,
 beanie:`<rect x="8" y="-1" width="24" height="9" fill="#fa895d" stroke="${k}" stroke-width="2"/><rect x="8" y="5" width="24" height="3" fill="#d8704a"/><rect x="17" y="-6" width="6" height="5" fill="#fff" stroke="${k}" stroke-width="2"/>`,
 phones:`<rect x="10" y="-1" width="20" height="3.5" fill="${k}"/><rect x="5" y="6" width="6" height="11" rx="1" fill="#ed598c" stroke="${k}" stroke-width="2"/><rect x="29" y="6" width="6" height="11" rx="1" fill="#ed598c" stroke="${k}" stroke-width="2"/>`,
@@ -1012,7 +1013,7 @@ function streak(){let n=0,d=new Date();while(S.days.includes(d.toDateString())){
 function hud(){document.body.classList.toggle('playing',!!sess);setTimeout(()=>{const h=$('hud');if(!h)return;let pr=h.querySelector('.prog');const html=sess&&sess.words&&sess.words.length>=10?progHTML():'';if(!html){if(pr)pr.remove();return}if(pr)pr.outerHTML=html;else h.insertAdjacentHTML('beforeend',html)},0);
   if(!sess&&!PLRUN&&typeof OB!=='undefined')OB.hide();
   const mast=W.filter(x=>st(x[0]).m>=5).length,nl=nextLv();
-  $('hud').innerHTML=`<button type="button" class="pill coinp" id="coinp" title="Coins: open the Shop" aria-label="${S.coins} coins. Open the Shop">${ic('coin')}<b>${S.coins}</b></button><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="${STR.wordsLearnt}" aria-label="${STR.wordsLearnt}: ${mast}">${ic('book')}<b>${mast}</b></span>`}${S.sup==='20'?'<span class="ea" title="Thank you for supporting Miss Christine">Early access</span>':''}<span class="sp"></span>${sess?`${sess.kind==='challenge'?'<span class="pill edp">PSLE Edition</span>':''}<button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib skbtn" id="skin" aria-label="${document.body.classList.contains('night')?'Switch to day mode':'Switch to night mode'}" title="Day / night">${document.body.classList.contains('night')?SUNI:MOONI}</button><button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${ic(S.voice===false?'voiceoff':'voice')}</button>`:''}`;
+  $('hud').innerHTML=`<button type="button" class="pill coinp" id="coinp" title="Coins: open the Shop" aria-label="${S.coins} coins banked. Open the Shop">${ic('coin')}<b>${S.coins}</b><small class="pendc" id="pendc" title="Pending: banks when you answer the next gate right"${typeof OB!=='undefined'&&OB.st&&OB.st.pouch?'':' hidden'}>+${typeof OB!=='undefined'&&OB.st?(OB.st.pouch||0)*2:0} pending</small></button><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="${STR.wordsLearnt}" aria-label="${STR.wordsLearnt}: ${mast}">${ic('book')}<b>${mast}</b></span>`}${S.sup==='20'?'<span class="ea" title="Thank you for supporting Miss Christine">Early access</span>':''}<span class="sp"></span>${sess?`${sess.kind==='challenge'?'<span class="pill edp">PSLE Edition</span>':''}<button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib skbtn" id="skin" aria-label="${document.body.classList.contains('night')?'Switch to day mode':'Switch to night mode'}" title="Day / night">${document.body.classList.contains('night')?SUNI:MOONI}</button><button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${ic(S.voice===false?'voiceoff':'voice')}</button>`:''}`;
   if($('coinp'))$('coinp').onclick=()=>{if(sess||PLRUN)return;shop()};wardDot();$('skin').onclick=()=>{toggleSkin();hud()};$('snd').onclick=()=>{mute=!mute;hud()};if($('vox'))$('vox').onclick=()=>{S.voice=S.voice===false;save();pop(S.voice?'Word voice on':'Word voice off');hud()};if(sess)$('quit').onclick=()=>{sess=null;home()};
 }
 // ---------- sound + fx ----------
@@ -1351,7 +1352,7 @@ function result(ok,x,extra='',fl={}){
   const su=cs,noPay=su.nopay||(cur_boss&&sess.ko&&sess.ko[sess.bid]);(sess.done||(sess.done={}))[su.u]=1;
   if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.swH=1;sess.sw=0;setTimeout(()=>{pop('Second wind! Bobby gives you one more try');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
   if(typeof OB!=='undefined'){if(ok){const n=Math.min(OB.bank(),4);const v=(n&&!noPay&&wordPay('c:'+x[0]))?earn('pk:'+x[0],n*2,1):0;if(v){sess.pts+=v;setTimeout(()=>pop('+'+v+' course coins banked'),600)}}else OB.drop()}
-  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);if(sess.combo>=3&&typeof OB!=='undefined'&&OB.st){if(!(OB.st.magnet>0))OB.say('Coin magnet!');OB.st.magnet=4;OB.st.magMax=4}let g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));g=(!noPay&&!(sess.paid&&sess.paid['q'+su.u])&&wordPay(x[0]))?earn('q'+su.u,g):0;sess.pts+=g;S.pts+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
+  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);if(sess.combo>=3&&typeof OB!=='undefined'&&OB.st){if(!(OB.st.magnet>0))OB.say(sess.seenMag?'Coin magnet!':'Coin magnet! 3 right in a row');sess.seenMag=1;OB.st.magnet=4;OB.st.magMax=4}let g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));g=(!noPay&&!(sess.paid&&sess.paid['q'+su.u])&&wordPay(x[0]))?earn('q'+su.u,g):0;sess.pts+=g;S.pts+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
     if(!fl.assist&&w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0&&!fl.assist)w.miss--;if(!fl.assist&&isMastered(w)&&!w.ms){w.ms=Date.now();CRE.ev.mastered(x[0])}
     window.__pm=sess.combo;if(!cur_boss)gateHit(g);else{beep(1);if(g)pop('+'+g)}juice(sess.combo,g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0&&!(sess.paid&&sess.paid['b'+su.u])){(sess.paid||(sess.paid={}))['b'+su.u]=1;S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;window.__pm=0;buzz(HAP.bad);bobSay('sorry');cardFx(0);w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);wrongFx();
@@ -1366,6 +1367,14 @@ function result(ok,x,extra='',fl={}){
   if(cur_boss)bossTurn(ok);
 }
 function bossBarHTML(){const B=CB(),h=sess.hearts==null?(sess.hMax||3):sess.hearts,c=sess.charge||0;return `<span class="tag new">${esc(B.n)}</span>${c?`<span class="charge" aria-label="${c} charge stored">${ic('zap',18).repeat(c)}</span>`:''}<button class="tipq" id="tipq" type="button" aria-label="Power tips">?</button><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${Array.from({length:sess.hMax||3},(_,i)=>i<3?((sess.swH&&i===h-1)?GHEART(true):HEART(i<h)):ARMH(i<h)).join('')}</span>${heartNote()}`}
+function redeem(){hud();main.innerHTML=`<div class="card"><span class="tag">Redeem a code</span><p class="q" style="margin:8px 0">Got a code from Miss Christine? Type it here.</p><input id="rcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Code" placeholder="BUG-XXXX-XXXX" style="font:800 20px var(--fd);padding:10px;width:100%;box-sizing:border-box;text-transform:uppercase"><p id="rmsg" role="status" style="font-weight:700;min-height:1.4em"></p><button class="go" id="rgo">Redeem</button></div>`;
+  const go=async()=>{const c=$('rcode').value.trim();if(!c)return;$('rgo').disabled=true;S.dev=S.dev||(Date.now().toString(36)+Math.random().toString(36).slice(2,10));save();
+    let r;try{const x=await fetch('/api/redeem',{method:'POST',headers:{'Content-Type':'application/json','x-vo':'1'},body:JSON.stringify({code:c,dev:S.dev})});r={ok:x.ok,j:await x.json().catch(()=>({}))}}catch(e){r={ok:false,j:{error:'No connection. Try again.'}}}
+    $('rgo').disabled=false;if(!r.ok||r.j.reward!=='bughunter'){$('rmsg').textContent=r.j.error||'That did not work.';return}
+    S.bh=1;save();syncScore&&syncScore();confetti(180);sfx&&sfx('win');
+    main.innerHTML=`<div class="card" style="text-align:center"><span class="tag new">Special badge</span><div style="margin:12px auto">${avatar(120,{...S.av,hat:'bughunter'})}</div><div class="word" style="font-size:clamp(26px,6vw,38px)">Bug Hunter!</div><p style="font-weight:700">Thanks for helping make VocaBobby better!</p><p style="color:var(--mut);font-size:14px">Your Bug Hunter badge now shows by your name, and the Bug Hunter goggles are in your Wardrobe.</p><button class="go" id="rwear">Wear the goggles</button></div>`;
+    $('rwear').onclick=()=>{S.av.hat='bughunter';save();shop()}};
+  $('rgo').onclick=go;$('rcode').onkeydown=e=>{if(e.key==='Enter')go()};$('rcode').focus()}
 function heartNote(){let m='';if((sess.hMax||3)>3&&!S.seenArmH){S.seenArmH=1;save();m='Shield hearts come from the armour you are wearing ('+ARMN()+' pieces). Take armour off in the Wardrobe and they go.'}else if(sess.swH&&!S.seenSwH){S.seenSwH=1;save();m='Golden heart = Second wind: Bobby gives you one more try!'}return m?`<small class="hnote" role="status" style="display:block;font-weight:700;margin-top:4px">${esc(m)}</small>`:''}
 function heartShatter(){const hs=document.querySelectorAll('#bossbar .hearts svg');const h=hs[Math.max(0,sess.hearts)];if(!h)return;const r=h.getBoundingClientRect(),d=document.createElement('div');d.className='hshat';d.setAttribute('aria-hidden','true');d.style.left=(r.left+r.width/2)+'px';d.style.top=(r.top+r.height/2)+'px';d.innerHTML='<i></i><i></i><b>-1 ❤</b>';document.body.appendChild(d);h.classList.add('lost');setTimeout(()=>d.remove(),1100);if(RMJ()){const bb=$('bossbar');if(bb){bb.classList.add('hflash');setTimeout(()=>bb.classList.remove('hflash'),350)}}}
 function updBossBar(){const b=$('bossbar');if(b&&sess){b.innerHTML=bossBarHTML();wireTips()}}
@@ -1586,8 +1595,9 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  jump(){const s=this.st;if(!s||s.paused||s.mode!=='run'||!s.ground||s.crouch>0)return;if(this.RM()){s.vy=-470;s.ground=false;return}s.crouch=.07},
  say(m){if(this.st){this.st.msg=m;this.st.msgT=1.4}},
  // course coins are held in a pending pouch: they bank only on the next correct answer, a wrong answer drops them
- bank(){const s=this.st;if(!s)return 0;const n=s.pouch||0;s.pouch=0;return n},
- drop(){const s=this.st;if(!s)return;const n=s.pouch||0;s.pouch=0;if(!n)return;this.say('Oops \u2014 coins dropped!');if(!this.RM())for(let i=0;i<Math.min(n*3,14);i++)s.fx.push({x:s.ax,y:-50,vx:(Math.random()-.5)*260,vy:-140-Math.random()*140,l:.8,coin:1})},
+ pouchUI(){const e=document.getElementById('pendc');if(!e)return;const n=(this.st&&this.st.pouch)||0;e.hidden=!n;e.textContent='+'+n*2+' pending'},
+ bank(){const s=this.st;if(!s)return 0;const n=s.pouch||0;s.pouch=0;this.pouchUI();return n},
+ drop(){const s=this.st;if(!s)return;const n=s.pouch||0;s.pouch=0;this.pouchUI();if(!n)return;this.say('Oops \u2014 coins dropped!');if(!this.RM())for(let i=0;i<Math.min(n*3,14);i++)s.fx.push({x:s.ax,y:-50,vx:(Math.random()-.5)*260,vy:-140-Math.random()*140,l:.8,coin:1})},
  // run to the next gate, then call cb
  segment(cb,boss){const s=this.st;if(!s)return cb();
   if(s.mode==='leap'||s.mode==='fall'||s.mode==='knock'){s.after=()=>this.segment(cb,boss);return}
@@ -1596,15 +1606,17 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   // coins sit on the real jump arc (vy 540, g 1500, run 220 px/s), so one well-timed tap collects the row
   const arc0=(x0,v,n,sp)=>{for(let i=0;i<n;i++){const t=(i+.5)/n*(2*v/1500)*.92,h=v*t-750*t*t;s.coins.push({x:x0+sp*t,y:Math.max(8,h+12),got:false})}};
   const cx0=start+170+Math.random()*120;s.ease=(s.gates%10===0)?2.4:0;const nc=s.noCoins;s.noCoins=0;const arc=nc?()=>{}:arc0;
-  if(!this.RM()&&L>300){s.crates.push({x:cx0,w:30,h:30,hit:false});arc(cx0+15-.36*220,540,4,220)}
+  const pad=!this.RM()&&L>300&&s.gates%3===2;
+  if(!this.RM()&&L>300){s.crates.push({x:cx0,w:30,h:30,hit:false});if(!pad)arc(cx0+15-.36*220,540,4,220)}
   else arc(start+70,470,3,190);
   s.pads=(s.pads||[]).filter(p=>p.x>s.ax-400);
-  if(!this.RM()&&L>300&&s.gates%3===2){const px=start+50;s.pads.push({x:px,used:false});arc(px+6,640,5,220)}
+  // a pad launches him over the ground, so the coin trail follows the bounce arc (vy 640) instead
+  if(pad){const px=start+50;s.pads.push({x:px,used:false});arc(px-10,640,8,220)}
   if(boss!=null){s.boss={x:edge+(boss.giant?150:90),hp:boss.hp,max:Math.max(boss.max,1),shake:0,hurt:0,dead:false,deadT:0,lean:0,giant:!!boss.giant}}
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;
  },
- leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(typeof sess!=='undefined'&&sess&&sess.combo>=7&&sess.combo%7===0){s.mount=3.2;this.say('Golden ride!')}if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
+ leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(typeof sess!=='undefined'&&sess&&sess.combo>=7&&sess.combo%7===0){s.mount=3.2;this.say(sess.seenRide?'Golden ride!':'Golden ride! 7 right in a row');sess.seenRide=1}if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
   s.mode='leap';s.anim=0;s.leapFrom=s.ax;s.leapTo=gp.x1+30;s.gates++;
   if(s.gates%5===0){s.flags.push(s.leapTo);this.say('Checkpoint!')}
   for(let i=0;i<10;i++)s.fx.push({x:gp.x0+48,y:0,vx:(Math.random()-.5)*160,vy:-120-Math.random()*120,l:.7,c:OB.PAL[this.w][4]})},
@@ -1644,8 +1656,11 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(s.pads&&s.ground&&!s.crouch)for(const p of s.pads)if(!p.used&&Math.abs(p.x-s.ax)<14){p.used=true;s.vy=-640;s.ground=false;p.t=.3;sfx&&sfx('jump');if(!RM)this.say('Boing!')}
    if(s.magnet>0){s.magnet-=dt;if(s.magnet<=0){s.magnet=0;this.say('Magnet wore off');if(!RM)s.fx.push({x:s.ax,y:-72,vx:0,vy:-40,l:1,c:'#1b2140',txt:'Magnet wore off'})}
     // nudge, not a vacuum: ~2 tiles ahead / 1 behind, and only coins within ~1 tile of the avatar's reach band, so coins overhead still need a jump
-    const cy=-s.ay+20;for(const c of s.coins){if(c.got)continue;const dx=c.x-s.ax,dy=c.y-cy;if(dx>-32&&dx<64&&Math.abs(dy)<30){c.x-=Math.min(Math.abs(dx),(90+(64-Math.abs(dx))*1.2)*dt)*Math.sign(dx);c.y-=dy*Math.min(1,dt*2.5)}}}
-   for(const c of s.coins)if(!c.got&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;s.pouch=(s.pouch||0)+1;beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
+    const cy=-s.ay+20;for(const c of s.coins){if(c.got||c.mag)continue;const dx=c.x-s.ax,dy=c.y-cy;if(dx>-32&&dx<64&&Math.abs(dy)<30)c.mag=1}}
+   // magnetised coins ease in to Bobby's centre and are absorbed there (never overshoot, even after the magnet ends)
+   {const cy=-s.ay+20;for(const c of s.coins){if(c.got||!c.mag)continue;const dx=s.ax-c.x,dy=cy-c.y,d=Math.hypot(dx,dy);const st=Math.min(d,Math.max(d*Math.min(1,dt*6),110*dt));if(d>0){c.x+=dx/d*st;c.y+=dy/d*st}const d2=d-st;c.sc=Math.max(.35,Math.min(1,d2/36));
+    if(d2<8){c.got=true;s.pouch=(s.pouch||0)+1;this.pouchUI();beep(1);s.fx.push({x:s.ax,y:-cy-6,vx:0,vy:-55,l:.6,c:'#ffc642',txt:'+2'});if(!RM)for(let i=0;i<6;i++)s.fx.push({x:s.ax,y:-cy+4,vx:(Math.random()-.5)*120,vy:-40-Math.random()*90,l:.35,c:['#fff','#ffe14a'][i%2]})}}}
+   for(const c of s.coins)if(!c.got&&!c.mag&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;s.pouch=(s.pouch||0)+1;this.pouchUI();beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
    for(const k of s.crates)if(!k.hit&&s.ax>k.x-14&&s.ax<k.x+k.w+6&&s.ay>-k.h+2){k.hit=true;s.stun=.35;this.say('Oops! Jump the crates')}
    if(s.ax>=s.target){s.ax=s.target;s.mode='idle';const cb=s.cb;s.cb=null;hud();if(cb)cb()}
   }else if(s.mode==='leap'){s.anim+=dt/(RM?.35:.75);const k=Math.min(1,s.anim);s.ax=s.leapFrom+(s.leapTo-s.leapFrom)*k;s.ay=-Math.sin(k*Math.PI)*(RM?30:80);if(k>=1){s.ay=0;s.mode='idle';if(!RM)s.land=.18;const a=s.after;s.after=null;if(a)a()}}
@@ -1816,13 +1831,13 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(gp){if(gp.b){this.blk(sx,GY,40,14,P[4]);g.fillStyle='#1b2140';g.fillRect(sx+8,GY+3,3,8);g.fillRect(sx+28,GY+3,3,8)}continue}
    this.blk(sx,GY,40,16,P[2]);this.blk(sx,GY+14,40,H-GY-14,P[3])}
   // gates: posts + sign
-  for(const q of s.gaps){if(q.b)continue;const sx=q.x0-cam;this.blk(sx-14,GY-62,12,62,'#ffffff');this.blk(q.x1-cam+2,GY-62,12,62,'#ffffff');if(NT){g.save();g.shadowColor='#3FABE7';g.shadowBlur=RM?18:16+8*Math.sin(s.t*4);g.fillStyle='#3FABE7';g.fillRect(sx-6,GY-92,q.x1-q.x0+12,26);g.fillRect(sx-14,GY-62,12,62);g.fillRect(q.x1-cam+2,GY-62,12,62);g.fillStyle='rgba(63,171,231,.16)';g.fillRect(sx-2,GY-66,q.x1-q.x0+4,66);g.restore()}this.blk(sx-6,GY-92,q.x1-q.x0+12,26,NT?'#FFE45C':P[4]);g.fillStyle='#1b2140';g.font='800 15px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(s.gearRun?'GEAR CHEST':'WORD GATE',sx+(q.x1-q.x0)/2,GY-74)}
+  for(const q of s.gaps){if(q.b)continue;const sx=q.x0-cam;this.blk(sx-14,GY-62,12,62,'#ffffff');this.blk(q.x1-cam+2,GY-62,12,62,'#ffffff');if(NT){g.save();g.shadowColor='#3FABE7';g.shadowBlur=6;g.globalAlpha=.55;g.fillStyle='#3FABE7';g.fillRect(sx-6,GY-92,q.x1-q.x0+12,26);g.fillRect(sx-14,GY-62,12,62);g.fillRect(q.x1-cam+2,GY-62,12,62);g.fillStyle='rgba(63,171,231,.16)';g.fillRect(sx-2,GY-66,q.x1-q.x0+4,66);g.restore()}this.blk(sx-6,GY-92,q.x1-q.x0+12,26,NT?'#FFE45C':P[4]);g.fillStyle='#1b2140';g.font='800 15px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(s.gearRun?'GEAR CHEST':'WORD GATE',sx+(q.x1-q.x0)/2,GY-74)}
   // checkpoint flags
   for(const f of s.flags){const sx=f-cam-30;if(sx<-20||sx>W2)continue;g.fillStyle='#1b2140';g.fillRect(sx,GY-70,4,70);this.blk(sx+4,GY-70,30,20,'#ffffff');g.fillStyle='#1b2140';for(let i=0;i<3;i++)for(let j=0;j<2;j++)if((i+j)%2===0)g.fillRect(sx+6+i*9,GY-68+j*9,9,9)}
   // bounce pads
   for(const p of (s.pads||[])){const sx=p.x-cam;if(sx<-30||sx>W2+30)continue;const sq=p.t>0?(p.t-=1/60,.5):1;this.blk(sx-16,GY-8*sq,32,8*sq,'#FF5D8F');g.fillStyle='#FFE45C';g.fillRect(sx-11,GY-8*sq-4,22,4);g.strokeStyle='#1b2140';g.lineWidth=2;g.strokeRect(sx-11,GY-8*sq-4,22,4)}
   // coins
-  for(const c of s.coins){if(c.got)continue;const sx=c.x-cam,sy=GY-c.y+Math.sin(s.t*4+c.x)*3*(RM?0:1);g.fillStyle='#ffc642';g.beginPath();g.arc(sx,sy-10,9,0,7);g.fill();g.lineWidth=3;g.strokeStyle='#1b2140';g.stroke();g.fillStyle='#e0a72c';g.fillRect(sx-2,sy-15,4,10)}
+  for(const c of s.coins){if(c.got)continue;const sc=c.mag?(c.sc||1):1,sx=c.x-cam,sy=GY-c.y+(c.mag?0:Math.sin(s.t*4+c.x)*3*(RM?0:1));g.fillStyle='#ffc642';g.beginPath();g.arc(sx,sy-10,9*sc,0,7);g.fill();g.lineWidth=3*sc;g.strokeStyle='#1b2140';g.stroke();g.fillStyle='#e0a72c';g.fillRect(sx-2*sc,sy-10-5*sc,4*sc,10*sc)}
   // crates
   for(const k of s.crates){const sx=k.x-cam;this.blk(sx,GY-k.h,k.w,k.h,k.hit?'#b8865a':'#c9905a');g.strokeStyle='#1b2140';g.lineWidth=2;g.beginPath();g.moveTo(sx+4,GY-k.h+4);g.lineTo(sx+k.w-4,GY-4);g.moveTo(sx+k.w-4,GY-k.h+4);g.lineTo(sx+4,GY-4);g.stroke()}
   // boss
@@ -1860,7 +1875,6 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Rubik,Fredoka,Nunito,sans-serif':'800 14px Rubik,Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}if(p.glow)g.restore();g.globalAlpha=1}
   // HUD on canvas
   g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
-  if(s.pouch>0){g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';const px=s.magnet>0?52:14,py=44;g.fillStyle='rgba(255,255,255,.94)';g.fillRect(px,py,118,24);g.strokeStyle='#1b2140';g.lineWidth=2;g.strokeRect(px,py,118,24);g.fillStyle='#ffc642';g.beginPath();g.arc(px+13,py+12,7,0,7);g.fill();g.stroke();g.fillStyle='#1b2140';g.fillText('+'+s.pouch*2+' pending',px+25,py+17)}
   if(s.magnet>0){const mx=28,my=56,f=Math.max(0,Math.min(1,s.magnet/(s.magMax||4))),fl=s.magnet<2&&!RM&&Math.sin(s.t*18)<0;g.globalAlpha=fl?.35:1;g.fillStyle='rgba(255,255,255,.94)';g.beginPath();g.arc(mx,my,15,0,7);g.fill();g.strokeStyle='rgba(27,33,64,.25)';g.lineWidth=4;g.beginPath();g.arc(mx,my,15,0,7);g.stroke();g.strokeStyle=s.magnet<2?'#ff4b6e':'#ffb020';g.beginPath();g.arc(mx,my,15,-Math.PI/2,-Math.PI/2+f*Math.PI*2);g.stroke();g.lineCap='butt';g.strokeStyle='#e0344f';g.lineWidth=5;g.beginPath();g.arc(mx,my-1,5,Math.PI,0,true);g.stroke();g.strokeStyle='#cfd6e6';g.beginPath();g.moveTo(mx-5,my-1);g.lineTo(mx-5,my-7);g.moveTo(mx+5,my-1);g.lineTo(mx+5,my-7);g.stroke();g.globalAlpha=1}
   if(s.msgT>0){g.textAlign='center';g.font='800 20px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,82);g.fillStyle='#fff';g.fillText(s.msg,W2/2,80)}
   if(false){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
@@ -2078,7 +2092,7 @@ function shop(){
   const nf=v=>Number(v).toLocaleString('en-GB'),coinsTx=n=>n<=S.coins?nf(n)+' coins':`${nf(n)} coins · ${nf(n-S.coins)} to go`;
   let body='';
   if(SHOPTAB==='outfit')body=`<div class="shop">${SHOP.map((it,i)=>{const own=S.av.own.includes(it[1]),on=S.av[it[0]]===it[1];const prev={...S.av,[it[0]]:it[1]};
-    return `<button class="item ${on?'on':''} ${!own&&it[3]>S.coins?'dim':''}" data-i="${i}">${avatar(44,prev)}<b>${esc(it[2])}</b><small>${on?'Wearing':own?'Tap to wear':coinsTx(it[3])}</small></button>`}).join('')}</div>`;
+    return `<button class="item ${on?'on':''} ${!own&&it[3]>S.coins?'dim':''}" data-i="${i}">${avatar(44,prev)}<b>${esc(it[2])}</b><small>${on?'Wearing':own?'Tap to wear':coinsTx(it[3])}</small></button>`}).join('')}${S.bh?`<button class="item ${S.av.hat==='bughunter'?'on':''}" id="bhhat">${avatar(44,{...S.av,hat:'bughunter'})}<b>Bug Hunter goggles</b><small>Special · ${S.av.hat==='bughunter'?'Wearing':'Tap to wear'}</small></button>`:''}</div>`;
   else if(SHOPTAB==='armour')body=`<p class="ssub">Earn starter armour at the gates in your first run, or buy any piece. Then upgrade it to Silver, Gold or Rainbow.</p>${armNote()}${GEARP.map(([p,n])=>`<b class="shh">${esc(n)}</b><div class="shop">${Object.entries(GFIN).map(([t,[fn,fc]])=>{const id=p+'|'+t,own=S.gearOwn.includes(id),on=S.gear[p]===t,c=GEARPRICE[p]+(t==='starter'?0:fc);
     return `<button class="item gear ${on?'on':''} ${!own&&c>S.coins?'dim':''}" data-g="${esc(id)}" data-c="${c}">${avatar(40,S.av,{[p]:t})}<b>${esc(fn)}</b><small>${on?'Wearing · tap to take off':own?'Tap to wear':coinsTx(c)}</small></button>`}).join('')}</div>`).join('')}`;
   else if(SHOPTAB==='colours')body=`<div id="cust"></div>`;
@@ -2096,6 +2110,7 @@ function shop(){
   const no=b=>b.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'none'}],250);
   const pay=(c,b)=>{if(S.coins<c){no(b);pop(`${c-S.coins} more coins to go`);return false}S.coins-=c;confetti(60);beep(1);return true};
   main.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{SHOPTAB=b.dataset.t;shop()});
+  {const bb=$('bhhat');if(bb)bb.onclick=()=>{S.av.hat=S.av.hat==='bughunter'?'none':'bughunter';save();shop()}}
   main.querySelectorAll('.item[data-i]').forEach(b=>b.onclick=()=>{const it=SHOP[b.dataset.i];
     if(!S.av.own.includes(it[1])){if(!pay(it[3],b))return;S.av.own.push(it[1])}
     S.av[it[0]]=it[1];save();shop()});
@@ -2122,7 +2137,7 @@ const BAD=['fuck','shit','bitch','ass','dick','cock','pussy','sex','porn','nigg'
 function nickOk(n){if(!/^[A-Za-z0-9]{2,14}$/.test(n))return false;const l=n.toLowerCase();return !BAD.some(b=>b.length<=3?l===b:l.includes(b))}
 function weekKey(d=new Date()){const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const dn=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-dn);const y=t.getUTCFullYear();return y+'-W'+String(Math.ceil(((t-Date.UTC(y,0,1))/864e5+1)/7)).padStart(2,'0')}
 function weekXp(){const k=weekKey(),x=S.edx[ED]||0;const w=S.wkE[ED];if(!w||w.k!==k){S.wkE[ED]={k,base:x};save()}return Math.max(0,x-S.wkE[ED].base)}
-const SHIRTS=new Set(SHOP.filter(x=>x[0]==='shirt').map(x=>x[1])),PANTS=new Set(SHOP.filter(x=>x[0]==='pants').map(x=>x[1])),HATS=new Set(SHOP.filter(x=>x[0]==='hat').map(x=>x[1]));
+const SHIRTS=new Set(SHOP.filter(x=>x[0]==='shirt').map(x=>x[1])),PANTS=new Set(SHOP.filter(x=>x[0]==='pants').map(x=>x[1])),HATS=new Set([...SHOP.filter(x=>x[0]==='hat').map(x=>x[1]),'bughunter']);
 const HEX=/^#[0-9a-f]{6}$/i;
 function safeAv(a){a=a&&typeof a==='object'?a:{};return{shirt:finOk(a.shirt)?a.shirt.toLowerCase():'#2f80ed',pants:finOk(a.pants)?a.pants.toLowerCase():'#2b2b2b',hat:HATS.has(a.hat)?a.hat:'none',cape:a.cape===true}}
 const num=v=>{v=Number(v);return Number.isFinite(v)&&v>=0?Math.floor(v):0};
@@ -2140,7 +2155,7 @@ async function lbInit(){
     LB.unsub=db.collection('scores').onSnapshot(snap=>{clearTimeout(to);
       const docs=(snap&&snap.docs)||snap||[];LB.rows=[];
       for(const d of docs){const v=typeof d.data==='function'?d.data():(d.data||d);if(!v)continue;const id=d.id||v.id;if(!id)continue;
-        const nick=typeof v.nick==='string'&&nickOk(v.nick)?v.nick:'Player';const e=v.psle&&typeof v.psle==='object'?v.psle:(v.xp!=null?v:null);if(!e)continue;LB.rows.push({id,nick,world:Number.isInteger(v.world)&&v.world>=0&&v.world<6?v.world:0,xp:e.xp,weekXp:e.weekXp,wk:e.wk,speedBest:e.speedBest,mastered:e.mastered,sup:['any','10','20'].includes(v.sup)?v.sup:'',cr:typeof v.cr==='string'&&CRA.ids.includes(v.cr)?v.cr:'bobby',crs:Number.isInteger(v.crs)?Math.max(0,Math.min(2,v.crs)):0})}
+        const nick=typeof v.nick==='string'&&nickOk(v.nick)?v.nick:'Player';const e=v.psle&&typeof v.psle==='object'?v.psle:(v.xp!=null?v:null);if(!e)continue;LB.rows.push({id,nick,world:Number.isInteger(v.world)&&v.world>=0&&v.world<6?v.world:0,xp:e.xp,weekXp:e.weekXp,wk:e.wk,speedBest:e.speedBest,mastered:e.mastered,sup:['any','10','20'].includes(v.sup)?v.sup:'',bh:v.bh===true,cr:typeof v.cr==='string'&&CRA.ids.includes(v.cr)?v.cr:'bobby',crs:Number.isInteger(v.crs)?Math.max(0,Math.min(2,v.crs)):0})}
       LB.ready=true;refreshLB()},()=>{clearTimeout(to);LB.ready=true;refreshLB()});
     if(S.nick)syncScore();
   }catch(e){LB.db=null}
@@ -2149,7 +2164,7 @@ function refreshLB(){const t=document.getElementById('lbtile');if(t)t.hidden=!LB
 async function syncScore(){
   if(!LB.db||!LB.me||!S.nick)return;
   const mine={xp:S.edx[ED]||0,weekXp:weekXp(),wk:weekKey(),speedBest:S.best,mastered:S.bosses||0};S.lbE.psle=mine;
-  const ca=CRE.st().act,doc={nick:S.nick,av:safeAv(S.av),cr:ca,crs:ca==='bobby'?0:CRE.stageOf(ca,CRE.st().own[ca]),world:tier(),updated:Date.now(),psle:mine,xp:mine.xp,weekXp:mine.weekXp,wk:mine.wk,speedBest:mine.speedBest,mastered:mine.mastered};
+  const ca=CRE.st().act,doc={bh:!!S.bh,nick:S.nick,av:safeAv(S.av),cr:ca,crs:ca==='bobby'?0:CRE.stageOf(ca,CRE.st().own[ca]),world:tier(),updated:Date.now(),psle:mine,xp:mine.xp,weekXp:mine.weekXp,wk:mine.wk,speedBest:mine.speedBest,mastered:mine.mastered};
   const key=JSON.stringify({...doc,updated:0});if(key===LB.last)return;
   if(LB.busy){LB.pending=true;return}LB.busy=true;
   try{await LB.db.doc('scores/'+LB.me).set(doc);LB.last=key}catch(e){}
@@ -2170,7 +2185,7 @@ const lbScreen={tab:'week',render(){
   if(!LB.ready){el.innerHTML='<p class="q" style="text-align:center">Loading the board…</p>';return}
   const rows=boardRows(b[2]).slice(0,50);
   el.innerHTML=rows.length?`<ol class="lb">${rows.map((r,i)=>`<li class="${r.id===LB.me?'mine':''} ${i<3?'p'+(i+1):''}"><span class="rk">${i+1}</span><span class="who">${r.cr&&r.cr!=='bobby'?CRA.svg(r.cr,r.crs||0,36):BOB.face('happy',34)}</span><span class="nk"><span data-nick="${i}"></span></span><span class="sc"><b>${r.v}</b> ${b[3]}</span></li>`).join('')}</ol>`:'<p class="q" style="text-align:center">Be the first on the board!</p>';
-  el.querySelectorAll('[data-nick]').forEach(s=>{const r=rows[+s.dataset.nick];s.textContent=(r.nick||'Player')+(r.sup?' 🏅':'')+(r.id===LB.me?' (you)':'')});
+  el.querySelectorAll('[data-nick]').forEach(s=>{const r=rows[+s.dataset.nick];s.textContent=(r.nick||'Player')+(r.sup?' 🏅':'')+(r.bh?' · Bug Hunter':'')+(r.id===LB.me?' (you)':'')});
 }};
 function leaderboard(){
   if(!LB.db)return home();
@@ -2189,7 +2204,7 @@ function applySup(){const me=window.VO&&window.VO.me;const t=me&&me.type==='kid'
   if(S.supThx!==t){S.supThx=t;setTimeout(()=>{main.insertAdjacentHTML('afterbegin',`<div class="card" id="thx" style="margin-bottom:14px"><span class="tag">A note from Miss Christine</span><p style="font-size:17px;margin:10px 0">Thank you for supporting VocaBobby! Your family helps me keep building new worlds, bosses and words for my students. 💛</p><p style="margin:0 0 6px">You got: 🏅 Supporter badge${t!=='any'?' · Golden Cape':''}${t==='20'?' · Thank-You Phoenix pet · Early access':''}</p><button class="go" id="thxok">Let's go</button></div>`);const b=document.getElementById('thxok');if(b)b.onclick=()=>{const c=document.getElementById('thx');if(c)c.remove()};confetti(120)},900)}
   save();hud()}
 if(window.VO_READY)window.VO_READY.then(applySup).catch(()=>{});
-window.VBH={wardDot:()=>wardDot(),S:()=>S,flat:v=>flat(v),save,main,home,myAvatar,worldmap,start,speed,sprint,chase,teamUp,shop,badges,book,leaderboard,howto,challenge,hud,pop,confetti,buzz,HAP,sfx,chime,shatter,ic,STR,PETS,BADGES,bobbyStage,bobbyGrowth,BOBBY_AT,VIBON,
+window.VBH={redeem,wardDot:()=>wardDot(),S:()=>S,flat:v=>flat(v),save,main,home,myAvatar,worldmap,start,speed,sprint,chase,teamUp,shop,badges,book,leaderboard,howto,challenge,hud,pop,confetti,buzz,HAP,sfx,chime,shatter,ic,STR,PETS,BADGES,bobbyStage,bobbyGrowth,BOBBY_AT,VIBON,
  setVib:v=>{try{localStorage.setItem('vb_vib',v?'1':'0')}catch(e){}},toggleSkin:()=>{toggleSkin();hud()},dueN:()=>due().length,leave:()=>{sess=null;hud();const b=document.getElementById('bhint');if(b)b.remove()}};
 const FIRST=(()=>{try{return !localStorage.getItem('vb_ded')&&!localStorage.getItem(K+'_seen')&&!(S.lad&&S.lad.placed)}catch(e){return false}})();
 applySkin();setTitle();try{pbgMig()}catch(e){}fetch(EDF[ED]).then(r=>r.json()).then(d=>{W=d;addAuto();splashOut();CRE.init();if(FIRST&&!window.VB_INTRO_NOTE){try{localStorage.setItem('vb_ded','1')}catch(e){}setTimeout(()=>CRE.dedication(),420)}const qp=new URLSearchParams(location.search).get('quest');if(qp&&ED&&S.lad&&S.lad.placed){history.replaceState(null,'',location.pathname);joinQuest(qp)}else if(location.hash==='#quests'&&ED&&S.lad&&S.lad.placed){history.replaceState(null,'',location.pathname);worldmap()}else home();lbInit()}).catch(()=>{splashOut();main.innerHTML='<div class="card"><p class="q">Could not load the word list. Please refresh.</p></div>'});

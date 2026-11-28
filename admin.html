@@ -3,6 +3,7 @@
 <body><div class="w"><h1>VocaBobby admin</h1>
 <div class="card" id="kc"><label for="key">Admin key</label><input id="key" type="password" autocomplete="off"><button id="ks">Use key</button><p><small>The key stays in this browser tab only and is forgotten when you close it.</small></p></div>
 <div class="card"><label for="code">Family code</label><input id="code" autocapitalize="characters" autocomplete="off" placeholder="e.g. AB12CD"><button id="find">Find family</button><p class="err" id="e"></p><div id="fam"></div></div>
+<div class="card"><label for="bhn">Bug Hunter codes (one-time, cosmetic badge + goggles, no coins)</label><input id="bhn" type="number" min="1" max="50" value="5"><input id="bhnote" placeholder="Note, e.g. P5 tester" maxlength="60"><button id="bhgo">Generate codes</button><p><small>Each code works once. Copy them now: they are stored hashed and cannot be shown again.</small></p><pre id="bhout" style="white-space:pre-wrap;font-size:18px"></pre></div>
 </div><script>{
 const $=s=>document.querySelector(s);let K=sessionStorage.getItem('vo_ak')||'';
 const t=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -30,4 +31,5 @@ if(K)$('#e').textContent='Key loaded for this tab.';
 document.getElementById('ld').onclick=async()=>{const r=await call('GET','/api/admin?bank=1');const d=document.getElementById('ab');if(!r.ok){d.textContent=(r.j&&r.j.error)||'Error';return}
 d.innerHTML='<ul>'+r.j.auto.map(x=>'<li><b>'+x.w+'</b> <span class="tag">auto-added</span> '+x.level+' · '+x.meaning.replace(/</g,'&lt;')+' · '+x.lists+' lists <button data-rm="'+x.w+'">Remove</button></li>').join('')+'</ul><details><summary>Log</summary><pre>'+r.j.log.map(e=>new Date(e.at).toISOString().slice(0,16)+' '+e.t+' '+e.w+(e.n?' ('+e.n+')':'')).join('\n')+'</pre></details>';
 d.querySelectorAll('[data-rm]').forEach(b=>b.onclick=async()=>{await call('POST','/api/admin',{action:'removeAuto',w:b.dataset.rm});b.parentNode.remove()})}})();
+$('#bhgo').onclick=async()=>{const r=await call('POST','/api/admin',{action:'bhGen',n:+$('#bhn').value,note:$('#bhnote').value});$('#bhout').textContent=r.ok?r.j.codes.join('\n'):(r.j.error||'Failed')};
 </script></body></html>
