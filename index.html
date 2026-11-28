@@ -1757,7 +1757,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   const crown=(x,y,a,sc)=>{g.save();g.translate(x,y);g.rotate(a);g.scale(sc,sc);g.fillStyle='#FFD23F';g.strokeStyle='#1b2140';g.lineWidth=3;g.beginPath();g.moveTo(-18,8);g.lineTo(-18,-8);g.lineTo(-9,0);g.lineTo(0,-12);g.lineTo(9,0);g.lineTo(18,-8);g.lineTo(18,8);g.closePath();g.fill();g.stroke();g.fillStyle='#FF5D8F';g.fillRect(-3,0,6,5);g.restore()};
   const sx=b.x-cam,top=GY-(b.giant?150:118);
   if(!b.dead){const nt=document.body.classList.contains('night'),cv=g.canvas,big=(cv.clientWidth||0)>=600&&!b.giant?1.22:1;
-    g.save();g.fillStyle=nt?'rgba(0,0,0,.30)':'rgba(20,16,60,.20)';g.fillRect(0,0,cv.width,cv.height);
+    g.save();{const W2=cv.width,H2=cv.height,vg=g.createRadialGradient(W2/2,H2*.6,Math.min(W2,H2)*.45,W2/2,H2*.6,Math.max(W2,H2)*.75);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,nt?'rgba(0,0,0,.45)':'rgba(20,16,60,.32)');g.fillStyle=vg;g.fillRect(0,0,W2,H2)}
     g.fillStyle='rgba(0,0,0,.38)';g.beginPath();g.ellipse(sx,GY+3,(b.giant?92:62)*big,11*big,0,0,7);g.fill();
     g.translate(sx,GY);g.scale(big,big);g.translate(-sx,-GY);
     g.shadowColor=nt?'#7EF9FF':'#FFE45C';g.shadowBlur=RM?10:14+Math.sin(s.t*3)*4;this.drawBoss0(b,GY,cam,RM,s);g.shadowBlur=0;
@@ -1937,7 +1937,15 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if((c=C('helmet')))this.blk(ax-15,ay-64,30,9,c);if((c=C('goggles')))this.blk(ax-10,ay-53,20,6,c);
 }
   if(s.pump>0){const up=RM?1:Math.abs(Math.sin((1.1-s.pump)*9));this.blk(ax+12,ay-36-up*22,7,14+up*8,flat(a.shirt));this.blk(ax+11,ay-46-up*22,9,9,'#ffcf5a')}
+  if(a.hat&&a.hat!=='none'){const hc=a.hat==='bughunter'?'#3ddc84':/^#/.test(a.hat)?a.hat:'#ff5d8f';this.blk(ax-14,ay-66,28,8,hc);this.blk(ax-9,ay-72,18,7,hc)}
   g.restore();
+  // active effects on the avatar: charge glow (power colour), shield bubble, magnet ring, boss-power glow
+  {const ch=document.querySelector('#main .bub.charging'),PC={fire:'255,122,47',water:'63,171,231',zap:'255,210,63',star:'255,93,255'};
+   const aura=(rgb,r,al)=>{const gr=g.createRadialGradient(ax,ay-30,6,ax,ay-30,r);gr.addColorStop(0,'rgba('+rgb+','+al+')');gr.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=gr;g.beginPath();g.arc(ax,ay-30,r,0,7);g.fill()};
+   if(ch){const k=+getComputedStyle(ch).getPropertyValue('--p')||0;aura(PC[ch.dataset.k]||PC.zap,34+k*26,.35+k*.45)}
+   else if(cur_boss&&sess&&sess.bossOn&&document.querySelector('#main .bubbles .bub:not(:disabled)'))aura('255,228,92',40+(RM?0:Math.sin(s.t*5)*4),.4);
+   if(s.magnet>0){g.strokeStyle='rgba(255,210,63,.9)';g.lineWidth=3;g.setLineDash([6,5]);g.lineDashOffset=RM?0:-s.t*30;g.beginPath();g.arc(ax,ay-30,40,0,7);g.stroke();g.setLineDash([])}
+   if(s.shield>0||(sess&&sess.shield>0)){g.fillStyle='rgba(120,200,255,.18)';g.strokeStyle='rgba(120,220,255,.9)';g.lineWidth=3;g.beginPath();g.arc(ax,ay-32,36,0,7);g.fill();g.stroke();g.fillStyle='rgba(255,255,255,.6)';g.beginPath();g.ellipse(ax-12,ay-50,8,4,-.6,0,7);g.fill()}}
   if(s.phurt>0){g.globalAlpha=Math.min(.6,s.phurt);g.fillStyle='#ff4b6e';g.fillRect(ax-16,ay-60,32,60);g.globalAlpha=1}
   if(s.koT){g.fillStyle='#ffe14a';for(let i=0;i<3;i++){const an=s.t*4+i*2.1;g.font='800 16px sans-serif';g.textAlign='center';g.fillText('★',ax+Math.cos(an)*18,ay-66+Math.sin(an)*5)}}
   this.drawFX(s,GY,cam,RM,ax,ay);
