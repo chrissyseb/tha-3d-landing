@@ -4,7 +4,8 @@ import config from './_config.js';
 import google from './_google.js';
 import redeem from './_redeem.js';
 import voice from './_voice.js';
-const R = { config, google, redeem, voice };
+import bug from './_bug.js';
+const R = { config, google, redeem, voice, bug };
 export default function handler(req, res) {
   const u = new URL(req.url, 'http://x');
   const r = u.searchParams.get('r');
