@@ -49,10 +49,16 @@ function weekKey(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-
 // pick which creature hatches: rarity is fixed by how the egg was earned; inside a rarity, new ones first, then an equal chance
 function pickFor(r){const c=st(),pool=LIST.filter(x=>x[2]&&x[1]===r).map(x=>x[0]),fresh=pool.filter(id=>!c.own[id]);const p=fresh.length?fresh:pool;return p[Math.floor(Math.random()*p.length)]}
 // ---------------- the hatch moment ----------------
-function hatch(i,after){const c=st(),e=c.eggs[i];if(!e)return;c.eggs.splice(i,1);const id=pickFor(e.r),dup=!!c.own[id];
+// lucky crack: only EARNED eggs (never shop eggs) can crack open one rarity higher; pity: 6 earned Commons in a row -> the next is Rare
+const LUCK=[[[1,.10],[2,.02]],[[2,.08],[3,.01]]];
+function luckRoll(e,c){if(!e||e.src==='shop'||e.r>1)return e.r;const L=c.log;let r=e.r;const x=Math.random();
+ if(e.r===0){if(x<LUCK[0][1][1])r=2;else if(x<LUCK[0][1][1]+LUCK[0][0][1])r=1;if(r===0&&(L.pity||0)>=5)r=1;L.pity=r===0?(L.pity||0)+1:0}
+ else{if(x<LUCK[1][1][1])r=3;else if(x<LUCK[1][1][1]+LUCK[1][0][1])r=2}
+ return r}
+function hatch(i,after){const c=st(),e0=c.eggs[i];if(!e0)return;c.eggs.splice(i,1);const lr=luckRoll(e0,c),lucky=lr>e0.r,e={...e0,r:lr},id=pickFor(e.r),dup=!!c.own[id];
  if(dup){const o=c.own[id];o.xp=(o.xp||0)+6;o.star=Math.min(5,(o.star||1)+1);S().coins+=50}else c.own[id]={nick:'',xp:0,got:Date.now(),from:e.src};save();
  const t=T(),r=e.r,d=document.createElement('div');d.className='hatchov r'+r;d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',t.hatching);
- d.innerHTML=`<div class="hrays" aria-hidden="true"></div><div class="hflash" aria-hidden="true"></div><div class="hwrap"><div class="hegg">${CRA.egg(r,170)}</div><p class="htap">${t.tapEgg}</p><button class="hskip" type="button">${t.skip}</button></div>`;
+ d.innerHTML=`<div class="hrays" aria-hidden="true"></div><div class="hflash" aria-hidden="true"></div><div class="hwrap">${lucky?`<p class="lucky" role="status">✨ Lucky crack! Your ${esc(t.rar[e0.r])} egg became ${esc(t.rar[r])}!</p>`:''}<div class="hegg">${CRA.egg(e0.r,170)}</div><p class="htap">${t.tapEgg}</p><button class="hskip" type="button">${t.skip}</button></div>`;
  document.body.appendChild(d);document.body.classList.add('noscroll');
  let n=0,done=false,timer=0;const eg=d.querySelector('.hegg'),tap=d.querySelector('.htap');
  const crack=()=>{if(done)return;n++;eg.innerHTML=CRA.egg(r,170,{crack:n});eg.classList.remove('wob');void eg.offsetWidth;eg.classList.add('wob','w'+n);H().buzz([12,30,12+n*10]);try{H().sfx('pop')}catch(e){}clearTimeout(timer);if(n>=3)setTimeout(burst,RM()?0:520);else timer=setTimeout(crack,900)};
@@ -144,7 +150,7 @@ function detail(id){const c=st(),o=c.own[id],t=T(),h=H(),r=R(id),s=stageOf(id,o)
  nav('cr')}
 function eggInfo(){const t=T(),d=document.createElement('div');d.className='sheet';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',t.eggInfo);
  const per=r=>{const p=LIST.filter(x=>x[2]&&x[1]===r);return `<li class="r${r}">${CRA.egg(r,40,{noGlow:1})}<div><b>${esc(t.rar[r])} egg</b><small>${esc(t.how[r])}</small><small>${esc(t.odds(p.length,p.map(x=>name(x[0]))))}</small></div></li>`};
- d.innerHTML=`<div class="sheetc"><b class="sht">${t.eggInfo}</b><p class="crmut">${t.infoTop}</p><ul class="einfo">${[0,1,2,3].map(per).join('')}</ul><p class="crmut">${t.infoFair}</p><button class="go" id="eix">${H().STR.close}</button></div>`;
+ d.innerHTML=`<div class="sheetc"><b class="sht">${t.eggInfo}</b><p class="crmut">${t.infoTop}</p><ul class="einfo">${[0,1,2,3].map(per).join('')}</ul><p class="crmut">${t.infoFair}</p>${t.luck?`<p class="crmut"><b>✨ Lucky crack</b> · ${esc(t.luck)}</p>`:""}<button class="go" id="eix">${H().STR.close}</button></div>`;
  document.body.appendChild(d);const x=()=>d.remove();$('eix').onclick=x;d.onclick=e=>{if(e.target===d)x()};$('eix').focus()}
 // ---------------- creature in the run (canvas follower) ----------------
 const IMG={};function cimg(id,s){const k=id+s;if(IMG[k])return IMG[k];const i=new Image();i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(CRA.svg(id,s,64).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '));IMG[k]=i;return i}
