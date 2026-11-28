@@ -88,6 +88,29 @@ function feed(id){const c=st(),o=c.own[id],s=S(),t=T(),td=today();o.fed=o.fed&&o
  const learnt=Object.keys(s.w).filter(w=>((s.w[w].m||0)>=1||s.w[w].seen)&&!o.fed.w.includes(w));
  if(!learnt.length){H().pop(t.noWords);return null}
  const w=learnt[Math.floor(Math.random()*learnt.length)];o.fed.n++;o.fed.w.push(w);o.xp=(o.xp||0)+1;save();H().buzz([10,30,10]);try{H().sfx('star')}catch(e){}return w}
+// feeding mini-game: a meaning and 3 word snacks; the right one is chomped (that word is fed), a wrong one gets a playful sniff
+const SNACK=['🍪','🍓','🥕','🍙','🧁','🍎','🍩','🥟'];
+const CHOMP={bobby:'Nom nom!',hootle:'Hoo-yum!',inkoo:'Slurp!',snailbet:'Munch… munch…',crab:'Snip snap, yum!',lexi:'Zzzap! Tasty!',pagewing:'Flutter-yum!',echobat:'Yum-yum-yum (echo)!',glyphin:'Splash, gulp!',syntaxolotl:'Wiggle-gulp!',lexicorn:'Sparkle munch!',rex:'CHOMP!',phoenix:'Toasty, yum!',pengwyn:'Chilly crunch!'};
+function feedGame(id,done){const c=st(),o=c.own[id],s=S(),t=T(),h=H(),td=today();o.fed=o.fed&&o.fed.d===td?o.fed:{d:td,n:0,w:[]};
+ if(o.fed.n>=FEEDS){h.pop(t.full(nick(id)));return}
+ const WF=h.WF||(()=>null),pool=Object.keys(s.w).filter(w=>((s.w[w].m||0)>=1||s.w[w].seen)&&WF(w)&&WF(w)[2]);
+ const fresh=pool.filter(w=>!o.fed.w.includes(w));if(!fresh.length){h.pop(t.noWords);return}
+ const w=fresh[Math.random()*fresh.length|0],x=WF(w);let wrong=pool.filter(v=>v!==w);
+ if(wrong.length<2&&h.flat)try{wrong=wrong.concat(Object.keys(s.w).filter(v=>v!==w))}catch(e){}
+ wrong=[...new Set(wrong)].sort(()=>Math.random()-.5).slice(0,2);while(wrong.length<2)wrong.push(['banana','pillow','teapot'][wrong.length]);
+ const opts=[w,...wrong].sort(()=>Math.random()-.5),d=document.createElement('div');d.className='sheet';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label','Feeding time');
+ d.innerHTML=`<div class="sheetc fgame"><b class="sht">Feeding time · ${esc(nick(id))}</b><div class="fcr" id="fcr">${id==='bobby'?BOB.full({stage:0,size:110}):CRA.svg(id,stageOf(id,o),120)}</div><p class="fprompt">Which snack means “${esc(x[2])}”?</p><div class="fsn">${opts.map((v,i)=>`<button data-v="${esc(v)}" data-e="${SNACK[(i+v.length)%SNACK.length]}">${esc(v)}</button>`).join('')}</div><p class="crmut" id="fgm" aria-live="polite">Snacks are free and never needed. Pick the right word to feed it.</p><button class="go soft" id="fgx">${esc(h.STR.close||'Close')}</button></div>`;
+ document.body.appendChild(d);const cr=d.querySelector('#fcr'),close=()=>{d.remove();done&&done()};d.querySelector('#fgx').onclick=close;
+ d.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{const v=b.dataset.v;
+  if(v!==w){cr.classList.remove('sniff');void cr.offsetWidth;cr.classList.add('sniff');b.disabled=true;d.querySelector('#fgm').textContent=`*sniff sniff* ${nick(id)} isn't sure about that one. Try another!`;try{h.sfx('tick')}catch(e){}return}
+  d.querySelectorAll('[data-v]').forEach(e=>e.disabled=true);b.style.visibility='hidden';cr.classList.add('chomp');
+  o.fed.n++;o.fed.w.push(w);o.xp=(o.xp||0)+1;save();h.buzz([10,30,10]);try{h.sfx('star')}catch(e){}
+  d.querySelector('#fgm').innerHTML=`<b>${esc(CHOMP[id]||'Yum!')}</b> ${esc(t.yum(nick(id),w))}`;setTimeout(close,1500)})}
+// treats: bought with coins, give growth straight away; always optional
+const TREATS=[['berry','🫐','Berry',200,1],['cookie','🍪','Golden Cookie',800,3],['star','⭐','Star Fruit',2500,8]];
+function treatRow(id){const s=S();return `<p class="crmut" style="margin-top:10px"><b>Treats</b> · optional, for coins you earned</p><div class="treats">${TREATS.map(r=>`<button data-tr="${r[0]}" class="${(s.coins||0)<r[3]?'dim':''}" aria-label="${r[2]}, ${r[3]} coins, +${r[4]} growth"><i>${r[1]}</i>${r[2]}<br>${r[3].toLocaleString('en-GB')} · +${r[4]}</button>`).join('')}</div>`}
+function giveTreat(id,k){const r=TREATS.find(z=>z[0]===k),s=S(),o=st().own[id],h=H();if(!r||!o)return false;if((s.coins||0)<r[3]){h.pop((r[3]-(s.coins||0)).toLocaleString('en-GB')+' more coins needed');return false}
+ s.coins-=r[3];o.xp=(o.xp||0)+r[4];o.treats=(o.treats||0)+1;save();try{h.hud()}catch(e){}h.buzz([10,30,10]);try{h.sfx('star')}catch(e){}h.pop(`${r[1]} ${nick(id)} loved the ${r[2]}! +${r[4]} growth`);return true}
 // ---------------- screens ----------------
 function screen(){const h=H();h.leave();const c=st(),t=T(),m=h.main,found=LIST.filter(x=>x[1]<4&&c.own[x[0]]).length,total=LIST.filter(x=>x[1]<4).length;
  const eggs=c.eggs.map((e,i)=>`<button class="eggbtn r${e.r}" data-egg="${i}" aria-label="${esc(t.hatchA(t.rar[e.r]))}">${CRA.egg(e.r,64)}<small>${esc(t.rar[e.r])}</small></button>`).join('');
@@ -111,10 +134,12 @@ function detail(id){const c=st(),o=c.own[id],t=T(),h=H(),r=R(id),s=stageOf(id,o)
  else{prog=growthCard(id,o,s)}
  h.main.innerHTML=`<div class="card crdetail r${r}"><button class="back" id="cb">‹ ${t.back}</button><div class="crbig" id="crb">${bob?BOB.full({stage:s,size:150}):CRA.svg(id,s,190,{depth:1})}<div class="hearts" id="hts"></div></div>
  <div class="word" style="font-size:clamp(26px,6vw,36px)">${esc(nick(id))}</div><p class="crsp">${id==='bobby'?'<span class="rchip rp">Partner</span>':`<span class="rchip r${r}">${esc(t.rar[r])}</span>`} ${esc((T().names[id]||[])[1]||'')}</p><p class="hsub">${esc(t.blurb[id]||'')}</p>${prog}${window.VBPERK&&VBPERK[id]?`<p class="perkd"><b>${'⭐'.repeat(Math.max(1,Math.min(5,o.star||1)))}</b> Perk: ${esc(VBPERK[id][0])}${(o.star||1)<5?' · duplicates add a star and make it stronger':''}</p>`:''}
- <div class="crbtns"><button class="go" id="cact" ${c.act===id?'aria-pressed="true"':''}>${c.act===id?t.withYouNow:t.takeIt}</button><button class="go soft" id="cfeed">${t.feed}</button><button class="go soft" id="cren">${t.rename}</button></div><p class="crmut" id="fedmsg" aria-live="polite"></p></div>`;
+ <div class="crbtns"><button class="go" id="cact" ${c.act===id?'aria-pressed="true"':''}>${c.act===id?t.withYouNow:t.takeIt}</button><button class="go soft" id="cfeed">${t.feed}</button><button class="go soft" id="cren">${t.rename}</button></div><p class="crmut" id="fedmsg" aria-live="polite"></p>${bob?'':treatRow(id)}</div>`;
  $('cb').onclick=screen;$('cact').onclick=()=>{c.act=id;save();H().pop(t.joined(nick(id)));detail(id)};
- $('cfeed').onclick=()=>{const w=feed(id);if(!w)return;$('fedmsg').textContent=t.yum(nick(id),w);const a=$('crb').querySelector('svg');if(a&&!RM()){a.classList.remove('happy');void a.getBoundingClientRect();a.classList.add('happy')}
-  const hs=$('hts');if(!RM()){hs.innerHTML='<i>💗</i><i>✨</i><i>💗</i>';setTimeout(()=>hs.innerHTML='',1200)}if(!bob)checkEvo(()=>detail(id));if(!bob)setTimeout(()=>{if($('fedmsg'))detail(id)},1400)};
+ h.main.querySelectorAll('[data-tr]').forEach(b=>b.onclick=()=>{if(giveTreat(id,b.dataset.tr)){checkEvo(()=>detail(id));setTimeout(()=>{if($('fedmsg'))detail(id)},900)}});
+ $('cfeed').onclick=()=>feedGame(id,()=>{if(!bob)checkEvo(()=>detail(id));if($('fedmsg'))detail(id)});
+ const _oldFeed=()=>{const w=feed(id);if(!w)return;$('fedmsg').textContent=t.yum(nick(id),w);const a=$('crb').querySelector('svg');if(a&&!RM()){a.classList.remove('happy');void a.getBoundingClientRect();a.classList.add('happy')}
+  const hs=$('hts');if(!RM()){hs.innerHTML='<i>💗</i><i>✨</i><i>💗</i>';setTimeout(()=>hs.innerHTML='',1200)}if(!bob)checkEvo(()=>detail(id));if(!bob)setTimeout(()=>{if($('fedmsg'))detail(id)},1400)};void _oldFeed;
  $('cren').onclick=()=>{const v=prompt(t.nameIt,o.nick||name(id));if(v==null)return;const x=v.trim();if(!x){o.nick='';save();return detail(id)}if(!/^[\p{L}\p{N} '\-]{1,14}$/u.test(x)){H().pop(t.badName);return}o.nick=x;save();detail(id)};
  nav('cr')}
 function eggInfo(){const t=T(),d=document.createElement('div');d.className='sheet';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',t.eggInfo);
