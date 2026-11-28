@@ -65,3 +65,8 @@ html.night .brand{background:#F3F2FF!important;border-radius:16px!important;padd
 html.night .tabs button,html.night button.sec,html.night .btn,html.night button{box-shadow:0 3px 0 #0A1630!important;border-color:#3A414E!important}
 html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec){background:linear-gradient(120deg,#5CC8F0,#3F8CF0)!important}
 html.night .card:first-of-type{border-top-color:#3F8CF0}
+html.night body{background:radial-gradient(120% 60% at 50% -8%,#1A1E26 0%,rgba(7,9,13,0) 65%),radial-gradient(140% 100% at 50% 50%,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%),linear-gradient(#0C0F14,#07090D 60%,#0A1226) fixed!important}
+html.night .card,html.night .pl{background:linear-gradient(180deg,#1C2029,#12151B)!important;border-color:#2A303B!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -3px 8px rgba(0,0,0,.35),0 1px 0 #000,0 8px 24px rgba(0,0,0,.55)!important}
+html.night button.sec,html.night .btn.sec,html.night .btn.alt,html.night button.alt,html.night .tabs button:not(.on):not([aria-selected=true]){background:linear-gradient(180deg,#232833,#14171E)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 3px 0 #05070A,0 6px 14px rgba(0,0,0,.45)!important}
+html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec){background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.06) 48%,rgba(0,0,0,0) 52%),linear-gradient(120deg,#5CC8F0,#3F8CF0)!important;background-color:#4BA9EF!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(10,42,102,.45),0 4px 0 #0A2A66,0 8px 18px rgba(0,0,0,.5)!important}
+html.night button:active,html.night .btn:active{transform:translateY(3px)}
