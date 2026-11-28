@@ -46,17 +46,17 @@ h1{background:none!important;display:block}
 .pl.turn{background:#fff!important;box-shadow:inset 0 0 0 2px #F5B83A}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 /* Night mode for secondary pages (html.night set by /skin.js) */
-html.night{color-scheme:dark;--ink:#F1F0FF;--mut:#C3C0EC;--soft:#241F4E;--line:#3B3572}
-html.night body{background:radial-gradient(120% 70% at 50% 0%,#2A2368,#151236 55%,#0B0A22) fixed!important;color:var(--ink)}
-html.night .card,html.night .pl,html.night table,html.night .stats>*,html.night .top a,html.night button.sec,html.night .btn.sec,html.night .btn.alt,html.night button.alt,html.night .alt,html.night .tabs button,html.night .chip,html.night .linkbtn,html.night input,html.night textarea,html.night select,html.night .pill,html.night .pill.free{background:#1D1944!important;color:var(--ink)!important;border-color:#8C88E6!important}
-html.night .card{box-shadow:0 4px 0 #05040F!important}
-html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec),html.night .tag,html.night .code,html.night .tabs button[aria-selected=true],html.night .tabs button.on,html.night .chip.on{color:#1B1440!important}
+html.night{color-scheme:dark;--ink:#EEF3FF;--mut:#B8C7E0;--soft:#16223F;--line:#26385E}
+html.night body{background:radial-gradient(120% 70% at 50% 0%,#0E1E44,#0B1530 55%,#05070F) fixed!important;color:var(--ink)}
+html.night .card,html.night .pl,html.night table,html.night .stats>*,html.night .top a,html.night button.sec,html.night .btn.sec,html.night .btn.alt,html.night button.alt,html.night .alt,html.night .tabs button,html.night .chip,html.night .linkbtn,html.night input,html.night textarea,html.night select,html.night .pill,html.night .pill.free{background:#111A33!important;color:var(--ink)!important;border-color:#4A6FA5!important}
+html.night .card{box-shadow:0 4px 0 #02030A!important}
+html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec),html.night .tag,html.night .code,html.night .tabs button[aria-selected=true],html.night .tabs button.on,html.night .chip.on{color:#0B1530!important}
 html.night .tabs button[aria-selected=true],html.night .tabs button.on,html.night .chip.on{background:#FFE45C!important}
-html.night .hl,html.night .brand b span{color:#1B1440!important}html.night .brand b{color:var(--ink)!important}
-html.night h1{background:linear-gradient(transparent 64%,#3A3480 64%)}
-html.night .ok{color:#6EE7B7!important}html.night .err{color:#FF9AA8!important}html.night a{color:#B9C6FF}html.night footer,html.night footer a{color:var(--ink)!important}
+html.night .hl,html.night .brand b span{color:#0B1530!important}html.night .brand b{color:var(--ink)!important}
+html.night h1{background:linear-gradient(transparent 64%,#1F3A6E 64%)}
+html.night .ok{color:#6EE7B7!important}html.night .err{color:#FF9AA8!important}html.night a{color:#9FD3F5}html.night footer,html.night footer a{color:var(--ink)!important}
 html.night .pl.turn{background:#3A3410!important}
-html.night td,html.night th{color:var(--ink);border-color:#3B3572}
-html.night .tabs button[aria-selected=false]:not(.sec):not(.alt):not(.chip):not(.linkbtn){background:#1D1944!important;color:var(--ink)!important}
-html.night .hl,html.night h1 .hl{color:#1B1440!important}
+html.night td,html.night th{color:var(--ink);border-color:#26385E}
+html.night .tabs button[aria-selected=false]:not(.sec):not(.alt):not(.chip):not(.linkbtn){background:#111A33!important;color:var(--ink)!important}
+html.night .hl,html.night h1 .hl{color:#0B1530!important}
 html.night .brand{background:#F3F2FF!important;border-radius:16px!important;padding:6px 12px!important;display:inline-block}
