@@ -31,6 +31,17 @@ ${[0,1,2,3,4].map(i=>{const x=52+i*24;return `<path d="M${x} 130 Q${x-8+i*4} 160
 <ellipse cx="78" cy="70" rx="14" ry="8" fill="#fff" opacity=".35"/>${eyes(80,120,100,1.15)}${blush(66,134,118)}${smile(100,118)}
 ${s>=1?`<g transform="rotate(-30 160 120)"><path d="M152 70 Q170 90 162 128 L156 128 Q150 96 152 70Z" fill="#FFF4E6" ${S} stroke-width="4"/><path d="M158 128 l1 12" ${S} stroke-width="4"/></g><circle cx="38" cy="150" r="6" fill="${K}"/><circle cx="28" cy="164" r="4" fill="${K}"/>`:''}
 ${s>1?`<g fill="${K}"><path d="M70 40 q6 -16 12 0 a6 6 0 0 1 -12 0z"/><path d="M94 30 q6 -18 12 0 a6 6 0 0 1 -12 0z"/><path d="M118 40 q6 -16 12 0 a6 6 0 0 1 -12 0z"/></g>`+sparkles('#B15FD7'):''}`},
+pengwyn(s,u){const c='#2E3A6B';return `${s>1?aura(u+'a','#7DD3FC'):''}${ground}
+${s>1?`<path d="M58 70 L40 176 L160 176 L142 70Z" fill="#7DD3FC" opacity=".55" ${S} stroke-width="4"/>`:''}
+<ellipse cx="100" cy="${s?116:122}" rx="${s?54:58}" ry="${s?66:58}" fill="${s?c:'#9AA6C8'}" ${S}/>
+${s?'':`<g fill="#C9D2EA"><circle cx="58" cy="100" r="9"/><circle cx="142" cy="100" r="9"/><circle cx="70" cy="74" r="8"/><circle cx="130" cy="74" r="8"/><circle cx="100" cy="64" r="9"/></g>`}
+<ellipse cx="100" cy="${s?132:134}" rx="${s?36:40}" ry="${s?44:38}" fill="#FFF4E6"/>
+${eyes(84,116,s?102:110,s?1:1.2)}<path d="M92 ${s?116:124} L108 ${s?116:124} L100 ${s?128:134}Z" fill="#FFB23F" ${S} stroke-width="4"/>${blush(70,130,s?120:128)}
+<path d="M48 ${s?110:118} Q30 140 46 158 M152 ${s?110:118} Q170 140 154 158" fill="none" ${S} stroke-width="8"/>
+<path d="M78 182 l-8 4 h18Z M122 182 l-8 4 h18Z" fill="#FFB23F" ${S} stroke-width="4"/>
+${s===0?`<path d="M56 146 Q100 166 144 146 L144 160 Q100 178 56 160Z" fill="#FF5D8F" ${S} stroke-width="5"/><path d="M128 156 l6 26 l12 -4 l-8 -22" fill="#FF5D8F" ${S} stroke-width="5"/>`:''}
+${s===1?`<circle cx="84" cy="102" r="14" fill="none" ${S} stroke-width="4"/><circle cx="116" cy="102" r="14" fill="none" ${S} stroke-width="4"/><path d="M98 102h4" ${S} stroke-width="4"/><path d="M60 56 L100 40 L140 56 L100 70Z" fill="${K}"/><path d="M140 56 v18" ${S} stroke="#FFE45C" stroke-width="4"/><g transform="rotate(-18 160 150)"><rect x="146" y="120" width="26" height="46" rx="6" fill="#FFF4E6" ${S} stroke-width="4"/><path d="M152 134h14 M152 144h14 M152 154h10" ${S} stroke-width="3"/></g>`:''}
+${s>1?`<path d="M62 70 Q62 36 100 32 Q138 36 138 70 L126 60 L100 68 L74 60Z" fill="#CFEFFF" ${S} stroke-width="5"/><path d="M100 32 l-6 -16 6 4 6 -4z" fill="#7DD3FC" ${S} stroke-width="4"/><path d="M60 128 L140 128 L132 150 L68 150Z" fill="#CFEFFF" opacity=".9" ${S} stroke-width="4"/><g transform="rotate(24 162 130)"><path d="M162 60 L172 120 L162 150 L152 120Z" fill="#7DD3FC" ${S} stroke-width="4"/><path d="M162 70 L166 118" stroke="#fff" stroke-width="3"/></g>`+sparkles('#7DD3FC'):''}`},
 snailbet(s,u){const sh=s>1?`url(#${u}g)`:'#FFE45C';return `${s>1?grad(u+'g','#3FABE7','#7D82DE','#B15FD7')+aura(u+'a','#7D82DE'):''}${ground}
 <path d="M24 178 Q20 150 50 146 L150 146 Q178 150 176 178Z" fill="#8FD8C4" ${S}/>
 <circle cx="102" cy="112" r="${s?52:46}" fill="${sh}" ${S}/>

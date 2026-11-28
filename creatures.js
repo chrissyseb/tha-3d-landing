@@ -6,7 +6,7 @@ const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const today=()=>new Date().toDateString();
 // id, rarity (0 Common,1 Rare,2 Epic,3 Legendary,4 Supporter), egg pool
-const LIST=[['bobby',0,0],['hootle',0,1],['inkoo',0,1],['snailbet',0,1],['crab',0,1],['lexi',1,1],['pagewing',1,1],['echobat',1,1],['glyphin',2,1],['syntaxolotl',2,1],['lexicorn',3,1],['rex',3,1],['phoenix',4,0]];
+const LIST=[['bobby',0,0],['hootle',0,1],['inkoo',0,1],['snailbet',0,1],['crab',0,1],['lexi',1,1],['pagewing',1,1],['echobat',1,1],['pengwyn',1,1],['glyphin',2,1],['syntaxolotl',2,1],['lexicorn',3,1],['rex',3,1],['phoenix',4,0]];
 const R=id=>(LIST.find(x=>x[0]===id)||[id,0])[1];
 const RCOL=['#3FABE7','#3FABE7','#B15FD7','#FFB23F','#FF8A3D'];
 const EVO=[0,12,36],EGG_PRICE=1500,EGGP=[1500,12000,35000,90000],FEEDS=5;
@@ -126,8 +126,8 @@ const IMG={};function cimg(id,s){const k=id+s;if(IMG[k])return IMG[k];const i=ne
 // Companion runs beside the avatar. Visible art ~40 units tall (~68% of the 58-unit avatar), so it reads on a 390px phone.
 // Personality: a signature idle per species, a celebration on correct, a gentle reaction on wrong (Bobby throws a rope),
 // and the odd spontaneous moment (butterfly chase, presenting a word token). Reduced motion: no hops/flips/bobs, cues stay.
-const ELEM={bobby:'fire',phoenix:'fire',rex:'fire',inkoo:'water',crab:'water',glyphin:'water',syntaxolotl:'water',lexi:'zap',echobat:'zap',hootle:'wind',pagewing:'wind',snailbet:'leaf',lexicorn:'star'};
-const IDLE={bobby:'wag',hootle:'blink',inkoo:'float',snailbet:'peek',crab:'side',lexi:'spin',pagewing:'flap',echobat:'float',glyphin:'arc',syntaxolotl:'wiggle',lexicorn:'prance',rex:'stomp',phoenix:'float'};
+const ELEM={bobby:'fire',phoenix:'fire',rex:'fire',inkoo:'water',crab:'water',glyphin:'water',syntaxolotl:'water',pengwyn:'water',lexi:'zap',echobat:'zap',hootle:'wind',pagewing:'wind',snailbet:'leaf',lexicorn:'star'};
+const IDLE={bobby:'wag',hootle:'blink',inkoo:'float',snailbet:'peek',crab:'side',lexi:'spin',pagewing:'flap',echobat:'float',glyphin:'arc',syntaxolotl:'wiggle',pengwyn:'wiggle',lexicorn:'prance',rex:'stomp',phoenix:'float'};
 let RX=null,PRE=0,SP={next:0,k:'',t0:0};
 function react(k){RX={k,t0:performance.now()}}
 const DUR={ok:700,bad:1300,flip:900};
