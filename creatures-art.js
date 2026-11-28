@@ -42,15 +42,17 @@ ${eyes(84,116,s?102:110,s?1:1.2)}<path d="M92 ${s?116:124} L108 ${s?116:124} L10
 ${s===0?`<path d="M56 146 Q100 166 144 146 L144 160 Q100 178 56 160Z" fill="#FF5D8F" ${S} stroke-width="5"/><path d="M128 156 l6 26 l12 -4 l-8 -22" fill="#FF5D8F" ${S} stroke-width="5"/>`:''}
 ${s===1?`<circle cx="84" cy="102" r="14" fill="none" ${S} stroke-width="4"/><circle cx="116" cy="102" r="14" fill="none" ${S} stroke-width="4"/><path d="M98 102h4" ${S} stroke-width="4"/><path d="M60 56 L100 40 L140 56 L100 70Z" fill="${K}"/><path d="M140 56 v18" ${S} stroke="#FFE45C" stroke-width="4"/><g transform="rotate(-18 160 150)"><rect x="146" y="120" width="26" height="46" rx="6" fill="#FFF4E6" ${S} stroke-width="4"/><path d="M152 134h14 M152 144h14 M152 154h10" ${S} stroke-width="3"/></g>`:''}
 ${s>1?`<path d="M62 70 Q62 36 100 32 Q138 36 138 70 L126 60 L100 68 L74 60Z" fill="#CFEFFF" ${S} stroke-width="5"/><path d="M100 32 l-6 -16 6 4 6 -4z" fill="#7DD3FC" ${S} stroke-width="4"/><path d="M60 128 L140 128 L132 150 L68 150Z" fill="#CFEFFF" opacity=".9" ${S} stroke-width="4"/><g transform="rotate(24 162 130)"><path d="M162 60 L172 120 L162 150 L152 120Z" fill="#7DD3FC" ${S} stroke-width="4"/><path d="M162 70 L166 118" stroke="#fff" stroke-width="3"/></g>`+sparkles('#7DD3FC'):''}`},
-snailbet(s,u){const sh=s>1?`url(#${u}g)`:'#FFE45C';return `${s>1?grad(u+'g','#3FABE7','#7D82DE','#B15FD7')+aura(u+'a','#7D82DE'):''}${ground}
-<path d="M24 178 Q20 150 50 146 L150 146 Q178 150 176 178Z" fill="#8FD8C4" ${S}/>
-<circle cx="102" cy="112" r="${s?52:46}" fill="${sh}" ${S}/>
-<path d="M102 112 m0 -8 a8 8 0 1 1 -8 8 a18 18 0 1 1 18 18 a28 28 0 1 1 -28 -28" fill="none" ${S} stroke-width="5"/>
-<text x="102" y="${s?84:90}" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="700" font-size="16" fill="${s>1?'#fff':K}">abc</text>
-<path d="M150 146 Q176 140 172 104 Q170 86 150 90 Q140 120 150 146Z" fill="#8FD8C4" ${S}/>
-<path d="M156 92 L150 62 M168 94 L176 64" ${S} stroke-width="5"/><circle cx="150" cy="58" r="7" fill="${s>=1?'#FFE45C':'#8FD8C4'}" ${S} stroke-width="4"/><circle cx="177" cy="60" r="7" fill="${s>=1?'#FFE45C':'#8FD8C4'}" ${S} stroke-width="4"/>
-${eye(152,112,.8)}${eye(170,112,.8)}<ellipse cx="146" cy="128" rx="6" ry="4" fill="#FF7AA8" opacity=".75"/>${smile(162,128,7)}
-${s>1?sparkles():''}`},
+snailbet(s,u){const body=s>1?'#7FE3C9':'#9BE7D2',sh=s>1?`url(#${u}g)`:s?'#FFB23F':'#FFE45C',R=[40,48,54][s];return `${s>1?grad(u+'g','#3FABE7','#7D82DE','#B15FD7')+aura(u+'a','#7D82DE'):''}${ground}
+<path d="M22 180 Q18 ${s?150:156} 52 ${s?148:152} L146 ${s?148:152} Q182 152 178 180Z" fill="${body}" ${S}/>
+<path d="M146 ${s?150:154} Q178 144 174 106 Q172 88 152 92 Q140 122 146 ${s?150:154}Z" fill="${body}" ${S}/>
+${eyes(150,168,118,.75)}<path d="M150 134 q8 6 16 0" fill="none" ${S} stroke-width="4"/><ellipse cx="146" cy="128" rx="5" ry="3" fill="#FF7AA8" opacity=".75"/>
+<path d="M154 94 L148 ${s?58:68} M168 96 L176 ${s?60:70}" ${S} stroke-width="5"/>
+${s>1?`<path d="M140 52 l8 -12 l4 10 l6 -12 l2 14Z" fill="#FFE45C" ${S} stroke-width="3.5"/><path d="M168 54 l6 -12 l4 10 l6 -10 l0 14Z" fill="#FFE45C" ${S} stroke-width="3.5"/>`:`<circle cx="148" cy="${s?56:66}" r="7" fill="${s?'#FFE45C':body}" ${S} stroke-width="4"/><circle cx="177" cy="${s?58:68}" r="7" fill="${s?'#FFE45C':body}" ${S} stroke-width="4"/>`}
+<circle cx="96" cy="${148-R}" r="${R}" fill="${sh}" ${S}/>
+<path d="M96 ${148-R} m0 -6 a6 6 0 1 1 -6 6 a${R*.35} ${R*.35} 0 1 1 ${R*.35} ${R*.35} a${R*.6} ${R*.6} 0 1 1 -${R*.6} -${R*.6}" fill="none" ${S} stroke-width="4.5"/>
+${s===0?`<text x="96" y="${148-R*1.55}" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="800" font-size="20" fill="${K}">a</text>`:''}
+${s===1?`<text x="96" y="${148-R*1.6}" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="800" font-size="17" fill="${K}">abc</text><path d="M58 150 Q96 166 134 150 L134 160 Q96 176 58 160Z" fill="#3FABE7" ${S} stroke-width="4"/>`:''}
+${s>1?`<g font-family="Rubik,Fredoka,sans-serif" font-weight="800" font-size="16" fill="#fff" stroke="${K}" stroke-width="1.2"><text x="46" y="70">A</text><text x="88" y="34">B</text><text x="138" y="78">C</text><text x="30" y="122">Z</text></g>`+sparkles('#7D82DE'):''}`},
 crab(s,u){const c=s>1?'#FFB23F':'#FF7A6B';return `${s>1?aura(u+'a','#FFE45C'):''}${ground}
 <path d="M40 150 L22 176 M56 160 L44 182 M160 150 L178 176 M144 160 L156 182" ${S} stroke-width="7"/>
 <path d="M50 100 Q30 70 28 54" fill="none" ${S} stroke-width="8"/><path d="M150 100 Q170 70 172 54" fill="none" ${S} stroke-width="8"/>
@@ -134,7 +136,11 @@ function svg(id,stage=0,sz=96,o={}){const u='c'+(++N);
  if(id==='bobby'&&window.BOB)return BOB.full({stage:o.bobbyStage||0,size:Math.round(sz*.72),cls:'crsvg '+(o.cls||''),expr:o.expr});
  const f=ART[id];if(!f)return'';
  const sil=o.sil?` style="filter:brightness(0) opacity(.18)"`:'';
- const body=f(Math.max(0,Math.min(2,stage)),u);
+ const sg=Math.max(0,Math.min(2,stage)),raw=f(sg,u);
+ // stage look: Hatchling smaller with eggshell bits, Explorer full size with a silver star, Champion biggest with a gold star medal
+ const body=sg===0?`<g transform="translate(100 188) scale(.82) translate(-100 -188)">${raw}</g><path d="M60 186 l6 -10 6 8 6 -9 6 11Z M124 186 l5 -9 5 7 5 -8 5 10Z" fill="#FFF4E6" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/>`
+  :sg===1?`<g transform="translate(100 188) scale(.93) translate(-100 -188)">${raw}</g><g transform="translate(168 166)"><circle r="13" fill="#E6ECF5" stroke="#241B4B" stroke-width="3.5"/><path d="M0 -7l2 4.5 5 .5-3.7 3.3 1 4.9L0 3.6-4.3 6.2l1-4.9L-7 -2l5-.5z" fill="#9AA6C8" stroke="#241B4B" stroke-width="1.5"/></g>`
+  :`${raw}<g transform="translate(168 166)"><path d="M-8 -26 L-4 -10 M8 -26 L4 -10" stroke="#3FABE7" stroke-width="6"/><circle r="15" fill="#FFD23F" stroke="#241B4B" stroke-width="3.5"/><path d="M0 -8l2.4 5 5.5.6-4.1 3.7 1.1 5.4L0 4-4.9 6.7l1.1-5.4-4.1-3.7 5.5-.6z" fill="#fff" stroke="#B8863B" stroke-width="1.5"/></g>`;
  if(!o.depth||o.sil)return `<svg class="crsvg ${o.cls||''}" width="${sz}" height="${sz}" viewBox="0 0 200 200" aria-hidden="true"${sil}>${body}</svg>`;
  // portrait: glossy meadow plinth, key light, and a soft-3D shading filter (bottom-right shade, top-left rim light) over the creature's own art
  return `<svg class="crsvg deep ${o.cls||''}" width="${sz}" height="${sz}" viewBox="0 0 200 200" aria-hidden="true"><defs>
