@@ -864,6 +864,11 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
 .nwr{white-space:nowrap}.q u{text-decoration-skip-ink:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .backbar{display:flex;gap:8px;margin:0 0 8px;width:100%}.bkb{font:800 15px var(--fd,system-ui);padding:8px 14px;border-radius:12px;border:3px solid var(--ink,#241B4B);background:var(--paper,#fff);color:var(--ink,#241B4B);min-height:44px;cursor:pointer;box-shadow:0 3px 0 var(--ink,#241B4B)}body.night .bkb{background:#141a2e;color:#eef;border-color:#3A414E}
 @media (min-width:700px) and (min-height:600px){.bnav button{min-height:64px!important;font-size:15px!important}.bnav button svg{width:30px;height:30px}.bkb{font-size:17px;padding:10px 18px}}
+.bub{position:relative}.bub.charging{background-image:conic-gradient(rgba(255,228,92,.85) calc(var(--p,0)*360deg),transparent 0)!important;box-shadow:0 0 calc(8px + var(--p,0)*22px) rgba(255,210,63,.9)!important;transform:scale(calc(1 + var(--p,0)*.08))}
+.holdtip{font-size:13px;margin:6px 0 0;opacity:.85}.combob{background:linear-gradient(90deg,#FFE45C,#FF9F43)!important;color:#241B4B!important;animation:bnp .8s ease-in-out infinite alternate}
+.chshake{animation:chs .12s linear infinite}.chshake2{animation:chs .07s linear infinite}@keyframes chs{0%{transform:translate(0,0)}25%{transform:translate(1.5px,-1px)}50%{transform:translate(-1.5px,1px)}75%{transform:translate(1px,1px)}}
+@media (prefers-reduced-motion:reduce){.chshake,.chshake2{animation:none}}
+#bossbar.boss{flex-wrap:wrap;row-gap:6px}
 </style><link rel="stylesheet" href="/intro.css"></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span></div>
@@ -1313,7 +1318,7 @@ function run(){
   const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
   const head=(label,lvl)=>`<div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace(s.t==='intro'?'idle':'think',52)}</span><span class="tag ${s.t==='intro'?'new':''}">${s.rvk&&!s.boss?'Review · '+s.rvk+' of 3 · ':''}${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
   if(s.t!=='intro'&&s.t!=='match'&&!s.arr){
-    main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace('think',52)}</span><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?(s.giant&&sess.kind!=='challenge'?'<b>A GIANT approaches!</b> King Kongo blocks the finish line. Answer right, then attack. Hold your charge for combos! You have 3 hearts.':'Boss battle! The '+esc(CB().n)+' blocks the path. Answer right, then pick a power to attack. You have 3 hearts.'):'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
+    main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace('think',52)}</span><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?(s.giant&&sess.kind!=='challenge'?'<b>A GIANT approaches!</b> King Kongo blocks the finish line. Answer right, then press and hold a power to charge it. 2 right in a row unlocks a Combo! You have 3 hearts.':'Boss battle! The '+esc(CB().n)+' blocks the path. Answer right, then pick a power to attack (press and hold to charge it). You have 3 hearts.'):'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
     {const wd=s.n||(s.x&&s.x[0]);const cw=sess.cw||(sess.cw={});if(OB.st&&wd&&cw[wd])OB.st.noCoins=1;if(wd)cw[wd]=1}
     OB.segment(()=>{if(sess&&sess.steps[sess.i]===s){s.arr=1;run()}},s.boss?{hp:sess.boss,max:sess.bossMax,giant:!!s.giant}:null);
     if(s.giant&&!sess.giantIntro){sess.giantIntro=1;OB.say('A GIANT approaches!');if(OB.st&&!OB.RM())OB.st.shakeT=1.4;sfx('attack')}return;
@@ -1425,10 +1430,10 @@ function heartShatter(){const hs=document.querySelectorAll('#bossbar .hearts svg
 function updBossBar(){const b=$('bossbar');if(b&&sess){b.innerHTML=bossBarHTML();wireTips()}}
 function tipsHTML(){const B=CB(),w=ELN[B.weak];return `<div class="tips" id="tips" role="dialog" aria-label="Power tips"><b>Power tips</b>
 <ul><li>Fire, Water or Electric: <b>10</b> damage. Use <b>${esc(w)}</b> on the ${esc(B.n)} for <b>15</b> (super effective).</li>
-<li><b>Hold ⚡ Charge</b> after a right answer to save it. On your next right answer pick <b>two</b> powers for a combo:</li>
+<li><b>Press and hold</b> a power: the ring fills in about a second and the hit grows from 1× to <b>2×</b> damage. Let go to blast!</li><li>Get <b>2 right in a row</b> and a <b>Combo!</b> button appears: pick <b>two</b> powers to combine:</li>
 <li>Fire + Water = <b>Steam Burst</b> · Fire + Electric = <b>Plasma Blast</b> · Water + Electric = <b>Storm Surge</b>: <b>25</b> damage (<b>35</b> if it uses ${esc(w)}).</li>
 <li>Star + any = <b>Super Nova</b>: <b>50</b> damage!</li>
-<li>Careful: a wrong answer drops your charge.</li></ul><button class="go" id="tipsok" type="button">Got it</button></div>`}
+<li>Careful: a wrong answer resets your streak.</li></ul><button class="go" id="tipsok" type="button">Got it</button></div>`}
 function showTips(){if($('tips'))return;const bb=$('bossbar');if(!bb)return;bb.insertAdjacentHTML('afterend',tipsHTML());$('tipsok').onclick=()=>{const t=$('tips');if(t)t.remove();S.tipsSeen=1;save()};$('tipsok').focus()}
 function wireTips(){const q=$('tipq');if(q)q.onclick=()=>{const t=$('tips');if(t)t.remove();else showTips()}}
 function addBossStep(){const w=sess.words[Math.random()*sess.words.length|0];sess.steps.splice(sess.i,0,{t:shuf(['meaning','under','reverse','lookalike','tf'])[0],n:w[0],x:w,boss:1,arr:1,bid:sess.bid,giant:sess.giant})}
@@ -1444,11 +1449,17 @@ function bossTurn(ok){
   const nx=$('nx');if(!nx)return;nx.hidden=true;const B=CB();wireTips();if(!S.tipsSeen)showTips();
   if(ok){
     const star=s_gold||(sess.combo>0&&sess.combo%5===0);const el=['fire','water','zap'];if(star)el.push('star');
-    const charged=(sess.charge||0)>0;
+    let charged=(sess.charge||0)>0;const comboOK=!charged&&(sess.combo||0)>=2;
     const box=document.createElement('div');box.className='bubbles'+(charged?' charged':'');
-    box.innerHTML=`<p class="bubtitle">${charged?'Charged! Pick <b>two</b> powers to combine':'Pick a power to attack!'}</p><div class="bubrow">${el.map(k=>`<button class="bub b-${k}" data-k="${k}" aria-label="${ELN[k]} attack">${BUB[k]}<span>${ELN[k]}</span>${k==='star'?'<span class="wk">Big hit!</span>':''}</button>`).join('')}</div>${(sess.charge||0)<2?'<button class="holdbtn" id="holdbtn" type="button">'+ic('zap',20)+' Hold Charge <small>save it for a combo</small></button>':''}`;
+    box.innerHTML=`<p class="bubtitle">${charged?'Charged! Pick <b>two</b> powers to combine':'Pick a power to attack!'}</p><div class="bubrow">${el.map(k=>`<button class="bub b-${k}" data-k="${k}" aria-label="${ELN[k]} attack">${BUB[k]}<span>${ELN[k]}</span>${k==='star'?'<span class="wk">Big hit!</span>':''}</button>`).join('')}</div><p class="holdtip">Tip: <b>press and hold</b> a power to charge it (up to 2× damage)</p>${comboOK?'<button class="holdbtn combob" id="combobtn" type="button">'+ic('zap',20)+' Combo! <small>2 right in a row: mix two powers</small></button>':''}`;
     nx.before(box);const first=box.querySelector('.bub');if(first)first.focus({preventScroll:true});try{box.scrollIntoView({block:'nearest'})}catch(e){}
-    const hb=box.querySelector('#holdbtn');if(hb)hb.onclick=()=>{sess.charge=(sess.charge||0)+1;persist();sfx('zap');buzz(HAP.combo);pop('Charge stored!');updBossBar();box.innerHTML='<p class="bubtitle">Charge stored ⚡ Next right answer = combo!</p>';nx.hidden=false;nx.focus()};
+    let viaCombo=0;const cb=box.querySelector('#combobtn');if(cb)cb.onclick=()=>{charged=true;viaCombo=1;cb.remove();const ht=box.querySelector('.holdtip');if(ht)ht.remove();box.classList.add('charged');box.querySelector('.bubtitle').innerHTML='Combo! Pick <b>two</b> powers to combine';sfx('zap');buzz(HAP.combo)};
+    // press-and-hold charge: ring fills over 1.2s, damage 1x -> 2x, glow/sound/shake build
+    const HOLD=1200;box.querySelectorAll('.bub').forEach(b=>{let t0=0,raf=0,osc=null,gn=null;const stop=()=>{cancelAnimationFrame(raf);raf=0;try{if(osc){gn.gain.setTargetAtTime(0,ac.currentTime,.03);osc.stop(ac.currentTime+.1)}}catch(e){}osc=null;if(OB.el)OB.el.classList.remove('chshake','chshake2')};
+      b.addEventListener('pointerdown',e=>{if(charged||b.disabled)return;t0=performance.now();b.dataset.mult='1';b.classList.add('charging');
+        if(!mute){try{ac=ac||new AudioContext();osc=ac.createOscillator();gn=ac.createGain();osc.type='sawtooth';osc.frequency.value=180;gn.gain.value=.04;osc.connect(gn).connect(ac.destination);osc.start()}catch(e){}}
+        const tick=()=>{const k=Math.min(1,(performance.now()-t0)/HOLD);b.style.setProperty('--p',k);b.dataset.mult=(1+k).toFixed(2);if(osc)osc.frequency.value=180+k*520;if(OB.el){OB.el.classList.toggle('chshake',k>.35&&k<1);OB.el.classList.toggle('chshake2',k>=1)}if(k>=1&&!b.dataset.full){b.dataset.full=1;buzz(HAP.combo)}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)});
+      ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>{if(!t0)return;t0=0;stop();b.classList.remove('charging')}))});
     const after=(dmg,eff,label)=>{if(!sess)return;sess.boss=Math.max(0,sess.boss-dmg);sfx('hit');OB.bossHit(sess.boss,dmg,eff);updBossBar();
         if(sess.boss<=0)bossWin(box,nx);
         else{box.innerHTML=`<p class="bubtitle">${label?esc(label)+'! ':''}${eff?'Super effective! ':''}-${dmg} HP</p>`;nx.hidden=false;nx.focus()}};
@@ -1457,11 +1468,12 @@ function bossTurn(ok){
       const k=b.dataset.k;
       if(!charged){box.querySelectorAll('.bub,.holdbtn').forEach(q=>q.disabled=true);b.classList.add('picked');
         let dmg=10,eff='';if(k==='star')dmg=25;else if(k===B.weak){dmg=15;eff='super'}
+        const mult=Math.max(1,Math.min(2,+(b.dataset.mult||1)));b.style.removeProperty('--p');b.classList.remove('charging');if(mult>1.05){dmg=Math.round(dmg*mult);if(mult>=1.99)pop('FULL CHARGE ×2!');else pop('Charged ×'+mult.toFixed(1))}
         sfx(k);OB.shoot(k,()=>{pop(eff?'SUPER EFFECTIVE!':k==='star'?'Big hit!':'Not very effective…');after(dmg,eff,'')});return}
       if(picks.includes(k))return;picks.push(k);b.classList.add('picked');b.disabled=true;sfx(k);const hb2=box.querySelector('#holdbtn');if(hb2)hb2.remove();
       if(picks.length<2){box.querySelector('.bubtitle').innerHTML='Now pick a <b>second</b> power';return}
       box.querySelectorAll('.bub').forEach(q=>q.disabled=true);
-      const [nm,col]=comboOf(picks[0],picks[1]);sess.charge=Math.max(0,sess.charge-1);updBossBar();
+      const [nm,col]=comboOf(picks[0],picks[1]);if(!viaCombo)sess.charge=Math.max(0,(sess.charge||0)-1);else sess.combo=0;updBossBar();
       let dmg=25,eff='';if(nm==='Super Nova')dmg=50;else if(picks.includes(B.weak)){dmg=35;eff='super'}
       box.querySelector('.bubtitle').innerHTML=`<span class="comboname" style="--cc:${col}">${esc(nm)}!</span>`;
       OB.combo(picks[0],picks[1],col,nm,()=>{pop(eff?'SUPER EFFECTIVE!':nm==='Super Nova'?'Big hit!':'Not very effective…');after(dmg,eff,nm)});
@@ -1589,7 +1601,7 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>Run and jump.</b> Your avatar runs the course. Tap <b>Jump</b> or press Space to grab coins and hop over crates.</li>
 <li><b>Answer at every word gate.</b> A right answer builds a bridge and you leap across. A wrong answer drops you back to the last checkpoint, you learn the word, and it comes back at a later gate.</li>
 <li><b>Meet new words first.</b> Before a word's first gate you see its meaning, an example sentence and look-alike words to watch out for.</li>
-<li><b>Hold for combos.</b> After a right answer in a boss fight, tap Hold ⚡ Charge. On your next right answer pick two powers for a big combo like Steam Burst or Plasma Blast. A wrong answer drops your charge!</li>
+<li><b>Hold to charge, chain for combos.</b> In a boss fight, press and hold a power after a right answer: the ring fills and the hit grows to 2× damage. Get 2 right in a row and tap <b>Combo!</b> to mix two powers, like Steam Burst or Plasma Blast.</li>
 <li><b>Hear it, say it, spell it.</b> Tap 🔊 to hear any word (🐢 for slow). Spell-it gates and Spelling Sprint train your spelling, and a word only earns its 5th gem once you have spelt it right.</li>
 <li><b>Beat the bosses.</b> A boss appears every 10 gates, and King Kongo the giant guards the finish line. Answer right, then tap Fire, Water or Electric to attack. Each boss is weak to one power. A wrong answer lets the boss hit back, and you have 3 hearts.</li>
 <li><b>Travel to new worlds.</b> Everyone starts in Grass Plains. Finish 2 runs in a world, or beat King Kongo at the end of a run, to travel to the next one. Replay any world you've reached from the World map.</li>
