@@ -52,6 +52,18 @@
  ],
  "rewrites": [
   {
+   "source": "/api/config",
+   "destination": "/api/x?r=config"
+  },
+  {
+   "source": "/api/google",
+   "destination": "/api/x?r=google"
+  },
+  {
+   "source": "/api/redeem",
+   "destination": "/api/x?r=redeem"
+  },
+  {
    "source": "/account",
    "destination": "/account.html"
   },

@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 process.env.SESSION_SECRET = 'test-secret'; delete process.env.BLOB_READ_WRITE_TOKEN;
 process.env.BUGHUNTER_CODES = 'BUG-TEST-0001, BUG-TEST-0002';
-const R = (await import('../api/redeem.js')).default, A = (await import('../api/admin.js')).default;
+const R = (await import('../api/_redeem.js')).default, A = (await import('../api/admin.js')).default;
 async function call(h, b, ip = '10.0.0.1', hdr = {}) {
   const req = { method: 'POST', headers: { 'x-vo': '1', host: 'x', 'x-forwarded-for': ip, ...hdr }, body: b };
   const out = {}; const res = { statusCode: 200, setHeader() {}, end: s => { out.code = res.statusCode; out.j = JSON.parse(s); } };

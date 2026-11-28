@@ -1,5 +1,5 @@
 import { timingSafeEqual, createHash } from 'node:crypto';
-import { newCode, codeHash, bhPath } from './redeem.js';
+import { newCode, codeHash, bhPath } from './_redeem.js';
 import { body, send, rateOk, getJson, putJson, famPath, codePath, safe } from './_lib.js';
 // Admin unlock for PayNow payments. Protected by ADMIN_KEY (Vercel env only).
 function keyOk(req) {

@@ -9,7 +9,7 @@ const TOK = { 'good.tok.a': { sub: '1001', aud: process.env.GOOGLE_CLIENT_ID, is
   'bad.iss.x': { sub: '3004', aud: process.env.GOOGLE_CLIENT_ID, iss: 'evil.com', exp: String(Date.now() / 1000 + 600 | 0) },
   'old.exp.x': { sub: '3005', aud: process.env.GOOGLE_CLIENT_ID, iss: 'accounts.google.com', exp: String(Date.now() / 1000 - 5 | 0) } };
 globalThis.fetch = async url => { const t = new URL(url).searchParams.get('id_token'); assert.ok(String(url).startsWith('https://oauth2.googleapis.com/tokeninfo?')); return TOK[t] ? { ok: true, json: async () => TOK[t] } : { ok: false, json: async () => ({}) }; };
-const G = (await import('../api/google.js')).default, A = (await import('../api/auth.js')).default, P = (await import('../api/progress.js')).default, F = (await import('../api/family.js')).default, C = (await import('../api/config.js')).default;
+const G = (await import('../api/_google.js')).default, A = (await import('../api/auth.js')).default, P = (await import('../api/progress.js')).default, F = (await import('../api/family.js')).default, C = (await import('../api/_config.js')).default;
 const mem = globalThis.__voMem;
 let ip = 0;
 async function call(h, method, b, cookie) {
