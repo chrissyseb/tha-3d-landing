@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 230" preserveAspectRatio="xMidYMax slice">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6CC2EE"/><stop offset=".6" stop-color="#BFE8E0"/><stop offset="1" stop-color="#E9F7D8"/></linearGradient>
+<radialGradient id="sun" cx="62%" cy="10%" r="55%"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".3" stop-color="#FFE45C" stop-opacity=".4"/><stop offset="1" stop-color="#FFE45C" stop-opacity="0"/></radialGradient>
+<linearGradient id="stone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D9E0C4"/><stop offset=".5" stop-color="#A8B48E"/><stop offset="1" stop-color="#76825E"/></linearGradient>
+<linearGradient id="stoneD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E9A74"/><stop offset="1" stop-color="#5E6A48"/></linearGradient>
+<radialGradient id="leaf" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#B4F07A"/><stop offset=".55" stop-color="#4FB347"/><stop offset="1" stop-color="#22703A"/></radialGradient>
+<linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FCFA6"/><stop offset="1" stop-color="#6FB28F"/></linearGradient>
+<radialGradient id="eye" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#E6FFB8"/><stop offset=".4" stop-color="#7DFF6A"/><stop offset="1" stop-color="#7DFF6A" stop-opacity="0"/></radialGradient>
+<radialGradient id="mist" cx=".5" cy="1" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<g id="bush"><circle cx="-14" cy="0" r="16" fill="url(#leaf)"/><circle cx="10" cy="-6" r="20" fill="url(#leaf)"/><circle cx="30" cy="4" r="14" fill="url(#leaf)"/><path d="M-26 6 a40 12 0 0 0 66 0" fill="#22703A" opacity=".35"/></g>
+<g id="palm"><path d="M0 0 C4 -40 2 -80 10 -110" stroke="#8A5A33" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M0 0 C4 -40 2 -80 10 -110" stroke="#C48A55" stroke-width="3" fill="none" stroke-dasharray="4 8"/>
+<g fill="url(#leaf)" stroke="#1E5B2E" stroke-width="2"><path d="M10 -110 q-40 -10 -62 20 q30 -18 62 -20Z"/><path d="M10 -110 q40 -14 64 14 q-32 -14 -64 -14Z"/><path d="M10 -110 q-20 -30 -52 -30 q30 6 52 30Z"/><path d="M10 -110 q22 -32 54 -28 q-32 8 -54 28Z"/></g></g>
+</defs>
+<rect width="720" height="230" fill="url(#sky)"/><rect width="720" height="230" fill="url(#sun)"/>
+<path d="M0 150 Q60 110 120 130 T250 120 T380 128 T520 112 T720 130 V230 H0Z" fill="url(#far)" opacity=".8"/>
+<!-- temple -->
+<g transform="translate(470 182)">
+<ellipse cx="0" cy="0" rx="170" ry="12" fill="#2F5D3A" opacity=".25"/>
+<g stroke="#3B4430" stroke-width="2.5" stroke-linejoin="round">
+<path d="M-150 0 H150 L136 -26 H-136Z" fill="url(#stone)"/>
+<path d="M-124 -26 H124 L112 -52 H-112Z" fill="url(#stone)"/>
+<path d="M-98 -52 H98 L88 -78 H-88Z" fill="url(#stone)"/>
+<path d="M-72 -78 H72 L64 -104 H-64Z" fill="url(#stone)"/>
+<rect x="-46" y="-138" width="92" height="34" rx="3" fill="url(#stone)"/>
+<path d="M-56 -138 H56 L44 -154 H-44Z" fill="url(#stoneD)"/>
+<path d="M-22 -104 V-128 Q0 -142 22 -128 V-104Z" fill="#241B4B"/>
+<path d="M-20 0 H20 L18 -104 H-18Z" fill="url(#stoneD)" opacity=".9"/>
+</g>
+<g stroke="#5E6A48" stroke-width="1.5" opacity=".7"><path d="M-130 -13 H130 M-106 -39 H106 M-80 -65 H80 M-56 -91 H56"/><path d="M-16 -8 H16 M-16 -20 H16 M-16 -32 H16 M-16 -44 H16 M-16 -56 H16 M-16 -68 H16 M-16 -80 H16 M-16 -92 H16"/></g>
+<path d="M-136 -26 H136 M-112 -52 H112 M-88 -78 H88 M-64 -104 H64" stroke="#fff" stroke-width="2" opacity=".45"/>
+<!-- glowing eyes of the face carving -->
+<circle cx="-24" cy="-122" r="10" fill="url(#eye)"/><circle cx="24" cy="-122" r="10" fill="url(#eye)"/>
+<rect x="-30" y="-124" width="12" height="4" rx="2" fill="#7DFF6A"/><rect x="18" y="-124" width="12" height="4" rx="2" fill="#7DFF6A"/>
+<!-- vines -->
+<path d="M-124 -26 q-6 14 2 26 M-98 -52 q8 18 -2 30 M98 -52 q-8 18 2 30 M124 -26 q8 14 -2 26 M-46 -138 q-8 20 2 34 M46 -138 q8 20 -2 34" stroke="#3B9B3A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<g fill="#5DBB3C"><circle cx="-126" cy="-12" r="4"/><circle cx="-100" cy="-36" r="4"/><circle cx="100" cy="-36" r="4"/><circle cx="126" cy="-12" r="4"/><circle cx="-48" cy="-118" r="4"/><circle cx="48" cy="-118" r="4"/></g>
+<!-- torches -->
+<g transform="translate(-150 -10)"><rect x="-3" y="-28" width="6" height="28" fill="#8A5A33" stroke="#3B2716" stroke-width="2"/><path d="M0 -50 q12 12 0 22 q-12 -10 0 -22Z" fill="#FFB23F"/><path d="M0 -44 q6 8 0 14 q-6 -6 0 -14Z" fill="#FFE45C"/></g>
+<g transform="translate(150 -10)"><rect x="-3" y="-28" width="6" height="28" fill="#8A5A33" stroke="#3B2716" stroke-width="2"/><path d="M0 -50 q12 12 0 22 q-12 -10 0 -22Z" fill="#FFB23F"/><path d="M0 -44 q6 8 0 14 q-6 -6 0 -14Z" fill="#FFE45C"/></g>
+</g>
+<use href="#palm" transform="translate(60 190)"/><use href="#palm" transform="translate(690 190) scale(-1 1)"/><use href="#palm" transform="translate(250 196) scale(.75)"/>
+<use href="#bush" transform="translate(20 182)"/><use href="#bush" transform="translate(150 186) scale(.9)"/><use href="#bush" transform="translate(300 184) scale(.8)"/><use href="#bush" transform="translate(650 186)"/>
+<rect y="150" width="720" height="40" fill="url(#mist)"/>
+<g fill="#1E5B2E" opacity=".9"><path d="M0 0 q40 30 20 70 q-10 -30 -20 -40Z"/><path d="M0 0 q70 6 90 40 q-40 -16 -90 -10Z"/><path d="M720 0 q-40 30 -20 70 q10 -30 20 -40Z"/><path d="M720 0 q-70 6 -90 40 q40 -16 90 -10Z"/></g>
+<path d="M40 0 q4 40 -4 70 M680 0 q-4 40 4 70" stroke="#3B9B3A" stroke-width="3" fill="none"/>
+</svg>

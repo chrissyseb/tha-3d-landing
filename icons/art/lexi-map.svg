@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FC8F2"/><stop offset=".55" stop-color="#BFE4FA"/><stop offset="1" stop-color="#E6E3FA"/></linearGradient>
+<radialGradient id="sun" cx="82%" cy="14%" r="40%"><stop offset="0" stop-color="#FFF6C2" stop-opacity=".95"/><stop offset=".3" stop-color="#FFE45C" stop-opacity=".35"/><stop offset="1" stop-color="#FFE45C" stop-opacity="0"/></radialGradient>
+<linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B6EE6E"/><stop offset=".55" stop-color="#7ACF45"/><stop offset="1" stop-color="#4FA82F"/></linearGradient>
+<linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9B98A"/><stop offset=".55" stop-color="#B9825A"/><stop offset="1" stop-color="#7A4E3A"/></linearGradient>
+<linearGradient id="rockP" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9BDF6"/><stop offset=".55" stop-color="#8E86E2"/><stop offset="1" stop-color="#5F55B8"/></linearGradient>
+<linearGradient id="sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF0A8"/><stop offset="1" stop-color="#F4C55A"/></linearGradient>
+<linearGradient id="ice" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#A9DCF7"/></linearGradient>
+<radialGradient id="leaf" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#C8F58A"/><stop offset=".6" stop-color="#5DBB3C"/><stop offset="1" stop-color="#2F7F2A"/></radialGradient>
+<radialGradient id="coin" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFF7BF"/><stop offset=".5" stop-color="#FFE45C"/><stop offset="1" stop-color="#E7A920"/></radialGradient>
+<radialGradient id="sh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#3E3590" stop-opacity=".28"/><stop offset="1" stop-color="#3E3590" stop-opacity="0"/></radialGradient>
+<linearGradient id="path" x1="0" x2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient>
+<g id="cl"><ellipse cx="0" cy="0" rx="34" ry="14" fill="#fff"/><circle cx="-12" cy="-8" r="14" fill="#fff"/><circle cx="10" cy="-12" r="17" fill="#fff"/><ellipse cx="0" cy="6" rx="30" ry="6" fill="#C9C4F2" opacity=".55"/></g>
+<g id="tr"><rect x="-2.5" y="-6" width="5" height="12" rx="2" fill="#8A5A33"/><circle cx="0" cy="-14" r="11" fill="url(#leaf)"/><circle cx="-4" cy="-18" r="3.5" fill="#fff" opacity=".45"/></g>
+</defs>
+<rect width="600" height="260" fill="url(#sky)"/><rect width="600" height="260" fill="url(#sun)"/>
+<use href="#cl" transform="translate(70 40) scale(1.1)" opacity=".95"/><use href="#cl" transform="translate(300 26) scale(.8)" opacity=".85"/><use href="#cl" transform="translate(520 70) scale(1.3)" opacity=".9"/><use href="#cl" transform="translate(190 210) scale(1.6)" opacity=".7"/><use href="#cl" transform="translate(470 228) scale(1.8)" opacity=".75"/>
+<!-- paths linking islands -->
+<path d="M92 150 C140 110 180 112 222 120 S300 168 350 140 S430 92 500 112" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" opacity=".7"/>
+<path d="M92 150 C140 110 180 112 222 120 S300 168 350 140 S430 92 500 112" fill="none" stroke="url(#path)" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 12"/>
+<!-- island 1 grass -->
+<g transform="translate(88 160)"><ellipse cx="0" cy="58" rx="46" ry="8" fill="url(#sh)"/>
+<path d="M-52 0 Q-46 34 -16 52 Q0 62 14 50 Q46 30 52 0Z" fill="url(#rock)" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/><path d="M-30 10 Q-20 32 -6 42" fill="none" stroke="#fff" stroke-width="3" opacity=".35" stroke-linecap="round"/>
+<ellipse cx="0" cy="0" rx="54" ry="13" fill="url(#grass)" stroke="#241B4B" stroke-width="3"/><ellipse cx="-14" cy="-4" rx="26" ry="4" fill="#fff" opacity=".4"/>
+<use href="#tr" transform="translate(-30 -2)"/><use href="#tr" transform="translate(26 -4) scale(.8)"/>
+<circle cx="4" cy="-14" r="11" fill="url(#coin)" stroke="#241B4B" stroke-width="2.5"/><text x="4" y="-9.5" font-family="Fredoka,Nunito,sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#8A5A0E">A</text></g>
+<!-- island 2 sand -->
+<g transform="translate(226 122) scale(.85)"><ellipse cx="0" cy="58" rx="40" ry="7" fill="url(#sh)"/>
+<path d="M-48 0 Q-40 36 -10 50 Q6 58 18 46 Q44 28 48 0Z" fill="url(#rock)" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/>
+<ellipse cx="0" cy="0" rx="50" ry="12" fill="url(#sand)" stroke="#241B4B" stroke-width="3"/><ellipse cx="-12" cy="-3" rx="22" ry="3.5" fill="#fff" opacity=".5"/>
+<path d="M-14 -4 L0 -30 L14 -4Z" fill="#F4C55A" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/><path d="M0 -30 L14 -4 H4Z" fill="#D99A35"/>
+<path d="M22 -4 v-20 M22 -24 q-10 -2 -14 4 M22 -24 q10 -2 14 4 M22 -24 q-4 -9 -12 -8 M22 -24 q4 -9 12 -8" stroke="#2F7F2A" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+<!-- island 3 jungle temple -->
+<g transform="translate(352 150)"><ellipse cx="0" cy="60" rx="44" ry="8" fill="url(#sh)"/>
+<path d="M-50 0 Q-42 36 -12 54 Q4 62 18 50 Q46 30 50 0Z" fill="url(#rock)" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/>
+<ellipse cx="0" cy="0" rx="52" ry="13" fill="url(#grass)" stroke="#241B4B" stroke-width="3"/>
+<g stroke="#241B4B" stroke-width="2.5" stroke-linejoin="round"><rect x="-18" y="-12" width="36" height="10" fill="#B8C2A2"/><rect x="-13" y="-21" width="26" height="9" fill="#A7B38E"/><rect x="-8" y="-29" width="16" height="8" fill="#96A37D"/></g><rect x="-4" y="-10" width="8" height="8" fill="#241B4B"/>
+<path d="M-18 -12 q-4 8 0 14 M18 -12 q4 8 0 14" stroke="#3B9B3A" stroke-width="3" fill="none"/>
+<use href="#tr" transform="translate(-36 -2) scale(.85)"/><use href="#tr" transform="translate(34 -2) scale(.95)"/></g>
+<!-- island 4 ice -->
+<g transform="translate(500 112) scale(.9)"><ellipse cx="0" cy="58" rx="40" ry="7" fill="url(#sh)"/>
+<path d="M-48 0 Q-40 36 -10 50 Q6 58 18 46 Q44 28 48 0Z" fill="url(#rockP)" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/>
+<ellipse cx="0" cy="0" rx="50" ry="12" fill="url(#ice)" stroke="#241B4B" stroke-width="3"/>
+<path d="M-30 -2 L-16 -34 L-2 -2Z M0 -2 L14 -26 L28 -2Z" fill="#E6F4FD" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/><path d="M-16 -34 L-2 -2 H-10Z M14 -26 L28 -2 H20Z" fill="#9FC9EE"/>
+<circle cx="-30" cy="-30" r="9" fill="url(#coin)" stroke="#241B4B" stroke-width="2.5"/><text x="-30" y="-26" font-family="Fredoka,Nunito,sans-serif" font-weight="800" font-size="11" text-anchor="middle" fill="#8A5A0E">Z</text></g>
+<!-- far tiny islands -->
+<g opacity=".55"><ellipse cx="300" cy="74" rx="18" ry="5" fill="#9DD946"/><path d="M282 74 q8 16 18 16 q10 0 18 -16Z" fill="#B9A4E8"/><ellipse cx="560" cy="200" rx="16" ry="4" fill="#9DD946"/><path d="M544 200 q8 14 16 14 q8 0 16 -14Z" fill="#B9A4E8"/></g>
+<g fill="#FFE45C" stroke="#241B4B" stroke-width="2" stroke-linejoin="round"><path d="M160 72l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path d="M440 50l2.5 5 5 2.5-5 2.5-2.5 5-2.5-5-5-2.5 5-2.5z"/></g>
+</svg>

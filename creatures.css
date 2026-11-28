@@ -99,3 +99,23 @@ body.noscroll{overflow:hidden}
 .hstage .bobstage,.hstage .hcr{background:none!important;border:0!important;box-shadow:none!important;width:auto!important;height:auto!important;min-height:0!important}
 .sq,.sq:hover{background:#fff!important;color:#241B4B!important}
 .deps{font-size:.8em;font-style:italic;opacity:.9}
+/* art upgrade v28: bright daylight hatch meadow (rays + floating meadow island), rarity glow on top */
+.hatchov{background:radial-gradient(circle at 50% 44%,rgba(255,255,255,.55),transparent 42%),url(/icons/art/hatch-meadow.svg) center/cover no-repeat,#A9D8F7;color:#241B4B}
+.hatchov.r1{background:radial-gradient(circle at 50% 44%,rgba(63,171,231,.45),transparent 46%),url(/icons/art/hatch-meadow.svg) center/cover no-repeat,#A9D8F7}
+.hatchov.r2{background:radial-gradient(circle at 50% 44%,rgba(177,95,215,.42),transparent 46%),url(/icons/art/hatch-meadow.svg) center/cover no-repeat,#A9D8F7}
+.hatchov.r3{background:radial-gradient(circle at 50% 44%,rgba(255,198,66,.55),transparent 48%),url(/icons/art/hatch-meadow.svg) center/cover no-repeat,#A9D8F7}
+.hatchov .htap,.hatchov .hname,.hatchov h2,.hatchov p{text-shadow:0 2px 0 rgba(255,255,255,.7)}
+.hatchov .hsub{color:#3E3590}
+.hatchov .hskip{background:rgba(255,255,255,.75);color:#241B4B;border-color:#241B4B}
+.hrays{background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.4) 0 10deg,transparent 10deg 20deg)}
+.hatchov .hegg .eggsvg{filter:drop-shadow(0 10px 0 rgba(36,27,75,.18)) drop-shadow(0 0 18px rgba(255,255,255,.8))}
+/* creature portraits: soft-3D plinth behind Dex and detail art */
+.crsvg.deep{overflow:visible}
+.hegg{position:relative;z-index:0}
+.hegg::before{content:"";position:absolute;z-index:-1;left:50%;bottom:-106px;width:236px;height:148px;transform:translateX(-50%);background:url(/icons/art/hatch-island.svg) center/contain no-repeat;pointer-events:none}
+.hatchov .htap{margin-top:100px;background:rgba(255,255,255,.8);border:2px solid #241B4B;border-radius:999px;padding:4px 18px;text-shadow:none}
+/* the island stays still: wobble the egg art only */
+@media (prefers-reduced-motion:no-preference){
+ .hegg,.hegg.wob,.hegg.w2,.hegg.w3{animation:none}
+ .hegg .eggsvg{transform-origin:50% 90%;animation:hidle 1.6s ease-in-out infinite}
+ .hegg.wob .eggsvg{animation:hwob .5s ease-in-out}.hegg.w2 .eggsvg{animation-duration:.55s}.hegg.w3 .eggsvg{animation:hwob3 .55s ease-in-out}}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5EB6EC"/><stop offset=".45" stop-color="#A9D8F7"/><stop offset=".8" stop-color="#DCD6F8"/><stop offset="1" stop-color="#C7B4EE"/></linearGradient>
+<radialGradient id="glow" cx="50%" cy="46%" r="55%"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".25" stop-color="#FFE45C" stop-opacity=".55"/><stop offset="1" stop-color="#FFE45C" stop-opacity="0"/></radialGradient>
+<linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2F27C"/><stop offset=".6" stop-color="#7ACF45"/><stop offset="1" stop-color="#4FA82F"/></linearGradient>
+<linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9BDF6"/><stop offset=".5" stop-color="#8E86E2"/><stop offset="1" stop-color="#5F55B8"/></linearGradient>
+<radialGradient id="sh" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#241B4B" stop-opacity=".3"/><stop offset="1" stop-color="#241B4B" stop-opacity="0"/></radialGradient>
+<g id="cl"><ellipse rx="44" ry="16" fill="#fff"/><circle cx="-16" cy="-10" r="18" fill="#fff"/><circle cx="14" cy="-14" r="22" fill="#fff"/><ellipse cy="8" rx="38" ry="7" fill="#C9C4F2" opacity=".5"/></g>
+<g id="fl"><circle r="4" fill="#fff"/><circle r="1.8" fill="#FFE45C"/></g>
+</defs>
+<rect width="400" height="800" fill="url(#sky)"/>
+<g opacity=".5" fill="#fff"><path d="M200 368 L-60 0 H40Z"/><path d="M200 368 L120 0 H200Z" opacity=".7"/><path d="M200 368 L300 0 H380Z"/><path d="M200 368 L460 120 V260Z" opacity=".7"/><path d="M200 368 L-60 300 V420Z" opacity=".7"/><path d="M200 368 L460 470 V560Z" opacity=".6"/></g>
+<rect width="400" height="800" fill="url(#glow)"/>
+<use href="#cl" transform="translate(60 120)"/><use href="#cl" transform="translate(340 200) scale(1.2)"/><use href="#cl" transform="translate(320 690) scale(1.6)" opacity=".85"/><use href="#cl" transform="translate(50 640) scale(1.3)" opacity=".85"/>
+<g fill="#FFE45C" stroke="#241B4B" stroke-width="2.5" stroke-linejoin="round"><path d="M70 300l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/><path d="M332 340l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/><path d="M300 90l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/></g>
+</svg>

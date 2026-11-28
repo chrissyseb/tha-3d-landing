@@ -123,7 +123,24 @@ function svg(id,stage=0,sz=96,o={}){const u='c'+(++N);
  if(id==='bobby'&&window.BOB)return BOB.full({stage:o.bobbyStage||0,size:Math.round(sz*.72),cls:'crsvg '+(o.cls||''),expr:o.expr});
  const f=ART[id];if(!f)return'';
  const sil=o.sil?` style="filter:brightness(0) opacity(.18)"`:'';
- return `<svg class="crsvg ${o.cls||''}" width="${sz}" height="${sz}" viewBox="0 0 200 200" aria-hidden="true"${sil}>${f(Math.max(0,Math.min(2,stage)),u)}</svg>`}
+ const body=f(Math.max(0,Math.min(2,stage)),u);
+ if(!o.depth||o.sil)return `<svg class="crsvg ${o.cls||''}" width="${sz}" height="${sz}" viewBox="0 0 200 200" aria-hidden="true"${sil}>${body}</svg>`;
+ // portrait: glossy meadow plinth, key light, and a soft-3D shading filter (bottom-right shade, top-left rim light) over the creature's own art
+ return `<svg class="crsvg deep ${o.cls||''}" width="${sz}" height="${sz}" viewBox="0 0 200 200" aria-hidden="true"><defs>
+<radialGradient id="${u}k" cx=".38" cy=".3" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".55" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<linearGradient id="${u}p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2F27C"/><stop offset=".6" stop-color="#7ACF45"/><stop offset="1" stop-color="#4FA82F"/></linearGradient>
+<linearGradient id="${u}q" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9BDF6"/><stop offset=".55" stop-color="#7D82DE"/><stop offset="1" stop-color="#5F55B8"/></linearGradient>
+<filter id="${u}d" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+<feOffset in="b" dx="-5" dy="-7" result="o1"/><feComposite in="SourceAlpha" in2="o1" operator="out" result="m1"/>
+<feFlood flood-color="#241B4B" flood-opacity=".26"/><feComposite in2="m1" operator="in" result="shade"/>
+<feOffset in="b" dx="4" dy="6" result="o2"/><feComposite in="SourceAlpha" in2="o2" operator="out" result="m2"/>
+<feFlood flood-color="#fff" flood-opacity=".55"/><feComposite in2="m2" operator="in" result="rim"/>
+<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="shade"/><feMergeNode in="rim"/></feMerge></filter></defs>
+<circle cx="88" cy="80" r="92" fill="url(#${u}k)"/>
+<path d="M30 184 Q38 204 100 206 Q162 204 170 184Z" fill="url(#${u}q)" stroke="#241B4B" stroke-width="3" stroke-linejoin="round"/>
+<ellipse cx="100" cy="184" rx="72" ry="13" fill="url(#${u}p)" stroke="#241B4B" stroke-width="3"/><ellipse cx="84" cy="180" rx="34" ry="3.5" fill="#fff" opacity=".45"/>
+<g filter="url(#${u}d)">${body}</g></svg>`}
 // ---------- eggs: one look per rarity, each glows its own colour ----------
 const EGG=[
  {b:'#FFF4E6',d:'#C9CCF4',spot:'#7DC6F0',glow:'#7DC6F0'},
