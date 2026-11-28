@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>VocaBobby voice recorder</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f6f4ff;color:#241B4B;-webkit-user-select:none;user-select:none}
+main{max-width:860px;margin:0 auto;padding:18px;min-height:100vh;display:flex;flex-direction:column;gap:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:15px}.bar label{display:flex;gap:6px;align-items:center}
+.bar input[type=search]{flex:1;min-width:140px;padding:9px;border-radius:10px;border:2px solid #c9c4ee;font-size:16px}
+button,select{font:inherit;border-radius:12px;border:2px solid #7D82DE;background:#fff;color:#241B4B;padding:9px 14px;cursor:pointer}
+#prog{font-weight:800;font-size:18px}.card{flex:1;background:#fff;border-radius:22px;box-shadow:0 6px 24px #241b4b18;padding:26px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:10px}
+#word{font-size:clamp(56px,13vw,128px);font-weight:900;line-height:1.05;word-break:break-word}#mean{font-size:18px;color:#5a5480}#ex{font-size:16px;color:#7b76a0;font-style:italic}
+#tag{font-size:14px;color:#2a8a4a;font-weight:700;min-height:18px}
+#rec{width:150px;height:150px;border-radius:50%;margin:8px auto;font-size:22px;font-weight:900;border:none;background:#e0384f;color:#fff;box-shadow:0 8px 22px #e0384f55}
+#rec.on{animation:p 1s infinite;background:#b0122a}@keyframes p{50%{transform:scale(1.07)}}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.row button{min-width:110px;font-size:18px;font-weight:700}
+#keep{background:#2a8a4a;color:#fff;border-color:#2a8a4a}#msg{min-height:22px;text-align:center;font-weight:600}
+#gate{max-width:420px;margin:15vh auto;background:#fff;padding:24px;border-radius:18px;text-align:center}#gate input{width:100%;padding:12px;font-size:18px;border-radius:10px;border:2px solid #c9c4ee;margin:10px 0}
+meter{width:100%;height:10px}
+</style></head><body>
+<div id="gate"><h2>Voice recorder</h2><p>Enter the admin key.</p><input id="key" type="password" autocomplete="current-password"><button id="go">Open</button><p id="gmsg"></p></div>
+<main id="app" hidden>
+ <div class="bar"><span id="prog">0 / 0</span>
+  <label><input type="checkbox" id="todo" checked> Not yet recorded</label>
+  <label><input type="checkbox" id="quick"> Quick mode</label>
+  <label><input type="checkbox" id="psle"> PSLE only</label>
+  <select id="batch"></select>
+  <input type="search" id="find" placeholder="Jump to word…" list="wl"><datalist id="wl"></datalist></div>
+ <div class="card"><div id="tag"></div><div id="word">…</div><div id="mean"></div><div id="ex"></div>
+  <meter id="lvl" min="0" max="1" value="0"></meter>
+  <button id="rec">Record</button>
+  <div class="row"><button id="prev">◀ Back</button><button id="play">▶ Play saved</button><button id="redo" hidden>Redo</button><button id="keep" hidden>Keep ✓</button><button id="skip">Skip ▶</button></div>
+  <div id="msg">Tap the red button (or press Space), say the word, tap again.</div></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);let KEY=sessionStorage.getItem('vb-admin')||'',ALL=[],LIST=[],I=0,MAN={},rec=null,chunks=[],stream=null,pending=null,an=null,raf=0;
+const api=(b)=>fetch('/api/x?r=voice',{method:'POST',headers:{'content-type':'application/json','x-vo':'1','x-admin-key':KEY},body:JSON.stringify(b)}).then(async r=>({ok:r.ok,code:r.status,j:await r.json().catch(()=>({}))}));
+async function unlock(){KEY=$('key').value.trim()||KEY;const r=await api({action:'check'});if(!r.ok){$('gmsg').textContent=r.code===401?'Wrong key (or ADMIN_KEY not set in Vercel).':(r.j.error||'Error');return}
+ sessionStorage.setItem('vb-admin',KEY);$('gate').hidden=true;$('app').hidden=false;await boot()}
+$('go').onclick=unlock;$('key').onkeydown=e=>{if(e.key==='Enter')unlock()};if(KEY){$('key').value=KEY;unlock()}
+async function boot(){const w=await fetch('/words.json').then(r=>r.json());const seen=new Set();
+ // words.json rows: [word, level, meaning, collocation, sentence, ...]; PSLE flag where present
+ ALL=w.filter(x=>{const k=String(x[0]).trim().toLowerCase();if(!k||seen.has(k))return false;seen.add(k);return true}).map(x=>({w:String(x[0]).trim(),m:x[2]||'',ex:String(x[4]||x[3]||'').replace(/_{2,}/g,x[6]||x[0]),psle:!!(x[10]||/psle/i.test(JSON.stringify(x[7]||'')))}));
+ $('wl').innerHTML=ALL.map(x=>`<option value="${x.w.replace(/"/g,'&quot;')}">`).join('');
+ MAN=(await fetch('/api/x?r=voice').then(r=>r.json()).catch(()=>({voice:{}}))).voice||{};refilter()}
+function refilter(keep){const cur=LIST[I]&&LIST[I].w;let L=ALL;if($('psle').checked)L=L.filter(x=>x.psle);if($('todo').checked)L=L.filter(x=>!MAN[x.w.toLowerCase()]||x.w===cur);
+ const nb=Math.max(1,Math.ceil(L.length/50)),b=Math.min(+$('batch').value||0,nb-1);$('batch').innerHTML=Array.from({length:nb},(_,i)=>`<option value="${i}">Words ${i*50+1}–${Math.min(L.length,i*50+50)}</option>`).join('');$('batch').value=b;
+ LIST=L.slice(b*50,b*50+50);I=keep&&cur?Math.max(0,LIST.findIndex(x=>x.w===cur)):0;show()}
+['todo','psle'].forEach(id=>$(id).onchange=()=>refilter(true));$('batch').onchange=()=>refilter();
+$('find').onchange=()=>{const k=$('find').value.trim().toLowerCase();const x=ALL.find(y=>y.w.toLowerCase()===k);if(!x)return;$('todo').checked=false;$('psle').checked=false;$('batch').value=Math.floor(ALL.indexOf(x)/50);refilter();I=LIST.indexOf(x);show();$('find').value='';$('find').blur()};
+function show(){const done=ALL.filter(x=>MAN[x.w.toLowerCase()]).length;$('prog').textContent=`${done} / ${ALL.length}`;const x=LIST[I];pending=null;$('keep').hidden=$('redo').hidden=true;
+ if(!x){$('word').textContent=done===ALL.length?'All done! 🎉':'Batch done';$('mean').textContent='Pick the next batch above.';$('ex').textContent='';$('tag').textContent='';return}
+ $('word').textContent=x.w;$('mean').textContent=x.m;$('ex').textContent=x.ex;const e=MAN[x.w.toLowerCase()];$('tag').textContent=e?'✓ Recorded (v'+e.v+') — record again to replace':'';$('play').disabled=!e}
+$('prev').onclick=()=>{if(I>0){I--;show()}};$('skip').onclick=()=>{if(I<LIST.length){I++;show()}};
+$('play').onclick=()=>{const x=LIST[I],e=x&&MAN[x.w.toLowerCase()];if(e)new Audio(e.url).play()};
+function mimePick(){for(const t of['audio/mp4','audio/webm;codecs=opus','audio/webm'])if(window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))return t;return''}
+async function start(){if(!LIST[I])return;try{stream=stream||await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:true,autoGainControl:false}})}catch(e){$('msg').textContent='Microphone blocked. Allow it in the browser settings.';return}
+ const t=mimePick();rec=new MediaRecorder(stream,t?{mimeType:t}:undefined);chunks=[];rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);rec.onstop=done;rec.start();$('rec').classList.add('on');$('rec').textContent='Stop';$('msg').textContent='Recording… say the word';meter()}
+function stop(){if(rec&&rec.state==='recording')rec.stop();$('rec').classList.remove('on');$('rec').textContent='Record';cancelAnimationFrame(raf);$('lvl').value=0}
+function meter(){try{const ac=AC();an=an||ac.createAnalyser();if(!meter.s){meter.s=ac.createMediaStreamSource(stream);meter.s.connect(an)}const d=new Float32Array(an.fftSize);const f=()=>{an.getFloatTimeDomainData(d);let p=0;for(const v of d)p=Math.max(p,Math.abs(v));$('lvl').value=p;raf=requestAnimationFrame(f)};f()}catch(e){}}
+let _ac=null;const AC=()=>_ac||(_ac=new (window.AudioContext||window.webkitAudioContext)());
+$('rec').onclick=()=>rec&&rec.state==='recording'?stop():start();
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'&&e.target.type!=='checkbox')return;if(e.code==='Space'){e.preventDefault();$('rec').click()}else if(e.key==='Enter'&&!$('keep').hidden)$('keep').click();else if(e.key==='r'&&!$('redo').hidden)$('redo').click()});
+async function done(){$('msg').textContent='Processing…';try{const raw=await new Blob(chunks).arrayBuffer();const buf=await AC().decodeAudioData(raw);const wav=await process(buf);
+ if(!wav){$('msg').textContent='Nothing heard. Try again, a bit louder.';return}pending=wav;const u=URL.createObjectURL(wav);new Audio(u).play();
+ if($('quick').checked)return keep();$('keep').hidden=$('redo').hidden=false;$('msg').textContent='Keep it (Enter) or Redo (R)?'}catch(e){$('msg').textContent='Could not process: '+e.message}}
+// trim silence, normalise loudness, short fades, resample to mono WAV (fits under 200 KB)
+async function process(b){const sr=b.sampleRate,n=b.length,ch=b.numberOfChannels,m=new Float32Array(n);for(let c=0;c<ch;c++){const d=b.getChannelData(c);for(let i=0;i<n;i++)m[i]+=d[i]/ch}
+ let pk=0;for(const v of m)pk=Math.max(pk,Math.abs(v));if(pk<0.01)return null;const win=Math.round(sr*0.01),th=Math.max(0.015,pk*0.08);let s=0,e=n;
+ const loud=i=>{let r=0;for(let k=i;k<Math.min(n,i+win);k++)r+=m[k]*m[k];return Math.sqrt(r/win)>th*0.5};
+ while(s<n&&!loud(s))s+=win;while(e>s&&!loud(Math.max(0,e-win)))e-=win;s=Math.max(0,s-Math.round(sr*0.08));e=Math.min(n,e+Math.round(sr*0.12));if(e-s<sr*0.1)return null;
+ let x=m.slice(s,e),p=0,rs=0;for(const v of x){p=Math.max(p,Math.abs(v));rs+=v*v}rs=Math.sqrt(rs/x.length);const g=Math.min(0.92/p,0.2/Math.max(rs,1e-4));for(let i=0;i<x.length;i++)x[i]=Math.max(-1,Math.min(1,x[i]*g));
+ const fd=Math.round(sr*0.015);for(let i=0;i<fd&&i<x.length;i++){x[i]*=i/fd;x[x.length-1-i]*=i/fd}
+ let out=x.length/sr>4.4?16000:22050;if(x.length/sr>6)out=11025;const oc=new OfflineAudioContext(1,Math.ceil(x.length*out/sr),out);const ib=oc.createBuffer(1,x.length,sr);ib.copyToChannel?ib.copyToChannel(x,0):ib.getChannelData(0).set(x);
+ const src=oc.createBufferSource();src.buffer=ib;src.connect(oc.destination);src.start();const r=(await oc.startRendering()).getChannelData(0);return wavBlob(r,out)}
+function wavBlob(d,sr){const v=new DataView(new ArrayBuffer(44+d.length*2)),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+d.length*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,d.length*2,true);for(let i=0;i<d.length;i++)v.setInt16(44+i*2,Math.max(-32768,Math.min(32767,d[i]*32767)),true);return new Blob([v],{type:'audio/wav'})}
+async function keep(){const x=LIST[I];if(!x||!pending)return;if(pending.size>200*1024){$('msg').textContent='Too long — say just the word.';return}$('msg').textContent='Saving…';
+ const b64=await new Promise(r=>{const f=new FileReader();f.onload=()=>r(String(f.result).split(',')[1]);f.readAsDataURL(pending)});const r=await api({action:'save',word:x.w,mime:'audio/wav',data:b64});
+ if(!r.ok){$('msg').textContent='Not saved: '+(r.j.error||r.code);return}MAN[x.w.toLowerCase()]=r.j.entry;$('msg').textContent='Saved “'+x.w+'” ✓';I++;show()}
+$('keep').onclick=keep;$('redo').onclick=()=>{pending=null;$('keep').hidden=$('redo').hidden=true;start()};
+</script></body></html>

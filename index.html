@@ -882,7 +882,8 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
 </section></div>
 <p class="foot"><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span><span class="cpy">© 2026 Thinking Hack Education. Created by Miss Christine, Exam Preparation Specialist. All rights reserved. No copying or redistribution. · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/account.html" style="color:inherit">Account</a> · WhatsApp +65 9003 0002</span></p>
 </div>
-<script src="/psle.js"></script><script src="/bobby.js"></script><script src="/creatures-art.js"></script><script src="/creatures.js"></script><script src="/vo.js"></script>
+<script src="/psle.js"></script><script src="/bobby.js"></script><script src="/creatures-art.js"></script><script src="/creatures.js"></script><script src="/voice.js"></script>
+<script src="/vo.js"></script>
 <script>VO_READY.then(()=>{
 const $=id=>document.getElementById(id),main=$('main');
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1098,7 +1099,7 @@ function pickVoice(){if(!VOX.ok)return null;const vs=(speechSynthesis.getVoices(
 function setVoice(){const v=pickVoice();if(v){VOX.v=v;VOX.k=v.voiceURI||v.name;try{localStorage.setItem('vb-voice',VOX.k)}catch(e){}}}
 if(VOX.ok){try{setVoice();speechSynthesis.addEventListener?speechSynthesis.addEventListener('voiceschanged',setVoice):(speechSynthesis.onvoiceschanged=setVoice)}catch(e){}}
 window.VBVOICE={get accent(){return S.vaccent==='any'?'any':'gb'},toggle(){S.vaccent=S.vaccent==='any'?'gb':'any';save();setVoice()},name(){return VOX.v?VOX.v.name:''}};
-function speak(t,slow){if(!VOX.ok||S.voice===false||!t)return;try{speechSynthesis.cancel();if(!VOX.v)setVoice();const u=new SpeechSynthesisUtterance(String(t));if(VOX.v)u.voice=VOX.v;u.lang='en-GB';u.rate=slow?.6:(S.vrate||.95);speechSynthesis.speak(u)}catch(e){}}
+function speak(t,slow,_f){if(S.voice===false||!t)return;if(!_f&&window.VBV&&VBV.play(t,slow,()=>speak(t,slow,1)))return;if(!VOX.ok)return;try{speechSynthesis.cancel();if(!VOX.v)setVoice();const u=new SpeechSynthesisUtterance(String(t));if(VOX.v)u.voice=VOX.v;u.lang='en-GB';u.rate=slow?.6:(S.vrate||.95);speechSynthesis.speak(u)}catch(e){}}
 const spk=t=>VOX.ok?`<button class="spk" type="button" data-say="${esc(t)}" aria-label="Hear it">${ic('spk',26)}</button><button class="spk" type="button" data-say="${esc(t)}" data-slow="1" aria-label="Hear it slowly">${ic('slow',26)}</button>`:'';
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-say]');if(!b)return;speak(b.dataset.say,!!b.dataset.slow)});
 const sylHTML=x=>x[8]&&x[8].includes('·')?`<span class="syl">${x[8].split(/(\s+)/).map(w=>w.split('·').map(p=>p!==p.toLowerCase()&&p.length>1&&p===p.toUpperCase()?`<b>${esc(p.toLowerCase())}</b>`:esc(p)).join('·')).join('')}</span>`:'';

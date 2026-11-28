@@ -48,9 +48,30 @@
      "value": "no-store"
     }
    ]
+  },
+  {
+   "source": "/record.html",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex"
+    },
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
   }
  ],
  "rewrites": [
+  {
+   "source": "/record",
+   "destination": "/record.html"
+  },
+  {
+   "source": "/voice/:f",
+   "destination": "/api/x?r=voice&f=:f"
+  },
   {
    "source": "/api/config",
    "destination": "/api/x?r=config"
