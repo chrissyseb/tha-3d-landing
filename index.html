@@ -166,7 +166,7 @@ button:focus-visible{outline:4px solid var(--sun);outline-offset:3px}
 .item.on{background:#fff3c4}
 .item.lock{opacity:.55;box-shadow:none}
 .rar{display:inline-block;font:800 12px var(--fd);padding:3px 10px;border-radius:999px;border:2px solid var(--ink);color:#fff}
-.r0{background:#8a95a5}.r1{background:var(--blue)}.r2{background:var(--plum)}.r3{background:var(--orng)}.r4{background:linear-gradient(90deg,#ff8a3d,#ffc642)}.supb{font-size:.9em;margin-left:3px}.ea{font:800 11px var(--fd);background:#ffc642;color:#1b2140;border-radius:99px;padding:2px 8px;margin-left:6px}
+.rar.r0{background:#8a95a5}.rar.r1{background:var(--blue)}.rar.r2{background:var(--plum)}.rar.r3{background:var(--orng)}.rar.r4{background:linear-gradient(90deg,#ff8a3d,#ffc642)}.supb{font-size:.9em;margin-left:3px}.ea{font:800 11px var(--fd);background:#ffc642;color:#1b2140;border-radius:99px;padding:2px 8px;margin-left:6px}
 .egg{display:inline-block}
 @media(prefers-reduced-motion:no-preference){.egg{animation:wob .5s infinite alternate}}
 @keyframes wob{to{transform:rotate(8deg)}}
@@ -480,7 +480,7 @@ h1,h2,h3,.word,.tag,.big,.go,.pill,.sec .lbl b,.stat b,.hi,.wm2,.seoh{font-famil
 .victory{background:linear-gradient(135deg,#FFF6B8,#FFE45C)}.ko{background:#EEE9F8}
 .holdbtn{background:#FFE45C;color:var(--ink)}
 .comboname{-webkit-text-stroke:1.5px var(--ink)}
-.r0{background:#5F6B80}.r1{background:#2F7FBF}.r2{background:#7A4FC0}.r3{background:#5E54B8}.r4{background:linear-gradient(90deg,#2F8FD0,#9B47C4)}
+.rar.r0{background:#5F6B80}.rar.r1{background:#2F7FBF}.rar.r2{background:#7A4FC0}.rar.r3{background:#5E54B8}.rar.r4{background:linear-gradient(90deg,#2F8FD0,#9B47C4)}
 .prem{background:linear-gradient(90deg,#2F8FD0,#9B47C4)}.ea{background:#FFE45C;color:var(--ink)}
 .item.on{background:#FFFBE0}.fin.on{background:#FFFBE0;outline-color:#FFE45C}
 .tbar i{background:linear-gradient(90deg,#3FABE7,#7D82DE,#B15FD7)}
@@ -490,7 +490,7 @@ h1,h2,h3,.word,.tag,.big,.go,.pill,.sec .lbl b,.stat b,.hi,.wm2,.seoh{font-famil
 .wmap li.here button{background:#fff;outline:3px solid #7D82DE;outline-offset:0;box-shadow:0 4px 0 var(--ink),0 0 0 6px #EEE9FB}
 .wmap .wn{background:#FFE45C}
 .quests .wn,.qmake{background:#DDEFFC}.ownl{background:#F3F8FE}
-.lb li.p1{background:#FFF3B8}.lb li.p2{background:#EEF1F7}.lb li.p3{background:#F1EAFB}
+.lb li.p1,.lb li.p2,.lb li.p3{background:#F4F5F9}.lb li.p1{box-shadow:inset 4px 0 0 #F5B83A}.lb li.p2{box-shadow:inset 4px 0 0 #A9B1C4}.lb li.p3{box-shadow:inset 4px 0 0 #C98A5A}.lb li{border-radius:12px!important}.lb li.mine{outline:2px solid var(--ink)!important}
 .tab.on{background:var(--ink);color:#fff}
 .bobstages span{border-color:#B9BCD3;color:#4F4A78}.bobstages span.on{background:#FFE45C!important;color:var(--ink)}
 .rgl button.on{background:#FFFBE0}.rgl i{color:#2F7FBF}
@@ -659,6 +659,29 @@ button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid #7D82D
 .tbar{border-radius:10px!important}.tbar .nt{border-radius:6px!important}
 .bobcard,.avcr span,.eq span{border-radius:12px!important}
 .hearts{display:none}
+
+/* ===== Universal pass 3: screen audit fixes (390/360) ===== */
+.crdetail{background:#fff!important;color:var(--ink)}
+.crdetail.r1{border-top:4px solid #3FABE7!important}.crdetail.r2{border-top:4px solid #B15FD7!important}.crdetail.r3{border-top:4px solid #F5B83A!important}
+.crdetail .hsub,.crdetail .crsp{color:#3A3560!important}.crdetail .crmut{color:#55507A!important}
+.crdetail .crbtns{padding-bottom:8px}
+.boss .hearts{position:static;inset:auto}
+.show .big{background:radial-gradient(closest-side at 50% 70%,rgba(125,130,222,.16),transparent),#F4F5F9!important;border:1px solid #E1E3EC!important;border-radius:16px!important;box-shadow:none!important}
+.item.on{background:#fff!important;box-shadow:inset 0 0 0 2px #F5B83A!important}
+.item.locked{background:#F4F5F9!important;border-style:dashed!important;box-shadow:none!important}.item.locked b{color:#55507A}.item.locked small{color:#55507A!important}
+.boss{flex-wrap:nowrap;min-width:0}.boss .tag{white-space:nowrap;flex:none;max-width:42%;overflow:hidden;text-overflow:ellipsis}.boss .hp{min-width:48px}
+@media (max-width:380px){.boss{gap:6px!important;padding:6px 8px!important}.boss .tag{font-size:10px!important;padding:3px 6px!important}.boss b{font-size:12px}.boss .hearts svg{width:16px;height:16px}.boss .tipq{width:26px;height:26px}}
+.sheetc{max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain}
+.tips{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:85;max-width:440px;margin:0 auto;background:#fff!important;border:2px solid var(--ink)!important;border-radius:16px!important;box-shadow:0 2px 0 #241B4B,0 18px 40px -10px rgba(10,6,30,.6)!important;max-height:70dvh;overflow:auto}
+.tips>b{font:700 18px var(--fdisp,Rubik),sans-serif}
+.victory{background:#fff!important;border:2px solid var(--ink)!important;border-top:4px solid #F5B83A!important;border-radius:14px!important;color:var(--ink)}
+.victory b,.ko b{font-family:var(--fdisp,Rubik),sans-serif!important;font-weight:700!important;font-size:22px!important}
+.ko{background:#F4F5F9!important;border:2px solid var(--ink)!important;border-radius:14px!important;color:var(--ink)}
+.tierup{background:#F4F5F9!important;border:1px solid #E1E3EC!important;border-left:4px solid #7D82DE!important;border-radius:12px!important;color:var(--ink)}
+.bonuscard{background:#fff!important;border:2px solid var(--ink)!important;border-top:4px solid #F5B83A!important;border-radius:14px!important;color:var(--ink)}
+.card .rankline{color:var(--ink)!important;background:#F4F5F9!important;border:1px solid #E1E3EC}
+.bub{border-radius:14px!important}
+.rchip{border-radius:8px!important}
 /* calmer idle motion: no constant bouncing, keep the reward moments */
 .idle{animation-duration:4.5s!important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
@@ -720,7 +743,7 @@ function myAvatar(){
 }
 async function shareCard(){
   const fit=(m,x,y,w,h)=>m.replace(/<svg([^>]*)>/,(t,at)=>'<svg'+at.replace(/\s(width|height|x|y|class|style)="[^"]*"/g,'')+` x="${x}" y="${y}" width="${w}" height="${h}">`),av=fit(avatar(200),110,250,200,310),CS=CRE.st(),pt=CRE.shareList().map((id,i)=>fit(id==='bobby'?BOB.full({stage:bobbyStage(),size:120}).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '):CRA.svg(id,CRE.stageOf(id,CS.own[id]),120).replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" '),i?60+(i-1)*150:320,i?600:330,i?130:170,i?130:220)).join('');
-  const nk=String(S.nick||'Hero').replace(/[&<>"']/g,'');
+  const nk=String(S.nick||'Player').replace(/[&<>"']/g,'');
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800"><defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5cc8ff"/><stop offset="1" stop-color="#2f7cf6"/></linearGradient></defs><rect width="600" height="800" fill="url(#b)"/><rect x="40" y="40" width="520" height="720" rx="40" fill="#fff" stroke="#1b2140" stroke-width="8"/><rect x="40" y="560" width="520" height="40" fill="#9dd946" stroke="#1b2140" stroke-width="6"/><rect x="40" y="600" width="520" height="160" rx="0" fill="#7fb336"/><rect x="40" y="40" width="520" height="720" rx="40" fill="none" stroke="#1b2140" stroke-width="8"/>${av}${pt}<text x="300" y="150" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="58" fill="#1b2140">${nk}</text><text x="300" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="26" fill="#5a6480">My VocaBobby avatar</text><text x="300" y="700" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="44" fill="#fff" stroke="#1b2140" stroke-width="6" paint-order="stroke">VocaBobby</text></svg>`;
   const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);await img.decode().catch(()=>{});
   const c=document.createElement('canvas');c.width=600;c.height=800;c.getContext('2d').drawImage(img,0,0);
@@ -1021,7 +1044,7 @@ function start(kind,arg){
     else if(kind==='quest'){QW=arg.words.filter(e=>e&&e[0]&&e[2]);pick=shuf(QW).slice(0,50)}
     else if(kind==='rev')pick=due().slice(0,50);
   else pick=W.filter(x=>st(x[0]).miss>0).slice(0,50);
-  if(!pick.length){main.innerHTML=`<div class="card"><p class="q">Nothing here right now. Start a 50-word session instead!</p><button class="go" id="h">Back</button></div>`;$('h').onclick=home;return}
+  if(!pick.length){main.innerHTML=`<div class="card"><p class="q">Nothing here right now. Start a 50-word run instead.</p><button class="go" id="h">Back</button></div>`;$('h').onclick=home;return}
   const steps=[];
   for(let i=0;i<pick.length;i+=5){
     const g=pick.slice(i,i+5);
@@ -1208,7 +1231,7 @@ function matchGame(s,top){
     else{beep(0);miss++;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),400)}});
 }
 // ---------- Duo victory podium: avatar + active creature, shareable card (nickname only) ----------
-function podiumSVG(w=600,h=520){const id=CRE.st().act,o=CRE.st().own[id],r=CRE.R(id),RC=['#3FABE7','#3FABE7','#B15FD7','#FFB23F','#FF8A3D'][r]||'#3FABE7',rn=STR.cr.rar[r]||'',nk=String(S.nick||'Hero').replace(/[&<>"']/g,''),cn=String(CRE.nick(id)).replace(/[&<>"']/g,'');
+function podiumSVG(w=600,h=520){const id=CRE.st().act,o=CRE.st().own[id],r=CRE.R(id),RC=['#5F6B80','#1F78B4','#8A3FB8','#F5B83A','#F59E2A'][r]||'#1F78B4',RT=r>=3?'#241B4B':'#fff',rn=STR.cr.rar[r]||'',nk=String(S.nick||'Player').replace(/[&<>"']/g,''),cn=String(CRE.nick(id)).replace(/[&<>"']/g,'');
  const fit=(m,x,y,ww,hh)=>m.replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" ').replace(/<svg([^>]*)>/,(t,at)=>'<svg'+at.replace(/\s(width|height|x|y|class|style)="[^"]*"/g,'')+` x="${x}" y="${y}" width="${ww}" height="${hh}">`);
  const cr=id==='bobby'?BOB.full({stage:bobbyStage(),size:120,expr:'cheer',cheer:1}):CRA.svg(id,CRE.stageOf(id,o),120);
  const rays=Array.from({length:12},(_,i)=>`<path d="M300 250 L${300+Math.cos(i*.5236)*420} ${250+Math.sin(i*.5236)*420} L${300+Math.cos(i*.5236+.18)*420} ${250+Math.sin(i*.5236+.18)*420}Z" fill="#fff" opacity=".13"/>`).join('');
@@ -1221,12 +1244,12 @@ function podiumSVG(w=600,h=520){const id=CRE.st().act,o=CRE.st().own[id],r=CRE.R
  ${fit(avatar(200),130,150,150,215)}${fit(cr,330,195,160,170)}
  <rect x="150" y="448" width="300" height="52" rx="26" fill="#fff" stroke="#241B4B" stroke-width="5"/>
  <text x="300" y="481" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="22" fill="#241B4B">${nk} &amp; ${cn}</text>
- <rect x="360" y="110" width="${30+rn.length*13}" height="34" rx="17" fill="${RC}" stroke="#241B4B" stroke-width="4"/><text x="${375+rn.length*6.5}" y="134" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="18" fill="#fff">${rn}</text></svg>`}
+ <rect x="360" y="110" width="${30+rn.length*13}" height="34" rx="17" fill="${RC}" stroke="#241B4B" stroke-width="4"/><text x="${375+rn.length*6.5}" y="134" text-anchor="middle" font-family="Rubik,Fredoka,sans-serif" font-weight="700" font-size="18" fill="${RT}">${rn}</text></svg>`}
 async function sharePodium(){const svg=podiumSVG(1200,1040),img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);await img.decode().catch(()=>{});
  const c=document.createElement('canvas');c.width=1200;c.height=1040;c.getContext('2d').drawImage(img,0,0);
  c.toBlob(async b=>{if(!b)return;const f=new File([b],'vocabobby-victory.png',{type:'image/png'});
   try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'VocaBobby victory'});return}}catch(e){if(e&&e.name==='AbortError')return}
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();a.remove();toastQ('Saved your victory card!')},'image/png')}
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();a.remove();toastQ('Victory card saved')},'image/png')}
 function recap(){
   try{localStorage.removeItem(SK())}catch(e){}
   S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=85)S.lv=Math.min(5,S.lv+.5);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
@@ -1234,8 +1257,8 @@ function recap(){
   main.innerHTML=`<div class="card"><span class="tag">Session complete</span><div class="podium">${podiumSVG()}</div><button class="go" id="pshare" style="background:var(--paper)">Share victory card</button><div class="word" style="font-size:clamp(30px,6vw,44px)">${acc>=90?'Obby cleared!':acc>=75?'Great run!':'Run complete!'}</div>
   ${tierUp?`<div class="tierup"><b>New world!</b> You've travelled to <b>${esc(world())}</b>. Your adventure continues there.</div>`:''}
   <p style="margin:6px 0 10px">You worked through <b>${learnt} words</b>${sess.best>=5?` and hit a <b>${sess.best}-answer streak</b>`:''}${sess.kind==='challenge'?' in PSLE Kingdom with double coins':''}. Every word you get wrong now is one you won't get wrong later.</p>
-  ${`<p style="font:800 20px var(--fd);margin:6px 0">${sess.kind==='challenge'?(sess.beatFinal?'The Exam King is defeated!':'The Exam King still rules. Beat him next run!'):sess.beatFinal?'King Kongo defeated! Giant Slayer!':'King Kongo is still standing. Beat him next run!'}${sess.beaten?` · ${sess.beaten} boss${sess.beaten>1?'es':''} beaten`:''}</p>`}<div class="stat jack"><div><b id="cu" data-to="${sess.pts}">0</b>coins won</div><div><b>${acc}%</b>correct</div><div><b>${sess.best}</b>best combo</div></div>
-  ${wr.length?`<p><b>Words to look at again tonight</b> (they'll come back first next time):</p><table>${wr.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[2])}</td></tr>`).join('')}</table>`:'<p>No mistakes at all. Amazing!</p>'}
+  ${`<p style="font:800 20px var(--fd);margin:6px 0">${sess.kind==='challenge'?(sess.beatFinal?'The Exam King is defeated.':'The Exam King still stands. Take him on next run.'):sess.beatFinal?'King Kongo defeated.':'King Kongo is still standing. Take him on next run.'}${sess.beaten?` · ${sess.beaten} boss${sess.beaten>1?'es':''} beaten`:''}</p>`}<div class="stat jack"><div><b id="cu" data-to="${sess.pts}">0</b>coins won</div><div><b>${acc}%</b>correct</div><div><b>${sess.best}</b>best combo</div></div>
+  ${wr.length?`<p><b>Words to look at again tonight</b> (they'll come back first next time):</p><table>${wr.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[2])}</td></tr>`).join('')}</table>`:'<p>No mistakes at all. Clean run.</p>'}
   <div id="rankslot">${rankLine()}</div><button class="go" id="h">Home</button></div>`;
   $('h').onclick=home;$('pshare').onclick=sharePodium;const _to=sess.pts;sess=null;hud();syncScore();burst();countUp($('cu'),_to,1400);try{chime()}catch(e){};setTimeout(()=>coinShower(14,document.querySelector('.hud .pill')||$('cu')),250);
 }
@@ -1273,7 +1296,7 @@ function eggsOld(){
 }
 function teamUp(){if(/vocab-obby\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)){location.href='/team.html';return}
   hud();main.innerHTML=`<div class="card"><span class="tag">Team Up</span><div class="word" style="font-size:clamp(28px,6vw,40px)">Fight bosses with friends</div><p>Team Up lets 2 to 4 friends take turns answering and fire powers at the same boss. Each player gets questions from their own world.</p><p>Play Team Up at <a href="https://vocabobby.vercel.app/team.html" target="_blank" rel="noopener"><b>vocabobby.vercel.app</b></a>.</p><button class="go" id="h">Back</button></div>`;$('h').onclick=home}
-function badges(){hud();main.innerHTML=`<div class="card"><span class="tag">Badges</span><div class="shop" style="margin-top:12px">${BADGES.map(b=>{const g=S.badges.includes(b[0]);return `<div class="item ${g?'on':''}" style="${g?'':'opacity:.55'}"><div>${ic(g?'trophy':'lock',36)}</div><b>${esc(b[0])}</b><br><small>${esc(b[1])}</small></div>`}).join('')}</div><button class="go" id="h">Back</button></div>`;$('h').onclick=home}
+function badges(){hud();main.innerHTML=`<div class="card"><span class="tag">Badges</span><div class="shop" style="margin-top:12px">${BADGES.map(b=>{const g=S.badges.includes(b[0]);return `<div class="item ${g?'on':'locked'}" ${g?'':'aria-label="Locked: '+esc(b[0])+'"'}><div${g?'':' style="opacity:.45"'}>${ic(g?'trophy':'lock',36)}</div><b>${esc(b[0])}</b><br><small>${esc(b[1])}</small></div>`}).join('')}</div><button class="go" id="h">Back</button></div>`;$('h').onclick=home}
 
 function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How to play</span><div class="word" style="font-size:clamp(30px,6vw,42px)">Welcome to VocaBobby!</div><ol class="how">
 <li><b>One obby, six worlds.</b> Everyone climbs the same worlds: Grass Plains, Desert Dunes, Jungle Ruins, Lava Land, Ice Peaks and Outer Space. Your first placement run finds your starting world.</li>
@@ -1561,11 +1584,11 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Rubik,Fredoka,Nunito,sans-serif':'800 14px Rubik,Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}}
   // HUD on canvas
   g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle='#241B4B';g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
-  if(s.msgT>0){g.textAlign='center';g.font='800 20px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,64);g.fillStyle='#fff';g.fillText(s.msg,W2/2,62)}
-  if(s.boss&&sess&&sess.bossOn!=null&&sess.hearts!=null){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
+  if(s.msgT>0){g.textAlign='center';g.font='800 20px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,82);g.fillStyle='#fff';g.fillText(s.msg,W2/2,80)}
+  if(false){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
   if(s.flash>0){g.fillStyle='rgba(255,255,255,'+Math.min(.85,s.flash*4)+')';g.fillRect(-20,-20,W2+40,H+40)}
   g.restore();
-  if(s.en>0||s.boss){const e=s.en||0,col=window.CRE?SPECIAL[CRE.ELEM[CRE.st().act]||'fire'][1]:'#FF8A3D';g.fillStyle='rgba(255,255,255,.9)';g.fillRect(10,36,96,12);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,36,96,12);g.fillStyle=col;g.fillRect(12,38,92*e/5,8);if(e>=5){g.fillStyle='#fff';g.globalAlpha=.5+.5*Math.sin(s.t*8);g.fillRect(12,38,92,8);g.globalAlpha=1}g.fillStyle='#241B4B';g.font='800 9px Rubik,Fredoka,sans-serif';g.textAlign='left';g.fillText(e>=5?'SPECIAL READY':'ENERGY',110,46)}
+  if(s.en>0||s.boss){const e=s.en||0,col=window.CRE?SPECIAL[CRE.ELEM[CRE.st().act]||'fire'][1]:'#FF8A3D';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,40,190,18);g.strokeStyle='#241B4B';g.lineWidth=2;g.strokeRect(10,40,190,18);g.fillStyle='#E1E3EC';g.fillRect(14,44,90,10);g.fillStyle=col;g.fillRect(14,44,90*e/5,10);if(e>=5&&!RM){g.fillStyle='#fff';g.globalAlpha=.35+.35*Math.sin(s.t*8);g.fillRect(14,44,90,10);g.globalAlpha=1}g.fillStyle='#241B4B';g.font='800 11px Rubik,Fredoka,sans-serif';g.textAlign='left';g.fillText(e>=5?'Special ready':'Energy '+e+'/5',110,54)}
   if(s.paused){g.fillStyle='rgba(36,27,75,.45)';g.fillRect(0,0,W2,H);g.fillStyle='#fff';g.textAlign='center';g.font='800 28px Rubik,Fredoka,Nunito,sans-serif';g.fillText('Paused',W2/2,H/2)}
   else if(s.mode==='run'&&s.t<4&&s.gates===0){g.textAlign='center';g.font='800 16px Rubik,Fredoka,Nunito,sans-serif';g.fillStyle='rgba(255,255,255,.92)';g.fillRect(W2/2-150,96,300,30);g.strokeStyle='#1b2140';g.lineWidth=3;g.strokeRect(W2/2-150,96,300,30);g.fillStyle='#1b2140';g.fillText('Tap or press Space to jump!',W2/2,117)}
  }
@@ -1769,8 +1792,8 @@ const num=v=>{v=Number(v);return Number.isFinite(v)&&v>=0?Math.floor(v):0};
 const BOARDS=[['week','This week','weekXp','points'],['xp','All-time','xp','points'],['speed','Speed Run','speedBest','correct'],['mast','Bosses','mastered','beaten']];
 function boardRows(field){const wk=weekKey();return LB.rows.map(r=>({...r,v:field==='weekXp'?(r.wk===wk?num(r.weekXp):0):num(r[field])})).filter(r=>r.v>0||r.id===LB.me).sort((a,b)=>b.v-a.v||String(a.nick).localeCompare(String(b.nick)))}
 function myRank(field='weekXp'){const rows=boardRows(field);const i=rows.findIndex(r=>r.id===LB.me);if(i<0)return null;return{rank:i+1,me:rows[i],above:i>0?rows[i-1]:null,n:rows.length}}
-function rankLine(){if(!LB.ready||!S.nick)return'';const r=myRank('weekXp');if(!r||!r.me.v)return'<p class="rankline">Play a run to get on this week’s board!</p>';
-  return r.above?`<p class="rankline">You’re <b>#${r.rank}</b> this week, <b>${r.above.v-r.me.v+1} XP</b> behind #${r.rank-1}. Go!</p>`:`<p class="rankline">You’re <b>#1</b> this week. Defend your spot!</p>`}
+function rankLine(){if(!LB.ready||!S.nick)return'';const r=myRank('weekXp');if(!r||!r.me.v)return'<p class="rankline">Play a run to get on this week’s Effort board.</p>';
+  return r.above?`<p class="rankline">This week: <b>${r.me.v} effort points</b>. ${r.above.v-r.me.v+1} more to move up a place.</p>`:`<p class="rankline">This week: <b>${r.me.v} effort points</b>. Top of the Effort board. Keep it going.</p>`}
 async function lbInit(){
   try{
     const [db,user]=await Promise.all([VOC.use('db'),VOC.use('user')]);

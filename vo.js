@@ -80,11 +80,13 @@
   // Account strip (guest / player / parent).
   function bar() {
     const me = VO.me, d = document.createElement('div'); d.className = 'vo-bar';
-    if (!me) d.innerHTML = `<span>Playing as guest. Progress is saved on this device only.</span><a href="/account.html">Log in / Save progress</a>`;
+    if (!me) d.innerHTML = `<span>Guest: progress saved on this device only.</span><a href="/account.html">Log in to save</a>`;
     else if (me.type === 'kid') d.innerHTML = `<span>Player: <b></b>${me.paid ? ' · PSLE Kingdom unlocked' : ''}</span><a href="#" id="vo-out">Log out</a>`;
     else d.innerHTML = `<span>Parent account. Pick a player to save progress.</span><a href="/account.html">Parent dashboard</a>`;
     if (me && me.type === 'kid') d.querySelector('b').textContent = me.nick;
     document.body.appendChild(d);
+    const fit = () => { if (d.isConnected) document.body.style.paddingBottom = (d.offsetHeight + 12) + 'px'; };
+    fit(); addEventListener('resize', fit, { passive: true });
     const o = d.querySelector('#vo-out'); if (o) o.onclick = async e => { e.preventDefault(); push(true); await api('/api/auth', { method: 'POST', body: JSON.stringify({ action: 'logout' }) }); location.reload(); };
   }
 
