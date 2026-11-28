@@ -42,3 +42,25 @@ GROUPS.forEach(([g,mu],gi)=>{const R={old:[],new:[]};for(let i=0;i<PER[gi];i++){
 console.log('\nMain game: runs to reach PSLE-word level (estimate >= B2), max 40');
 GROUPS.forEach(([g,mu])=>{for(const m of ['old','new']){const L=[];for(let i=0;i<67;i++)L.push(mainGame(mu+gauss()*.25,m));const got=L.filter(z=>z.runs);
   console.log(`${g.padEnd(11)} ${m}: reached ${got.length}/67, median runs ${got.length?got.map(z=>z.runs).sort((a,b)=>a-b)[got.length>>1]:'-'}, mean acc on the way ${avg(L.map(z=>z.acc)).toFixed(0)}%`)}});
+
+// ---------- Main runs (learn/world), old vs adaptive rules: first-try accuracy ----------
+// Each run: 50 words; per word ~3 asks (blank, then a meaning/spelling step, plus bosses/review). Spelling steps are harder (+0.6 rung).
+// New rules model: context sentence on every question (+0.05 know), auto-open hint while easing (+0.12), easier step types while struggling.
+function mainRuns(th,mode,R=10){const S={lv:Math.max(0,Math.min(5,Math.round(th-.3+gauss()*.4))),w:{}},st=n=>S.w[n]||(S.w[n]={m:0}),bon={},out=[];
+  for(let run=0;run<R;run++){let pick;
+    if(mode==='old'){const t=Math.round(S.lv),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rk(x)===t)),low=shuf(W.filter(x=>rk(x)<t)),over=shuf(fresh.filter(x=>rk(x)===t+1)),sh=shuf(W.filter(x=>rk(x)<=1)).slice(0,10);
+      pick=[...new Set([...sh,...inT.slice(0,28),...over.slice(0,8),...low.slice(0,4),...inT.slice(28),...over.slice(8)])].slice(0,50)}
+    else pick=PK.mainDeck(S,W,{st,due:[],sh:shuf(W.filter(x=>rk(x)<=1)).slice(0,10),rnd});
+    const mk=PK.minit(S),ease=mk.ease;let q=0,first=0;
+    const ask=(x,spell)=>{const b=bon[x[0]]||0,hint=mode==='new'&&mk.ease>.5&&!spell,ctx=mode==='new'?.05:0;
+      if(mode==='new'&&spell&&ease>.4&&st(x[0]).m<2)spell=false;
+      const r=rnd()<p1(th,rk(x)+(spell?.6:0),b+ctx,hint);q++;if(r)first++;bon[x[0]]=b+(r?.35:.2);
+      if(r)st(x[0]).m++;if(mode==='new')PK.mrecord(mk,r?1:0);return r};
+    for(const x of pick){st(x[0]).seen=1;ask(x,0);ask(x,rnd()<.45);if(rnd()<.6)ask(x,rnd()<.3)}
+    const a=first/q;out.push(a);
+    if(mode==='old'){const accR=a*100;if(accR>=90&&(S.lvHot||0)>=1){S.lv=Math.min(5,S.lv+1);S.lvHot=0}else if(accR>=85){S.lv=Math.min(5,S.lv+.5);S.lvHot=accR>=90?1:0}else{S.lvHot=0;if(accR>=80)S.lv=Math.min(5,S.lv+.25);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}}
+    else PK.mainEnd(S,Math.round(a*100));if(process.env.DBG)console.log(run,(a*100|0),S.lv,PK.minit(S).ease.toFixed(2),pick.filter(x=>rk(x)>=3).length)}
+  return out}
+console.log('\nMain runs, 10 runs each: first-try accuracy (all runs / run 1 / run 10)');
+[['P5 weaker',1.5],...GROUPS].forEach(([g,mu])=>{for(const m of ['old','new']){const L=[];for(let i=0;i<67;i++)L.push(mainRuns(mu+gauss()*.25,m));
+  console.log(`${g.padEnd(11)} ${m}: first-try ${pct(avg(L.flat()))} (run1 ${pct(avg(L.map(o=>o[0])))}, run10 ${pct(avg(L.map(o=>o[9])))})`)}});

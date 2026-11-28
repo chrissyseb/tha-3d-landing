@@ -90,5 +90,73 @@
   function wantsHint(S) { const pk = init(S); return true && pk.ease >= 0 }
   function hintOpen(S) { return init(S).ease > 0.5 } // when easing hard, open the hint card automatically
 
-  G.PK = { init, deck, record, acc, endRun, supports, isP, rk, wantsHint, hintOpen };
+
+  // ---------- Main runs (learn/world): same invisible approach, its own hidden state in S.mk ----------
+  function minit(S) { const m = S.mk || (S.mk = {}); m.hist = m.hist || []; m.ease = m.ease || 0; return m }
+  // Target ~75-80% first-try: ease up below 70%, back off above 80%.
+  function mrecord(m, v) {
+    m.hist.push(v); if (m.hist.length > 60) m.hist.splice(0, m.hist.length - 60);
+    const a = acc(m); if (a == null) return;
+    if (a < 0.7) m.ease = Math.min(1, m.ease + 0.025);
+    else if (a > 0.85) m.ease = Math.max(0, m.ease - 0.025);
+    else if (a > 0.8) m.ease = Math.max(0, m.ease - 0.01);
+  }
+  // Build the 50-word pick. o: {st(name)->word state, due:[rows], sh:[rows shared warm-up], rnd}
+  function mainDeck(S, W, o) {
+    const rnd = o.rnd || Math.random, st = o.st, N = o.n || 50, m = minit(S);
+    const shuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]] } return a };
+    const lv = S.lv == null ? 2 : S.lv, a = acc(m), cruise = a != null && a > 0.85 && m.ease < 0.1;
+    const le = Math.max(0, lv - m.ease * 0.6), t = Math.floor(le), frac = le - t; // working rung drops while struggling; between rungs, blend
+    const known = x => (st(x[0]).m || 0) >= 2, seen = x => !!st(x[0]).seen;
+    const sh = o.sh || [], shS = new Set(sh.map(x => x[0])), nt = arr => arr.filter(x => !shS.has(x[0]));
+    const fresh = W.filter(x => !seen(x));
+    const inT = shuf(fresh.filter(x => rk(x) === t)), over0 = shuf(fresh.filter(x => rk(x) === t + 1));
+    const low = shuf(W.filter(x => rk(x) < t && !known(x))).sort((p, q) => rk(q) - rk(p)), kn = shuf(W.filter(x => known(x) && rk(x) <= t));
+    const pb = Math.max(0, Math.min(.6, (lv - 1.5) * .4)), over = [...over0.filter(isP).slice(0, Math.round(8 * pb)), ...over0.filter(x => !isP(x))];
+    // shares of a 50-word run (after the shared warm-up and due reviews)
+    const nKnown = Math.round(N * (0.06 + m.ease * 0.24)), nLow = Math.round(N * (0.04 + m.ease * 0.12 + (1 - frac) * 0.36));
+    const nOver = Math.round(N * Math.min(0.5, 0.04 + frac * 0.42 + (cruise ? 0.06 : 0)));
+    const due = (o.due || []).slice(0, 15);
+    const body = shuf([...nt(kn).slice(0, nKnown), ...nt(low).slice(0, nLow), ...nt(over).slice(0, nOver), ...nt(inT).slice(0, N)]);
+    let pick = [...new Set([...due, ...sh, ...body, ...nt(inT), ...nt(low), ...nt(over)])].slice(0, N);
+    if (pick.length < N) pick = [...pick, ...shuf(W.filter(x => !pick.includes(x))).slice(0, N - pick.length)];
+    // easy ramp: easier words first within each block of ten
+    const out = []; for (let i = 0; i < pick.length; i += 10) out.push(...pick.slice(i, i + 10).sort((p, q) => rk(p) - rk(q) + (known(p) ? -1 : 0) - (known(q) ? -1 : 0) + (rnd() - .5) * 1.2));
+    return out;
+  }
+  // After a main run: move the hidden level so runs sit around 75-80%.
+  function mainEnd(S, accR) {
+    if (S.lv == null) S.lv = 2;
+    S.lvHot = 0;
+    if (accR >= 90) S.lv = Math.min(5, S.lv + .5); else if (accR >= 85) S.lv = Math.min(5, S.lv + .25); else if (accR >= 81) S.lv = Math.min(5, S.lv + .1);
+    else if (accR < 65) S.lv = Math.max(0, S.lv - .5); else if (accR < 72) S.lv = Math.max(0, S.lv - .2);
+  }
+  // Distractor safety: two options must never both be defensible.
+  const NEG = /\b(not|no|little|less|without|un\w+|opposite)\b/i;
+  const SYN = {}; ['wonderful|excellent|fantastic|brilliant|great|terrific|marvellous','protect|preserve|sustain|conserve','happy|glad|pleased|delighted|satisfied|cheerful|joyful','upset|anxious|worried|disturbing','commotion|pandemonium|chaos|uproar|bustle','crestfallen|dejected|down in the dumps|forlorn|sad|gloomy|miserable','bewildered|puzzled|confused|baffled','famished|ravenous|starving|hungry','consequently|because of|therefore|as a result|thus','furthermore|moreover|in addition|besides','ecstatic|over the moon|thrilled|elated|jubilant|overjoyed','aggravated|exacerbate|worsen','invent|create|devise','cope|handle|manage','break down|call it a day','attack|injure|injured|hurt|bully','devastated|tragic|heartbroken','easy prey|gullible','contribute|assist|help','launched|embarked|began|started|originated|set off|set up','evicted|displaced','surge|flurry|burst','squinted|peered|glanced|peeked','obey|obedient','responsible|responsibility','embarrassed|embarrassment|ashamed','proud|pleased','angry|cross|furious|annoyed','scared|afraid|frightened|terrified','tired|exhausted|weary|drained','big|huge|enormous|large|gigantic','small|tiny|little','quick|fast|rapid|swift'].forEach(g => { const a = g.split('|'); a.forEach(w => SYN[w] = (SYN[w] || []).concat(a.filter(v => v !== w))) });
+  const stem = w => w.toLowerCase().replace(/(ing|ed|ly|ness|ful|less|er|est|s)$/, '').slice(0, 5);
+  function near(x, y) {
+    if (!x || !y || x[0] === y[0]) return true;
+    const a = x[0].toLowerCase(), b = y[0].toLowerCase(), ma = toks(x[2]), mb = toks(y[2]);
+    if ((ma.includes(b) && ma.length <= 1 && !NEG.test(x[2])) || (mb.includes(a) && mb.length <= 1 && !NEG.test(y[2]))) return true; // one word defines the other ("not X" is an opposite, fine)
+    const A = new Set(ma), sh = mb.filter(t => A.has(t)).length;
+    if (!/\s/.test(a + b) && stem(a) === stem(b) && a.length > 3 && sh * 2 >= Math.min(ma.length, mb.length) && !NEG.test(x[2] + ' ' + y[2])) return true; // same family, same meaning
+    if (x[2].toLowerCase() === y[2].toLowerCase()) return true;
+    if (SYN[a] && SYN[a].includes(b)) return true;
+    return false;
+  }
+  // k distractor rows for meaning/reverse/under/lookalike; prefers the word's own look-alikes, then same level.
+  function safeL(x, W, k, rnd) {
+    rnd = rnd || Math.random; k = k || 3; const by = n => W.find(y => y[0].toLowerCase() === String(n).toLowerCase());
+    const out = []; const ok = y => y && !near(x, y) && !out.some(z => near(z, y) || z[2] === y[2]);
+    for (const n of (x[5] || [])) { const y = by(n); if (ok(y)) out.push(y); if (out.length >= k) return out }
+    const pool = W.filter(y => y[1] === x[1]); for (let i = pool.length - 1; i > 0; i--) { const j = rnd() * (i + 1) | 0;[pool[i], pool[j]] = [pool[j], pool[i]] }
+    for (const y of pool.concat(W)) { if (out.length >= k) break; if (ok(y)) out.push(y) }
+    return out;
+  }
+  // Blank-fill distractor strings: drop any that would also fit (synonyms of the answer).
+  function safeBlank(x, W) { const by = n => W.find(y => y[0].toLowerCase() === String(n).toLowerCase()), ans = String(x[6] || x[0]).toLowerCase(), mt = toks(x[2]);
+    return (x[5] || []).filter(n => { const l = String(n).toLowerCase(); if (l === ans || mt.includes(l)) return false; const y = by(n); return !y || !near(x, y) }) }
+
+  G.PK = { minit, mrecord, mainDeck, mainEnd, near, safeL, safeBlank, init, deck, record, acc, endRun, supports, isP, rk, wantsHint, hintOpen };
 })(typeof window !== 'undefined' ? window : globalThis);

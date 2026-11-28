@@ -1086,10 +1086,8 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 const sylHTML=x=>x[8]&&x[8].includes('·')?`<span class="syl">${x[8].split(/(\s+)/).map(w=>w.split('·').map(p=>p!==p.toLowerCase()&&p.length>1&&p===p.toUpperCase()?`<b>${esc(p.toLowerCase())}</b>`:esc(p)).join('·')).join('')}</span>`:'';
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 const AMER={color:'colour',colors:'colours',favorite:'favourite',honor:'honour',behavior:'behaviour',neighbor:'neighbour',center:'centre',theater:'theatre',organize:'organise',realize:'realise',recognize:'recognise',recognized:'recognised',apologize:'apologise',analyze:'analyse',traveling:'travelling',traveled:'travelled',defense:'defence',gray:'grey',jewelry:'jewellery',program:'programme',willfully:'wilfully',labor:'labour',humor:'humour',flavor:'flavour',fiber:'fibre',meter:'metre',license:'licence'};
-function look(x,k=3){ // look-alike words first, then same level
-  const c=x[5].map(byName).filter(Boolean);
-  const more=shuf(W.filter(y=>y!==x&&y[1]===x[1]&&!c.includes(y)));
-  return [...c,...more].slice(0,k);
+function look(x,k=3){ // look-alike words first, then same level; never a near-synonym (PK.near)
+  return PK.safeL(x,W,k);
 }
 const gems=m=>`<span class="gems">${[1,2,3,4,5].map(i=>`<span class="gem ${m>=i?'on':''}"></span>`).join('')}</span>`;
 const sent=(x,u)=>esc(x[4]).replace('___',u?`<u><b>${esc(A(x))}</b></u>`:'<span class="blank">&nbsp;</span>');
@@ -1226,10 +1224,8 @@ function start(kind,arg){
   const n=Date.now();let pick;
   if(kind==='learn'||kind==='world'){
     const d=due().slice(0,15);
-    const t=Math.round(S.lv==null?2:S.lv),fresh=W.filter(x=>!st(x[0]).seen),inT=shuf(fresh.filter(x=>rnk(x)===t)),low=shuf(W.filter(x=>rnk(x)<t)),over0=shuf(fresh.filter(x=>rnk(x)===t+1)),pb=Math.max(0,Math.min(.6,((S.lv==null?2:S.lv)-1.5)*.4)),isPw=x=>(x[7]||[]).includes('psle'),over=[...over0.filter(isPw).slice(0,Math.round(8*pb)),...over0.filter(x=>!isPw(x))].concat(over0.filter(isPw).slice(Math.round(8*pb)));
     let h=0;for(const c of weekKey()+(S.runs||0)%3)h=(h*31+c.charCodeAt(0))>>>0;const rr=()=>(h=(h*1103515245+12345)>>>0)/4294967296,sh=W.filter(x=>rnk(x)<=1).map(x=>[rr(),x]).sort((a,b)=>a[0]-b[0]).map(z=>z[1]).slice(0,10),shS=new Set(sh.map(x=>x[0])),nt=a=>a.filter(x=>!shS.has(x[0]));
-    const nw=sh.concat(shuf([...nt(inT).slice(0,28),...nt(over).slice(0,8),...nt(low).slice(0,4)]),nt(inT).slice(28),nt(over).slice(8),nt(low).slice(4));
-    pick=[...new Set([...d,...nw])].slice(0,50);if(pick.length<50)pick=[...pick,...shuf(W.filter(x=>!pick.includes(x))).slice(0,50-pick.length)];
+    pick=PK.mainDeck(S,W,{st,due:d,sh});
   }else if(kind==='challenge'){if(!CW.length)CW=W.filter(x=>(x[7]||[]).includes(EDTAG[ED||'psle']));pick=PK.deck(S,W,CW)}
     else if(kind==='quest'){QW=arg.words.filter(e=>e&&e[0]&&e[2]);pick=shuf(QW).slice(0,50)}
     else if(kind==='rev')pick=due().slice(0,50);
@@ -1250,6 +1246,7 @@ function start(kind,arg){
   steps.forEach(s=>s.x=WF(s.n));
   if(kind==='challenge')steps.forEach(s=>{const p=s.x&&PK.isP(s.x),m=(st(s.n).m||0);if(s.t==='intro')s.t=p?'under':'meaning';if(p&&s.t==='meaning')s.t='under';if(p&&s.t==='reverse')s.t='blank';if(p&&(s.t==='spellit'||s.t==='spell')&&m<3)s.t=s.boss?'under':'blank';if(p)s.pk=1});
   if(kind==='challenge')steps.forEach(s=>{if(s.giant)s.giant=0});
+  if(kind!=='challenge'){const me=PK.minit(S).ease;steps.forEach(s=>{if(s.boss||!s.x)return;const m=st(s.n).m||0;if(me>.4&&s.t==='spellit'&&m<2)s.t='blank';else if(me>.6&&(s.t==='lookalike'||s.t==='tf')&&m<2)s.t='under'})}
   sess={kind,pkN:0,pkOk:0,pkMiss:[],pkHit:[],words:pick,steps,i:0,ok:0,bad:0,combo:0,best:0,pts:0,wrongs:[],w:kind==='world'?arg:kind==='challenge'?6:tier(),qname:kind==='quest'?arg.name:''};
   run();
 }
@@ -1293,12 +1290,12 @@ function run(){
   if(s.t==='match')return matchGame(s,top);
   let q='',opts=[],key='',lbl='';
   const L=look(x);
-  if(s.t==='meaning'){lbl='What does it mean?';q=`<div class="word" style="font-size:clamp(30px,6vw,44px)">${esc(x[0])}</div>`;key=x[2];opts=[x[2],...L.map(y=>y[2])]}
-  if(s.t==='reverse'){lbl='Which word?';q=`<p class="q">Which word means <b>“${esc(x[2])}”</b>?</p>`;key=x[0];opts=[x[0],...L.map(y=>y[0])]}
-  if(s.t==='blank'){lbl='Fill the blank';q=`<p class="q">${sent(x)}</p>`;key=A(x);opts=[A(x),...x[5]]}
+  if(s.t==='meaning'){lbl='What does it mean?';q=`<div class="word" style="font-size:clamp(30px,6vw,44px)">${esc(x[0])}</div><p class="q ctx" style="font-size:17px;margin-top:-4px">${sent(x,1)}</p>`;key=x[2];opts=[x[2],...L.map(y=>y[2])]}
+  if(s.t==='reverse'){lbl='Which word?';q=`<p class="q">Which word means <b>“${esc(x[2])}”</b>?</p><p class="q ctx" style="font-size:17px">${sent(x)}</p>`;key=x[0];opts=[x[0],...L.map(y=>y[0])]}
+  if(s.t==='blank'){lbl='Fill the blank';q=`<p class="q">${sent(x)}</p>`;key=A(x);opts=[A(x),...PK.safeBlank(x,W)];for(const y of L){if(opts.length>=4)break;if(!opts.includes(A(y)))opts.push(A(y))}}
   if(s.t==='under'){lbl='Closest meaning';q=`<p class="q">${sent(x,1)}</p><p style="color:var(--mut);margin-top:-8px">Choose the meaning of the underlined word.</p>`;key=x[2];opts=[x[2],...L.map(y=>y[2])]}
-  if(s.t==='lookalike'){const c=look(x);lbl='Look-alike trap';q=`<p class="q">These look similar. Which one means <b>“${esc(x[2])}”</b>?</p>`;key=x[0];opts=[x[0],...c.map(y=>y[0])]}
-  if(s.t==='tf'){lbl='True or false?';const real=Math.random()<.5,m=real?x[2]:L[0][2];q=`<p class="q"><b>${esc(x[0])}</b> means “${esc(m)}”.</p>`;key=real?'True':'False';opts=['True','False'];s.fixed=1}
+  if(s.t==='lookalike'){const c=look(x);lbl='Look-alike trap';q=`<p class="q">These look similar. Which one means <b>“${esc(x[2])}”</b>?</p><p class="q ctx" style="font-size:17px">${sent(x)}</p>`;key=x[0];opts=[x[0],...c.map(y=>y[0])]}
+  if(s.t==='tf'){lbl='True or false?';const real=Math.random()<.5,m=real?x[2]:L[0][2];q=`<p class="q ctx" style="font-size:17px">${sent(x,1)}</p><p class="q"><b>${esc(x[0])}</b> means “${esc(m)}”.</p>`;key=real?'True':'False';opts=['True','False'];s.fixed=1}
   if(s.t==='spellit'||s.t==='spell')return spellGate(s,x,top,head);
   if(s.t==='spell_old'){lbl='Type the word';
     main.innerHTML=top+`<div class="card">${head(lbl+(s.boss?' · Boss round':''),x[1])}<p class="q">Type the word that means <b>“${esc(x[2])}”</b>.</p><p style="color:var(--mut)">Hint: ${esc(x[0][0])}${'_ '.repeat(x[0].length-1)} (${x[0].length} letters)</p>
@@ -1309,12 +1306,12 @@ function run(){
   const sayT=s.t==='blank'?x[4].replace('___','blank'):(s.t==='reverse'||s.t==='lookalike')?x[2]:s.t==='under'?x[4].replace('___',A(x)):x[0];
   q=`<div class="sayrow" style="justify-content:flex-end;margin:0">${spk(sayT)}</div>`+q;
   opts=s.fixed?opts:shuf([...new Set(opts)]);
-  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div>${s.pk&&!s.fixed?`<button class="hintb" id="hintb" type="button">${ic('book',18)} Hint</button><div id="hintc" class="hintc" role="note" hidden></div>`:''}<div id="fb"></div></div>`;
-  const hintTx=s.t==='blank'?`Clue: the missing word means <b>“${esc(x[2])}”</b>.`:(s.t==='reverse'||s.t==='lookalike')?`In a sentence: ${esc(x[4])}`:`Break it up: <b>${esc(x[8]||x[0])}</b>${x[3]?` · often seen as “${esc(x[3])}”`:''}`;
+  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div>${!s.fixed?`<button class="hintb" id="hintb" type="button">${ic('book',18)} Hint</button><div id="hintc" class="hintc" role="note" hidden></div>`:''}<div id="fb"></div></div>`;
+  const hintTx=s.t==='blank'?`Clue: the missing word means <b>“${esc(x[2])}”</b>.`:(s.t==='reverse'||s.t==='lookalike')?`It starts with <b>${esc(x[0][0].toUpperCase())}</b> and has ${x[0].replace(/[^a-z]/gi,'').length} letters.`:`Break it up: <b>${esc(x[8]||x[0])}</b>${x[3]?` · often seen as “${esc(x[3])}”`:''}`;
   const showHint=()=>{const c=$('hintc');if(!c||!c.hidden)return;s.hint=1;c.innerHTML=`<span class="bobr" aria-hidden="true">${bobFace('idle',30)}</span><span>${hintTx}</span>`;c.hidden=false;const hb=$('hintb');if(hb)hb.remove()};
-  if($('hintb')){$('hintb').onclick=showHint;if(PK.hintOpen(S)&&!s.boss)showHint()}
+  if($('hintb')){$('hintb').onclick=showHint;if((sess.kind==='challenge'?PK.hintOpen(S):PK.minit(S).ease>.5)&&!s.boss)showHint()}
   main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=opts[b.dataset.i]===key;
-    if(!ok&&s.pk&&!s.fixed&&!s.tried&&opts.length>2){s.tried=1;b.disabled=true;b.classList.add('out');const others=[...main.querySelectorAll('.opt')].filter(o=>!o.disabled&&opts[o.dataset.i]!==key);if(others.length>1){const o=others[Math.random()*others.length|0];o.disabled=true;o.classList.add('out')}
+    if(!ok&&!s.fixed&&!s.tried&&opts.length>2){s.tried=1;b.disabled=true;b.classList.add('out');const others=[...main.querySelectorAll('.opt')].filter(o=>!o.disabled&&opts[o.dataset.i]!==key);if(others.length>1){const o=others[Math.random()*others.length|0];o.disabled=true;o.classList.add('out')}
       buzz(HAP.bad);bobSay('think');if(cur_boss)OB.bossAttack(null,true);$('fb').innerHTML=`<p class="fbh pkx" style="margin:12px 0 0;display:flex;align-items:center;gap:8px">${bobFace('think',36)}Not that one. Bobby crossed one out. Have another go.</p>`;return}
     main.querySelectorAll('.opt').forEach(o=>{o.disabled=true;if(opts[o.dataset.i]===key)o.classList.add('right')});if(!ok)b.classList.add('wrong');const hb=$('hintb');if(hb)hb.remove();result(ok,x,'',{assist:!!(s.tried||s.hint)})});
 }
@@ -1325,7 +1322,7 @@ function diffHTML(word,got){const tk=trickyIdx(word);return [...word].map((c,i)=
 function checkSpell(x,v){v=v.trim().toLowerCase().replace(/\s+/g,' ');const a=[x[0].toLowerCase(),A(x).toLowerCase()];if(a.includes(v))return {ok:true};const us=Object.keys(AMER).find(k=>AMER[k]===a[0]||AMER[k]===a[1]);if(us&&v===us)return {ok:true,note:'In Singapore we write <b>'+esc(AMER[us])+'</b>.'};const am=AMER[v];if(am&&a.includes(am))return {ok:true,note:'In Singapore we write <b>'+esc(am)+'</b>.'};return {ok:false}}
 function spellGate(s,x,top,head){
   const word=x[0],tiles=coarse()&&!/[\s'-]/.test(word);
-  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${head('Spell it!'+(s.boss?' · Boss round':''),x[1])}<div class="sayrow" style="justify-content:center">${spk(word)}</div><p class="q" style="text-align:center">Listen, then spell the word that means<br><b>“${esc(x[2])}”</b></p>
+  main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${head('Spell it!'+(s.boss?' · Boss round':''),x[1])}<div class="sayrow" style="justify-content:center">${spk(word)}</div><p class="q" style="text-align:center">Listen, then spell the word that means<br><b>“${esc(x[2])}”</b></p><p class="q ctx" style="text-align:center;font-size:17px">${sent(x)}</p>
   ${tiles?`<div class="slots" id="slots"></div><div class="tiles" id="tiles"></div><div class="row" style="display:flex;gap:8px"><button class="go" id="undo" style="background:var(--soft);margin:0">⌫ Undo</button><button class="go" id="chk" style="margin:0">Check</button></div>`:`<form id="f"><input class="inp" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="go">Check</button></form>`}<div id="fb"></div></div>`;
   setTimeout(()=>speak(word),200);
   const finish=v=>{const r=checkSpell(x,v);if(r.ok){const q=st(word);q.sp=1;if(isMastered(q)&&!q.ms)q.ms=Date.now()}S.spT=(S.spT||0)+1;if(r.ok)S.spOK=(S.spOK||0)+1;else{S.spMiss=S.spMiss||{};S.spMiss[word]=(S.spMiss[word]||0)+1}save();
@@ -1357,7 +1354,7 @@ function sprint(){setTimeout(()=>document.body.classList.add('playing'),0);
 function result(ok,x,extra='',fl={}){
   const w=st(x[0]);const cs=sess.steps[sess.i]||{};
   const su=cs,noPay=su.nopay||(cur_boss&&sess.ko&&sess.ko[sess.bid]);(sess.done||(sess.done={}))[su.u]=1;
-  if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.swH=1;sess.sw=0;setTimeout(()=>{pop('Second wind! Bobby gives you one more try');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
+  if(sess.kind!=='challenge'&&!cur_boss)PK.mrecord(PK.minit(S),ok?(fl.assist?.5:1):0);if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.swH=1;sess.sw=0;setTimeout(()=>{pop('Second wind! Bobby gives you one more try');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
   if(typeof OB!=='undefined'){if(ok){const n=Math.min(OB.bank(),4);const v=(n&&!noPay&&wordPay('c:'+x[0]))?earn('pk:'+x[0],n*2,1):0;if(v){sess.pts+=v;setTimeout(()=>pop('+'+v+' course coins banked'),600)}}else OB.drop()}
   if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);if(sess.combo>=3&&typeof OB!=='undefined'&&OB.st){if(!(OB.st.magnet>0))OB.say(sess.seenMag?'Coin magnet!':'Coin magnet! 3 right in a row');sess.seenMag=1;OB.st.magnet=4;OB.st.magMax=4}let g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));g=(!noPay&&!(sess.paid&&sess.paid['q'+su.u])&&wordPay(x[0]))?earn('q'+su.u,g):0;sess.pts+=g;S.pts+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
     if(!fl.assist&&w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0&&!fl.assist)w.miss--;if(!fl.assist&&isMastered(w)&&!w.ms){w.ms=Date.now();CRE.ev.mastered(x[0])}
@@ -1492,7 +1489,7 @@ async function sharePodium(){const svg=podiumSVG(1200,1040),img=new Image();img.
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();a.remove();toastQ('Victory card saved')},'image/png')}
 function recap(){
   try{localStorage.removeItem(SK())}catch(e){}
-  S.runs=(S.runs||0)+1;S.runE=[...(S.runE||[]),Math.max(0,Math.round(sess.pts||0))].slice(-5);let runB=0;if(sess.rid&&sess.words.length>=20&&sess.ok>=20){S.ridPaid=S.ridPaid||[];if(!S.ridPaid.includes(sess.rid)){S.ridPaid=[...S.ridPaid,sess.rid].slice(-60);runB=100;S.coins+=runB;S.pts+=runB;sess.pts+=runB}}const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=90&&(S.lvHot||0)>=1){S.lv=Math.min(5,S.lv+1);S.lvHot=0}else if(accR>=85){S.lv=Math.min(5,S.lv+.5);S.lvHot=accR>=90?1:0}else{S.lvHot=0;if(accR>=80)S.lv=Math.min(5,S.lv+.25);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}}if(sess.kind==='challenge')PK.endRun(S,sess);if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
+  S.runs=(S.runs||0)+1;S.runE=[...(S.runE||[]),Math.max(0,Math.round(sess.pts||0))].slice(-5);let runB=0;if(sess.rid&&sess.words.length>=20&&sess.ok>=20){S.ridPaid=S.ridPaid||[];if(!S.ridPaid.includes(sess.rid)){S.ridPaid=[...S.ridPaid,sess.rid].slice(-60);runB=100;S.coins+=runB;S.pts+=runB;sess.pts+=runB}}const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){PK.mainEnd(S,accR)}if(sess.kind==='challenge')PK.endRun(S,sess);if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
   const wr=sess.wrongs.map(n=>WF(n));
   main.innerHTML=`<div class="card"><span class="tag">Session complete</span><div class="podium">${podiumSVG()}</div><button class="go" id="pshare" style="background:var(--paper)">Share victory card</button><div class="word" style="font-size:clamp(30px,6vw,44px)">${acc>=90?'Obby cleared!':acc>=75?'Great run!':'Run complete!'}</div>
   ${tierUp?`<div class="tierup"><b>New world!</b> You've travelled to <b>${esc(world())}</b>. Your adventure continues there.</div>`:''}
