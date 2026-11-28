@@ -119,3 +119,10 @@ body.noscroll{overflow:hidden}
  .hegg,.hegg.wob,.hegg.w2,.hegg.w3{animation:none}
  .hegg .eggsvg{transform-origin:50% 90%;animation:hidle 1.6s ease-in-out infinite}
  .hegg.wob .eggsvg{animation:hwob .5s ease-in-out}.hegg.w2 .eggsvg{animation-duration:.55s}.hegg.w3 .eggsvg{animation:hwob3 .55s ease-in-out}}
+
+.partner{display:flex;align-items:center;gap:14px;text-align:left;margin:12px 0;padding:12px 14px;border-radius:18px;border:3px solid #241B4B;background:linear-gradient(135deg,#fff6c9,#ffe07a 60%,#ffc94a);box-shadow:0 4px 0 #241B4B;position:relative;cursor:pointer;color:#241B4B}
+.partner b{display:block;font:800 22px var(--fd,system-ui)}.partner small{font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.06em}.partner span{font-size:13px}
+.partner .pbadge{position:absolute;top:-11px;right:12px;background:linear-gradient(90deg,#7D82DE,#B15FD7);color:#fff;font:800 12px var(--fd,system-ui);padding:3px 10px;border-radius:10px;border:2px solid #241B4B}
+.rchip.rp{background:linear-gradient(90deg,#FFD23F,#FF9F43);color:#241B4B}
+.dex .dexc{border-width:2px!important}.dex .dexc.r0{box-shadow:inset 0 -4px 0 #3FABE7}.dex .dexc.r1{box-shadow:inset 0 -4px 0 #2F80ED}.dex .dexc.r2{box-shadow:inset 0 -4px 0 #B15FD7}.dex .dexc.r3{box-shadow:inset 0 -4px 0 #FFB23F}.dex .dexc.r4{box-shadow:inset 0 -4px 0 #FF8A3D}
+.partner .pav{flex:none;width:110px}
