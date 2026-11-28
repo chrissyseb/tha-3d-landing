@@ -28,7 +28,7 @@ with sync_playwright() as p:
         pg.wait_for_timeout(4500)
         st=T(STATE);ok(st['obBoss'],tag+' boss drawn at gate 10');ok(st['gate']==10,tag+' gate 10 at first boss: %s'%st['gate'])
         lbl=T("(()=>{const g=OB.c.getContext('2d');let t='';const f=g.fillText;g.fillText=function(s){if(/Gate/.test(s))t=s;return f.apply(this,arguments)};return new Promise(r=>setTimeout(()=>{g.fillText=f;r(t)},300))})()")
-        ok('Gate 10 of 50' in lbl,tag+' canvas label shows run gate: '+lbl)
+        ok('Stage 1 · Gate 10/10' in lbl,tag+' canvas label shows run gate: '+lbl)
         for rnd in range(2):  # wrong -> (first miss may only cross out) -> wrong -> hit -> next
             h0=T("sess.hearts")
             for k in range(3):
