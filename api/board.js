@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     av: { shirt: col(b.av && b.av.shirt, '#2f80ed'), pants: col(b.av && b.av.pants, '#2b2b2b'), hat: String((b.av && b.av.hat) || 'none').replace(/[^\w-]/g, '').slice(0, 20) },
     xp: n(e.xp), weekXp: n(e.weekXp), wk: String(e.wk || '').replace(/[^\w-]/g, '').slice(0, 12), speedBest: n(e.speedBest), mastered: n(e.mastered), updated: Date.now() };
   if (Array.isArray(b.fb)) row.fb = b.fb.filter(x => typeof x === 'string').map(x => x.replace(/[^\w '-]/g, '').slice(0, 24)).filter(Boolean).slice(0, 3);
-  const bh = await getJson(`badges/${kid.id}.json`); if (bh && bh.bh) row.bh = true;
+  const bh = await getJson(`badges/${kid.id}.json`); if (bh && bh.bh) row.bh = true; if (bh && bh.fd) row.fd = true;
   const tier = supTier(fam); row.sup = tier; row.av.cape = tier === '10' || tier === '20';
   row.psle = { xp: row.xp, weekXp: row.weekXp, wk: row.wk, speedBest: row.speedBest, mastered: row.mastered };
   await putJson(boardPath(kid.id), row); cache.t = 0;

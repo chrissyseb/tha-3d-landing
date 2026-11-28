@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 process.env.SESSION_SECRET = 'test-secret'; delete process.env.BLOB_READ_WRITE_TOKEN;
 process.env.BUGHUNTER_CODES = 'BUG-TEST-0001, BUG-TEST-0002';
+process.env.LEGEND_CODES = 'LEGEND-DAY1-AAAA,LEGEND-DAY1-BBBB';
 const R = (await import('../api/_redeem.js')).default, A = (await import('../api/admin.js')).default;
 async function call(h, b, ip = '10.0.0.1', hdr = {}) {
   const req = { method: 'POST', headers: { 'x-vo': '1', host: 'x', 'x-forwarded-for': ip, ...hdr }, body: b };
@@ -12,6 +13,9 @@ async function call(h, b, ip = '10.0.0.1', hdr = {}) {
 let r = await call(R, { code: 'bug-test-0001', dev: 'devA' }, '10.0.1.1'); assert.equal(r.code, 200); assert.equal(r.j.reward, 'bughunter'); assert.equal(r.j.coins, undefined);
 r = await call(R, { code: 'BUG-TEST-0001', dev: 'devB' }, '10.0.1.2'); assert.equal(r.code, 409);
 r = await call(R, { code: 'BUG-TEST-0001', dev: 'devA' }, '10.0.1.3'); assert.equal(r.code, 200); assert.equal(r.j.again, true);
+// Day One Legend: env-only, single-use
+r = await call(R, { code: 'legend-day1-aaaa', dev: 'devL' }, '10.0.6.1'); assert.equal(r.code, 200); assert.equal(r.j.reward, 'legend');
+r = await call(R, { code: 'LEGEND-DAY1-AAAA', dev: 'devM' }, '10.0.6.2'); assert.equal(r.code, 409);
 // admin generation disabled without ADMIN_KEY
 delete process.env.ADMIN_KEY; r = await call(A, { action: 'bhGen', n: 5 }, '10.0.2.1', { 'x-admin-key': '' }); assert.equal(r.code, 401);
 process.env.ADMIN_KEY = 'k'.repeat(30);
