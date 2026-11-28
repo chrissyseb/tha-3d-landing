@@ -873,6 +873,7 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
 @keyframes bpz{from{transform:scale(.3) rotate(-8deg)}to{transform:none}}@keyframes bpf{from{opacity:0}}
 .bico{display:inline-grid;place-items:center;border-radius:50%;padding:4px;justify-self:center;aspect-ratio:1}.bico.gold{background:radial-gradient(#fff6b0,#ffd23f);box-shadow:0 0 12px #ffd23f}.bico.silver{background:radial-gradient(#fff,#c9d3e8)}.bico.rainbow{background:conic-gradient(#ff5d8f,#ffd23f,#3ddc84,#3fabe7,#b15fd7,#ff5d8f)}
 .favb{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0}.favb span{display:grid;justify-items:center;font-size:11px;font-weight:800}.favt{margin-top:6px;font:800 12px var(--fd,system-ui);border:2px solid var(--ink,#241B4B);border-radius:10px;padding:3px 8px;background:transparent;color:inherit}.favt.on{background:#FFE45C;color:#241B4B}
+.chhow{position:absolute;inset:0;background:rgba(20,16,60,.88);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;padding:14px;text-align:center;z-index:3}.chhow b{font:800 20px var(--fd,system-ui)}.chp{display:grid;gap:8px;width:100%}.chp div{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 10px;text-align:left;font-weight:700;font-size:15px}.chp i{font-style:normal;font-size:24px}
 </style><link rel="stylesheet" href="/intro.css"></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span></div>
@@ -1571,7 +1572,7 @@ function recap(){
 }
 
 
-function daily(){const t=today();if(S.daily.d===t)return;const y=new Date(Date.now()-DAY).toDateString();S.daily.n=Math.min((S.daily.n||0)+1,7);S.daily.d=t;const amt=[0,50,75,100,150,200,250,500][S.daily.n];S.coins+=amt;save();setTimeout(()=>CRE.ev.daily(S.daily.n),2600);
+function daily(){const t=today();if(S.daily.d===t)return;const y=new Date(Date.now()-DAY).toDateString();S.daily.n=Math.min((S.daily.n||0)+1,7);S.daily.d=t;const amt=[0,50,75,100,150,200,250,500][S.daily.n];S.coins+=amt;save();{const dn=S.daily.n,show=()=>{if(document.body.classList.contains('playing')||sess)return setTimeout(show,3000);CRE.ev.daily(dn)};setTimeout(show,2600)}
   setTimeout(()=>chestReveal(S.daily.n,amt),300)}
 function speed(){OB.hide&&OB.hide();setTimeout(()=>document.body.classList.add('playing'),0);
   const pool=W.filter(x=>st(x[0]).seen);const src=pool.length>=10?pool:W;let score=0,end=Date.now()+60000,tm;
@@ -1991,23 +1992,23 @@ function chase(done){
   <div class="chase"><canvas id="cg" width="360" height="480" aria-label="Shadow Chase game. Use left and right to change lanes."></canvas></div>
   <div class="ctl2"><button class="go" id="cl" style="margin:0" aria-label="Move left">◀ Left</button><button class="go" id="cr" style="margin:0" aria-label="Move right">Right ▶</button></div>
   <p style="color:var(--mut);font-size:14px;margin:8px 0 0">Swipe or use the arrow keys. Run through the door with the right meaning to push the Word Thief back.</p></div>`;
-  const c=$('cg'),g=c.getContext('2d'),Wd=360,Hd=480,LX=[60,180,300];
-  let lane=1,px=LX[1],t0=performance.now(),last=t0,left=40,coins=0,thief=150,speed=RM?150:210,boost=0,obj=[],spawn=0,doorT=4,doorOn=null,over=false,paused=false,raf=0,shake=0,scroll=0,msg='',msgT=0;
+  const c=$('cg'),g=c.getContext('2d'),Wd=360,Hd=480,LX=[60,180,300],DPR=Math.min(3,Math.max(1,devicePixelRatio||1));c.width=Wd*DPR;c.height=Hd*DPR;g.scale(DPR,DPR);
+  let lane=1,px=LX[1],t0=performance.now(),last=t0,left=40,coins=0,thief=150,speed=RM?105:145,el=0,crateHint=0,boost=0,obj=[],spawn=0,doorT=4,doorOn=null,over=false,paused=false,raf=0,shake=0,scroll=0,msg='',msgT=0;
   const CAP=150,add=n=>{coins=Math.min(CAP,coins+n);$('cc').textContent=coins+' coins'};
   const mv=d=>{if(over)return;lane=Math.max(0,Math.min(2,lane+d))};
   $('cl').onclick=()=>mv(-1);$('cr').onclick=()=>mv(1);
   const key=e=>{if(e.key==='ArrowLeft'){mv(-1);e.preventDefault()}if(e.key==='ArrowRight'){mv(1);e.preventDefault()}};
   addEventListener('keydown',key);
   let sx=null;c.addEventListener('pointerdown',e=>{sx=e.clientX});c.addEventListener('pointerup',e=>{if(sx==null)return;const dx=e.clientX-sx;if(Math.abs(dx)>24)mv(dx>0?1:-1);else{const r=c.getBoundingClientRect();mv((e.clientX-r.left)<r.width/2?-1:1)}sx=null});
-  const vis=()=>{paused=document.hidden;if(!paused){last=performance.now()}};document.addEventListener('visibilitychange',vis);
+  const vis=()=>{if(document.querySelector('.chhow'))return;paused=document.hidden;if(!paused){last=performance.now()}};document.addEventListener('visibilitychange',vis);
   function newDoor(){const x=src[Math.random()*src.length|0];const wrong=look(x,2).map(y=>y[2]);const opts=shuf([x[2],...wrong]).slice(0,3);while(opts.length<3)opts.push('');doorOn={x,opts,key:x[2],y:-90,hit:false};$('cw').textContent='Which door means: '+x[0]+'?'}
-  function wrap(s,maxW){g.font='700 12px Nunito,system-ui,sans-serif';const w=s.split(' '),L=[];let cur='';for(const p of w){const t=cur?cur+' '+p:p;if(g.measureText(t).width>maxW&&cur){L.push(cur);cur=p}else cur=t}if(cur)L.push(cur);return L.slice(0,4)}
+  function wrap(s,maxW){g.font='800 14px Nunito,system-ui,sans-serif';const w=s.split(' '),L=[];let cur='';for(const p of w){const t=cur?cur+' '+p:p;if(g.measureText(t).width>maxW&&cur){L.push(cur);cur=p}else cur=t}if(cur)L.push(cur);return L.slice(0,4)}
   function blk(x,y,w,h,f){g.fillStyle=f;g.fillRect(x,y,w,h);g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=3;g.strokeRect(x+1.5,y+1.5,w-3,h-3)}
   function drawAv(x,y){const a=S.av;blk(x-13,y-38,26,22,'#ffcf5a');g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.fillRect(x-8,y-31,4,5);g.fillRect(x+4,y-31,4,5);blk(x-15,y-17,30,20,flat(a.shirt));blk(x-14,y+2,13,14,flat(a.pants));blk(x+1,y+2,13,14,flat(a.pants))}
   function drawThief(x,y){blk(x-15,y-38,30,24,'#E3E6F5');g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.fillRect(x-15,y-30,30,8);g.fillStyle='#ffc642';g.fillRect(x-9,y-28,5,4);g.fillRect(x+4,y-28,5,4);blk(x-17,y-15,34,22,'#24194a');g.fillStyle='#ffc642';g.font='800 12px Rubik,Fredoka,system-ui,sans-serif';g.textAlign='center';g.fillText('?',x,y+1);blk(x-14,y+6,12,12,(document.body.classList.contains('night')?'#0A1630':'#241B4B'));blk(x+2,y+6,12,12,(document.body.classList.contains('night')?'#0A1630':'#241B4B'))}
   function end(caught){if(over)return;over=true;cancelAnimationFrame(raf);removeEventListener('keydown',key);document.removeEventListener('visibilitychange',vis);
     S.coins+=coins;const nb=coins>S.chaseBest;if(nb)S.chaseBest=coins;save();CRE.ev.side('chase',coins,nb);if(typeof syncScore==='function')syncScore();if(nb&&coins>0)confetti(150);beep(!caught);
-    main.innerHTML=`<div class="card"><span class="tag">Shadow Chase</span><div class="word" style="font-size:clamp(28px,6vw,40px)">${caught?'The Word Thief caught you!':'You escaped!'}</div>
+    main.innerHTML=`<div class="card"><span class="tag">Shadow Chase</span><div style="font-size:54px;line-height:1">${caught?'😵':'🏁'}</div><div class="word" style="font-size:clamp(28px,6vw,40px)">${caught?'The Word Thief caught you!':'You escaped!'}</div><p style="font-weight:800;margin:4px 0">${caught?'So close! You still keep every coin you grabbed.':'Brilliant running!'}</p>
     <div class="stat"><div><b>${coins}</b>coins won</div><div><b>${S.chaseBest}</b>best</div><div><b>${S.bonus}</b>bonus left</div></div>
     <p>${nb&&coins?'New personal best! ':''}Get 10 right in a row in a run to earn another round.</p>
     ${S.bonus?'<button class="go" id="again">Play again</button>':''}<button class="go" id="cont" ${S.bonus?'style="background:var(--paper)"':''}>${done===home?'Home':'Back to my run'}</button></div>`;
@@ -2015,16 +2016,16 @@ function chase(done){
   function frame(now){if(!c.isConnected){over=true;removeEventListener('keydown',key);document.removeEventListener('visibilitychange',vis);return}raf=requestAnimationFrame(frame);if(paused||over){last=now;return}
     const dt=Math.min(.05,(now-last)/1000);last=now;left-=dt;$('ct').textContent=Math.ceil(Math.max(0,left))+'s';
     if(left<=0)return end(false);
-    const sp=speed+(boost>0?120:0);boost=Math.max(0,boost-dt);scroll=(scroll+sp*dt)%60;
+    el+=dt;speed=Math.min(RM?150:205,speed+dt*(RM?.6:1.1));const sp=speed+(boost>0?90:0);boost=Math.max(0,boost-dt);scroll=(scroll+sp*dt)%60;
     px+=(LX[lane]-px)*Math.min(1,dt*(RM?30:14));
     thief=Math.min(170,thief+dt*2.2);
-    spawn-=dt;if(spawn<=0&&!doorOn){spawn=.55+Math.random()*.5;const l=Math.random()*3|0;obj.push({l,y:-30,t:Math.random()<.68?'coin':'crate'})}
+    spawn-=dt;if(spawn<=0&&!doorOn){spawn=.65+Math.random()*.6;const l=Math.random()*3|0;const cr=el>15&&Math.random()<(el>28?.26:.18);if(cr&&!crateHint){crateHint=1;msg='Dodge! Crates ahead';msgT=1.8}obj.push({l,y:-30,t:cr?'crate':'coin'})}
     doorT-=dt;if(doorT<=0&&!doorOn){newDoor();doorT=6.5}
     obj.forEach(o=>o.y+=sp*dt);
     const PY=360;
-    obj=obj.filter(o=>{if(o.y>PY-24&&o.y<PY+20&&o.l===lane){if(o.t==='coin'){add(2);beep(1)}else{thief-=38;shake=RM?0:.25;beep(0);msg='Ouch! The Word Thief is closer';msgT=1.2}return false}return o.y<Hd+40});
+    obj=obj.filter(o=>{if(o.y>PY-24&&o.y<PY+20&&o.l===lane){if(o.t==='coin'){add(2);beep(1)}else{thief-=30;speed=Math.max(RM?95:120,speed*.88);shake=RM?0:.25;beep(0);msg='Ouch! The Word Thief is closer';msgT=1.2}return false}return o.y<Hd+40});
     if(doorOn){doorOn.y+=sp*dt;if(!doorOn.hit&&doorOn.y>PY-40){doorOn.hit=true;const ok=doorOn.opts[lane]===doorOn.key;
-        if(ok){add(12);boost=1.5;thief=Math.min(170,thief+45);confetti(40);beep(1);msg='Correct! '+doorOn.x[0]+' = '+doorOn.key;msgT=2}else{thief-=55;shake=RM?0:.3;beep(0);msg=doorOn.x[0]+' means '+doorOn.key;msgT=2.4}
+        if(ok){add(12);boost=1.5;thief=Math.min(170,thief+45);confetti(40);beep(1);msg='Correct! '+doorOn.x[0]+' = '+doorOn.key;msgT=2}else{thief-=45;speed=Math.max(RM?95:120,speed*.88);shake=RM?0:.3;beep(0);msg=doorOn.x[0]+' means '+doorOn.key;msgT=2.4}
         $('cw').textContent='Collect coins. Dodge the crates!'}
       if(doorOn.y>Hd+60)doorOn=null}
     if(thief<=0)return end(true);
@@ -2034,14 +2035,16 @@ function chase(done){
     for(let i=0;i<3;i++){g.fillStyle=i%2?'#c9d3e8':'#dfe5f1';g.fillRect(i*120+8,0,104,Hd)}
     g.fillStyle='#b8c3db';for(let y=-60+scroll;y<Hd;y+=60)for(let i=0;i<3;i++)g.fillRect(i*120+8,y,104,4);
     obj.forEach(o=>{const x=LX[o.l];if(o.t==='coin'){g.fillStyle='#ffc642';g.beginPath();g.arc(x,o.y,11,0,7);g.fill();g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=3;g.stroke();g.fillStyle='#fff3c2';g.fillRect(x-2,o.y-6,4,8)}else{blk(x-22,o.y-22,44,40,'#b07a45');g.fillStyle='#8b5a2b';g.fillRect(x-19,o.y-4,38,4)}});
-    if(doorOn){doorOn.opts.forEach((t,i)=>{const x=i*120+10,y=doorOn.y-70;blk(x,y,100,92,(document.body.classList.contains('night')?['#3FABE7','#2F7BEA','#1FB5A8']:['#3FABE7','#7D82DE','#B15FD7'])[i]);g.fillStyle='rgba(255,255,255,.92)';g.fillRect(x+6,y+8,88,76);g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.textAlign='center';wrap(t,82).forEach((ln,k)=>g.fillText(ln,x+50,y+26+k*15))})}
+    if(doorOn){doorOn.opts.forEach((t,i)=>{const x=i*120+10,y=doorOn.y-70;blk(x,y,100,92,(document.body.classList.contains('night')?['#3FABE7','#2F7BEA','#1FB5A8']:['#3FABE7','#7D82DE','#B15FD7'])[i]);g.fillStyle='rgba(255,255,255,.92)';g.fillRect(x+6,y+8,88,76);g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.textAlign='center';wrap(t,84).forEach((ln,k)=>g.fillText(ln,x+50,y+26+k*17))})}
     drawAv(px,PY);
     const ty=PY+30+thief*0.0+Math.max(0,(170-thief))*0;const tY=Math.min(Hd-10,PY+40+thief*0.55);drawThief(LX[lane]+(px-LX[lane]),tY);
     g.restore();
     g.fillStyle='rgba(27,33,64,.85)';g.fillRect(0,0,Wd,26);g.fillStyle='#fff';g.font='800 13px Rubik,Fredoka,system-ui,sans-serif';g.textAlign='left';g.fillText('Word Thief',8,18);
     g.fillStyle='#E3E6F5';g.fillRect(96,8,250,11);g.fillStyle=thief<60?'#B15FD7':'#3FABE7';g.fillRect(96,8,250*Math.max(0,thief)/170,11);
-    if(msgT>0){msgT-=dt;g.fillStyle='rgba(27,33,64,.88)';g.fillRect(10,Hd-44,Wd-20,32);g.fillStyle='#fff';g.font='700 13px Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(msg.length>52?msg.slice(0,50)+'…':msg,Wd/2,Hd-23)}
+    if(msgT>0){msgT-=dt;g.fillStyle='rgba(27,33,64,.88)';g.fillRect(10,Hd-44,Wd-20,32);g.fillStyle='#fff';g.font='800 15px Nunito,system-ui,sans-serif';g.textAlign='center';g.fillText(msg.length>44?msg.slice(0,42)+'…':msg,Wd/2,Hd-23)}
   }
+  if(!S.chaseHow){paused=true;const ov=document.createElement('div');ov.className='chhow';ov.innerHTML=`<b>How to play Shadow Chase</b><div class="chp"><div><i>⬅️➡️</i><span>Swipe or tap Left / Right to switch lanes</span></div><div><i>🪙</i><span>Grab coins. Crates come later: dodge them!</span></div><div><i>🚪</i><span>Run through the door with the right meaning to push the Word Thief back</span></div></div><button class="go" id="chgo" type="button">Start!</button>`;c.parentElement.appendChild(ov);
+    $('chgo').onclick=()=>{S.chaseHow=1;save();ov.remove();paused=false;last=performance.now()};const ovis=vis;}
   raf=requestAnimationFrame(frame);
   window.__chase={mv,end:()=>end(false),state:()=>({left,coins,thief,lane,over})};
 }
