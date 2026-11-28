@@ -1808,7 +1808,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  frame(now){
   this.raf=requestAnimationFrame(t=>this.frame(t));if(this.hs&&now<this.hs){this.last=now;return}
   const s=this.st;if(!s||!this.c.isConnected)return;
-  let dt=Math.min(.05,(now-this.last)/1000);this.last=now;if(s.paused)dt=0;
+  let dt=Math.max(0,Math.min(.05,(now-this.last)/1000));this.last=now;if(s.paused)dt=0;
   const RM=this.RM();s.t+=dt;if(s.msgT>0)s.msgT-=dt;
   // physics
   if(s.crouch>0){s.crouch-=dt;if(s.crouch<=0){s.crouch=0;s.vy=-540;s.ground=false}}
