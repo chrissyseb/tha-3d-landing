@@ -1022,7 +1022,7 @@ const KONGO={n:'King Kongo',b:'#6b4a2e',d:'#3b2716',e:'#7dff6a',weak:'fire',atk:
 const CB=()=>(sess&&sess.giant)?KONGO:(BOSSES[OB.w]||BOSSES[0]);
 const COMBOS={'fire+water':['Steam Burst','#b48cff'],'fire+zap':['Plasma Blast','#ff3fd0'],'water+zap':['Storm Surge','#2ff0ff']};
 const comboOf=(a,b)=>{if(a==='star'||b==='star')return['Super Nova','#ffe14a'];return COMBOS[[a,b].sort().join('+')]||['Combo','#ffffff']};
-const ELN={fire:'Fire',water:'Water',zap:'Electric',star:'Star'};
+const ELN={fire:'Fire',water:'Water',zap:'Electric',star:'Star'},WEAKE={fire:'🔥',water:'💧',zap:'⚡'};
 const BUB={fire:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c3 9 13 13 13 25a13 13 0 0 1-26 0c0-7 4-10 6-15 1 4 3 6 5 6-1-6 0-11 2-16z" fill="#fff3c4" stroke="#7a1d05" stroke-width="3" stroke-linejoin="round"/><path d="M24 24c2 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-5 3-7 1 2 2 3 3 3z" fill="#ff7a1f"/></svg>',water:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5C18 16 10 22 10 31a14 14 0 0 0 28 0c0-9-8-15-14-26z" fill="#e6f8ff" stroke="#0b3f86" stroke-width="3" stroke-linejoin="round"/><path d="M17 31a7 7 0 0 0 7 7" stroke="#3fb2f5" stroke-width="4" fill="none" stroke-linecap="round"/></svg>',zap:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M28 3 10 27h12l-4 18 20-26H26z" fill="#fffbe0" stroke="#6b3d00" stroke-width="3" stroke-linejoin="round"/></svg>',star:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3l6 13 14 2-10 10 3 14-13-7-13 7 3-14L4 18l14-2z" fill="#fff" stroke="#1b2140" stroke-width="3" stroke-linejoin="round"/></svg>'};
 const ARMN=()=>Object.entries(S.gear||{}).filter(([k,v])=>v&&GEARP.some(z=>z[0]===k)&&(S.gearOwn||[]).includes(k+'|'+v)).length,ARMB=(n=ARMN())=>n>=10?3:n>=6?2:n>=3?1:0,HMAX=()=>3+ARMB();
 const ARMH=on=>`<svg viewBox="0 0 24 24" class="armh ${on?'':'lost'}" aria-hidden="true"><path d="M12 2.5 20 5.5v6c0 5-3.6 8.6-8 10-4.4-1.4-8-5-8-10v-6z" fill="none" stroke="#7D82DE" stroke-width="2"/><path d="M12 18 6.8 12.8A3.2 3.2 0 0 1 12 9a3.2 3.2 0 0 1 5.2 3.8z" fill="#ff4b6e"/></svg>`;
@@ -1082,6 +1082,7 @@ function setVoice(){const v=pickVoice();if(v){VOX.v=v;VOX.k=v.voiceURI||v.name;t
 if(VOX.ok){try{setVoice();speechSynthesis.addEventListener?speechSynthesis.addEventListener('voiceschanged',setVoice):(speechSynthesis.onvoiceschanged=setVoice)}catch(e){}}
 window.VBVOICE={get accent(){return S.vaccent==='any'?'any':'gb'},toggle(){S.vaccent=S.vaccent==='any'?'gb':'any';save();setVoice()},name(){return VOX.v?VOX.v.name:''}};
 function speak(t,slow){if(!VOX.ok||S.voice===false||!t)return;try{speechSynthesis.cancel();if(!VOX.v)setVoice();const u=new SpeechSynthesisUtterance(String(t));if(VOX.v)u.voice=VOX.v;u.lang='en-GB';u.rate=slow?.6:(S.vrate||.95);speechSynthesis.speak(u)}catch(e){}}
+const spk=t=>VOX.ok?`<button class="spk" type="button" data-say="${esc(t)}" aria-label="Hear it">${ic('spk',26)}</button><button class="spk" type="button" data-say="${esc(t)}" data-slow="1" aria-label="Hear it slowly">${ic('slow',26)}</button>`:'';
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-say]');if(!b)return;speak(b.dataset.say,!!b.dataset.slow)});
 const sylHTML=x=>x[8]&&x[8].includes('·')?`<span class="syl">${x[8].split(/(\s+)/).map(w=>w.split('·').map(p=>p!==p.toLowerCase()&&p.length>1&&p===p.toUpperCase()?`<b>${esc(p.toLowerCase())}</b>`:esc(p)).join('·')).join('')}</span>`:'';
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -1262,10 +1263,20 @@ function progHTML(){if(!sess||!sess.words)return '';const N=sess.words.length,g=
   mk+=`<i class="pm crown${sess.beatFinal?' done':''}" style="left:100%" title="King Kongo at gate ${N}">♛</i>`;
   return `<div class="prog" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="${N}" aria-valuenow="${g}" aria-valuetext="Gate ${g} of ${N}, stage ${stageN(Math.max(1,g))} of ${stages(N)}"><span class="pgt"><span>Gate <b>${g}</b> / ${N}</span><small>Stage ${stageN(Math.max(1,g))} of ${stages(N)}</small></span><span class="ptrack"><span class="pfill" style="width:${pc(g)}"></span>${mk}<span class="pav" style="left:${pc(g)}">${avatar(26)}</span></span></div>`}
 function persist(){if(sess&&sess.kind==='quest')return;try{localStorage.setItem(SK(),JSON.stringify({...sess,words:sess.words.map(x=>x[0]),steps:sess.steps.map(({x,...r})=>r)}))}catch(e){}}
+// Guarantee: every mini boss (gates 10/20/30/40) and the final boss happen once per run, whatever path the run took
+// (Save & stop / Continue, reload mid-run, done-skips, re-inserted steps). A boss is "owed" when the run has moved past its
+// gate without that boss being beaten or skipped and none of its steps are still ahead.
+function bossDue(z){if(!z||!z.steps||!z.words)return;const N=z.words.length,done=z.bdone||(z.bdone=[]);
+  if(!z.bdv){z.bdv=1;z.steps.slice(0,z.i).forEach(t=>{if(t.bid&&!done.includes(t.bid)&&!(z.bossOn&&t.bid===z.bid))done.push(t.bid)})}
+  const cur=z.steps[z.i];if(z.bossOn||(cur&&cur.boss))return;
+  const ahead=b=>z.steps.slice(z.i).some(t=>t.bid===b),gNext=cur?gateOf(cur):N+1,mk=(bid,giant,n)=>{const pool=bid==='final'?z.words:z.words.slice(Math.max(0,+bid.slice(1)-10),+bid.slice(1));return shuf(pool.slice()).slice(0,n).map(w=>({t:shuf(['meaning','under','reverse','lookalike'])[0],n:w[0],x:w,boss:1,bid,giant:giant?1:0}))};
+  for(let k=10;k<N;k+=10){const b='m'+k;if(!done.includes(b)&&!ahead(b)&&gNext>k){z.steps.splice(z.i,0,...mk(b,0,8));return}}
+  if(!cur&&!done.includes('final')&&!z.beatFinal&&!ahead('final'))z.steps.push(...mk('final',z.kind!=='challenge',16))}
 // ---------- run ----------
 function run(){
   if(!sess.rid)sess.rid=Date.now().toString(36)+Math.random().toString(36).slice(2,7);sess.steps.forEach(z=>{if(z.u==null)z.u=sess.uc=(sess.uc||0)+1});
   while(sess.i<sess.steps.length&&sess.done&&sess.done[sess.steps[sess.i].u])sess.i++;
+  bossDue(sess);
   {const g=Math.max(sess.gate||0,gateOf(sess.steps[sess.i]));const N=sess.words.length;sess.cheer=sess.cheer||{};const half=Math.floor((Math.ceil(g/10)-1)*10+Math.min(10,N-(Math.ceil(g/10)-1)*10)/2);if(sess.gate!=null&&g>=half&&(sess.gate||0)<half&&!sess.cheer[half]&&half<N){sess.cheer[half]=1;setTimeout(()=>{pop('Halfway through stage '+stageN(g)+'!');try{beep(1)}catch(e){}},400)}sess.gate=g}
   hud();persist();
   if(sess.bossOn&&sess.boss>0&&sess.hearts>0){const s0=sess.steps[sess.i];if(!s0||s0.bid!==sess.bid)addBossStep()}
@@ -1273,7 +1284,8 @@ function run(){
   const s=sess.steps[sess.i],x=s.x,pct=Math.round(sess.i/sess.steps.length*100);
   cur_boss=!!s.boss;if(s.gold==null)s.gold=s.t!=='intro'&&s.t!=='match'&&Math.random()<.07;s_gold=s.gold;
   if(cur_boss&&(sess.boss==null||sess.bid!==s.bid)){sess.bid=s.bid;sess.giant=!!s.giant;if(!sess.bossHint){sess.bossHint=1;setTimeout(()=>{if(sess)bobHint('Wrong answers let the boss strike back. Protect your hearts!')},400)}sess.bossMax=sess.boss=sess.giant?100:sess.kind==='challenge'?(s.bid==='final'?45:35):50;sess.hearts=sess.hMax=HMAX();sess.swH=0;sess.bossOn=1;sess.charge=0;if(OB.st)OB.st.boss=null}
-  OB.ensure(sess.w!=null?sess.w:tier());const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
+  OB.ensure(sess.w!=null?sess.w:tier());if(cur_boss&&s.arr&&OB.st&&(!OB.st.boss||(OB.st.boss.dead&&sess.boss>0))&&sess.bossOn&&sess.boss>0){OB.st.boss={x:OB.st.ax+160,hp:sess.boss,max:sess.bossMax||sess.boss,shake:0,hurt:0,dead:false,deadT:0,lean:0,giant:!!sess.giant};OB.st.mode='idle'}
+  const bossBar=cur_boss?`<div class="boss" id="bossbar">${bossBarHTML()}</div>`:'';if(cur_boss&&!s.arr&&OB.st&&OB.st.boss&&!OB.st.boss.dead)s.arr=1;if(OB.el){const jb=OB.el.querySelector('.obj');if(jb)jb.hidden=!!(cur_boss&&s.arr)}const top=bossBar;
   const head=(label,lvl)=>`<div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace(s.t==='intro'?'idle':'think',52)}</span><span class="tag ${s.t==='intro'?'new':''}">${label}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div>`;
   if(s.t!=='intro'&&s.t!=='match'&&!s.arr){
     main.innerHTML=top+`<div class="card runcard"><div class="cardhead"><span class="bobr" aria-hidden="true">${bobFace('think',52)}</span><span class="tag">${s.boss?'Word Boss ahead':'Run!'}</span><span class="combo">${sess.combo>1?'Combo ×'+Math.min(sess.combo,5):''}</span></div><p class="q" style="margin:8px 0 0">${s.boss?(s.giant&&sess.kind!=='challenge'?'<b>A GIANT approaches!</b> King Kongo blocks the finish line. Answer right, then attack. Hold your charge for combos! You have 3 hearts.':'Boss battle! The '+esc(CB().n)+' blocks the path. Answer right, then pick a power to attack. You have 3 hearts.'):'Tap <b>Jump</b> or press <b>Space</b> to grab coins and hop the crates. A word gate is coming up!'}</p></div>`;
@@ -1370,7 +1382,7 @@ function result(ok,x,extra='',fl={}){
   hud();
   if(cur_boss)bossTurn(ok);
 }
-function bossBarHTML(){const B=CB(),h=sess.hearts==null?(sess.hMax||3):sess.hearts,c=sess.charge||0;return `<span class="tag new">${esc(B.n)}</span>${c?`<span class="charge" aria-label="${c} charge stored">${ic('zap',18).repeat(c)}</span>`:''}<button class="tipq" id="tipq" type="button" aria-label="Power tips">?</button><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${Array.from({length:sess.hMax||3},(_,i)=>i<3?((sess.swH&&i===h-1)?GHEART(true):HEART(i<h)):ARMH(i<h)).join('')}</span>${heartNote()}`}
+function bossBarHTML(){const B=CB(),h=sess.hearts==null?(sess.hMax||3):sess.hearts,c=sess.charge||0;return `<span class="tag new">${esc(B.n)}</span><span class="tag weakt" title="Use this power for super-effective damage">Weak to ${WEAKE[B.weak]||''} ${ELN[B.weak]||''}</span>${c?`<span class="charge" aria-label="${c} charge stored">${ic('zap',18).repeat(c)}</span>`:''}<button class="tipq" id="tipq" type="button" aria-label="Power tips">?</button><div class="hp"><i style="width:${Math.max(0,sess.boss)/sess.bossMax*100}%"></i></div><b>${Math.max(0,sess.boss)} HP</b><span class="hearts" aria-label="${h} hearts left">${Array.from({length:sess.hMax||3},(_,i)=>i<3?((sess.swH&&i===h-1)?GHEART(true):HEART(i<h)):ARMH(i<h)).join('')}</span>${heartNote()}`}
 function redeem(){hud();main.innerHTML=`<div class="card"><span class="tag">Redeem a code</span><p class="q" style="margin:8px 0">Got a code from Miss Christine? Type it here.</p><input id="rcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Code" placeholder="BUG-XXXX-XXXX" style="font:800 20px var(--fd);padding:10px;width:100%;box-sizing:border-box;text-transform:uppercase"><p id="rmsg" role="status" style="font-weight:700;min-height:1.4em"></p><button class="go" id="rgo">Redeem</button></div>`;
   const go=async()=>{const c=$('rcode').value.trim();if(!c)return;$('rgo').disabled=true;S.dev=S.dev||(Date.now().toString(36)+Math.random().toString(36).slice(2,10));save();
     let r;try{const x=await fetch('/api/redeem',{method:'POST',headers:{'Content-Type':'application/json','x-vo':'1'},body:JSON.stringify({code:c,dev:S.dev})});r={ok:x.ok,j:await x.json().catch(()=>({}))}}catch(e){r={ok:false,j:{error:'No connection. Try again.'}}}
@@ -1391,6 +1403,14 @@ function tipsHTML(){const B=CB(),w=ELN[B.weak];return `<div class="tips" id="tip
 function showTips(){if($('tips'))return;const bb=$('bossbar');if(!bb)return;bb.insertAdjacentHTML('afterend',tipsHTML());$('tipsok').onclick=()=>{const t=$('tips');if(t)t.remove();S.tipsSeen=1;save()};$('tipsok').focus()}
 function wireTips(){const q=$('tipq');if(q)q.onclick=()=>{const t=$('tips');if(t)t.remove();else showTips()}}
 function addBossStep(){const w=sess.words[Math.random()*sess.words.length|0];sess.steps.splice(sess.i,0,{t:shuf(['meaning','under','reverse','lookalike','tf'])[0],n:w[0],x:w,boss:1,arr:1,bid:sess.bid,giant:sess.giant})}
+// Failsafe: in a boss fight, if nothing in the play area is tappable for 6s, give control back (Next, or the powers again).
+setInterval(()=>{if(!sess||!cur_boss||!sess.bossOn){bossWD.t=0;return}const m=$('main');if(!m)return;
+  const live=[...m.querySelectorAll('button,input')].some(b=>!b.disabled&&!b.hidden&&b.offsetParent&&!b.closest('#tips')&&b.id!=='tipq'&&!b.classList.contains('spk'));
+  if(live||(OB.st&&OB.st.batk&&OB.st.batk.t<3)){bossWD.t=0;return}if((bossWD.t+=1)<6)return;bossWD.t=0;bossWD.n++;
+  if(OB.st){if(OB.st.paused)OB.pause();if(OB.st.batk){const a=OB.st.batk;OB.st.batk=null;a.onHit&&a.onHit();a.cb&&a.cb()}if(OB.st.proj){const p=OB.st.proj;OB.st.proj=null;p.cb&&p.cb()}}
+  const box=m.querySelector('.bubbles');if(box&&box.querySelector('.bub')&&!box.querySelector('.bub.picked')){box.querySelectorAll('.bub,.holdbtn').forEach(b=>b.disabled=false);return}
+  const nx=$('nx');if(nx&&nx.isConnected){if(sess.hearts<=0&&!$('kretry'))knockedOut(nx);else{nx.hidden=false;nx.disabled=false;nx.focus()}}else run()},1000);
+const bossWD={t:0,n:0};
 function bossTurn(ok){
   const nx=$('nx');if(!nx)return;nx.hidden=true;const B=CB();wireTips();if(!S.tipsSeen)showTips();
   if(ok){
@@ -1398,7 +1418,7 @@ function bossTurn(ok){
     const charged=(sess.charge||0)>0;
     const box=document.createElement('div');box.className='bubbles'+(charged?' charged':'');
     box.innerHTML=`<p class="bubtitle">${charged?'Charged! Pick <b>two</b> powers to combine':'Pick a power to attack!'}</p><div class="bubrow">${el.map(k=>`<button class="bub b-${k}" data-k="${k}" aria-label="${ELN[k]} attack">${BUB[k]}<span>${ELN[k]}</span>${k==='star'?'<span class="wk">Big hit!</span>':''}</button>`).join('')}</div>${(sess.charge||0)<2?'<button class="holdbtn" id="holdbtn" type="button">'+ic('zap',20)+' Hold Charge <small>save it for a combo</small></button>':''}`;
-    nx.before(box);const first=box.querySelector('.bub');if(first)first.focus();
+    nx.before(box);const first=box.querySelector('.bub');if(first)first.focus({preventScroll:true});try{box.scrollIntoView({block:'nearest'})}catch(e){}
     const hb=box.querySelector('#holdbtn');if(hb)hb.onclick=()=>{sess.charge=(sess.charge||0)+1;persist();sfx('zap');buzz(HAP.combo);pop('Charge stored!');updBossBar();box.innerHTML='<p class="bubtitle">Charge stored ⚡ Next right answer = combo!</p>';nx.hidden=false;nx.focus()};
     const after=(dmg,eff,label)=>{if(!sess)return;sess.boss=Math.max(0,sess.boss-dmg);sfx('hit');OB.bossHit(sess.boss,dmg,eff);updBossBar();
         if(sess.boss<=0)bossWin(box,nx);
@@ -1408,14 +1428,14 @@ function bossTurn(ok){
       const k=b.dataset.k;
       if(!charged){box.querySelectorAll('.bub,.holdbtn').forEach(q=>q.disabled=true);b.classList.add('picked');
         let dmg=10,eff='';if(k==='star')dmg=25;else if(k===B.weak){dmg=15;eff='super'}
-        sfx(k);OB.shoot(k,()=>after(dmg,eff,''));return}
+        sfx(k);OB.shoot(k,()=>{pop(eff?'SUPER EFFECTIVE!':k==='star'?'Big hit!':'Not very effective…');after(dmg,eff,'')});return}
       if(picks.includes(k))return;picks.push(k);b.classList.add('picked');b.disabled=true;sfx(k);const hb2=box.querySelector('#holdbtn');if(hb2)hb2.remove();
       if(picks.length<2){box.querySelector('.bubtitle').innerHTML='Now pick a <b>second</b> power';return}
       box.querySelectorAll('.bub').forEach(q=>q.disabled=true);
       const [nm,col]=comboOf(picks[0],picks[1]);sess.charge=Math.max(0,sess.charge-1);updBossBar();
       let dmg=25,eff='';if(nm==='Super Nova')dmg=50;else if(picks.includes(B.weak)){dmg=35;eff='super'}
       box.querySelector('.bubtitle').innerHTML=`<span class="comboname" style="--cc:${col}">${esc(nm)}!</span>`;
-      OB.combo(picks[0],picks[1],col,nm,()=>after(dmg,eff,nm));
+      OB.combo(picks[0],picks[1],col,nm,()=>{pop(eff?'SUPER EFFECTIVE!':nm==='Super Nova'?'Big hit!':'Not very effective…');after(dmg,eff,nm)});
     });
   }else{
     if(sess.charge){sess.charge=0;setTimeout(()=>pop('Charge lost!'),300)}
@@ -1432,7 +1452,7 @@ function koFly(rm){const c=$('coinp'),w=OB.el;if(!c||!w)return;const cr=c.getBou
 function fanfare(){if(mute)return;try{ac=ac||new AudioContext();const t=ac.currentTime;[[523,0,.14],[659,.14,.14],[784,.28,.14],[1047,.42,.5],[784,.62,.12],[1047,.74,.7]].forEach(([f,st,d])=>{const o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=f;g.gain.setValueAtTime(.0001,t+st);g.gain.exponentialRampToValueAtTime(.09,t+st+.02);g.gain.exponentialRampToValueAtTime(.0001,t+st+d);o.connect(g);g.connect(ac.destination);o.start(t+st);o.stop(t+st+d+.05)})}catch(e){}}
 function bossWin(box,nx){const giant=!!sess.giant;
   OB.victory();setTimeout(()=>{sfx('win');if(giant)fanfare()},OB.RM()?0:500);setTimeout(()=>confetti(giant?320:220),OB.RM()?300:2200);
-  const bid=sess.bid,name=CB().n,fin=bid==='final';
+  const bid=sess.bid,name=CB().n,fin=bid==='final';(sess.bdone||(sess.bdone=[])).push(bid);
   sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);sess.bossOn=0;sess.boss=null;sess.charge=0;
   const reward=earn('boss:'+bid,giant?400:100);S.pts+=reward;sess.pts+=reward;S.bosses=(S.bosses||0)+1;if(giant)S.giants=(S.giants||0)+1;sess.beaten=(sess.beaten||0)+1;buzz(HAP.ko);if(fin)sess.beatFinal=1;save();checkBadges();CRE.ev.boss({giant,final:fin});
   const stN=stageN(+String(bid).slice(1)||1),stT=stages(sess.words.length);if(!fin&&/^m\d+$/.test(bid))sess.gate=Math.max(sess.gate||0,+bid.slice(1));
@@ -1452,7 +1472,7 @@ function knockedOut(nx){
     const before=sess.steps.slice(0,sess.i+1),later=sess.steps.slice(sess.i+1).filter(z=>z.bid!==bid),fresh=[];
     shuf(sess.words).slice(0,8).forEach(w=>fresh.push({t:shuf(['under','lookalike','meaning','reverse'])[0],n:w[0],x:w,boss:1,arr:1,nopay:1,bid,giant:sess.giant}));
     sess.steps=[...before,...fresh,...later];sess.i++;run()};
-  $('kend').onclick=()=>{sess.bossOn=0;sess.boss=null;sess.charge=0;sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);if(OB.st)OB.st.boss=null;sess.i++;run()};
+  $('kend').onclick=()=>{(sess.bdone||(sess.bdone=[])).push(bid);sess.bossOn=0;sess.boss=null;sess.charge=0;sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);if(OB.st)OB.st.boss=null;sess.i++;run()};
 }
 function matchGame(s,top){
   const xs=s.ns.map(n=>WF(n)).filter(Boolean),L=shuf(xs),R=shuf(xs);let sel=null,left=xs.length,miss=0;
@@ -1633,15 +1653,16 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
  // creature energy: each correct answer adds 1; at 5 the companion's species special replaces the next hit.
  // Same damage for every creature (rarity only adds sparkle), so no creature is stronger.
  charge(){const s=this.st;if(!s)return;s.en=Math.min(5,(s.en||0)+1)},
- shoot(k,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}this.charge();
+ safe(cb,ms){if(!cb)return cb;let done=0;const f=()=>{if(done)return;done=1;cb()};setTimeout(f,ms);return f},
+ shoot(k,cb){const s=this.st;cb=this.safe(cb,2500);if(!s||!s.boss){cb&&cb();return}if(s.paused)this.pause();if(s.proj&&s.proj.cb){const o=s.proj.cb;s.proj.cb=null;o()}this.charge();
   if(s.en>=5&&window.CRE){s.en=0;const id=CRE.st().act,el=CRE.ELEM[id]||'fire',sp=SPECIAL[el],rar=CRE.R(id)||0;this.say(CRE.nick(id)+': '+sp[0]+'!');CRE.react('flip');
    if(!this.RM()&&rar>=2)for(let i=0;i<16;i++)s.fx.push({x:s.ax-44,y:-30,vx:(Math.random()-.5)*200,vy:-100-Math.random()*150,l:.8,c:['#FFE45C','#fff',sp[1]][i%3]});
    s.proj={k:'combo',col:sp[1],t:0,dur:this.RM()?.25:.65,x0:s.ax-44,y0:-30,x1:s.boss.x-10,y1:-70,cb};return}
   s.proj={k,t:0,dur:this.RM()?.22:(k==='zap'?.32:.55),x0:s.ax+16,y0:-38,x1:s.boss.x-10,y1:-62,cb}},
- combo(a,b,col,nm,cb){const s=this.st;if(!s||!s.boss){cb&&cb();return}
+ combo(a,b,col,nm,cb){const s=this.st;cb=this.safe(cb,4500);if(!s||!s.boss){cb&&cb();return}
   this.shoot(a,()=>{if(!this.st)return cb&&cb();this.shoot(b,()=>{const s2=this.st;if(!s2||!s2.boss)return cb&&cb();this.say(nm+'!');
    s2.proj={k:'combo',col,t:0,dur:this.RM()?.25:.6,x0:s2.ax+16,y0:-46,x1:s2.boss.x-10,y1:-70,cb}})})},
- bossAttack(cb,miss,onHit){const s=this.st;if(!s||!s.boss||s.boss.dead){onHit&&onHit();cb&&cb();return}const B=CB();s.taunt=null;s.batk={type:B.atk,t:0,wind:this.RM()?.4:.42,strike:this.RM()?.15:.38,cb,onHit,miss:!!miss,hitDone:false}},
+ bossAttack(cb,miss,onHit){const s=this.st;onHit=this.safe(onHit,1800);cb=this.safe(cb,2600);if(!s||!s.boss||s.boss.dead){onHit&&onHit();cb&&cb();return}if(s.paused)this.pause();if(s.batk&&s.batk.cb){const o=s.batk;s.batk=null;o.onHit&&o.onHit();o.cb()}const B=CB();s.taunt=null;s.batk={type:B.atk,t:0,wind:this.RM()?.4:.42,strike:this.RM()?.15:.38,cb,onHit,miss:!!miss,hitDone:false}},
  victory(){const s=this.st;if(!s)return;if(s.boss){s.boss.dead=true;s.boss.hp=0;s.boss.deadT=0}if(!this.RM())this.hs=performance.now()+500;koCard(s.boss&&s.boss.giant,this.RM());s.cheer=1.6;if(!this.RM())for(let i=0;i<16;i++)s.fx.push({x:s.boss?s.boss.x:s.ax+120,y:-70,vx:(Math.random()-.5)*420,vy:-200-Math.random()*240,l:1.2,c:['#ff5d8f','#ffb020','#ffe14a','#3ddc84','#3fb2f5','#8b5cf6'][i%6]})},
  ko(){const s=this.st;if(s)s.koT=1},
  revive(hp){const s=this.st;if(!s)return;s.koT=0;s.cheer=0;if(s.boss){s.boss.hp=hp;s.boss.max=hp;s.boss.dead=false;s.boss.deadT=0}else{s.boss={x:s.ax+160,hp,max:hp,shake:0,hurt:0,dead:false,deadT:0,lean:0}}this.say('Rematch!')},
@@ -1878,7 +1899,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
    if(p.glow){g.save();g.shadowColor=p.c;g.shadowBlur=RM?0:12}
    if(p.txt){g.textAlign='center';g.font=p.big?'900 26px Rubik,Fredoka,Nunito,sans-serif':'800 14px Rubik,Fredoka,Nunito,sans-serif';g.lineWidth=5;g.strokeStyle='#1b2140';g.strokeText(p.txt,p.x-cam,GY+p.y-20);g.fillStyle=p.big?p.c:'#1b2140';if(!p.big){g.fillText(p.txt,p.x-cam,GY+p.y-20)}else g.fillText(p.txt,p.x-cam,GY+p.y-20)}else{g.fillStyle=p.c;g.fillRect(p.x-cam,GY+p.y,6,6)}if(p.glow)g.restore();g.globalAlpha=1}
   // HUD on canvas
-  g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(s.gates+1),18,28);
+  g.textAlign='left';g.font='800 14px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='rgba(255,255,255,.94)';g.fillRect(10,10,190,26);g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=2;g.strokeRect(10,10,190,26);g.fillStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.fillText((sess&&sess.qname?sess.qname:this.w===6?'PSLE Kingdom':(WORLDS[this.w]||WORLDS[0])[1])+' · Gate '+(sess&&sess.words?Math.max(1,Math.min(sess.words.length,sess.gate||1))+' of '+sess.words.length:(s.gates+1)),18,28);
   if(s.magnet>0){const mx=28,my=56,f=Math.max(0,Math.min(1,s.magnet/(s.magMax||4))),fl=s.magnet<2&&!RM&&Math.sin(s.t*18)<0;g.globalAlpha=fl?.35:1;g.fillStyle='rgba(255,255,255,.94)';g.beginPath();g.arc(mx,my,15,0,7);g.fill();g.strokeStyle='rgba(27,33,64,.25)';g.lineWidth=4;g.beginPath();g.arc(mx,my,15,0,7);g.stroke();g.strokeStyle=s.magnet<2?'#ff4b6e':'#ffb020';g.beginPath();g.arc(mx,my,15,-Math.PI/2,-Math.PI/2+f*Math.PI*2);g.stroke();g.lineCap='butt';g.strokeStyle='#e0344f';g.lineWidth=5;g.beginPath();g.arc(mx,my-1,5,Math.PI,0,true);g.stroke();g.strokeStyle='#cfd6e6';g.beginPath();g.moveTo(mx-5,my-1);g.lineTo(mx-5,my-7);g.moveTo(mx+5,my-1);g.lineTo(mx+5,my-7);g.stroke();g.globalAlpha=1}
   if(s.msgT>0){g.textAlign='center';g.font='800 20px Rubik,Fredoka,Nunito,system-ui,sans-serif';g.fillStyle='#1b2140';g.fillText(s.msg,W2/2+2,82);g.fillStyle='#fff';g.fillText(s.msg,W2/2,80)}
   if(false){for(let i=0;i<3;i++){const hx=222+i*26,hy=14;g.fillStyle=i<(3-sess.hearts)?'rgba(255,255,255,.35)':'#ff4b6e';g.beginPath();g.moveTo(hx,hy+16);g.lineTo(hx-10,hy+5);g.arc(hx-5,hy+4,5,Math.PI,0);g.arc(hx+5,hy+4,5,Math.PI,0);g.closePath();g.fill();g.strokeStyle='#1b2140';g.lineWidth=2;g.stroke()}}
