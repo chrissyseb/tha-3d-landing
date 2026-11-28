@@ -138,6 +138,6 @@
 
   // Install button (PWA).
   let deferred = null;
-  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = document.createElement('button'); b.className = 'vo-install'; b.textContent = 'Install VocaBobby'; b.onclick = async () => { b.remove(); deferred.prompt(); deferred = null; }; document.body.appendChild(b); });
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = document.createElement('button'); b.className = 'vo-install'; b.textContent = 'Install VocaBobby'; b.onclick = async () => { b.remove(); deferred.prompt(); deferred = null; }; const f = document.querySelector('.foot'); if (f) { b.classList.add('inline'); f.parentNode.insertBefore(b, f); } else document.body.appendChild(b); });
   if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => { }));
 })();
