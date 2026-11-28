@@ -878,6 +878,7 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
 .item{position:relative}.afford{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#3ddc84;color:#0b2a17;font:800 10px var(--fd,system-ui);padding:2px 7px;border-radius:8px;border:2px solid #241B4B;white-space:nowrap}.wearnow{background:#7D82DE;color:#fff;border-radius:8px;padding:1px 8px;font-weight:800}
 .pouchtip{position:fixed;left:50%;top:max(12px,env(safe-area-inset-top));transform:translateX(-50%);z-index:9998;width:min(92vw,380px);display:grid;gap:4px;background:var(--paper,#fff);color:var(--ink,#241B4B);border:3px solid var(--ink,#241B4B);border-radius:16px;padding:12px 14px;box-shadow:0 6px 0 var(--ink,#241B4B);animation:bpz .4s}body.night .pouchtip{background:#141a2e;color:#eef}
 .today{margin:8px auto 0;padding:8px 12px;border-radius:12px;background:rgba(125,130,222,.14);font-weight:700;font-size:15px;max-width:420px}.today small{display:block;font-weight:600;font-size:12px;opacity:.75;margin-top:2px}
+.howc{text-align:center}.hbob{margin:8px auto}.hdots{display:flex;gap:6px;justify-content:center;margin:10px 0}.hdots i{width:10px;height:10px;border-radius:50%;background:rgba(36,27,75,.25)}.hdots i.on{background:#7D82DE}
 </style><link rel="stylesheet" href="/intro.css"></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span></div>
@@ -1366,6 +1367,7 @@ function run(){
   const sayT=s.t==='blank'?x[4].replace('___','blank'):(s.t==='reverse'||s.t==='lookalike')?x[2]:s.t==='under'?x[4].replace('___',A(x)):x[0];
   q=`<div class="sayrow" style="justify-content:flex-end;margin:0">${spk(sayT)}</div>`+q;
   opts=s.fixed?opts:shuf([...new Set(opts)]);
+  if(!S.guided&&!s.boss){S.guided=1;save();setTimeout(()=>{if(sess)bobHint('Your first gate! Read the question, then tap the answer that fits. Use 🔊 to hear it, or Hint if you are stuck.')},500)}
   main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div>${!s.fixed?`<button class="hintb" id="hintb" type="button">${ic('book',18)} Hint</button><div id="hintc" class="hintc" role="note" hidden></div>`:''}<div id="fb"></div></div>`;
   const hintTx=s.t==='blank'?`Clue: the missing word means <b>“${esc(x[2])}”</b>.`:(s.t==='reverse'||s.t==='lookalike')?`It starts with <b>${esc(x[0][0].toUpperCase())}</b> and has ${x[0].replace(/[^a-z]/gi,'').length} letters.`:`Break it up: <b>${esc(x[8]||x[0])}</b>${x[3]?` · often seen as “${esc(x[3])}”`:''}`;
   const showHint=()=>{const c=$('hintc');if(!c||!c.hidden)return;s.hint=1;c.innerHTML=`<span class="bobr" aria-hidden="true">${bobFace('idle',30)}</span><span>${hintTx}</span>`;c.hidden=false;const hb=$('hintb');if(hb)hb.remove()};
@@ -1613,7 +1615,15 @@ function teamUp(){if(/vocab-obby\.vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(
 function badges(){hud();const F=favBadges();main.innerHTML=`<div class="card"><span class="tag">Badges</span><p class="ssub" style="margin:8px 0 0">Pick up to <b>3 favourites</b> to show on your avatar card and the board.</p>${F.length?`<p class="wmk"><b>My showcase</b></p>${favRow()}`:''}<div class="shop" style="margin-top:12px">${BADGES.map(b=>{const g=S.badges.includes(b[0]),on=F.includes(b[0]);return `<div class="item ${g?'on':'locked'}" ${g?'':'aria-label="Locked: '+esc(b[0])+'"'}><div${g?'':' style="opacity:.45"'}>${g?badgeIco(b[0],36):ic('lock',36)}</div><b>${esc(b[0])}</b><br><small>${esc(b[1])}</small>${g?`<button class="favt ${on?'on':''}" data-fav="${esc(b[0])}" type="button" aria-pressed="${on}">${on?'★ Showing':'☆ Show'}</button>`:''}</div>`}).join('')}</div><button class="go" id="h">Back</button></div>`;$('h').onclick=home;
   main.querySelectorAll('[data-fav]').forEach(t=>t.onclick=()=>{const n=t.dataset.fav;let f=favBadges();if(f.includes(n))f=f.filter(x=>x!==n);else{if(f.length>=3){pop('You can show 3. Tap one to hide it first.');return}f.push(n)}S.favB=f;save();if(typeof syncScore==='function')syncScore();badges()})}
 
-function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How to play</span><div class="word" style="font-size:clamp(30px,6vw,42px)">Welcome to VocaBobby!</div><ol class="how">
+const HOWC=[['Run and pick the word gate','Your avatar runs the course. At each gate, tap the answer that fits. Right = a bridge and the next gate. Wrong = Bobby teaches you the word and it comes back later.','excited'],
+['Your coin pouch','Coins you grab on the course wait in your pouch as pending. Answer the next gate right to bank them. A wrong answer drops them!','happy'],
+['Bosses every 10 gates','Each boss is weak to one power (look for the Weak to tag). Answer right, then press and hold a power to charge it up to 2× damage. 2 right in a row unlocks a Combo!','cheer'],
+['Eggs, creatures and style','Beat the boss at gate 10 for your first egg. Hatch creatures, feed them words to grow them, and spend coins on your look in Style.','happy']];
+function howto(){hud();let k=0;const draw=()=>{const c=HOWC[k];main.innerHTML=`<div class="card howc"><span class="tag">How to play · ${k+1} of ${HOWC.length}</span><div class="hbob">${bobFace(c[2],96)}</div><div class="word" style="font-size:clamp(24px,6vw,34px)">${c[0]}</div><p class="q" style="font-size:18px">${c[1]}</p>
+  <div class="hdots">${HOWC.map((_,j)=>`<i class="${j===k?'on':''}"></i>`).join('')}</div><div class="row" style="display:flex;gap:8px">${k?'<button class="go soft" id="hprev" style="margin:0">‹ Back</button>':''}<button class="go" id="hnext" style="margin:0;flex:1">${k<HOWC.length-1?'Next ›':"Let's go!"}</button></div>
+  <details style="margin-top:12px"><summary>All the rules</summary>${HOWALL()}</details></div>`;
+  $('hnext').onclick=()=>{if(k<HOWC.length-1){k++;draw()}else{S.seenHow=1;save();home()}};if($('hprev'))$('hprev').onclick=()=>{k--;draw()}};draw()}
+function HOWALL(){return `<ol class="how">
 <li><b>One obby, six worlds.</b> Everyone climbs the same worlds: Grass Plains, Desert Dunes, Jungle Ruins, Lava Land, Ice Peaks and Outer Space. Your first placement run finds your starting world.</li>
 <li><b>Run and jump.</b> Your avatar runs the course. Tap <b>Jump</b> or press Space to grab coins and hop over crates.</li>
 <li><b>Answer at every word gate.</b> A right answer builds a bridge and you leap across. A wrong answer drops you back to the last checkpoint, you learn the word, and it comes back at a later gate.</li>
@@ -1626,8 +1636,7 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>PSLE Exam Pack.</b> Practise the words from real PSLE papers for double coins and the Challenger badge.</li>
 <li><b>Spend your coins.</b> Buy Common, Rare, Epic and Legendary eggs and unlock custom shirt and pants colours, including premium finishes.</li>
 <li><b>Streak bonus.</b> Get 10 right in a row to unlock Shadow Chase, a bonus game where you outrun the Word Thief.</li>
-<li><b>Come back tomorrow.</b> A word is mastered when all five gems light up, and they only light up on different days.</li></ol>
-<button class="go" id="ok">Let's go!</button></div>`;$('ok').onclick=()=>{S.seenHow=1;save();home()}}
+<li><b>Come back tomorrow.</b> A word is mastered when all five gems light up, and they only light up on different days.</li></ol>`}
 
 // ---------- custom colours ----------
 const PAL=['#ef4f5f','#fa895d','#ffc642','#9dd946','#2fbf71','#29c7b8','#4aa4e6','#3a5bd9','#7b5cf0','#b15fd7','#ed598c','#ffb3c7','#8b5a2b','#f5f5f5','#8a93a8','#1b2140'];
@@ -2324,7 +2333,7 @@ applySkin();setTitle();try{pbgMig()}catch(e){}fetch(EDF[ED]).then(r=>r.json()).t
   if(window.CRE&&CRE.screen){const f=CRE.screen;CRE.screen=function(){if(!goingBack&&cur&&cur.n!=='cr')NS.push(cur);cur={n:'cr',f:CRE.screen,a:[]};goingBack=0;return f.apply(this,arguments)}}
   if(window.VBH)Object.assign(window.VBH,{home,worldmap,myAvatar,shop,badges,leaderboard,howto,book,redeem});
   window.VBBack=()=>{const p=NS.pop();if(!p||p.n==='home'){NS.length=0;cur=null;return home()}goingBack=1;cur=null;p.f.apply(null,p.a)};
-  const ensure=()=>{if(!main||document.body.classList.contains('playing')||sess&&document.querySelector('#main .runcard,#main .opts,#bossbar'))return;const c=main.firstElementChild;if(!c||main.querySelector('.backbar'))return;if(cur&&cur.n==='home')return;if(main.querySelector('#res,#go,.homecard')&&(!cur||cur.n==='home'))return;
+  const ensure=()=>{if(!S.seenHow||!S.lad||!S.lad.placed)return;if(!main||document.body.classList.contains('playing')||sess&&document.querySelector('#main .runcard,#main .opts,#bossbar'))return;const c=main.firstElementChild;if(!c||main.querySelector('.backbar'))return;if(cur&&cur.n==='home')return;if(main.querySelector('#res,#go,.homecard')&&(!cur||cur.n==='home'))return;
     c.insertAdjacentHTML('beforebegin','<div class="backbar"><button type="button" class="bkb" id="bkb" aria-label="Back">‹ Back</button><button type="button" class="bkb" id="bkh" aria-label="Home">🏠 Home</button></div>');$('bkb').onclick=()=>VBBack();$('bkh').onclick=()=>{NS.length=0;home()}};
   new MutationObserver(()=>ensure()).observe(main,{childList:true});
 })();

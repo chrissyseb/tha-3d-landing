@@ -89,3 +89,5 @@ body.night #intro .s3{background:transparent}
 #intro .s1 .iwm,body.night #intro .s1 .iwm{filter:brightness(0) invert(93%) sepia(12%) saturate(330%) hue-rotate(5deg) brightness(.98)}
 #intro .s1 .idl{position:relative;z-index:1}
 #intro:has(.s1.on) .iskip{color:#C9CED8}
+
+#intro .s0{display:grid;place-items:center;opacity:1;visibility:visible}#intro .istart{display:grid;justify-items:center;gap:12px;background:none;border:0;color:inherit;cursor:pointer;font:800 26px var(--fd,Rubik,system-ui)}#intro .istart b{background:#FFE45C;color:#241B4B;border:3px solid #241B4B;border-radius:18px;padding:12px 26px;box-shadow:0 5px 0 #241B4B;animation:istp 1.1s ease-in-out infinite alternate}@keyframes istp{to{transform:scale(1.06)}}@media (prefers-reduced-motion:reduce){#intro .istart b{animation:none}}
