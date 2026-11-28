@@ -696,6 +696,57 @@ button:focus-visible,a:focus-visible,.btn:focus-visible{outline:3px solid #7D82D
 /* calmer idle motion: no constant bouncing, keep the reward moments */
 .idle{animation-duration:4.5s!important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* ---------- landscape (tablets and phones on their side) ---------- */
+@media (orientation:landscape) and (min-width:700px){
+  body.playing .wrap{max-width:1360px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(330px,1fr);grid-template-rows:auto minmax(0,1fr);column-gap:12px;row-gap:8px;align-items:start}
+  body.playing .hud{grid-column:1/-1;grid-row:1}
+  body.playing .obwrap{grid-column:1;grid-row:2;max-height:none;align-self:start}
+  body.playing .obwrap canvas{max-height:calc(100dvh - 90px);height:auto}
+  body.playing #main{grid-column:2;grid-row:2;height:100%;min-height:0;padding-bottom:0!important}
+  body.playing #main>.card{flex:1 1 0!important;min-height:0;overflow-y:auto;overscroll-behavior:contain;position:relative}
+  body.playing .bhint{display:none!important}
+  body.playing:not(:has(.obwrap:not([hidden]))) #main{grid-column:1/-1;max-width:980px;width:100%;justify-self:center}
+  body.playing .chase{min-height:0}
+  body:not(.playing) .wrap{max-width:min(1180px,94vw)}
+  .sqg{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .dex{grid-template-columns:repeat(auto-fill,minmax(128px,1fr))}
+  .shop{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .fins{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+/* short landscape screens (phones on their side) */
+@media (orientation:landscape) and (max-height:500px){
+  body.playing .wrap{padding-top:calc(env(safe-area-inset-top) + 4px);padding-bottom:calc(env(safe-area-inset-bottom) + 4px);row-gap:4px}
+  body.playing .hud{padding:2px}
+  body.playing .hud .pill,body.playing .hud .ib{min-height:34px;padding-top:2px;padding-bottom:2px}
+  body.playing #main{gap:4px}
+  body.playing #main>.boss{padding:3px 8px!important}
+  body.playing #main>.card{padding:8px 10px}
+  body.playing #main>.card .cardhead .bobr{display:none}
+  body.playing #main>.card .q{font-size:15px!important;margin:4px 0!important}
+  body.playing #main>.card .sayrow{position:absolute;top:6px;right:8px;margin:0;gap:6px}
+  body.playing #main>.card .sayrow button{width:34px;height:34px;min-height:0;padding:0}
+  body.playing #main>.card .cardhead{padding-right:84px;min-height:34px}
+  body.playing #main>.card .opts{gap:5px!important;margin-top:4px!important}
+  body.playing #main>.card .opt{min-height:38px;padding:5px 10px;font-size:14px;line-height:1.25}
+  body.playing #main>.card .word{font-size:24px!important}
+  body:not(.playing) .wrap{padding-top:calc(env(safe-area-inset-top) + 8px)!important;padding-bottom:72px}
+  .brand{transform:scale(.8);transform-origin:left center}
+  .bnav{padding-top:2px;padding-bottom:calc(2px + env(safe-area-inset-bottom))}
+  .bnav button{min-height:40px;padding:2px;grid-auto-flow:column;align-items:center;gap:6px}
+  .bhint{bottom:calc(52px + env(safe-area-inset-bottom))}
+}
+.prog{flex:1 0 100%;display:flex;align-items:center;gap:10px;padding:4px 8px 2px}
+.prog .pgt{font:800 13px var(--fd);white-space:nowrap;display:flex;flex-direction:column;line-height:1.1}.prog .pgt b{font-size:15px}.prog .pgt small{font:700 11px var(--fui,Nunito),sans-serif;color:#5A5880}
+.prog .ptrack{position:relative;flex:1;height:10px;border-radius:6px;background:#E6E8F5;border:2px solid var(--ink);margin:12px 14px 10px 6px}
+.prog .pfill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:linear-gradient(90deg,#3FABE7,#7D82DE);transition:width .5s}
+.prog .pm{position:absolute;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:grid;place-items:center;font-style:normal;font-size:13px;color:#B15FD7}
+.prog .pm svg{width:12px!important;height:12px!important;margin:0!important;display:block}.prog .pm{padding:0;overflow:hidden;line-height:1}.prog .pm.done{background:#FFE45C}.prog .pm.crown{color:#C98A1B;width:26px;height:26px;font-size:16px}
+.prog .pav{position:absolute;top:50%;transform:translate(-50%,-88%);transition:left .5s;pointer-events:none;filter:drop-shadow(0 1px 0 #fff)}.prog .pav svg{display:block;width:22px;height:auto}
+.stclr{display:block;font:800 14px var(--fd);text-transform:uppercase;letter-spacing:.04em;color:#2F7FBF;margin-bottom:2px}
+.cprow{display:flex;gap:8px;margin-top:10px}.cprow .go{flex:1;margin:0!important}
+@media (prefers-reduced-motion:reduce){.prog .pfill,.prog .pav{transition:none}}
+@media (orientation:landscape) and (max-height:500px){.prog{padding:0 6px}.prog .ptrack{margin:10px 14px 8px 4px}.prog .pgt small{display:none}}
 </style></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><svg  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="4 4 92 92"><defs><mask id="thxs" maskUnits="userSpaceOnUse"><path d="M50.0 10.0L84.6 30.0L84.6 70.0L50.0 90.0L15.3 70.0L15.3 30.0Z" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="round"/></mask><linearGradient id="gthxs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3FABE7"/><stop offset=".5" stop-color="#7D82DE"/><stop offset="1" stop-color="#B15FD7"/></linearGradient></defs><g mask="url(#thxs)"><rect x="0" y="0" width="100" height="100" fill="url(#gthxs)"/></g></svg><span>by Thinking Hack Education</span></span></div>
@@ -797,9 +848,9 @@ trophy:'<svg viewBox="0 0 24 24"><path d="M7 3h10v5a5 5 0 0 1-10 0zM7 5H3v2a4 4 
 lock:'<svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2" fill="#dfe5f1" stroke="#1b2140" stroke-width="2.2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#1b2140" stroke-width="2.2" fill="none"/></svg>'};
 const ic=(n,s=24)=>I[n].replace('<svg ',`<svg width="${s}" height="${s}" aria-hidden="true" `);
 const LV=[[0,'Explorer'],[500,'Explorer'],[1500,'Explorer'],[3000,'Explorer'],[6000,'Explorer'],[10000,'Explorer']];
-const SHOP=[['shirt','#2f80ed','Blue shirt',0],['shirt','#ff4b4b','Red shirt',150],['shirt','#36c95f','Green shirt',150],['shirt','#ff7ac6','Pink shirt',250],['shirt','#8b5cf6','Violet shirt',300],['shirt','#111111','Black hoodie',500],['shirt','#ffd23f','Gold shirt',4000],
-['pants','#2b2b2b','Dark pants',0],['pants','#3a6fd8','Jeans',150],['pants','#e8e8e8','White pants',250],['pants','#ff7ac6','Pink pants',300],
-['hat','none','No hat',0],['hat','cap','Red cap',300],['hat','beanie','Beanie',400],['hat','phones','Headphones',700],['hat','tophat','Top hat',3500],['hat','horns','Horns',5000],['hat','crown','Gold crown',10000]];
+const SHOP=[['shirt','#2f80ed','Blue shirt',0],['shirt','#ff4b4b','Red shirt',6000],['shirt','#36c95f','Green shirt',6000],['shirt','#ff7ac6','Pink shirt',8000],['shirt','#8b5cf6','Violet shirt',9000],['shirt','#111111','Black hoodie',18000],['shirt','#ffd23f','Gold shirt',100000],
+['pants','#2b2b2b','Dark pants',0],['pants','#3a6fd8','Jeans',6000],['pants','#e8e8e8','White pants',8000],['pants','#ff7ac6','Pink pants',9000],
+['hat','none','No hat',0],['hat','cap','Red cap',7000],['hat','beanie','Beanie',10000],['hat','phones','Headphones',22000],['hat','tophat','Top hat',30000],['hat','horns','Horns',90000],['hat','crown','Gold crown',140000]];
 const PETS=[['Pebble Pup',0,'#c8a27a'],['Bit Cat',0,'#f2a65a'],['Hop Bunny',0,'#f5f5f5'],['Block Chick',0,'#ffd23f'],['Ninja Fox',1,'#ff7b25'],['Byte Panda',1,'#ffffff'],['Frost Owl',1,'#9fd8ff'],['Lava Pig',2,'#ff4b4b'],['Neon Shark',2,'#29e7cd'],['Galaxy Axolotl',2,'#c77dff'],['Golden Dragon',3,'#ffd23f'],['Rainbow Unicorn',3,'#ff7ac6'],['Shadow Phoenix',3,'#3a0ca3'],['Thank-You Phoenix',4,'#ff8a3d']];
 const RN=['Common','Rare','Epic','Legendary','Supporter'],BON=[.1,.25,.5,1,0];
 S.pets=S.pets||[];S.bonus=S.bonus||0;S.chaseBest=S.chaseBest||0;S.cust=S.cust||[];S.pet=S.pet??-1;S.best=S.best||0;S.daily=S.daily||{d:'',n:0};S.badges=S.badges||[];
@@ -817,7 +868,7 @@ function world(){const k=tier();document.body.dataset.world=k;return WORLDS[k][1
 function tierBar(){const t=tier(),g=EDGOAL[ED||'psle'],goal=t>=g?' · Goal reached!':' · Goal: '+WORLDS[g][1];if(t>=5)return `<div class="tbar"><span>${esc(WORLDS[5][1])}: top world reached</span><i style="width:100%"></i></div>`;const p=Math.min(100,Math.round((S.lad.pr||0)/2*100));return `<div class="tbar"><span>Next: ${esc(WORLDS[t+1][1])} · ${Math.min(2,S.lad.pr||0)}/2 runs</span><i class="${p>=50?'near':''}" style="width:${p}%"></i>${p>=50?'<em class="nt">Nearly there!</em>':''}</div>`}
 const BADGES=[['First Run','Finish a 50-word run',()=>S.runs>=1],['Team Saviour','Beat a boss in Team Up',()=>(S.teamWins||0)>=1],['Combo King','Hit a 20 combo',()=>S.bestCombo>=20],['Word Hoarder','Meet 250 words',()=>W.filter(x=>st(x[0]).seen).length>=250],['Gem Cutter','Master 50 words',()=>W.filter(x=>st(x[0]).m>=5).length>=50],['Speed Demon','Score 20 in Speed Run',()=>S.best>=20],['Creature Collector','Rescue 6 different creatures',()=>CRE.count()>=6],['Legend Hatch','Hatch a Legendary creature',()=>Object.keys(CRE.st().own).some(k=>CRE.R(k)===3)],['On Fire','7-day streak',()=>streak()>=7],['Boss Slayer','Beat 5 bosses',()=>(S.bosses||0)>=5],['Word Master','Master all words',()=>W.every(x=>st(x[0]).m>=5)],['Challenger','Finish a PSLE Kingdom run',()=>!!S.challenger],['Giant Slayer','Defeat King Kongo',()=>(S.giants||0)>=1]];
 function checkBadges(){BADGES.forEach(b=>{if(!S.badges.includes(b[0])&&b[2]()){S.badges.push(b[0]);setTimeout(()=>{pop('Badge: '+b[0]);confetti(120)},600)}});save()}
-let AVN=0;const FIN={gold:['Metallic Gold',1500],silver:['Metallic Silver',1000],neon:['Neon glow',1200],galaxy:['Galaxy',2500],rainbow:['Rainbow',4000]};
+let AVN=0;const FIN={gold:['Metallic Gold',100000],silver:['Metallic Silver',20000],neon:['Neon glow',24000],galaxy:['Galaxy',35000],rainbow:['Rainbow',120000]};
 const finOk=v=>typeof v==='string'&&(/^#[0-9a-f]{6}$/i.test(v)||/^f:(gold|silver|galaxy|rainbow)$/.test(v)||/^f:neon#[0-9a-f]{6}$/i.test(v));
 const flat=v=>!v||v[0]==='#'?v:v.startsWith('f:neon')?v.slice(6):({'f:gold':'#e8b923','f:silver':'#c0c7d2','f:galaxy':'#2a1b5c','f:rainbow':'#ed598c'})[v]||'#2f80ed';
 function finDefs(v,id){if(!v||v[0]==='#')return['',v];const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -847,7 +898,7 @@ return `<svg class="av" width="${sz}" height="${sz*1.55}" viewBox="0 -10 40 72" 
 <rect x="8" y="56" width="11.5" height="4" fill="#00000033"/><rect x="20.5" y="56" width="11.5" height="4" fill="#00000033"/>${stars}${pstars}${gr}</svg>`}
 // ---------- armour / wardrobe gear (cosmetic, earned with coins or at gates) ----------
 const GEARC={boots:'#ef4f5f',gloves:'#ffc642',belt:'#8b5cf6',scarf:'#3ddc84',helmet:'#3fb2f5',cape:'#ff5d8f',backpack:'#fa895d',shield:'#d6dee8',goggles:'#1b2140',trail:'#ffe14a'};
-const GFIN={starter:['Classic',0],silver:['Silver',900],gold:['Gold',1800],rainbow:['Rainbow',3500]};
+const GFIN={starter:['Classic',0],silver:['Silver',12000],gold:['Gold',90000],rainbow:['Rainbow',110000]};
 function gearFill(p,t,n){if(!t)return null;if(t==='gold')return 'url(#gg'+n+')';if(t==='silver')return 'url(#gs'+n+')';if(t==='rainbow')return 'url(#gr'+n+')';return GEARC[p]||'#ccc'}
 function gearCol(p,t,tm){if(t==='gold')return '#f5b83a';if(t==='silver')return '#c9d3df';if(t==='rainbow')return `hsl(${((tm||0)*120)%360},90%,60%)`;return GEARC[p]}
 function gearDefs(G,n){const v=Object.values(G||{});let d='';if(v.includes('gold'))d+=`<linearGradient id="gg${n}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#f5b83a"/><stop offset="1" stop-color="#c98a1b"/></linearGradient>`;if(v.includes('silver'))d+=`<linearGradient id="gs${n}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#c9d3df"/><stop offset="1" stop-color="#8a97a8"/></linearGradient>`;if(v.includes('rainbow'))d+=`<linearGradient id="gr${n}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff4b4b"/><stop offset=".25" stop-color="#ffd23f"/><stop offset=".5" stop-color="#36c95f"/><stop offset=".75" stop-color="#2f80ed"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>`;return d}
@@ -865,7 +916,7 @@ const level=()=>LV.filter(l=>S.pts>=l[0]).pop();
 const nextLv=()=>LV.find(l=>l[0]>S.pts);
 const today=()=>new Date().toDateString();
 function streak(){let n=0,d=new Date();while(S.days.includes(d.toDateString())){n++;d=new Date(d-DAY)}return n}
-function hud(){document.body.classList.toggle('playing',!!sess);
+function hud(){document.body.classList.toggle('playing',!!sess);setTimeout(()=>{const h=$('hud');if(!h)return;let pr=h.querySelector('.prog');const html=sess&&sess.words&&sess.words.length>=10?progHTML():'';if(!html){if(pr)pr.remove();return}if(pr)pr.outerHTML=html;else h.insertAdjacentHTML('beforeend',html)},0);
   if(!sess&&!PLRUN&&typeof OB!=='undefined')OB.hide();
   const mast=W.filter(x=>st(x[0]).m>=5).length,nl=nextLv();
   $('hud').innerHTML=`<button type="button" class="pill coinp" id="coinp" title="Coins: open the Shop" aria-label="${S.coins} coins. Open the Shop">${ic('coin')}<b>${S.coins}</b></button><span class="pill" title="Day streak">${ic('flame')}<b>${streak()}</b></span>${sess?'':`<span class="pill" title="${STR.wordsLearnt}" aria-label="${STR.wordsLearnt}: ${mast}">${ic('book')}<b>${mast}</b></span>`}${S.sup==='20'?'<span class="ea" title="Thank you for supporting Miss Christine">Early access</span>':''}<span class="sp"></span>${sess?`${sess.kind==='challenge'?'<span class="pill edp">PSLE Edition</span>':''}<button class="ib" id="quit">${ic('exit')}Save &amp; exit</button>`:''}<button class="ib" id="snd" aria-label="${mute?'Sound off':'Sound on'}">${ic(mute?'mute':'sound')}</button>${VOX.ok?`<button class="ib" id="vox" aria-label="Word voice ${S.voice===false?'off':'on'}" title="Word voice (pronunciation)">${ic(S.voice===false?'voiceoff':'voice')}</button>`:''}`;
@@ -956,12 +1007,12 @@ const STR={
   shatter:'Smash!',
   dedication:['For Carissa & Jaelon.','You wanted to play.','I wanted you to learn.','We both won.','','May the words you gather here','carry you on adventures far beyond this game.','','With love,','— Miss Christine','','PS: You called vocab boring. I\'m glad I took it personally.'],
   armour:'Starter Armour',armourGot:n=>`Armour unlocked: ${n}!`,
-  continueAdv:'Continue adventure',continueRun:(i,n)=>`Continue adventure · gate ${i} of ${n}`,sideQuests:'Side quests',sideSub:'Each one can drop an egg and coins',
+  continueAdv:'Continue adventure',continueRun:(i,n,sv)=>sv&&sv.words&&sv.gate!=null?`Continue · Stage ${Math.min(Math.ceil(sv.words.length/10),Math.floor(sv.gate/10)+1)} of ${Math.ceil(sv.words.length/10)}`:`Continue adventure · gate ${i} of ${n}`,sideQuests:'Side quests',sideSub:'Each one can drop an egg and coins',
   eggsReady:n=>`${n} egg${n>1?'s':''} ready to hatch`,wordsLearnt:'Words learnt',
   chaseLocked:'Get 10 right in a row in a run to open',
   landFreed:'Freed from the Word Thief',landHere:'Win its words back · you are here',landLocked:'Still under the Word Thief\'s spell',
   cr:{title:'Creatures',dexTitle:'Creature Dex',found:(a,b)=>`${a} of ${b} creatures found`,yourEggs:'Your eggs',noEggs:'No eggs right now. Master words, beat bosses and open Bobby\'s daily gift to find more.',
-    eggInfo:'Egg info',buy:n=>`Buy a Common egg · ${n} coins`,needCoins:n=>`${n} more coins needed`,withYou:'with you',withYouNow:'With you on your adventure',takeIt:'Take on adventure',done:'Done',
+    eggInfo:'Egg info',buy:n=>`Buy a Common egg · ${n.toLocaleString('en-GB')} coins`,buyR:(r,n)=>`Buy a ${['Common','Rare','Epic','Legendary'][r]} egg · ${n.toLocaleString('en-GB')} coins`,needCoins:n=>`${n} more coins needed`,withYou:'with you',withYouNow:'With you on your adventure',takeIt:'Take on adventure',done:'Done',
     rar:['Common','Rare','Epic','Legendary','Supporter'],stages:['Hatchling','Explorer','Champion'],
     eggFound:r=>`You found a ${r} egg!`,src:{mastery:'For mastering words',boss:'For beating a boss',land:'For freeing a land',giant:'For beating King Kongo',daily:'Bobby\'s daily gift',side:'Side quest reward',team:'For your Team Up win',first:'The first rescued egg',shop:'Bought with coins',old:'From your old pets'},
     hatching:'Hatching an egg',tapEgg:'Tap the egg!',skip:'Skip',newTitle:n=>`You rescued ${n}!`,dupTitle:n=>`${n} again!`,dupSub:'Duplicate: your creature grows a little stronger, and you get 50 coins.',
@@ -969,8 +1020,8 @@ const STR={
     evoStart:n=>`${n} is changing…`,evoDone:(n,f)=>`${n} became ${f}!`,evoSub:'All those words you mastered together paid off.',bobOutfit:'Bobby earned a new outfit for your adventure.',yay:'Let\'s go',
     formNow:f=>`Form: ${f}`,evoNext:(n,f)=>`Master about ${n} more word${n>1?'s':''} with it to become ${f}`,maxed:'Fully grown. A true champion.',bobOutfitNow:o=>`Outfit: ${o}`,bobNext:(n,o)=>`${n} more points to unlock ${o} (master words and play on different days)`,
     feed:'Feed a word',rename:'Rename',full:n=>`${n} is fully charged. Come back tomorrow for more.`,noWords:'Learn a word in a run first, then share it!',yum:(n,w)=>`${n} absorbed “${w}”. Power up!`,joined:n=>`${n} is coming with you!`,
-    infoTop:'Eggs are earned by playing and learning. You can never buy eggs with money, and the rarity comes from what you did to earn it.',
-    how:['Every 10 words mastered, beating a boss, side quests, day 3 of Bobby\'s daily gift, or 600 coins','Every 25 words mastered, freeing a land, a Team Up win, a big side-quest score, or day 7 of the daily gift','Every 50 words mastered, or beating King Kongo','Every 150 words mastered, or beating King Kongo three times'],
+    infoTop:'Eggs are earned by playing and learning. You can never buy eggs with real money. Every egg, from Common to Legendary, can also be bought with coins you earn by playing. The rarity is fixed, and a creature you have not found yet hatches first.',
+    how:['Buy with 6,000 coins, or earn by: every 10 words mastered, beating a boss, side quests, or day 3 of Bobby\'s daily gift','Buy with 60,000 coins, or earn by: every 25 words mastered, freeing a land, a Team Up win, a big side-quest score, or day 7 of the daily gift','Buy with 145,000 coins, or earn by: every 50 words mastered, or beating King Kongo','Buy with 350,000 coins, or earn by: every 150 words mastered, or beating King Kongo three times'],
     odds:(n,names)=>`Hatches one of ${n}: ${names.join(', ')}. One you have not found yet comes first; after that each is a 1 in ${n} chance.`,
     infoFair:'Hatching again something you already own makes it grow and gives you 50 coins.',
     names:{bobby:['Bobby','Word Fox'],hootle:['Hootle','Word Owl'],inkoo:['Inkoo','Ink Octopus'],snailbet:['Snailbet','Alphabet Snail'],crab:['Comma Crab','Pause Crab'],lexi:['Thunder-Lexi','Lightning Lizard'],pagewing:['Pagewing','Story Moth'],echobat:['Echobat','Sound Bat'],glyphin:['Glyphin','Glyph Dolphin'],syntaxolotl:['Syntaxolotl','Grammar Axolotl'],lexicorn:['Lexicorn','Quill Unicorn'],rex:['Thesaurus Rex','Synonym Dinosaur'],phoenix:['Thank-You Phoenix','Supporter friend']},
@@ -1048,7 +1099,7 @@ function home(){
   if(!ED)return picker();if(!S.lad.placed)return placement();if(!S.seenHow)return howto();const wn=world();CRE.init();const crs=CRE.st(),ne=crs.eggs.length,act=crs.act;
   main.innerHTML=`<div class="card homec"><div class="hstage"><button class="bobstage" id="bob" aria-label="${STR.bobby}. ${STR.tapTrick}">${bobbySVG(bobbyStage(),150,'idle')}</button>${act!=='bobby'?`<button class="hcr" id="hcr" aria-label="${esc(CRE.nick(act))}">${CRA.svg(act,CRE.stageOf(act,crs.own[act]),96,{cls:'idle'})}</button>`:''}</div>
   <p class="hi">${S.nick?'Welcome back, '+esc(S.nick):'Welcome back'}</p><span class="world">${ic('gem',16)}${esc(wn)}</span>${regionBadge()}${tierBar()}
-  ${saved&&saved.i<saved.steps.length?`<button class="big" id="res">${ic('play',30)}${STR.continueRun(saved.i,saved.steps.length)}</button>`:`<button class="big" id="go">${ic('play',30)}${STR.continueAdv}</button>`}
+  ${saved&&saved.i<saved.steps.length?`<button class="big" id="res">${ic('play',30)}${STR.continueRun(saved.i,saved.steps.length,saved)}</button>`:`<button class="big" id="go">${ic('play',30)}${STR.continueAdv}</button>`}
   ${ne?`<button class="eggchip" id="eggc">${CRA.egg(crs.eggs[0].r,30,{noGlow:1})}<b>${STR.eggsReady(ne)}</b></button>`:''}</div>
   <div class="card sideq"><p class="wmk"><b>${STR.sideQuests}</b> <small>${STR.sideSub}</small></p><div class="sqg">
   <button class="sq" id="bon" ${S.bonus?'':'aria-disabled="true"'}><span class="ico c4">${ic('bolt')}</span><b>Shadow Chase</b><small>${S.bonus?S.bonus+' ready':STR.chaseLocked}</small></button>
@@ -1095,9 +1146,23 @@ function start(kind,arg){
   sess={kind,pkN:0,pkOk:0,pkMiss:[],pkHit:[],words:pick,steps,i:0,ok:0,bad:0,combo:0,best:0,pts:0,wrongs:[],w:kind==='world'?arg:kind==='challenge'?6:tier(),qname:kind==='quest'?arg.name:''};
   run();
 }
+// ---------- coin ledger: coins only for right answers and genuine completions, each paid once per run ----------
+const WPAY=4;// a word pays at most 4 times a day, across all runs (stops quit-and-restart farming)
+function earn(key,n,cap){if(!sess||!(n>0))return 0;const p=sess.paid||(sess.paid={}),c=p[key]||0;if(c>=(cap||1))return 0;p[key]=c+1;S.coins+=n;persist();return n}
+function wordPay(w){const t=today();if(!S.wp||S.wp.d!==t)S.wp={d:t,m:{}};const c=S.wp.m[w]||0;if(c>=WPAY)return false;S.wp.m[w]=c+1;return true}
+// ---------- run progress: gates, stages (a boss ends each), checkpoints ----------
+function gateOf(z){if(!z)return sess.gate||0;if(z.bid==='final')return sess.words.length;if(z.bid&&/^m\d+$/.test(z.bid))return +z.bid.slice(1);const ns=z.ns||[z.n];let m=0;ns.forEach(n=>{const k=sess.words.findIndex(w=>w[0]===n);if(k+1>m)m=k+1});return m}
+const stageN=g=>Math.max(1,Math.ceil(g/10)),stages=n=>Math.max(1,Math.ceil(n/10));
+function progHTML(){if(!sess||!sess.words)return '';const N=sess.words.length,g=Math.min(N,sess.gate||0),pc=v=>(v/N*100).toFixed(2)+'%';let mk='';
+  for(let k=10;k<N;k+=10)mk+=`<i class="pm boss${g>=k&&!(sess.bossOn&&sess.bid==='m'+k)?' done':''}" style="left:${pc(k)}" title="Boss at gate ${k}">${ic('zap',14)}</i>`;
+  mk+=`<i class="pm crown${sess.beatFinal?' done':''}" style="left:100%" title="King Kongo at gate ${N}">♛</i>`;
+  return `<div class="prog" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="${N}" aria-valuenow="${g}" aria-valuetext="Gate ${g} of ${N}, stage ${stageN(Math.max(1,g))} of ${stages(N)}"><span class="pgt"><span>Gate <b>${g}</b> / ${N}</span><small>Stage ${stageN(Math.max(1,g))} of ${stages(N)}</small></span><span class="ptrack"><span class="pfill" style="width:${pc(g)}"></span>${mk}<span class="pav" style="left:${pc(g)}">${avatar(26)}</span></span></div>`}
 function persist(){if(sess&&sess.kind==='quest')return;try{localStorage.setItem(SK(),JSON.stringify({...sess,words:sess.words.map(x=>x[0]),steps:sess.steps.map(({x,...r})=>r)}))}catch(e){}}
 // ---------- run ----------
 function run(){
+  if(!sess.rid)sess.rid=Date.now().toString(36)+Math.random().toString(36).slice(2,7);sess.steps.forEach(z=>{if(z.u==null)z.u=sess.uc=(sess.uc||0)+1});
+  while(sess.i<sess.steps.length&&sess.done&&sess.done[sess.steps[sess.i].u])sess.i++;
+  {const g=Math.max(sess.gate||0,gateOf(sess.steps[sess.i]));const N=sess.words.length;sess.cheer=sess.cheer||{};const half=Math.floor((Math.ceil(g/10)-1)*10+Math.min(10,N-(Math.ceil(g/10)-1)*10)/2);if(sess.gate!=null&&g>=half&&(sess.gate||0)<half&&!sess.cheer[half]&&half<N){sess.cheer[half]=1;setTimeout(()=>{pop('Halfway through stage '+stageN(g)+'!');try{beep(1)}catch(e){}},400)}sess.gate=g}
   hud();persist();
   if(sess.bossOn&&sess.boss>0&&sess.hearts>0){const s0=sess.steps[sess.i];if(!s0||s0.bid!==sess.bid)addBossStep()}
   if(sess.i>=sess.steps.length)return recap();
@@ -1183,15 +1248,16 @@ function sprint(){setTimeout(()=>document.body.classList.add('playing'),0);
   tm=setInterval(()=>{const e=$('tm');if(!e)return clearInterval(tm);const l=Math.max(0,Math.ceil((end-Date.now())/1000));e.textContent=l+'s';if(!l)done()},250);ask();}
 function result(ok,x,extra='',fl={}){
   const w=st(x[0]);const cs=sess.steps[sess.i]||{};
+  const su=cs,noPay=su.nopay||(cur_boss&&sess.ko&&sess.ko[sess.bid]);(sess.done||(sess.done={}))[su.u]=1;
   if(sess.kind==='challenge'){const v=ok?(fl.assist?.5:1):0;PK.record(PK.init(S),v);if(cs.pk){sess.pkN++;sess.pkOk+=v;if(!ok){if(!sess.pkMiss.includes(x[0]))sess.pkMiss.push(x[0])}else if(!fl.assist)sess.pkHit.push(x[0])}if(cur_boss){if(ok){sess.sw=(sess.sw||0)+1;if(sess.sw>=3&&(sess.hearts||0)<3&&sess.hearts>0){sess.hearts++;sess.sw=0;setTimeout(()=>{pop('Second wind! +1 heart');updBossBar()},500)}}else sess.sw=0}}if(!w.f)w.f=Date.now();setTimeout(()=>{if(!sess)return;if(!cur_boss){ok?OB.leap():OB.fall()}},0);
-  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);const g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));sess.pts+=g;S.pts+=g;S.coins+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
+  if(ok){sess.ok++;sess.combo++;sess.best=Math.max(sess.best,sess.combo);let g=Math.round(10*Math.min(sess.combo,5)*(1+petBonus())*(s_gold?3:1)*(sess.kind==='challenge'?2:1));g=(!noPay&&!(sess.paid&&sess.paid['q'+su.u])&&wordPay(x[0]))?earn('q'+su.u,g):0;sess.pts+=g;S.pts+=g;S.bestCombo=Math.max(S.bestCombo||0,sess.combo);
     if(!fl.assist&&w.m<5&&Date.now()>=w.due){w.m++;if(w.m>=5&&!w.sp){w.m=4;setTimeout(()=>pop('Spell it once to get gem 5!'),700)}w.due=Date.now()+GAP[Math.min(w.m,5)]}if(w.miss>0&&!fl.assist)w.miss--;if(!fl.assist&&isMastered(w)&&!w.ms){w.ms=Date.now();CRE.ev.mastered(x[0])}
-    window.__pm=sess.combo;if(!cur_boss)gateHit(g);else{beep(1);pop('+'+g)}juice(sess.combo,g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0){S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
+    window.__pm=sess.combo;if(!cur_boss)gateHit(g);else{beep(1);if(g)pop('+'+g)}juice(sess.combo,g);if(sess.combo%5===0)confetti(80);if(sess.combo%10===0&&!(sess.paid&&sess.paid['b'+su.u])){(sess.paid||(sess.paid={}))['b'+su.u]=1;S.bonus=Math.min(3,S.bonus+1);sess.bonusNow=1;confetti(140)}}
   else{sess.bad++;sess.combo=0;window.__pm=0;buzz(HAP.bad);bobSay('sorry');cardFx(0);w.miss++;w.m=Math.max(0,w.m-1);w.due=0;if(!sess.wrongs.includes(x[0]))sess.wrongs.push(x[0]);beep(0);wrongFx();
     // it comes back 3 questions later in a different form
     sess.steps.splice(Math.min(sess.i+(cs.pk&&!cur_boss?9:4),sess.steps.length),0,cur_boss?{t:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,boss:1,arr:1,bid:sess.bid,giant:sess.giant}:{t:cs.pk?shuf(['under','blank','lookalike'])[0]:shuf(['meaning','under','reverse','lookalike'])[0],n:x[0],x,pk:cs.pk})}
   if(cur_boss&&sess.bonusNow){sess.bonusNow=0;setTimeout(()=>pop('Streak bonus saved for later!'),900)}
-  if(!S.days.includes(today()))S.days.push(today());save();bobbyCheck();
+  if(!S.days.includes(today()))S.days.push(today());save();persist();bobbyCheck();
   $('fb').innerHTML=`<p class="fbh" style="font:800 24px var(--fd);margin:16px 0 0;display:flex;align-items:center;gap:8px;color:${ok?'#2F7FBF':'var(--ink)'}">${bobFace(ok?'excited':'sorry',44)}${ok?(fl.assist?shuf(['Got there!','Worked it out!','That\'s the one.'])[0]:shuf(['Brilliant!','Spot on!','Nailed it!','Yes!','Sharp!'])[0]):'Nearly! Bobby will help you learn this one:'}</p>${extra}${ok?`<p style="margin:6px 0 0"><b>${esc(x[0])}</b> = ${esc(x[2])} ${gems(w.m)}</p>`:teachHTML(x)}${sess.bonusNow?`<div class="bonuscard"><b>Streak bonus unlocked!</b><br>${sess.combo} right in a row. You earned a round of Shadow Chase.<div class="row"><button class="go" id="bplay" style="margin:0">Play now</button><button class="go" id="bsave" style="margin:0;background:var(--paper)">Save for later</button></div></div>`:''}<button class="go" id="nx">Next</button>`;
   $('nx').focus();$('nx').onclick=()=>{sess.i++;run()};
   if(sess.bonusNow){sess.bonusNow=0;$('bsave').onclick=()=>{pop('Saved to Bonus games');$('bsave').closest('.bonuscard').remove()};$('bplay').onclick=()=>{sess.i++;persist();const keep=sess;chase(()=>{sess=keep;run()})}}
@@ -1245,18 +1311,20 @@ function bossWin(box,nx){
   sfx('win');OB.victory();confetti(sess.giant?320:220);
   const bid=sess.bid,giant=sess.giant,name=CB().n,fin=bid==='final';
   sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);sess.bossOn=0;sess.boss=null;sess.charge=0;
-  const reward=giant?400:100;S.coins+=reward;S.pts+=reward;sess.pts+=reward;S.bosses=(S.bosses||0)+1;if(giant)S.giants=(S.giants||0)+1;sess.beaten=(sess.beaten||0)+1;buzz(HAP.win);if(fin)sess.beatFinal=1;save();checkBadges();CRE.ev.boss({giant,final:fin});
-  box.outerHTML=`<div class="victory${giant?' giantwin':''}" role="status"><b>${giant?'GIANT DEFEATED!':'Boss defeated!'}</b>You beat ${esc(name)}. +${reward} coins</div>`;
-  nx.textContent=fin?'Finish run':'Keep running';nx.hidden=false;nx.focus();
+  const reward=earn('boss:'+bid,giant?400:100);S.pts+=reward;sess.pts+=reward;S.bosses=(S.bosses||0)+1;if(giant)S.giants=(S.giants||0)+1;sess.beaten=(sess.beaten||0)+1;buzz(HAP.win);if(fin)sess.beatFinal=1;save();checkBadges();CRE.ev.boss({giant,final:fin});
+  const stN=stageN(+String(bid).slice(1)||1),stT=stages(sess.words.length);if(!fin&&/^m\d+$/.test(bid))sess.gate=Math.max(sess.gate||0,+bid.slice(1));
+  box.outerHTML=`<div class="victory${giant?' giantwin':''}" role="status">${!fin&&/^m\d+$/.test(bid)?`<span class="stclr">Stage ${stN} of ${stT} cleared!</span>`:''}<b>${giant?'GIANT DEFEATED!':'Boss defeated!'}</b>You beat ${esc(name)}.${reward?' +'+reward+' coins':''}</div>`;
+  nx.textContent=fin?'Finish run':'Keep going';nx.hidden=false;nx.focus();hud();
+  if(!fin){const sv=document.createElement('button');sv.className='go';sv.id='savestop';sv.style.background='var(--paper)';sv.textContent='Save & stop';const rw=document.createElement('div');rw.className='row cprow';nx.before(rw);rw.append(nx,sv);sv.onclick=()=>{sess.i++;persist();sess=null;if(OB.hide)OB.hide();home()}}
 }
 function knockedOut(nx){
   sfx('ko');OB.ko();nx.remove();
-  $('fb').insertAdjacentHTML('beforeend',`<div class="ko" role="status"><b>${sess.kind==='challenge'?'So close!':'Knocked out!'}</b><p>${sess.kind==='challenge'?'You nearly had it. Every word you learnt is saved, and the boss is still wobbling. One more go?':'The words you learnt are saved. Ready for a rematch?'}</p><div class="row"><button class="go" id="kretry">Try again</button><button class="go" id="kend" style="background:var(--paper)">Finish run</button></div></div>`);
+  $('fb').insertAdjacentHTML('beforeend',`<div class="ko" role="status"><b>${sess.kind==='challenge'?'So close!':'Knocked out!'}</b><p>${sess.kind==='challenge'?'You nearly had it. Every word you learnt is saved, and the boss is still wobbling. One more go?':'The words you learnt are saved. Rematch answers are practice, so they don\'t earn coins, but beating the boss still does.'}</p><div class="row"><button class="go" id="kretry">Try again</button><button class="go" id="kend" style="background:var(--paper)">Finish run</button></div></div>`);
   $('kretry').focus();
   const bid=sess.bid,fin=bid==='final';$('kend').textContent=fin?'Finish run':'Skip this boss';
-  $('kretry').onclick=()=>{sess.boss=sess.bossMax;sess.hearts=3;sess.bossOn=1;sess.charge=0;OB.revive(sess.bossMax);
+  $('kretry').onclick=()=>{(sess.ko||(sess.ko={}))[bid]=1;sess.boss=sess.bossMax;sess.hearts=3;sess.bossOn=1;sess.charge=0;OB.revive(sess.bossMax);
     const before=sess.steps.slice(0,sess.i+1),later=sess.steps.slice(sess.i+1).filter(z=>z.bid!==bid),fresh=[];
-    shuf(sess.words).slice(0,8).forEach(w=>fresh.push({t:shuf(['under','lookalike','meaning','reverse'])[0],n:w[0],x:w,boss:1,arr:1,bid,giant:sess.giant}));
+    shuf(sess.words).slice(0,8).forEach(w=>fresh.push({t:shuf(['under','lookalike','meaning','reverse'])[0],n:w[0],x:w,boss:1,arr:1,nopay:1,bid,giant:sess.giant}));
     sess.steps=[...before,...fresh,...later];sess.i++;run()};
   $('kend').onclick=()=>{sess.bossOn=0;sess.boss=null;sess.charge=0;sess.steps=sess.steps.filter((z,i)=>i<=sess.i||z.bid!==bid);if(OB.st)OB.st.boss=null;sess.i++;run()};
 }
@@ -1265,12 +1333,12 @@ function matchGame(s,top){
   main.innerHTML=top+`<div class="card"><span class="tag">Match them up</span><p class="q">Tap a word, then tap its meaning.</p><div class="match"><div class="opts">${L.map(x=>`<button class="opt" data-w="${esc(x[0])}">${esc(x[0])}</button>`).join('')}</div><div class="opts">${R.map(x=>`<button class="opt" data-m="${esc(x[0])}">${esc(x[2])}</button>`).join('')}</div></div><div id="fb"></div></div>`;
   main.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{main.querySelectorAll('[data-w]').forEach(o=>o.classList.remove('sel'));b.classList.add('sel');sel=b});
   main.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{if(!sel)return;
-    if(sel.dataset.w===b.dataset.m){beep(1);[sel,b].forEach(o=>{o.classList.add('right');setTimeout(()=>o.classList.add('done'),250)});sel=null;left--;S.pts+=5;S.coins+=5;sess.pts+=5;
-      if(!left){confetti(60);save();$('fb').innerHTML=`<p style="font:800 24px var(--fd);color:var(--ok);margin:14px 0 0">${miss?'All matched!':'Perfect match!'}</p><button class="go" id="nx">Next</button>`;$('nx').onclick=()=>{sess.i++;run()};hud()}}
+    if(sel.dataset.w===b.dataset.m){beep(1);[sel,b].forEach(o=>{o.classList.add('right');setTimeout(()=>o.classList.add('done'),250)});{const mg=earn('m'+s.u+':'+b.dataset.m,5);S.pts+=mg;sess.pts+=mg}sel=null;left--;
+      if(!left){(sess.done||(sess.done={}))[s.u]=1;confetti(60);save();persist();$('fb').innerHTML=`<p style="font:800 24px var(--fd);color:var(--ok);margin:14px 0 0">${miss?'All matched!':'Perfect match!'}</p><button class="go" id="nx">Next</button>`;$('nx').onclick=()=>{sess.i++;run()};hud()}}
     else{beep(0);miss++;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),400)}});
 }
 // ---------- Duo victory podium: avatar + active creature, shareable card (nickname only) ----------
-const PBG=[['sky','Sky burst',0,['#3FABE7','#7D82DE','#B15FD7']],['sunset','Sunset',400,['#ff9a5a','#ff5d8f','#8b5cf6']],['ocean','Ocean',600,['#1fd1c1','#2f80ed','#1b2a8c']],['forest','Forest',800,['#9dd946','#36c95f','#1f7a4a']],['candy','Candy',1200,['#ffd1ec','#ff7ac6','#b8a4ff']],['galaxy','Galaxy',3000,['#3a1c71','#241B4B','#0b0d2a']],['gold','Golden hall',6000,['#fff3a8','#f5b83a','#c98a1b']]];
+const PBG=[['sky','Sky burst',0,['#3FABE7','#7D82DE','#B15FD7']],['sunset','Sunset',7000,['#ff9a5a','#ff5d8f','#8b5cf6']],['ocean','Ocean',10000,['#1fd1c1','#2f80ed','#1b2a8c']],['forest','Forest',18000,['#9dd946','#36c95f','#1f7a4a']],['candy','Candy',24000,['#ffd1ec','#ff7ac6','#b8a4ff']],['galaxy','Galaxy',35000,['#3a1c71','#241B4B','#0b0d2a']],['gold','Golden hall',140000,['#fff3a8','#f5b83a','#c98a1b']]];
 function podBg(){const b=PBG.find(x=>x[0]===S.pbg)||PBG[0],c=b[3];return `<linearGradient id="pgb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".5" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></linearGradient><rect width="600" height="520" rx="36" fill="url(#pgb)"/>${b[0]==='galaxy'?'<g fill="#fff" opacity=".8"><circle cx="80" cy="120" r="3"/><circle cx="520" cy="90" r="2.5"/><circle cx="470" cy="300" r="2"/><circle cx="130" cy="330" r="2.5"/><circle cx="300" cy="110" r="2"/></g>':''}`}
 function podiumSVG(w=600,h=520){const id=CRE.st().act,o=CRE.st().own[id],r=CRE.R(id),RC=['#5F6B80','#1F78B4','#8A3FB8','#F5B83A','#F59E2A'][r]||'#1F78B4',RT=r>=3?'#241B4B':'#fff',rn=STR.cr.rar[r]||'',nk=String(S.nick||'Player').replace(/[&<>"']/g,''),cn=String(CRE.nick(id)).replace(/[&<>"']/g,'');
  const fit=(m,x,y,ww,hh)=>m.replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" ').replace(/<svg([^>]*)>/,(t,at)=>'<svg'+at.replace(/\s(width|height|x|y|class|style)="[^"]*"/g,'')+` x="${x}" y="${y}" width="${ww}" height="${hh}">`);
@@ -1293,11 +1361,11 @@ async function sharePodium(){const svg=podiumSVG(1200,1040),img=new Image();img.
   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();a.remove();toastQ('Victory card saved')},'image/png')}
 function recap(){
   try{localStorage.removeItem(SK())}catch(e){}
-  S.runs=(S.runs||0)+1;const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=90&&(S.lvHot||0)>=1){S.lv=Math.min(5,S.lv+1);S.lvHot=0}else if(accR>=85){S.lv=Math.min(5,S.lv+.5);S.lvHot=accR>=90?1:0}else{S.lvHot=0;if(accR>=80)S.lv=Math.min(5,S.lv+.25);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}}if(sess.kind==='challenge')PK.endRun(S,sess);if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
+  S.runs=(S.runs||0)+1;let runB=0;if(sess.rid&&sess.words.length>=20&&sess.ok>=20){S.ridPaid=S.ridPaid||[];if(!S.ridPaid.includes(sess.rid)){S.ridPaid=[...S.ridPaid,sess.rid].slice(-60);runB=100;S.coins+=runB;S.pts+=runB;sess.pts+=runB}}const accR=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);let tierUp=false;if(sess.kind==='learn'||sess.kind==='world'){if(S.lv==null)S.lv=2;if(accR>=90&&(S.lvHot||0)>=1){S.lv=Math.min(5,S.lv+1);S.lvHot=0}else if(accR>=85){S.lv=Math.min(5,S.lv+.5);S.lvHot=accR>=90?1:0}else{S.lvHot=0;if(accR>=80)S.lv=Math.min(5,S.lv+.25);else if(accR<60)S.lv=Math.max(0,S.lv-.5)}}if(sess.kind==='challenge')PK.endRun(S,sess);if(sess.kind==='learn'){S.lad.pr=(S.lad.pr||0)+1;if((S.lad.pr>=2||sess.beatFinal)&&tier()<5){S.lad.t=tier()+1;S.lad.pr=0;tierUp=true}}if(sess.kind==='challenge')S.challenger=true;const learnt=sess.words.length;save();checkBadges();confetti(160);const acc=Math.round(sess.ok/Math.max(1,sess.ok+sess.bad)*100);
   const wr=sess.wrongs.map(n=>WF(n));
   main.innerHTML=`<div class="card"><span class="tag">Session complete</span><div class="podium">${podiumSVG()}</div><button class="go" id="pshare" style="background:var(--paper)">Share victory card</button><div class="word" style="font-size:clamp(30px,6vw,44px)">${acc>=90?'Obby cleared!':acc>=75?'Great run!':'Run complete!'}</div>
   ${tierUp?`<div class="tierup"><b>New world!</b> You've travelled to <b>${esc(world())}</b>. Your adventure continues there.</div>`:''}
-  <p style="margin:6px 0 10px">You worked through <b>${learnt} words</b>${sess.best>=5?` and hit a <b>${sess.best}-answer streak</b>`:''}${sess.kind==='challenge'?' in PSLE Kingdom with double coins':''}. Every word you get wrong now is one you won't get wrong later.</p>
+  <p style="margin:6px 0 10px">You worked through <b>${learnt} words</b>${sess.best>=5?` and hit a <b>${sess.best}-answer streak</b>`:''}${sess.kind==='challenge'?' in PSLE Kingdom with double coins':''}. Every word you get wrong now is one you won't get wrong later.${runB?` Run finished: <b>+${runB} coins</b>.`:''}</p>
   ${`<p style="font:800 20px var(--fd);margin:6px 0">${sess.kind==='challenge'?(sess.beatFinal?'The Exam King is defeated.':'The Exam King still stands. Take him on next run.'):sess.beatFinal?'King Kongo defeated.':'King Kongo is still standing. Take him on next run.'}${sess.beaten?` · ${sess.beaten} boss${sess.beaten>1?'es':''} beaten`:''}</p>`}<div class="stat jack"><div><b id="cu" data-to="${sess.pts}">0</b>coins won</div><div><b>${acc}%</b>correct</div><div><b>${sess.best}</b>best combo</div></div>
   ${wr.length?`<p><b>Words to look at again tonight</b> (they'll come back first next time):</p><table>${wr.map(x=>`<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[2])}</td></tr>`).join('')}</table>`:'<p>No mistakes at all. Clean run.</p>'}
   <div id="rankslot">${rankLine()}</div><button class="go" id="h">Home</button></div>`;
@@ -1307,12 +1375,12 @@ function recap(){
 
 function daily(){const t=today();if(S.daily.d===t)return;const y=new Date(Date.now()-DAY).toDateString();S.daily.n=Math.min((S.daily.n||0)+1,7);S.daily.d=t;const amt=[0,50,75,100,150,200,250,500][S.daily.n];S.coins+=amt;save();setTimeout(()=>CRE.ev.daily(S.daily.n),2600);
   setTimeout(()=>chestReveal(S.daily.n,amt),300)}
-function speed(){
+function speed(){OB.hide&&OB.hide();setTimeout(()=>document.body.classList.add('playing'),0);
   const pool=W.filter(x=>st(x[0]).seen);const src=pool.length>=10?pool:W;let score=0,end=Date.now()+60000,tm;
   const ask=()=>{const left=Math.max(0,Math.ceil((end-Date.now())/1000));if(!left)return done();
     const x=src[Math.random()*src.length|0],L=look(x),key=x[2],opts=shuf([x[2],...L.map(y=>y[2])]);
     main.innerHTML=`<div class="card"><div class="timer" id="tm">${left}s</div><p style="text-align:center;font-weight:800;margin:0">Score ${score} · Best ${S.best}</p><div class="word" data-say="${esc(x[0])}" style="text-align:center;font-size:clamp(30px,6vw,44px)">${esc(x[0])}</div><div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div></div>`;
-    main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(opts[b.dataset.i]===key){score++;beep(1);S.coins+=5;st(x[0]).miss=Math.max(0,st(x[0]).miss-1)}else{beep(0);end-=3000;st(x[0]).miss++;pop('-3s')}ask()})};
+    main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(opts[b.dataset.i]===key){score++;beep(1);st(x[0]).miss=Math.max(0,st(x[0]).miss-1)}else{beep(0);end-=3000;st(x[0]).miss++;pop('-3s')}ask()})};
   const done=()=>{clearInterval(tm);const nb=score>S.best;if(nb)S.best=score;CRE.ev.side('speed',score,nb);S.coins+=score*5;S.pts+=score*5;save();checkBadges();syncScore();if(nb)confetti(150);
     main.innerHTML=`<div class="card"><span class="tag">Speed Run over</span><div class="word">${score} correct</div><p>${nb?'New personal best!':'Best: '+S.best+'. So close!'} Wrong answers cost 3 seconds, so knowing the meaning beats guessing.</p><button class="go" id="ag">Again!</button><button class="go" id="h" style="background:var(--opt)">Home</button></div>`;
     $('ag').onclick=speed;$('h').onclick=home;hud()};
@@ -1350,7 +1418,7 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 <li><b>Travel to new worlds.</b> Everyone starts in Grass Plains. Finish 2 runs in a world, or beat King Kongo at the end of a run, to travel to the next one. Replay any world you've reached from the World map.</li>
 <li><b>Explore with friends.</b> Every world has new paths, bosses and secrets. Team Up with friends and build your adventure together.</li>
 <li><b>PSLE Exam Pack.</b> Practise the words from real PSLE papers for double coins and the Challenger badge.</li>
-<li><b>Spend your coins.</b> Buy Common eggs and unlock custom shirt and pants colours, including premium finishes.</li>
+<li><b>Spend your coins.</b> Buy Common, Rare, Epic and Legendary eggs and unlock custom shirt and pants colours, including premium finishes.</li>
 <li><b>Streak bonus.</b> Get 10 right in a row to unlock Shadow Chase, a bonus game where you outrun the Word Thief.</li>
 <li><b>Come back tomorrow.</b> A word is mastered when all five gems light up, and they only light up on different days.</li></ol>
 <button class="go" id="ok">Let's go!</button></div>`;$('ok').onclick=()=>{S.seenHow=1;save();home()}}
@@ -1359,11 +1427,11 @@ function howto(){hud();main.innerHTML=`<div class="card"><span class="tag">How t
 const PAL=['#ef4f5f','#fa895d','#ffc642','#9dd946','#2fbf71','#29c7b8','#4aa4e6','#3a5bd9','#7b5cf0','#b15fd7','#ed598c','#ffb3c7','#8b5a2b','#f5f5f5','#8a93a8','#1b2140'];
 let CU={part:'shirt',col:'#29c7b8',fin:'basic'};
 const cuVal=()=>CU.fin==='basic'?CU.col:CU.fin==='neon'?'f:neon'+CU.col:'f:'+CU.fin;
-const cuPrice=()=>CU.fin==='basic'?300:FIN[CU.fin][1];
+const cuPrice=()=>CU.fin==='basic'?6000:FIN[CU.fin][1];
 function custUI(){const el=$('cust');if(!el)return;const v=cuVal(),prev={...S.av,[CU.part]:v},owned=S.cust.includes(CU.part+'|'+v),wearing=S.av[CU.part]===v,pick=CU.fin==='basic'||CU.fin==='neon';
-  el.innerHTML=`<div class="teach" style="background:var(--soft)"><b style="font:800 20px var(--fd)">Custom colour</b><p style="margin:4px 0">Make your shirt or pants your own. Plain colours cost 300 coins. Premium finishes cost more. Everything you unlock is yours to keep.</p>
+  el.innerHTML=`<div class="teach" style="background:var(--soft)"><b style="font:800 20px var(--fd)">Custom colour</b><p style="margin:4px 0">Make your shirt or pants your own. Plain colours cost 6,000 coins, about one run. Premium finishes cost more. Everything you unlock is yours to keep.</p>
   <div class="seg"><button class="${CU.part==='shirt'?'on':''}" data-p="shirt">Shirt</button><button class="${CU.part==='pants'?'on':''}" data-p="pants">Pants</button></div>
-  <div class="fins">${[['basic','Plain colour',300],...Object.entries(FIN).map(([k,x])=>[k,x[0],x[1]])].map(f=>`<button class="fin ${CU.fin===f[0]?'on':''}" data-f="${f[0]}">${f[0]==='basic'?'':'<span class="prem">Premium</span>'}<span class="sw1" style="background:${f[0]==='basic'?CU.col:f[0]==='neon'?CU.col:{gold:'linear-gradient(135deg,#fff2a8,#e8b923,#b8860b)',silver:'linear-gradient(135deg,#fff,#c0c7d2,#8a93a8)',galaxy:'radial-gradient(circle at 30% 30%,#fff 0 1px,transparent 2px),linear-gradient(135deg,#1b1446,#4b2a8a)',rainbow:'linear-gradient(90deg,#ef4f5f,#ffc642,#2fbf71,#4aa4e6,#b15fd7)'}[f[0]]};${f[0]==='neon'?'box-shadow:0 0 10px '+CU.col:''}"></span><b>${f[1]}</b><small>${f[2]} coins</small></button>`).join('')}</div>
+  <div class="fins">${[['basic','Plain colour',6000],...Object.entries(FIN).map(([k,x])=>[k,x[0],x[1]])].map(f=>`<button class="fin ${CU.fin===f[0]?'on':''}" data-f="${f[0]}">${f[0]==='basic'?'':'<span class="prem">Premium</span>'}<span class="sw1" style="background:${f[0]==='basic'?CU.col:f[0]==='neon'?CU.col:{gold:'linear-gradient(135deg,#fff2a8,#e8b923,#b8860b)',silver:'linear-gradient(135deg,#fff,#c0c7d2,#8a93a8)',galaxy:'radial-gradient(circle at 30% 30%,#fff 0 1px,transparent 2px),linear-gradient(135deg,#1b1446,#4b2a8a)',rainbow:'linear-gradient(90deg,#ef4f5f,#ffc642,#2fbf71,#4aa4e6,#b15fd7)'}[f[0]]};${f[0]==='neon'?'box-shadow:0 0 10px '+CU.col:''}"></span><b>${f[1]}</b><small>${f[2]} coins</small></button>`).join('')}</div>
   <div style="display:flex;gap:14px;align-items:center;margin-top:8px">${avatar(64,prev)}<div><b style="font:800 17px var(--fd)">Preview</b>${pick?`<div class="cpick"><label for="cpk">Any colour</label><input type="color" id="cpk" value="${CU.col}"></div>`:'<p style="margin:4px 0;color:var(--mut)">This finish has its own special look.</p>'}</div></div>
   ${pick?`<div class="sw">${PAL.map(c=>`<button data-c="${c}" class="${c===CU.col?'on':''}" style="background:${c}" aria-label="Colour ${c}"></button>`).join('')}</div>`:''}
   ${S.cust.length?`<p style="margin:8px 0 2px;font-weight:800">My unlocked colours</p><div class="mine">${S.cust.map(k=>{const [p,val]=k.split('|');return `<button data-own="${esc(k)}" title="${p==='shirt'?'Shirt':'Pants'}">${avatar(26,{...S.av,[p]:val})}</button>`}).join('')}</div>`:''}
@@ -1450,7 +1518,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   if(!s.ground||s.vy<0){s.vy+=1500*dt;s.ay+=s.vy*dt;if(s.ay>=0&&s.mode!=='fall'){s.ay=0;if(s.vy>200&&!RM)s.land=.16;s.vy=0;s.ground=true}}
   if(s.mode==='run'){
    if(s.stun>0)s.stun-=dt;else s.ax+=(RM?190:220)*dt;
-   for(const c of s.coins)if(!c.got&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;S.coins+=2;if(sess)sess.pts+=2;beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
+   for(const c of s.coins)if(!c.got&&Math.abs(c.x-s.ax)<20&&Math.abs((-c.y-10)-(s.ay-30))<28){c.got=true;{const z=sess&&sess.steps[sess.i];const v=z?(z.nopay?0:earn('pk'+z.u,2,4)):(!S.lad.placed&&(S.plC||0)<60?(S.plC=(S.plC||0)+2,S.coins+=2,2):0);if(sess)sess.pts+=v;if(!v){beep(1);continue}}beep(1);s.fx.push({x:c.x,y:-c.y,vx:0,vy:-60,l:.6,c:'#ffc642',txt:'+2'})}
    for(const k of s.crates)if(!k.hit&&s.ax>k.x-14&&s.ax<k.x+k.w+6&&s.ay>-k.h+2){k.hit=true;s.stun=.35;this.say('Oops! Jump the crates')}
    if(s.ax>=s.target){s.ax=s.target;s.mode='idle';const cb=s.cb;s.cb=null;hud();if(cb)cb()}
   }else if(s.mode==='leap'){s.anim+=dt/(RM?.35:.75);const k=Math.min(1,s.anim);s.ax=s.leapFrom+(s.leapTo-s.leapFrom)*k;s.ay=-Math.sin(k*Math.PI)*(RM?30:80);if(k>=1){s.ay=0;s.mode='idle';if(!RM)s.land=.18;const a=s.after;s.after=null;if(a)a()}}
@@ -1752,7 +1820,7 @@ function placement(){
   const used=new Set(),H=[];let lvl=2,last=null,i=0;const N=5;
   const pick=l=>{const c=shuf((PLC[LVL[l]]||[]).filter(w=>!used.has(w)&&WF(w)));const w=c[0];used.add(w);return WF(w)};
   const card=h=>{main.innerHTML=`<div class="card runcard">${h}</div>`};
-  const give=(k,ok)=>{const [p,n]=GEARP[k],id=p+'|starter';if(!S.gearOwn.includes(id))S.gearOwn.push(id);S.gear[p]='starter';if(ok)S.coins+=5;save();return n};
+  const give=(k,ok)=>{const [p,n]=GEARP[k],id=p+'|starter';if(!S.gearOwn.includes(id))S.gearOwn.push(id);S.gear[p]='starter';if(ok&&!S.lad.placed&&(S.plC||0)<60){S.plC=(S.plC||0)+5;S.coins+=5}save();return n};
   const gate=()=>{PLRUN=1;if(i>=N)return boss();
     card(`<div class="cardhead"><span class="tag">${STR.gate} ${i+1}/${N}</span></div><p class="q" style="margin:8px 0 0">Tap <b>Jump</b> or press <b>Space</b> to grab coins!</p>`);
     OB.ensure(0);if(OB.st)OB.st.gearRun=1;OB.segment(()=>ask());};
@@ -1785,7 +1853,7 @@ function placement(){
       show()},{hp,max:hp});
   };
   const reveal=()=>{
-    PLRUN=0;document.body.classList.remove('arena');const est=plEst(H);S.lv=est;S.lad.t=0;S.lad.placed=1;S.lad.pr=0;S.coins+=50;S.bobby=1;S.bobbyS=0;S.seenHow=1;if(!S.days.includes(today()))S.days.push(today());save();OB.victory&&OB.victory();sfx('win');confetti(160);
+    PLRUN=0;document.body.classList.remove('arena');const est=plEst(H);S.lv=est;S.lad.t=0;S.lad.pr=0;if(!S.plDone){S.plDone=1;S.coins+=50}S.lad.placed=1;S.bobby=1;S.bobbyS=0;S.seenHow=1;if(!S.days.includes(today()))S.days.push(today());save();OB.victory&&OB.victory();sfx('win');confetti(160);
     card(`<span class="tag">${STR.bobbyFree}</span><div class="bobfree">${bobbySVG(0,150,'t-hop')}</div><div class="word" style="font-size:clamp(26px,6vw,38px)"><span class="hl hl-p">Bobby</span> is free!</div><p>${STR.bobbyJoin} +50 coins</p><button class="go" id="fly">${STR.onward}</button>`);
     $('fly').onclick=()=>{OB.hide&&OB.hide();if(!S.cr||!S.cr.intro){CRE.ev.first();return CRE.story(()=>CRE.hatch(CRE.st().eggs.length-1,()=>$('fly').onclick()))}if(!(VO.me&&VO.me.type==='kid')){card(`<span class="tag">${STR.savePrompt}</span><div class="bobfree">${bobbySVG(0,110)}</div><p>${STR.saveSub}</p><a class="go" href="/account.html#parent" style="display:block;text-align:center;text-decoration:none">${STR.saveBtn}</a><button class="go" id="lt" style="background:var(--soft)">${STR.later}</button>`);$('lt').onclick=()=>worldmap(0)}else worldmap(0)};
   };
@@ -1801,8 +1869,8 @@ function challenge(){
   $('cgo').onclick=()=>start('challenge');$('h').onclick=home;
 }
 // ---------- Shop & Wardrobe: everything cosmetic, coins come only from playing ----------
-const GEARPRICE={boots:200,gloves:200,belt:250,scarf:300,goggles:400,helmet:500,backpack:500,shield:700,cape:900,trail:1200};
-const ACC=[['collar','#ef4f5f','Red collar',150],['collar','#2f80ed','Blue collar',150],['collar','#ffd23f','Gold collar',2500],['scarf','#3ddc84','Green scarf',300],['scarf','#ff7ac6','Pink scarf',300],['scarf','rainbow','Rainbow scarf',3000],['hat','party','Party hat',400],['hat','bow','Bow',450],['hat','crown','Mini crown',5000]];
+const GEARPRICE={boots:6000,gloves:6000,belt:7000,scarf:8000,goggles:10000,helmet:17000,backpack:18000,shield:22000,cape:28000,trail:34000};
+const ACC=[['collar','#ef4f5f','Red collar',6000],['collar','#2f80ed','Blue collar',6000],['collar','#ffd23f','Gold collar',95000],['scarf','#3ddc84','Green scarf',8000],['scarf','#ff7ac6','Pink scarf',8000],['scarf','rainbow','Rainbow scarf',110000],['hat','party','Party hat',10000],['hat','bow','Bow',11000],['hat','crown','Mini crown',130000]];
 function accFill(c){return c==='rainbow'?'url(#accr)':c}
 function accShapes(A,x,y,w,h){A=A||{};const k='#241B4B',cx=x+w/2;let o=A.scarf==='rainbow'?'<defs><linearGradient id="accr" x1="0" x2="1"><stop offset="0" stop-color="#ff4b4b"/><stop offset=".33" stop-color="#ffd23f"/><stop offset=".66" stop-color="#36c95f"/><stop offset="1" stop-color="#2f80ed"/></linearGradient></defs>':'';
  if(A.collar)o+=`<rect x="${cx-w*.17}" y="${y+h*.6}" width="${w*.34}" height="${h*.06}" rx="${h*.03}" fill="${A.collar}" stroke="${k}" stroke-width="${w*.015}"/><circle cx="${cx}" cy="${y+h*.69}" r="${w*.035}" fill="#FFE45C" stroke="${k}" stroke-width="${w*.012}"/>`;
@@ -1819,6 +1887,7 @@ function shopCatalog(){const L=[];
  GEARP.forEach(([p,n])=>Object.entries(GFIN).forEach(([t,[fn,fc]])=>L.push({n:(t==='starter'?'':fn+' ')+n,c:t==='starter'?GEARPRICE[p]:GEARPRICE[p]+fc,own:(S.gearOwn||[]).includes(p+'|'+t)})));
  ACC.forEach(a=>L.push({n:a[2],c:a[3],own:(S.accOwn||[]).includes(a[0]+'|'+a[1])}));
  PBG.forEach(b=>L.push({n:b[1]+' podium',c:b[2],own:!b[2]||(S.pbgOwn||[]).includes(b[0])}));
+ ['Rare','Epic','Legendary'].forEach((n,k)=>L.push({n:n+' egg',c:CRE.EGGP[k+1],own:false}));
  return L.filter(x=>x.c>0)}
 function canBuyNew(){return shopCatalog().some(x=>!x.own&&x.c<=S.coins)}
 function nextGoal(){const L=shopCatalog().filter(x=>!x.own&&x.c>S.coins).sort((a,b)=>a.c-b.c);return L[0]||null}
@@ -1830,7 +1899,7 @@ function shop(){
   const g=nextGoal(),aff=shopCatalog().filter(x=>!x.own&&x.c<=S.coins).length;
   const goal=g?`<div class="ngoal"><div class="ngt"><b>Next goal: ${esc(g.n)}</b><small>${g.c-S.coins} coins to go</small></div><div class="ngbar"><i style="width:${Math.min(100,Math.round(S.coins/g.c*100))}%"></i></div></div>`:'';
   const tabs=[['outfit','Outfit'],['armour','Armour'],['colours','Colours'],['pet','Creature'],['podium','Podium']];
-  const coinsTx=n=>n<=S.coins?n+' coins':`${n} coins · ${n-S.coins} to go`;
+  const nf=v=>Number(v).toLocaleString('en-GB'),coinsTx=n=>n<=S.coins?nf(n)+' coins':`${nf(n)} coins · ${nf(n-S.coins)} to go`;
   let body='';
   if(SHOPTAB==='outfit')body=`<div class="shop">${SHOP.map((it,i)=>{const own=S.av.own.includes(it[1]),on=S.av[it[0]]===it[1];const prev={...S.av,[it[0]]:it[1]};
     return `<button class="item ${on?'on':''} ${!own&&it[3]>S.coins?'dim':''}" data-i="${i}">${avatar(44,prev)}<b>${esc(it[2])}</b><small>${on?'Wearing':own?'Tap to wear':coinsTx(it[3])}</small></button>`}).join('')}</div>`;
@@ -1840,7 +1909,7 @@ function shop(){
   else if(SHOPTAB==='pet'){const CS=CRE.st(),act=CS.act,base=act==='bobby'?bobbySVG(bobbyStage(),64):CRA.svg(act,CRE.stageOf(act,CS.own[act]),64);
     body=`<p class="ssub">Accessories for ${esc(CRE.nick(act))} and every creature you own.</p><div class="shop">${ACC.map((a,i)=>{const id=a[0]+'|'+a[1],own=S.accOwn.includes(id),on=S.acc[a[0]]===a[1];
     return `<button class="item ${on?'on':''} ${!own&&a[3]>S.coins?'dim':''}" data-a="${i}"><span style="position:relative;display:block;width:64px;height:64px;margin:0 auto">${base}${accOverlay({[a[0]]:a[1]},64)}</span><b>${esc(a[2])}</b><small>${on?'Wearing · tap to take off':own?'Tap to wear':coinsTx(a[3])}</small></button>`}).join('')}</div>
-    <button class="go soft" id="eggs">🥚 Creature eggs (${600} coins each)</button>`}
+    <b class="shh">Creature eggs</b><div class="shop">${['Common','Rare','Epic','Legendary'].map((n,r)=>`<button class="item ${S.coins<CRE.EGGP[r]?'dim':''}" data-egg="${r}">${CRA.egg(r,56,{noGlow:1})}<b>${n} egg</b><small>${coinsTx(CRE.EGGP[r])}${r?' · always '+n:''}</small></button>`).join('')}</div><button class="go soft" id="eggs">Open my creatures</button>`}
   else body=`<p class="ssub">The background behind your victory podium and share card.</p><div class="shop">${PBG.map((b,i)=>{const own=!b[2]||S.pbgOwn.includes(b[0]),on=(S.pbg||'sky')===b[0];
     return `<button class="item ${on?'on':''} ${!own&&b[2]>S.coins?'dim':''}" data-b="${i}"><span class="pbgs" style="background:linear-gradient(135deg,${b[3].join(',')})"></span><b>${esc(b[1])}</b><small>${on?'Using':own?'Tap to use':coinsTx(b[2])}</small></button>`}).join('')}</div>`;
   main.innerHTML=`<div class="card"><span class="tag">Shop &amp; Wardrobe</span><div class="shead">${avatar(70)}<div><p style="margin:0"><b class="scoins">${ic('coin')} ${S.coins}</b> coins${aff?` · <b>${aff}</b> new item${aff>1?'s':''} you can buy`:''}</p><small class="ssub">Coins come only from playing: right answers, combos, bosses. No real money, no random paid draws.</small></div></div>${goal}
@@ -1859,7 +1928,7 @@ function shop(){
     if(!S.accOwn.includes(id)){if(!pay(a[3],b))return;S.accOwn.push(id);S.acc[a[0]]=a[1]}else if(S.acc[a[0]]===a[1])delete S.acc[a[0]];else S.acc[a[0]]=a[1];save();shop()});
   main.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const x=PBG[b.dataset.b];
     if(x[2]&&!S.pbgOwn.includes(x[0])){if(!pay(x[2],b))return;S.pbgOwn.push(x[0])}S.pbg=x[0];save();shop()});
-  if($('eggs'))$('eggs').onclick=CRE.screen;
+  if($('eggs'))$('eggs').onclick=CRE.screen;main.querySelectorAll('[data-egg]').forEach(b=>{const r=+b.dataset.egg,c=CRE.EGGP[r];b.onclick=()=>{if(S.coins<c){pop((c-S.coins).toLocaleString('en-GB')+' more coins needed');return}S.coins-=c;CRE.give(r,'shop');save();hud();shop()}});
   $('h').onclick=myAvatar;CRE.nav('av');
 }
 function book(){

@@ -9,7 +9,7 @@ const today=()=>new Date().toDateString();
 const LIST=[['bobby',0,0],['hootle',0,1],['inkoo',0,1],['snailbet',0,1],['crab',0,1],['lexi',1,1],['pagewing',1,1],['echobat',1,1],['glyphin',2,1],['syntaxolotl',2,1],['lexicorn',3,1],['rex',3,1],['phoenix',4,0]];
 const R=id=>(LIST.find(x=>x[0]===id)||[id,0])[1];
 const RCOL=['#3FABE7','#3FABE7','#B15FD7','#FFB23F','#FF8A3D'];
-const EVO=[0,12,36],EGG_PRICE=600,FEEDS=5;
+const EVO=[0,12,36],EGG_PRICE=6000,EGGP=[6000,60000,145000,350000],FEEDS=5;
 const name=id=>(T().names[id]||[id])[0];
 function st(){const s=S();if(!s.cr)s.cr={eggs:[],own:{},act:'bobby',log:{},hints:{}};const c=s.cr;c.eggs=c.eggs||[];c.own=c.own||{};c.log=c.log||{};c.hints=c.hints||{};if(!c.own.bobby)c.own.bobby={nick:'',xp:0,got:Date.now()};if(!c.act||!c.own[c.act])c.act='bobby';return c}
 const save=()=>H().save();
@@ -91,11 +91,11 @@ function screen(){const h=H();h.leave();const c=st(),t=T(),m=h.main,found=LIST.f
  const eggs=c.eggs.map((e,i)=>`<button class="eggbtn r${e.r}" data-egg="${i}" aria-label="${esc(t.hatchA(t.rar[e.r]))}">${CRA.egg(e.r,64)}<small>${esc(t.rar[e.r])}</small></button>`).join('');
  m.innerHTML=`<div class="card crscreen"><span class="tag">${t.title}</span><div class="word" style="font-size:clamp(26px,6vw,36px)">${t.dexTitle}</div><p class="crcount">${t.found(found,total)}</p>
  <div class="eggbox"><b class="crh">${t.yourEggs}</b>${eggs?`<div class="eggrow">${eggs}</div>`:`<p class="crmut">${t.noEggs}</p>`}
- <div class="crbtns"><button class="go soft" id="einfo">${t.eggInfo}</button><button class="go soft" id="ebuy" ${S().coins<EGG_PRICE?'aria-disabled="true"':''}>${t.buy(EGG_PRICE)}</button></div></div>
+ <div class="crbtns"><button class="go soft" id="einfo">${t.eggInfo}</button><button class="go soft" id="ebuy" ${S().coins<EGG_PRICE?'aria-disabled="true"':''}>${t.buy(EGG_PRICE)}</button>${[1,2,3].map(r=>`<button class="go soft" data-ebuy="${r}" ${S().coins<EGGP[r]?'aria-disabled="true"':''}>${t.buyR(r,EGGP[r])}</button>`).join('')}</div></div>
  <div class="dex">${LIST.filter(x=>x[1]<4||c.own[x[0]]).map(([id,r])=>{const o=c.own[id];return o?`<button class="dexc r${r} ${c.act===id?'act':''}" data-cr="${id}">${CRA.svg(id,stageOf(id,o),88,{bobbyStage:H().bobbyStage(),depth:1})}<b>${esc(nick(id))}</b><small>${esc(t.rar[r])}${c.act===id?' · '+t.withYou:''}</small></button>`:`<div class="dexc sil r${r}" aria-label="${esc(t.notFound(t.rar[r]))}">${CRA.svg(id,0,88,{sil:1})}<b>???</b><small>${esc(t.rar[r])}</small></div>`}).join('')}</div></div>`;
  m.querySelectorAll('[data-egg]').forEach(b=>b.onclick=()=>hatch(+b.dataset.egg));
  m.querySelectorAll('[data-cr]').forEach(b=>b.onclick=()=>detail(b.dataset.cr));
- $('einfo').onclick=eggInfo;$('ebuy').onclick=()=>{if(S().coins<EGG_PRICE){h.pop(t.needCoins(EGG_PRICE-S().coins));return}S().coins-=EGG_PRICE;give(0,'shop',1);h.hud();screen()};
+ $('einfo').onclick=eggInfo;$('ebuy').onclick=()=>{if(S().coins<EGG_PRICE){h.pop(t.needCoins(EGG_PRICE-S().coins));return}S().coins-=EGG_PRICE;give(0,'shop',1);h.hud();screen()};document.querySelectorAll('[data-ebuy]').forEach(b=>b.onclick=()=>{const r=+b.dataset.ebuy,c=EGGP[r];if(S().coins<c){h.pop(t.needCoins(c-S().coins));return}S().coins-=c;give(r,'shop',1);h.hud();screen()});
  nav('cr');if(!checkEvo(screen))hint(c.eggs.length?'eggs':'creatures')}
 function detail(id){const c=st(),o=c.own[id],t=T(),h=H(),r=R(id),s=stageOf(id,o),bob=id==='bobby';
  let prog='';if(bob){const g=h.bobbyGrowth(),nx=h.BOBBY_AT[s+1];prog=`<p class="crmut">${esc(t.bobOutfitNow(BOB.OUTFITS[s]))}</p>${nx!=null?`<div class="evobar"><i style="width:${Math.min(100,Math.round(g.pts/nx*100))}%"></i></div><p class="crmut">${esc(t.bobNext(nx-g.pts,BOB.OUTFITS[s+1]))}</p>`:''}`}
@@ -206,6 +206,6 @@ function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"
  $('ab').onclick=more;$('adv').onclick=()=>dedication(null,1);nav('more')}
 // ---------------- share card helper ----------------
 function shareList(){const c=st();return [c.act,...Object.keys(c.own).filter(k=>k!==c.act)].slice(0,4)}
-window.CRE={evolve,init,ev,give,hatch,screen,detail,eggInfo,drawFollower,react,ELEM,followerPos,nav,more,story,hint,dedication,about,checkEvo,st,stageOf,nick,shareList,R,RCOL,LIST,count:()=>LIST.filter(x=>x[1]<4&&st().own[x[0]]).length,total:()=>LIST.filter(x=>x[1]<4).length,
+window.CRE={EGGP,evolve,init,ev,give,hatch,screen,detail,eggInfo,drawFollower,react,ELEM,followerPos,nav,more,story,hint,dedication,about,checkEvo,st,stageOf,nick,shareList,R,RCOL,LIST,count:()=>LIST.filter(x=>x[1]<4&&st().own[x[0]]).length,total:()=>LIST.filter(x=>x[1]<4).length,
  bonus:()=>{const r=R(st().act);return [.1,.25,.5,1,0][r]||0},hideNav:()=>{const n=$('bnav');if(n)n.remove();document.body.classList.remove('hasnav')}};
 })();
