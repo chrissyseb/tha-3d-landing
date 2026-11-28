@@ -60,3 +60,8 @@ html.night td,html.night th{color:var(--ink);border-color:#26385E}
 html.night .tabs button[aria-selected=false]:not(.sec):not(.alt):not(.chip):not(.linkbtn){background:#111A33!important;color:var(--ink)!important}
 html.night .hl,html.night h1 .hl{color:#0B1530!important}
 html.night .brand{background:#F3F2FF!important;border-radius:16px!important;padding:6px 12px!important;display:inline-block}
+
+.thlock{display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1}.thlock .thby{font:600 12px/1 inherit;opacity:.7;letter-spacing:.04em;text-transform:lowercase;margin-right:2px}.thlock .thm{height:30px;width:30px;flex:none}.thlock .thw{height:86px;width:auto;flex:none;margin:-28px -10px -28px -100px;pointer-events:none}.thf{display:flex;flex-direction:column;align-items:center;gap:6px}.thf .cpy,footer .cpy,.foot .cpy{display:block;font-size:11px;font-weight:600;opacity:.75;line-height:1.5;margin-top:4px}.night .thw,html.night .thw{filter:brightness(0) invert(1)}
+html.night .tabs button,html.night button.sec,html.night .btn,html.night button{box-shadow:0 3px 0 #0A1630!important;border-color:#4A6FA5!important}
+html.night button:not(.sec):not(.alt):not(.chip):not(.linkbtn),html.night .btn:not(.alt):not(.sec){background:linear-gradient(120deg,#5CC8F0,#3F8CF0)!important}
+html.night .card:first-of-type{border-top-color:#3F8CF0}

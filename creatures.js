@@ -126,7 +126,7 @@ function star(g,x,y,z){g.beginPath();g.moveTo(x,y-z*1.6);g.lineTo(x+z*.5,y-z*.5)
 function followerPos(ax,ay){return{x:ax-44,y:ay-24}}
 function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];if(!o)return;
  if(!PRE&&id==='bobby'){PRE=1;const bs=H().bobbyStage();['excited','sorry','cheer'].forEach(e=>['stand','hop','runA','runB'].forEach(p=>BOB.img(bs,p,e)))}
- const now=performance.now(),re=RX&&now-RX.t0<DUR[RX.k]?RX:null,k=re?(now-re.t0)/DUR[re.k]:0,ink='#241B4B';
+ const now=performance.now(),re=RX&&now-RX.t0<DUR[RX.k]?RX:null,k=re?(now-re.t0)/DUR[re.k]:0,ink=(document.body.classList.contains('night')?'#0A1630':'#241B4B');
  // spontaneous moments, only while calmly running and not reacting
  if(!SP.next)SP.next=now+9000+Math.random()*8000;
  if(!SP.k&&!re&&running&&now>SP.next){SP.k=Math.random()<.5&&!rm?'fly':'token';SP.t0=now}
@@ -145,7 +145,7 @@ function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];
   const bs=H().bobbyStage();let im=BOB.img(bs,pose,ex);if(!(im.complete&&im.naturalWidth))im=BOB.img(bs,'stand');if(im.complete&&im.naturalWidth)g.drawImage(im,-17,-25,33,47)}
  else{const im=cimg(id,stageOf(id,o));if(im.complete&&im.naturalWidth)g.drawImage(im,-25,-26,50,50)}
  // Shop accessories (collar, scarf, hat) bought with coins
- {const A=S().acc||{},k='#241B4B',ny=id==='bobby'?-4:4,hy=id==='bobby'?-27:-26;g.strokeStyle=k;g.lineWidth=1.5;
+ {const A=S().acc||{},k=(document.body.classList.contains('night')?'#0A1630':'#241B4B'),ny=id==='bobby'?-4:4,hy=id==='bobby'?-27:-26;g.strokeStyle=k;g.lineWidth=1.5;
   const rb=c=>c==='rainbow'?`hsl(${(t*120)%360},90%,60%)`:c;
   if(A.collar){g.fillStyle=A.collar;g.beginPath();g.roundRect?g.roundRect(-11,ny,22,5,2.5):g.rect(-11,ny,22,5);g.fill();g.stroke();g.fillStyle='#FFE45C';g.beginPath();g.arc(0,ny+6,2.6,0,7);g.fill();g.stroke()}
   if(A.scarf){g.fillStyle=rb(A.scarf);g.beginPath();g.roundRect?g.roundRect(-12,ny-2,24,6,3):g.rect(-12,ny-2,24,6);g.fill();g.stroke();g.fillRect(4,ny+3,5,8);g.strokeRect(4,ny+3,5,8)}
@@ -153,7 +153,7 @@ function drawFollower(g,ax,ay,t,running,rm,s){const c=st(),id=c.act,o=c.own[id];
   if(A.hat==='bow'){g.fillStyle='#ff7ac6';g.beginPath();g.moveTo(0,hy+3);g.lineTo(-7,hy-1);g.lineTo(-7,hy+7);g.closePath();g.moveTo(0,hy+3);g.lineTo(7,hy-1);g.lineTo(7,hy+7);g.closePath();g.fill();g.stroke()}
   if(A.hat==='crown'){g.fillStyle='#ffc642';g.beginPath();g.moveTo(-7,hy+5);g.lineTo(-7,hy-3);g.lineTo(-3,hy+1);g.lineTo(0,hy-5);g.lineTo(3,hy+1);g.lineTo(7,hy-3);g.lineTo(7,hy+5);g.closePath();g.fill();g.stroke()}}
  // Twin finish (optional, More > Settings): collar in the avatar's shirt/armour colour
- if(S().twin){const col=H().flat(S().av&&S().av.shirt)||'#2f80ed',ny=id==='bobby'?-4:4;g.fillStyle=col;g.strokeStyle='#241B4B';g.lineWidth=1.5;g.beginPath();g.roundRect?g.roundRect(-11,ny,22,5,2.5):g.rect(-11,ny,22,5);g.fill();g.stroke();g.fillStyle='#FFE45C';g.beginPath();g.arc(0,ny+6,2.6,0,7);g.fill();g.stroke()}
+ if(S().twin){const col=H().flat(S().av&&S().av.shirt)||'#2f80ed',ny=id==='bobby'?-4:4;g.fillStyle=col;g.strokeStyle=(document.body.classList.contains('night')?'#0A1630':'#241B4B');g.lineWidth=1.5;g.beginPath();g.roundRect?g.roundRect(-11,ny,22,5,2.5):g.rect(-11,ny,22,5);g.fill();g.stroke();g.fillStyle='#FFE45C';g.beginPath();g.arc(0,ny+6,2.6,0,7);g.fill();g.stroke()}
  g.restore();if(mt){g.restore();if(!rm&&Math.random()<.5)s.fx.push({x:s.ax-10,y:-6,vx:-60-Math.random()*60,vy:-40,l:.5,c:['#FFE45C','#fff','#FFB23F'][Math.random()*3|0]})}
  // wrong answer: puzzled "?" (never a punishment); Bobby throws a rope to pull the avatar back
  if(re&&re.k==='bad'){
@@ -198,11 +198,11 @@ function hint(k){const c=st();if(c.hints[k])return;const tx=T().hints[k];if(!tx)
  setTimeout(()=>{document.body.appendChild(d);d.onclick=()=>d.remove();setTimeout(()=>d.remove(),7000)},350)}
 // ---------------- dedication (book-style) ----------------
 function dedication(after,manual){const d=document.createElement('div');d.className='dedi';d.setAttribute('role','dialog');d.setAttribute('aria-label',T().dediLabel);
- d.innerHTML=`<div class="dedip"><p>${H().STR.dedication.map(l=>l?(/^PS:/.test(l)?`<span class="deps">${esc(l)}</span>`:esc(l)):'').join('<br>')}</p><div class="dedib">${BOB.face('happy',40)}</div>${manual?`<button class="dedic" type="button">${H().STR.close}</button>`:''}</div>`;
+ d.innerHTML=`<div class="dedip"><p>${H().STR.dedication.map(l=>l?(/^PS:/.test(l)?`<span class="deps">${esc(l)}</span>`:esc(l)):'').join('<br>')}</p><div class="dedib">${BOB.face('happy',40)}</div><div class="dedil"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></div>${manual?`<button class="dedic" type="button">${H().STR.close}</button>`:''}</div>`;
  document.body.appendChild(d);requestAnimationFrame(()=>d.classList.add('in'));let gone=false;
  const out=()=>{if(gone)return;gone=true;d.classList.add('out');setTimeout(()=>{d.remove();after&&after()},RM()?0:700)};
  d.onclick=out;if(!manual)setTimeout(out,5200)}
-function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"><button class="back" id="ab">‹ ${t.back}</button><span class="tag">${t.mAbout}</span><div class="aboutded">${h.STR.dedication.map(l=>l?(/^PS:/.test(l)?`<span class="deps">${esc(l)}</span>`:esc(l)):'').join('<br>')}<div>${BOB.face('happy',40)}</div></div><p class="crmut">${t.credits}</p><button class="go soft" id="adv">${t.showDedi}</button></div>`;
+function about(){const h=H(),t=T();h.leave();h.main.innerHTML=`<div class="card"><button class="back" id="ab">‹ ${t.back}</button><span class="tag">${t.mAbout}</span><div class="aboutded">${h.STR.dedication.map(l=>l?(/^PS:/.test(l)?`<span class="deps">${esc(l)}</span>`:esc(l)):'').join('<br>')}<div>${BOB.face('happy',40)}</div></div><p class="crmut">${t.credits}</p><p class="dedil" style="text-align:center"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></p><button class="go soft" id="adv">${t.showDedi}</button></div>`;
  $('ab').onclick=more;$('adv').onclick=()=>dedication(null,1);nav('more')}
 // ---------------- share card helper ----------------
 function shareList(){const c=st();return [c.act,...Object.keys(c.own).filter(k=>k!==c.act)].slice(0,4)}

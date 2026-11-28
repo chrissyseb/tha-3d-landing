@@ -4,7 +4,7 @@
    BOB.full(opts)       full body: {stage:0-3 (Kit/Scout/Hero/Legend outfit), expr, size, pose:'stand'|'runA'|'runB'|'hop', cls}
 */
 (function(){
-const K='#241B4B',OR='#FF8A3D',CR='#FFF4E6',EAR='#3B1C4A',BL='#FF7AA8';
+const K=(document.body.classList.contains('night')?'#0A1630':'#241B4B'),OR='#FF8A3D',CR='#FFF4E6',EAR='#3B1C4A',BL='#FF7AA8';
 let N=0;
 // ---- six expressions, drawn in the icon's own coordinates (eyes at 200/312, 206) ----
 const EYES={
