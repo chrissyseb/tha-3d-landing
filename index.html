@@ -880,6 +880,8 @@ html body.night .spk,html body.night .spk~button,html body.night .slow{border-co
 .today{margin:8px auto 0;padding:8px 12px;border-radius:12px;background:rgba(125,130,222,.14);font-weight:700;font-size:15px;max-width:420px}.today small{display:block;font-weight:600;font-size:12px;opacity:.75;margin-top:2px}
 .howc{text-align:center}.hbob{margin:8px auto}.hdots{display:flex;gap:6px;justify-content:center;margin:10px 0}.hdots i{width:10px;height:10px;border-radius:50%;background:rgba(36,27,75,.25)}.hdots i.on{background:#7D82DE}
 .abrow{display:grid;gap:8px}.abb{display:grid!important;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;text-align:left;padding:10px 12px!important;margin:0!important}.abb i{grid-row:1/3;font-style:normal;font-size:30px;align-self:center}.abb small{font-size:13px;opacity:.85;font-weight:600}.abp b{margin-left:2px}
+.comphelp{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:9997;display:flex;gap:10px;align-items:center;background:#FFE45C;color:#241B4B;border:3px solid #241B4B;border-radius:16px;padding:8px 14px;box-shadow:0 4px 0 #241B4B;animation:bpz .4s;max-width:92vw}.comphelp b{display:block}.comphelp small{font-weight:700}
+.perkh{margin:8px 0 0;font-weight:800;color:#7D82DE}.iced{position:relative}.iced::after{content:'❄️ Ice slide: take your time';position:absolute;inset:0;background:rgba(170,220,255,.35);display:grid;place-items:start center;padding-top:6px;font-weight:800;border-radius:inherit;pointer-events:none}
 </style><link rel="stylesheet" href="/intro.css"></head><body>
 <div id="splash" role="status" aria-label="Loading VocaBobby"><div class="spart"><img src="/icons/art/vb-hero.webp" alt="" width="799" height="451" fetchpriority="high" decoding="async"></div>
 <img class="vwm" src="/icons/wordmark-v6-sticker.svg" alt="VocaBobby" width="220" height="58"><p class="pipline" id="pipl">Loading…</p><div class="skel" aria-hidden="true"><i></i><i></i><i></i></div><script>(()=>{const L=["Loading…","Finding some tricky words…","Polishing the word gates…","Waking up the bosses…"];let k=0;const t=setInterval(()=>{const e=document.getElementById("pipl");if(!e)return clearInterval(t);e.textContent=L[++k%L.length]},1100)})()</script><span class="by"><span class="thlock"><small class="thby">by</small><img class="thm" src="/icons/th-logo.svg" alt="" width="30" height="30"><img class="thw" src="/icons/th-wordmark.svg" alt="Thinking Hack Education" width="289" height="86"></span></span></div>
@@ -1323,6 +1325,7 @@ function run(){
   while(sess.i<sess.steps.length&&sess.done&&sess.done[sess.steps[sess.i].u])sess.i++;
   bossDue(sess);
   {const g=Math.max(sess.gate||0,gateOf(sess.steps[sess.i]));const N=sess.words.length;sess.cheer=sess.cheer||{};const half=Math.floor((Math.ceil(g/10)-1)*10+Math.min(10,N-(Math.ceil(g/10)-1)*10)/2);if(sess.gate!=null&&g>=half&&(sess.gate||0)<half&&!sess.cheer[half]&&half<N){sess.cheer[half]=1;setTimeout(()=>{pop('Halfway through stage '+stageN(g)+'!');try{beep(1)}catch(e){}},400)}sess.gate=g}
+  try{compStage()}catch(e){}
   hud();persist();
   if(sess.bossOn&&sess.boss>0&&sess.hearts>0){const s0=sess.steps[sess.i];if(!s0||s0.bid!==sess.bid)addBossStep()}
   // review cap: at most 3 non-advancing review steps in a row; the rest go to spaced review (word stays due)
@@ -1374,6 +1377,10 @@ function run(){
   main.innerHTML=top+`<div class="card ${s.gold?'gold':''}">${s.gold?'<span class="tag" style="background:#ffd23f">Golden question · 3× coins</span> ':''}${head(lbl+(s.boss?' · Boss round':''),x[1])}${q}<div class="opts">${opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join('')}</div>${!s.fixed?`<button class="hintb" id="hintb" type="button">${ic('book',18)} Hint</button><div id="hintc" class="hintc" role="note" hidden></div>`:''}<div id="fb"></div></div>`;
   const hintTx=s.t==='blank'?`Clue: the missing word means <b>“${esc(x[2])}”</b>.`:(s.t==='reverse'||s.t==='lookalike')?`It starts with <b>${esc(x[0][0].toUpperCase())}</b> and has ${x[0].replace(/[^a-z]/gi,'').length} letters.`:`Break it up: <b>${esc(x[8]||x[0])}</b>${x[3]?` · often seen as “${esc(x[3])}”`:''}`;
   const showHint=()=>{const c=$('hintc');if(!c||!c.hidden)return;s.hint=1;c.innerHTML=`<span class="bobr" aria-hidden="true">${bobFace('idle',30)}</span><span>${hintTx}</span>`;c.hidden=false;const hb=$('hintb');if(hb)hb.remove()};
+  {const cid=compId();if(!s.boss&&!s.fixed&&sess.cp&&sess.cp.left>0&&!s.perk){
+    if(cid==='hootle'){const os=[...main.querySelectorAll('.opt')].filter(o=>opts[o.dataset.i]!==key);if(os.length>1){s.perk=1;sess.cp.left--;const o=os[Math.random()*os.length|0];o.disabled=true;o.classList.add('out');setTimeout(()=>compHelp('crossed out a wrong answer'),300)}}
+    else if(cid==='echobat'){s.perk=1;sess.cp.left--;const tgt=(s.t==='reverse'||s.t==='lookalike'||s.t==='blank')?(s.t==='blank'?A(x):x[0]):key;$('fb').insertAdjacentHTML('beforebegin',`<p class="perkh">🦇 Starts with <b>${esc(String(tgt)[0].toUpperCase())}</b></p>`);setTimeout(()=>compHelp('whispered the first letter'),300)}
+    else if(cid==='pengwyn'){s.perk=1;sess.cp.left--;const c=main.querySelector('.card:last-child');if(c){c.classList.add('iced');main.querySelectorAll('.opt').forEach(o=>o.disabled=true);setTimeout(()=>{c.classList.remove('iced');main.querySelectorAll('.opt:not(.out)').forEach(o=>o.disabled=false)},2000)}setTimeout(()=>compHelp('Ice slide! 2 seconds to reread'),200)}}}
   if($('hintb')&&sess.ab&&sess.ab.hint>0&&!s.hint){sess.ab.hint--;setTimeout(()=>{showHint();hud()},50)}
   if($('hintb')){$('hintb').onclick=showHint;if((sess.kind==='challenge'?PK.hintOpen(S):PK.minit(S).ease>.5)&&!s.boss)showHint()}
   main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const ok=opts[b.dataset.i]===key;
@@ -1440,6 +1447,18 @@ function result(ok,x,extra='',fl={}){
   hud();
   if(cur_boss)bossTurn(ok);
 }
+// companion perks: the creature with you gives one visible perk; duplicate stars (1-5) strengthen it
+const PERK={bobby:['Finds a hidden coin stash each stage','stage'],hootle:['Crosses out a wrong option once per stage','stage'],echobat:['Shows the first letter once per stage','stage'],crab:['Blocks one boss hit per run','run'],inkoo:['Inks the Shadow Chase: it runs slower','chase'],phoenix:['Revives you once per run with 1 heart','run'],
+ snailbet:['Starts each run with a Slow-mo','run'],lexi:['Opens a hint once per stage','stage'],pagewing:['Double coins once per stage','stage'],glyphin:['Coin magnet once per stage','stage'],syntaxolotl:['Starts each run with a Shield','run'],lexicorn:['Boss Power +1 each run','run'],rex:['Boss Power +1 each stage','stage'],pengwyn:['Ice slide: freezes the run 2s once per stage to reread','stage']};
+window.VBPERK=PERK;
+function compId(){try{return CRE.st().act||'bobby'}catch(e){return 'bobby'}}
+function compStar(id){try{const o=CRE.st().own[id];return Math.max(1,Math.min(5,(o&&o.star)||1))}catch(e){return 1}}
+function compUses(id){return 1+(compStar(id)>=3?1:0)+(compStar(id)>=5?1:0)}
+function compHelp(msg){const id=compId(),nm=CRE.nick(id);const d=document.createElement('div');d.className='comphelp';d.setAttribute('role','status');d.innerHTML=`<span>${id==='bobby'?BOB.face('happy',34):CRA.svg(id,CRE.stageOf(id,CRE.st().own[id]),34)}</span><span><b>Your companion helped!</b><small>${esc(nm)}: ${esc(msg)}</small></span>`;document.body.appendChild(d);setTimeout(()=>d.remove(),2600)}
+function compStage(){if(!sess||sess.kind==='quest')return;const id=compId(),P=PERK[id];if(!P)return;const st0=stageN(Math.max(1,sess.gate||1));sess.cp=sess.cp||{};const AB=sess.ab||(sess.ab={}),u=compUses(id);
+  if(!sess.cp.run){sess.cp.run=1;if(id==='snailbet')AB.slow=(AB.slow||0)+u;if(id==='syntaxolotl')AB.sh=(AB.sh||0)+u;if(id==='lexicorn')AB.bp=(AB.bp||0)+u;if(id==='crab')sess.cp.crab=u;if(id==='phoenix')sess.cp.rev=1;if(['snailbet','syntaxolotl','lexicorn'].includes(id))setTimeout(()=>compHelp(P[0]),900)}
+  if(sess.cp.st!==st0){sess.cp.st=st0;sess.cp.left=u;if(id==='lexi')AB.hint=(AB.hint||0)+u;if(id==='pagewing')AB.dc=(AB.dc||0)+u;if(id==='glyphin')AB.mag=(AB.mag||0)+u;if(id==='rex')AB.bp=(AB.bp||0)+u;
+    if(id==='bobby'){const v=earn('perk:bobby:'+st0,5*u,1);if(v){sess.pts+=v;setTimeout(()=>compHelp('found '+v+' hidden coins!'),1200)}}}}
 const ABIL=[['mag','🧲','Magnet +1','Pulls in course coins after your next right answer'],['bp','⚔️','Boss Power +1','+10 damage on a boss attack'],['sh','🛡️','Shield','Blocks one wrong answer (keeps your hearts or pouch)'],['dc','💰','Double Coins','Your next right answer pays double'],['hint','💡','Hint','Opens the hint on your next question'],['slow','🐢','Slow-mo','Your next run to a gate is slower and easier to time']];
 function chestPick(then){if(document.querySelector('.abchest'))return;const ch=shuf(ABIL.slice()).slice(0,3);const d=document.createElement('div');d.className='sheet chestsheet abchest';d.setAttribute('role','dialog');d.innerHTML=`<div class="sheetc" style="text-align:center"><div style="font-size:54px">🎁</div><b style="font:800 24px var(--fd)">Streak chest!</b><p style="margin:4px 0 10px">Pick one power-up. They stack for this run.</p><div class="abrow">${ch.map(a=>`<button class="abb go" data-ab="${a[0]}" type="button"><i>${a[1]}</i><b>${a[2]}</b><small>${a[3]}</small></button>`).join('')}</div></div>`;document.body.appendChild(d);try{chime()}catch(e){}
   d.querySelectorAll('[data-ab]').forEach(b=>b.onclick=()=>{if(!d.isConnected)return;const k=b.dataset.ab,AB=sess.ab||(sess.ab={});AB[k]=(AB[k]||0)+1;sess.chestDue=0;if(OB.st)OB.st.chest=null;persist();d.remove();pop(b.querySelector('b').textContent+'!');confetti(50);hud();then()})}
@@ -1508,9 +1527,10 @@ function bossTurn(ok){
     });
   }else{
     if(sess.charge){sess.charge=0;setTimeout(()=>pop('Charge lost!'),300)}
+    if(sess.cp&&sess.cp.crab>0){sess.cp.crab--;persist();compHelp('blocked the boss hit with its shell!');OB.bossAttack(()=>{if(!sess)return;updBossBar();nx.hidden=false},true);return}
     if(sess.ab&&sess.ab.sh>0){sess.ab.sh--;persist();pop('🛡️ Your shield blocked the hit!');OB.bossAttack(()=>{if(!sess)return;updBossBar();nx.hidden=false},true);hud();return}
     sess.hearts=Math.max(0,(sess.hearts==null?(sess.hMax||3):sess.hearts)-1);sess.swH=0;persist();sfx('attack');
-    OB.bossAttack(()=>{if(!sess)return;updBossBar();if(sess.hearts<=0)knockedOut(nx);else{nx.hidden=false}},false,()=>{if(!sess)return;sfx('ouch');buzz(HAP.hurt);heartShatter()});
+    OB.bossAttack(()=>{if(!sess)return;if(sess.hearts<=0&&sess.cp&&sess.cp.rev){sess.cp.rev=0;sess.hearts=1;persist();compHelp('rose from the ashes: 1 heart back!');try{confetti(60)}catch(e){}}updBossBar();if(sess.hearts<=0)knockedOut(nx);else{nx.hidden=false}},false,()=>{if(!sess)return;sfx('ouch');buzz(HAP.hurt);heartShatter()});
   }
 }
 
@@ -1718,7 +1738,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   else{s.boss=null;s.gaps.push({x0:edge,x1:edge+96,b:false})}
   s.target=edge-26;s.cb=cb;s.mode='run';s.ground=s.ay>=0;if(s.chestP){s.chestP=0;s.chest={x:edge-70,open:0}}
  },
- leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(typeof sess!=='undefined'&&sess&&sess.combo>=7&&sess.combo%7===0){s.mount=3.2;this.say(sess.seenRide?'Golden ride!':'Golden ride! 7 right in a row');sess.seenRide=1}if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
+ leap(){const s=this.st;if(!s)return;const duo=typeof sess!=='undefined'&&sess&&sess.combo>0&&sess.combo%3===0;if(duo)s.pump=1.1;if(typeof sess!=='undefined'&&sess&&sess.combo>=7&&sess.combo%7===0){s.mount=3.2;this.say((window.CRE&&CRE.st().act==='bobby')?'Ride Bobby!':(sess.seenRide?'Golden ride!':'Golden ride! 7 right in a row'));sess.seenRide=1}if(window.CRE&&CRE.react)CRE.react(duo?'flip':'ok');this.charge();let gp=s.gaps.find(g=>!g.b&&g.x0>=s.ax-5);if(!gp){gp={x0:s.ax+26,x1:s.ax+122,b:false};s.gaps.push(gp)}gp.b=true;
   s.mode='leap';s.anim=0;s.leapFrom=s.ax;s.leapTo=gp.x1+30;s.gates++;
   if(s.gates%5===0){s.flags.push(s.leapTo);this.say('Checkpoint!')}
   for(let i=0;i<10;i++)s.fx.push({x:gp.x0+48,y:0,vx:(Math.random()-.5)*160,vy:-120-Math.random()*120,l:.7,c:OB.PAL[this.w][4]})},
@@ -1958,6 +1978,7 @@ var OB=window.__VBOB={el:null,c:null,g:null,st:null,raf:0,last:0,w:0,
   // avatar (+pet)
   const ax=s.ax-cam-(s.dodge>0&&!RM?Math.sin(s.dodge/.5*Math.PI)*28:0)+(s.phurt>0&&!RM?Math.sin(s.phurt*45)*3:0),ay=GY+(s.mode==='fall'?s.ay:s.ay)-(s.dodge>0&&!RM?Math.sin(s.dodge/.5*Math.PI)*18:0);
   if(s.magnet>0){const r=RM?46:42+6*Math.sin(s.t*8);const gr=g.createRadialGradient(ax-34,ay-20,4,ax-34,ay-20,r);gr.addColorStop(0,'rgba(255,228,92,.75)');gr.addColorStop(1,'rgba(255,228,92,0)');g.fillStyle=gr;g.beginPath();g.arc(ax-34,ay-20,r,0,7);g.fill()}
+  {const st_=compStar(compId());if(st_>=2){const fx=ax-44,fy=ay-20,r=24+st_*4;const gr=g.createRadialGradient(fx,fy,3,fx,fy,r);gr.addColorStop(0,'rgba(255,214,90,'+(0.12*st_)+')');gr.addColorStop(1,'rgba(255,214,90,0)');g.fillStyle=gr;g.beginPath();g.arc(fx,fy,r,0,7);g.fill()}}
   CRE.drawFollower(g,ax,ay,s.t,s.mode==='run'&&s.ground,RM,s);
   if(s.mode!=='fall'){const sh=Math.max(.35,1+Math.min(0,s.ay)/90);g.fillStyle='rgba(15,18,48,.22)';g.beginPath();g.ellipse(ax,GY+1,16*sh,4*sh,0,0,7);g.fill()}
   const a=S.av,run=s.mode==='run'&&s.ground&&!RM,leg=run?Math.sin(s.t*16)*5:0;
@@ -2021,7 +2042,7 @@ function chase(done){
   <div class="ctl2"><button class="go" id="cl" style="margin:0" aria-label="Move left">◀ Left</button><button class="go" id="cr" style="margin:0" aria-label="Move right">Right ▶</button></div>
   <p style="color:var(--mut);font-size:14px;margin:8px 0 0">Swipe or use the arrow keys. Run through the door with the right meaning to push the Word Thief back.</p></div>`;
   const c=$('cg'),g=c.getContext('2d'),Wd=360,Hd=480,LX=[60,180,300],DPR=Math.min(3,Math.max(1,devicePixelRatio||1));c.width=Wd*DPR;c.height=Hd*DPR;g.scale(DPR,DPR);
-  let lane=1,px=LX[1],t0=performance.now(),last=t0,left=40,coins=0,thief=150,speed=RM?105:145,el=0,crateHint=0,boost=0,obj=[],spawn=0,doorT=4,doorOn=null,over=false,paused=false,raf=0,shake=0,scroll=0,msg='',msgT=0;
+  let lane=1,px=LX[1],t0=performance.now(),last=t0,left=40,coins=0,thief=150,speed=(RM?105:145)*((window.CRE&&CRE.st().act==='inkoo')?.85:1),el=0,crateHint=0,boost=0,obj=[],spawn=0,doorT=4,doorOn=null,over=false,paused=false,raf=0,shake=0,scroll=0,msg='',msgT=0;
   const CAP=150,add=n=>{coins=Math.min(CAP,coins+n);$('cc').textContent=coins+' coins'};
   const mv=d=>{if(over)return;lane=Math.max(0,Math.min(2,lane+d))};
   $('cl').onclick=()=>mv(-1);$('cr').onclick=()=>mv(1);

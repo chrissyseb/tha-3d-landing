@@ -50,7 +50,7 @@ function weekKey(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-
 function pickFor(r){const c=st(),pool=LIST.filter(x=>x[2]&&x[1]===r).map(x=>x[0]),fresh=pool.filter(id=>!c.own[id]);const p=fresh.length?fresh:pool;return p[Math.floor(Math.random()*p.length)]}
 // ---------------- the hatch moment ----------------
 function hatch(i,after){const c=st(),e=c.eggs[i];if(!e)return;c.eggs.splice(i,1);const id=pickFor(e.r),dup=!!c.own[id];
- if(dup){c.own[id].xp=(c.own[id].xp||0)+6;S().coins+=50}else c.own[id]={nick:'',xp:0,got:Date.now(),from:e.src};save();
+ if(dup){const o=c.own[id];o.xp=(o.xp||0)+6;o.star=Math.min(5,(o.star||1)+1);S().coins+=50}else c.own[id]={nick:'',xp:0,got:Date.now(),from:e.src};save();
  const t=T(),r=e.r,d=document.createElement('div');d.className='hatchov r'+r;d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',t.hatching);
  d.innerHTML=`<div class="hrays" aria-hidden="true"></div><div class="hflash" aria-hidden="true"></div><div class="hwrap"><div class="hegg">${CRA.egg(r,170)}</div><p class="htap">${t.tapEgg}</p><button class="hskip" type="button">${t.skip}</button></div>`;
  document.body.appendChild(d);document.body.classList.add('noscroll');
@@ -110,7 +110,7 @@ function detail(id){const c=st(),o=c.own[id],t=T(),h=H(),r=R(id),s=stageOf(id,o)
  let prog='';if(bob){const g=h.bobbyGrowth(),nx=h.BOBBY_AT[s+1];prog=`<p class="crmut">${esc(t.bobOutfitNow(BOB.OUTFITS[s]))}</p>${nx!=null?`<div class="evobar"><i style="width:${Math.min(100,Math.round(g.pts/nx*100))}%"></i></div><p class="crmut">${esc(t.bobNext(nx-g.pts,BOB.OUTFITS[s+1]))}</p>`:''}`}
  else{prog=growthCard(id,o,s)}
  h.main.innerHTML=`<div class="card crdetail r${r}"><button class="back" id="cb">‹ ${t.back}</button><div class="crbig" id="crb">${bob?BOB.full({stage:s,size:150}):CRA.svg(id,s,190,{depth:1})}<div class="hearts" id="hts"></div></div>
- <div class="word" style="font-size:clamp(26px,6vw,36px)">${esc(nick(id))}</div><p class="crsp">${id==='bobby'?'<span class="rchip rp">Partner</span>':`<span class="rchip r${r}">${esc(t.rar[r])}</span>`} ${esc((T().names[id]||[])[1]||'')}</p><p class="hsub">${esc(t.blurb[id]||'')}</p>${prog}
+ <div class="word" style="font-size:clamp(26px,6vw,36px)">${esc(nick(id))}</div><p class="crsp">${id==='bobby'?'<span class="rchip rp">Partner</span>':`<span class="rchip r${r}">${esc(t.rar[r])}</span>`} ${esc((T().names[id]||[])[1]||'')}</p><p class="hsub">${esc(t.blurb[id]||'')}</p>${prog}${window.VBPERK&&VBPERK[id]?`<p class="perkd"><b>${'⭐'.repeat(Math.max(1,Math.min(5,o.star||1)))}</b> Perk: ${esc(VBPERK[id][0])}${(o.star||1)<5?' · duplicates add a star and make it stronger':''}</p>`:''}
  <div class="crbtns"><button class="go" id="cact" ${c.act===id?'aria-pressed="true"':''}>${c.act===id?t.withYouNow:t.takeIt}</button><button class="go soft" id="cfeed">${t.feed}</button><button class="go soft" id="cren">${t.rename}</button></div><p class="crmut" id="fedmsg" aria-live="polite"></p></div>`;
  $('cb').onclick=screen;$('cact').onclick=()=>{c.act=id;save();H().pop(t.joined(nick(id)));detail(id)};
  $('cfeed').onclick=()=>{const w=feed(id);if(!w)return;$('fedmsg').textContent=t.yum(nick(id),w);const a=$('crb').querySelector('svg');if(a&&!RM()){a.classList.remove('happy');void a.getBoundingClientRect();a.classList.add('happy')}
