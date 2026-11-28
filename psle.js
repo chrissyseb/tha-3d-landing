@@ -148,7 +148,9 @@
   // k distractor rows for meaning/reverse/under/lookalike; prefers the word's own look-alikes, then same level.
   function safeL(x, W, k, rnd) {
     rnd = rnd || Math.random; k = k || 3; const by = n => W.find(y => y[0].toLowerCase() === String(n).toLowerCase());
-    const out = []; const ok = y => y && !near(x, y) && !out.some(z => near(z, y) || z[2] === y[2]);
+    const out = []; const jac = (p, q) => { const A = new Set(toks(p)), B = toks(q); if (!A.size || !B.length) return 0; const i = B.filter(t => A.has(t)).length; return i / (A.size + B.length - i) };
+    const opp = y => NEG.test(y[2]) !== NEG.test(x[2]) && jac(x[2].replace(NEG, ''), y[2].replace(NEG, '')) >= .34; // the opposite of the answer
+    const ok = y => y && !near(x, y) && !out.some(z => near(z, y) || z[2] === y[2] || jac(z[2], y[2]) >= .5) && !(opp(y) && out.some(opp));
     for (const n of (x[5] || [])) { const y = by(n); if (ok(y)) out.push(y); if (out.length >= k) return out }
     const pool = W.filter(y => y[1] === x[1]); for (let i = pool.length - 1; i > 0; i--) { const j = rnd() * (i + 1) | 0;[pool[i], pool[j]] = [pool[j], pool[i]] }
     for (const y of pool.concat(W)) { if (out.length >= k) break; if (ok(y)) out.push(y) }
